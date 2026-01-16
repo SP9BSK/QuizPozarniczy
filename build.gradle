@@ -1,23 +1,13 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
+buildscript {
+    dependencies {
+        classpath("com.android.tools.build:gradle:8.2.0")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0")
+    }
 }
 
-android {
-    namespace "pl.quiz.pozarniczy"
-    compileSdk 34
-
-    defaultConfig {
-        applicationId "com.example.quizpozarniczy"
-        minSdk 26
-        targetSdk 34
-        versionCode 1
-        versionName "1.0"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
     }
 }
