@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace "com.example.quizpozarniczy"
+    namespace "pl.quiz.pozarniczy"
     compileSdk 34
 
     defaultConfig {
