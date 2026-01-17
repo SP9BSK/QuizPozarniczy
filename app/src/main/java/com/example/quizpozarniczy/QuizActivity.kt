@@ -34,9 +34,7 @@ class QuizActivity : AppCompatActivity() {
         startTimer()
         showQuestion()
 
-        val buttons = listOf(btnA, btnB, btnC, btnD)
-
-        buttons.forEachIndexed { index, button ->
+        listOf(btnA, btnB, btnC, btnD).forEachIndexed { index, button ->
             button.setOnClickListener {
                 checkAnswer(index)
             }
@@ -50,7 +48,7 @@ class QuizActivity : AppCompatActivity() {
         }
 
         val q = questions[currentIndex]
-        txtQuestion.text = q.text
+        txtQuestion.text = q.question   // ✅ TO JEST KLUCZOWA POPRAWKA
 
         btnA.text = q.answers[0]
         btnB.text = q.answers[1]
