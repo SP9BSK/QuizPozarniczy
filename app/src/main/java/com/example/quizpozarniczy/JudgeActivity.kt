@@ -2,8 +2,8 @@ package com.example.quizpozarniczy
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import android.view.View
 
 class JudgeActivity : AppCompatActivity() {
 
@@ -12,14 +12,8 @@ class JudgeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_judge)
     }
 
-    fun startQuiz(v: View) {
-        val players = 2
-        val time = 300
-
-        val i = Intent(this, QuizActivity::class.java)
-        i.putExtra("PLAYERS", players)
-        i.putExtra("TIME", time)
-        i.putExtra("PLAYER_INDEX", 1)
-        startActivity(i)
+    fun startQuiz(view: View) {
+        val intent = Intent(this, QuizActivity::class.java)
+        startActivity(intent)
     }
 }
