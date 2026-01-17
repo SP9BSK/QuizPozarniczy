@@ -1,14 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="24dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView android:id="@+id/tvTimer"/>
-    <TextView android:id="@+id/tvQuestion"/>
+    <TextView
+        android:id="@+id/quizInfo"
+        android:text="Quiz"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"/>
 
-    <Button android:id="@+id/b1"/>
-    <Button android:id="@+id/b2"/>
-    <Button android:id="@+id/b3"/>
-    <Button android:id="@+id/b4"/>
+    <Button
+        android:id="@+id/btnEndQuiz"
+        android:text="Zakończ quiz"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>
