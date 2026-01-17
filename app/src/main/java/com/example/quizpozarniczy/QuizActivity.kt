@@ -10,17 +10,16 @@ import androidx.appcompat.app.AppCompatActivity
 class QuizActivity : AppCompatActivity() {
 
     private lateinit var txtQuestion: TextView
+    private lateinit var txtTimer: TextView
     private lateinit var btnA: Button
     private lateinit var btnB: Button
     private lateinit var btnC: Button
     private lateinit var btnD: Button
-    private lateinit var txtTimer: TextView
 
-    private val questions = QuizRepository.getQuestions()
     private var currentIndex = 0
     private var score = 0
-    private var selectedAnswer = -1
 
+    private lateinit var questions: List<Question>
     private lateinit var timer: CountDownTimer
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,71 +27,72 @@ class QuizActivity : AppCompatActivity() {
         setContentView(R.layout.activity_quiz)
 
         txtQuestion = findViewById(R.id.txtQuestion)
+        txtTimer = findViewById(R.id.txtTimer)
         btnA = findViewById(R.id.btnA)
         btnB = findViewById(R.id.btnB)
         btnC = findViewById(R.id.btnC)
         btnD = findViewById(R.id.btnD)
-        txtTimer = findViewById(R.id.txtTimer)
 
-        startTimer()
+        val timeMinutes = intent.getIntExtra("time", 30)
+        val questionCount = intent.getIntExtra("questions", 30)
+
+        questions = QuizRepository.getQuestions().take(questionCount)
+
+        startTimer(timeMinutes)
         showQuestion()
 
-        btnA.setOnClickListener { answer(0) }
-        btnB.setOnClickListener { answer(1) }
-        btnC.setOnClickListener { answer(2) }
-        btnD.setOnClickListener { answer(3) }
+        btnA.setOnClickListener { checkAnswer(0) }
+        btnB.setOnClickListener { checkAnswer(1) }
+        btnC.setOnClickListener { checkAnswer(2) }
+        btnD.setOnClickListener { checkAnswer(3) }
+    }
+
+    private fun startTimer(minutes: Int) {
+        timer = object : CountDownTimer(minutes * 60 * 1000L, 1000) {
+            override fun onTick(ms: Long) {
+                val min = ms / 1000 / 60
+                val sec = (ms / 1000) % 60
+                txtTimer.text = String.format("%02d:%02d", min, sec)
+            }
+
+            override fun onFinish() {
+                finishQuiz()
+            }
+        }.start()
     }
 
     private fun showQuestion() {
+        if (currentIndex >= questions.size) {
+            finishQuiz()
+            return
+        }
+
         val q = questions[currentIndex]
-        txtQuestion.text = q.question
+        txtQuestion.text = q.text
         btnA.text = q.answers[0]
         btnB.text = q.answers[1]
         btnC.text = q.answers[2]
         btnD.text = q.answers[3]
     }
 
-    private fun answer(index: Int) {
-        selectedAnswer = index
-
-        // 🔥 TU JEST TEN FRAGMENT, O KTÓRY PYTAŁEŚ
-        if (selectedAnswer == questions[currentIndex].correct) {
+    private fun checkAnswer(answerIndex: Int) {
+        if (questions[currentIndex].correct == answerIndex) {
             score++
         }
-
         currentIndex++
-
-        if (currentIndex < questions.size) {
-            showQuestion()
-        } else {
-            endQuiz()
-        }
+        showQuestion()
     }
 
-    private fun startTimer() {
-        timer = object : CountDownTimer(30 * 60 * 1000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                val minutes = millisUntilFinished / 1000 / 60
-                val seconds = (millisUntilFinished / 1000) % 60
-                txtTimer.text = String.format("%02d:%02d", minutes, seconds)
-            }
-
-            override fun onFinish() {
-                endQuiz()
-            }
-        }.start()
-    }
-
-    private fun endQuiz() {
+    private fun finishQuiz() {
         timer.cancel()
         val intent = Intent(this, ResultActivity::class.java)
         intent.putExtra("score", score)
-        intent.putExtra("total", questions.size)
+        intent.putExtra("max", questions.size)
         startActivity(intent)
         finish()
     }
 
     override fun onBackPressed() {
-        // blokada cofania w trakcie quizu
+        // blokada cofania
     }
 }
