@@ -16,11 +16,9 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var btnC: Button
     private lateinit var btnD: Button
 
+    private val questions = QuizRepository.getQuestions()
     private var currentIndex = 0
-    private var score = 0
-
-    private lateinit var questions: List<Question>
-    private lateinit var timer: CountDownTimer
+    private var correctAnswers = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,32 +31,16 @@ class QuizActivity : AppCompatActivity() {
         btnC = findViewById(R.id.btnC)
         btnD = findViewById(R.id.btnD)
 
-        val timeMinutes = intent.getIntExtra("time", 30)
-        val questionCount = intent.getIntExtra("questions", 30)
-
-        questions = QuizRepository.getQuestions().take(questionCount)
-
-        startTimer(timeMinutes)
+        startTimer()
         showQuestion()
 
-        btnA.setOnClickListener { checkAnswer(0) }
-        btnB.setOnClickListener { checkAnswer(1) }
-        btnC.setOnClickListener { checkAnswer(2) }
-        btnD.setOnClickListener { checkAnswer(3) }
-    }
+        val buttons = listOf(btnA, btnB, btnC, btnD)
 
-    private fun startTimer(minutes: Int) {
-        timer = object : CountDownTimer(minutes * 60 * 1000L, 1000) {
-            override fun onTick(ms: Long) {
-                val min = ms / 1000 / 60
-                val sec = (ms / 1000) % 60
-                txtTimer.text = String.format("%02d:%02d", min, sec)
+        buttons.forEachIndexed { index, button ->
+            button.setOnClickListener {
+                checkAnswer(index)
             }
-
-            override fun onFinish() {
-                finishQuiz()
-            }
-        }.start()
+        }
     }
 
     private fun showQuestion() {
@@ -69,30 +51,40 @@ class QuizActivity : AppCompatActivity() {
 
         val q = questions[currentIndex]
         txtQuestion.text = q.text
+
         btnA.text = q.answers[0]
         btnB.text = q.answers[1]
         btnC.text = q.answers[2]
         btnD.text = q.answers[3]
     }
 
-    private fun checkAnswer(answerIndex: Int) {
-        if (questions[currentIndex].correct == answerIndex) {
-            score++
+    private fun checkAnswer(selected: Int) {
+        if (questions[currentIndex].correct == selected) {
+            correctAnswers++
         }
         currentIndex++
         showQuestion()
     }
 
-    private fun finishQuiz() {
-        timer.cancel()
-        val intent = Intent(this, ResultActivity::class.java)
-        intent.putExtra("score", score)
-        intent.putExtra("max", questions.size)
-        startActivity(intent)
-        finish()
+    private fun startTimer() {
+        object : CountDownTimer(30 * 60 * 1000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val min = millisUntilFinished / 1000 / 60
+                val sec = (millisUntilFinished / 1000) % 60
+                txtTimer.text = String.format("%02d:%02d", min, sec)
+            }
+
+            override fun onFinish() {
+                finishQuiz()
+            }
+        }.start()
     }
 
-    override fun onBackPressed() {
-        // blokada cofania
+    private fun finishQuiz() {
+        val intent = Intent(this, ResultActivity::class.java)
+        intent.putExtra("score", correctAnswers)
+        intent.putExtra("total", questions.size)
+        startActivity(intent)
+        finish()
     }
 }
