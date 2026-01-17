@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class JudgeActivity : AppCompatActivity() {
@@ -13,30 +12,17 @@ class JudgeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_judge)
 
-        val inputQuestions = findViewById<EditText>(R.id.inputQuestions)
-        val inputTime = findViewById<EditText>(R.id.inputTime)
-        val inputPlayers = findViewById<EditText>(R.id.inputPlayers)
-        val startButton = findViewById<Button>(R.id.btnStartQuiz)
+        val edtPlayers = findViewById<EditText>(R.id.edtPlayers)
+        val edtTime = findViewById<EditText>(R.id.edtTime)
+        val btnStart = findViewById<Button>(R.id.btnStartQuiz)
 
-        startButton.setOnClickListener {
-
-            val questions = inputQuestions.text.toString().toIntOrNull() ?: 0
-            val time = inputTime.text.toString().toIntOrNull() ?: 0
-            val players = inputPlayers.text.toString().toIntOrNull() ?: 0
-
-            if (questions !in 1..30 || time !in 1..30 || players !in 1..5) {
-                Toast.makeText(
-                    this,
-                    "Błędne dane (pytania ≤30, czas ≤30, zawodnicy ≤5)",
-                    Toast.LENGTH_LONG
-                ).show()
-                return@setOnClickListener
-            }
+        btnStart.setOnClickListener {
+            val players = edtPlayers.text.toString().toIntOrNull() ?: 1
+            val time = edtTime.text.toString().toIntOrNull() ?: 30
 
             val intent = Intent(this, QuizActivity::class.java)
-            intent.putExtra("QUESTIONS", questions)
-            intent.putExtra("TIME", time)
-            intent.putExtra("PLAYERS", players)
+            intent.putExtra("PLAYERS", players.coerceAtMost(5))
+            intent.putExtra("TIME", time.coerceAtMost(30))
             startActivity(intent)
         }
     }
