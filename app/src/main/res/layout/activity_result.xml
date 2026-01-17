@@ -1,19 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:gravity="center"
+    android:padding="24dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:text="WYNIKI"
-        android:textSize="24sp"
-        android:gravity="center"/>
-
-    <TextView
-        android:id="@+id/tvResults"
-        android:layout_marginTop="16dp"/>
+        android:id="@+id/txtResult"
+        android:text="Wynik"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <Button
-        android:text="Nowe zawody"
-        android:onClick="restart"/>
+        android:id="@+id/btnBackToJudge"
+        android:text="Powrót do panelu sędziego"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </LinearLayout>
