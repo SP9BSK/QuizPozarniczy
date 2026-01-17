@@ -1,11 +1,14 @@
 package com.example.quizpozarniczy
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.quizpozarniczy.model.PlayerResult
 import com.example.quizpozarniczy.model.Question
 import com.example.quizpozarniczy.util.QuizRepository
+import com.example.quizpozarniczy.util.ResultStore
 
 class QuizActivity : AppCompatActivity() {
 
@@ -43,30 +46,34 @@ class QuizActivity : AppCompatActivity() {
         }
     }
 
-  private fun answer(selected: Int) {
-    if (selected == questions[index].correctIndex) {
-        score++
-    }
-    index++
-    if (index < questions.size) {
-        showQuestion()
-    } else {
-        val playerIndex = intent.getIntExtra("PLAYER_INDEX", 1)
-        val players = intent.getIntExtra("PLAYERS", 1)
-
-        com.example.quizpozarniczy.util.ResultStore.results.add(
-            com.example.quizpozarniczy.model.PlayerResult(playerIndex, score)
-        )
-
-        if (playerIndex < players) {
-            val i = Intent(this, QuizActivity::class.java)
-            i.putExtra("PLAYER_INDEX", playerIndex + 1)
-            i.putExtra("PLAYERS", players)
-            i.putExtra("TIME", intent.getIntExtra("TIME", 300))
-            startActivity(i)
-        } else {
-            startActivity(Intent(this, ResultActivity::class.java))
+    private fun answer(selected: Int) {
+        if (selected == questions[index].correctIndex) {
+            score++
         }
-        finish()
+
+        index++
+
+        if (index < questions.size) {
+            showQuestion()
+        } else {
+            val playerIndex = intent.getIntExtra("PLAYER_INDEX", 1)
+            val players = intent.getIntExtra("PLAYERS", 1)
+            val time = intent.getIntExtra("TIME", 300)
+
+            ResultStore.results.add(
+                PlayerResult(playerIndex, score)
+            )
+
+            if (playerIndex < players) {
+                val i = Intent(this, QuizActivity::class.java)
+                i.putExtra("PLAYER_INDEX", playerIndex + 1)
+                i.putExtra("PLAYERS", players)
+                i.putExtra("TIME", time)
+                startActivity(i)
+            } else {
+                startActivity(Intent(this, ResultActivity::class.java))
+            }
+            finish()
+        }
     }
 }
