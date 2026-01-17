@@ -1,37 +1,55 @@
 package com.example.quizpozarniczy
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class QuizActivity : AppCompatActivity() {
+
+    private lateinit var questions: List<Question>
+    private var index = 0
+    private var score = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
 
-        // ODBIÓR DANYCH Z PANELU SĘDZIEGO
-        val questionsCount = intent.getIntExtra("QUESTIONS", 10)
-        val timeMinutes = intent.getIntExtra("TIME", 10)
-        val playersCount = intent.getIntExtra("PLAYERS", 1)
+        questions = QuizRepository.loadQuestions(this).shuffled()
 
-        val infoText = findViewById<TextView>(R.id.quizInfo)
-        val endButton = findViewById<Button>(R.id.btnEndQuiz)
+        showQuestion()
+    }
 
-        infoText.text =
-            "Pytania: $questionsCount\nCzas: $timeMinutes minut\nZawodnicy: $playersCount"
-
-        endButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+    private fun showQuestion() {
+        if (index >= questions.size) {
+            Toast.makeText(this, "Koniec! Wynik: $score", Toast.LENGTH_LONG).show()
             finish()
+            return
+        }
+
+        val q = questions[index]
+
+        findViewById<TextView>(R.id.txtQuestion).text = q.question
+
+        val buttons = listOf(
+            findViewById<Button>(R.id.btnA),
+            findViewById<Button>(R.id.btnB),
+            findViewById<Button>(R.id.btnC),
+            findViewById<Button>(R.id.btnD)
+        )
+
+        for (i in buttons.indices) {
+            buttons[i].text = q.answers[i]
+            buttons[i].setOnClickListener {
+                if (i == q.correctIndex) score++
+                index++
+                showQuestion()
+            }
         }
     }
 
-    // BLOKADA COFANIA
     override fun onBackPressed() {
-        // NIC – cofanie zablokowane
+        // blokada cofania
     }
 }
