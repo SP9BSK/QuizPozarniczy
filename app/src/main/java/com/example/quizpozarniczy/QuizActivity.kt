@@ -20,9 +20,16 @@ class QuizActivity : AppCompatActivity() {
     private var currentIndex = 0
     private var correctAnswers = 0
 
+    private var quizTimeMinutes = 10
+    private var playersCount = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
+
+        // 🔥 ODBIÓR DANYCH OD SĘDZIEGO
+        quizTimeMinutes = intent.getIntExtra("QUIZ_TIME", 10)
+        playersCount = intent.getIntExtra("PLAYERS_COUNT", 1)
 
         txtQuestion = findViewById(R.id.txtQuestion)
         txtTimer = findViewById(R.id.txtTimer)
@@ -48,7 +55,7 @@ class QuizActivity : AppCompatActivity() {
         }
 
         val q = questions[currentIndex]
-        txtQuestion.text = q.question   // ✅ TO JEST KLUCZOWA POPRAWKA
+        txtQuestion.text = q.question
 
         btnA.text = q.answers[0]
         btnB.text = q.answers[1]
@@ -65,10 +72,12 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun startTimer() {
-        object : CountDownTimer(30 * 60 * 1000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                val min = millisUntilFinished / 1000 / 60
-                val sec = (millisUntilFinished / 1000) % 60
+        val millis = quizTimeMinutes * 60 * 1000L
+
+        object : CountDownTimer(millis, 1000) {
+            override fun onTick(ms: Long) {
+                val min = ms / 1000 / 60
+                val sec = (ms / 1000) % 60
                 txtTimer.text = String.format("%02d:%02d", min, sec)
             }
 
@@ -82,7 +91,13 @@ class QuizActivity : AppCompatActivity() {
         val intent = Intent(this, ResultActivity::class.java)
         intent.putExtra("score", correctAnswers)
         intent.putExtra("total", questions.size)
+        intent.putExtra("players", playersCount)
         startActivity(intent)
         finish()
+    }
+
+    // 🔒 BLOKADA COFANIA
+    override fun onBackPressed() {
+        // nic nie rób
     }
 }
