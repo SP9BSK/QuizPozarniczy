@@ -4,13 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText android:id="@+id/etQuestions"
-        android:hint="Liczba pytań"/>
+    <EditText
+        android:id="@+id/etPlayers"
+        android:hint="Liczba zawodników"
+        android:inputType="number"/>
 
-    <EditText android:id="@+id/etTime"
-        android:hint="Czas (sekundy)"/>
+    <EditText
+        android:id="@+id/etTime"
+        android:hint="Czas (sekundy)"
+        android:inputType="number"/>
 
     <Button
-        android:text="START QUIZU"
+        android:text="START ZAWODÓW"
         android:onClick="startQuiz"/>
 </LinearLayout>
