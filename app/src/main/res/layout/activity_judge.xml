@@ -1,20 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="24dp"
+    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/etPlayers"
-        android:hint="Liczba zawodników"
-        android:inputType="number"/>
-
-    <EditText
-        android:id="@+id/etTime"
-        android:hint="Czas (sekundy)"
-        android:inputType="number"/>
+    <TextView
+        android:text="Panel sędziego"
+        android:textSize="24sp"
+        android:layout_marginBottom="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <Button
-        android:text="START ZAWODÓW"
-        android:onClick="startQuiz"/>
+        android:text="Start quizu"
+        android:onClick="startQuiz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>
