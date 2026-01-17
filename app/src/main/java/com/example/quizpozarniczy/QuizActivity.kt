@@ -1,105 +1,98 @@
 package com.example.quizpozarniczy
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class QuizActivity : AppCompatActivity() {
 
     private lateinit var txtQuestion: TextView
-    private lateinit var txtTimer: TextView
     private lateinit var btnA: Button
     private lateinit var btnB: Button
     private lateinit var btnC: Button
     private lateinit var btnD: Button
+    private lateinit var txtTimer: TextView
 
-    private var index = 0
+    private val questions = QuizRepository.getQuestions()
+    private var currentIndex = 0
     private var score = 0
-
-    private var playerIndex = 1
-    private var playersCount = 1
-    private val results = mutableListOf<Int>()
+    private var selectedAnswer = -1
 
     private lateinit var timer: CountDownTimer
-
-    private var questions = QuizRepository.getQuestions().shuffled()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
 
         txtQuestion = findViewById(R.id.txtQuestion)
-        txtTimer = findViewById(R.id.txtTimer)
         btnA = findViewById(R.id.btnA)
         btnB = findViewById(R.id.btnB)
         btnC = findViewById(R.id.btnC)
         btnD = findViewById(R.id.btnD)
+        txtTimer = findViewById(R.id.txtTimer)
 
-        // ⬇⬇⬇ TO JEST KROK 7.2
-        playersCount = intent.getIntExtra("PLAYERS", 1)
-        val timeMinutes = intent.getIntExtra("TIME", 30)
-
-        startTimer(timeMinutes)
+        startTimer()
         showQuestion()
-    }
 
-    private fun startTimer(minutes: Int) {
-        timer = object : CountDownTimer(minutes * 60 * 1000L, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                val sec = millisUntilFinished / 1000
-                txtTimer.text = "Zawodnik $playerIndex / $playersCount | Czas: ${sec}s"
-            }
-
-            override fun onFinish() {
-                Toast.makeText(this@QuizActivity, "Koniec czasu!", Toast.LENGTH_LONG).show()
-                finish()
-            }
-        }
-        timer.start()
+        btnA.setOnClickListener { answer(0) }
+        btnB.setOnClickListener { answer(1) }
+        btnC.setOnClickListener { answer(2) }
+        btnD.setOnClickListener { answer(3) }
     }
 
     private fun showQuestion() {
-        if (index >= questions.size) {
-            results.add(score)
-
-            if (playerIndex < playersCount) {
-                playerIndex++
-                index = 0
-                score = 0
-                questions = QuizRepository.getQuestions().shuffled()
-                Toast.makeText(
-                    this,
-                    "Zawodnik ${playerIndex - 1} zakończył",
-                    Toast.LENGTH_SHORT
-                ).show()
-                showQuestion()
-            } else {
-                timer.cancel()
-                Toast.makeText(this, "Quiz zakończony", Toast.LENGTH_LONG).show()
-                finish()
-            }
-            return
-        }
-
-        val q = questions[index]
+        val q = questions[currentIndex]
         txtQuestion.text = q.question
         btnA.text = q.answers[0]
         btnB.text = q.answers[1]
         btnC.text = q.answers[2]
         btnD.text = q.answers[3]
+    }
 
-        val click = { i: Int ->
-            if (i == q.correct) score++
-            index++
-            showQuestion()
+    private fun answer(index: Int) {
+        selectedAnswer = index
+
+        // 🔥 TU JEST TEN FRAGMENT, O KTÓRY PYTAŁEŚ
+        if (selectedAnswer == questions[currentIndex].correct) {
+            score++
         }
 
-        btnA.setOnClickListener { click(0) }
-        btnB.setOnClickListener { click(1) }
-        btnC.setOnClickListener { click(2) }
-        btnD.setOnClickListener { click(3) }
+        currentIndex++
+
+        if (currentIndex < questions.size) {
+            showQuestion()
+        } else {
+            endQuiz()
+        }
+    }
+
+    private fun startTimer() {
+        timer = object : CountDownTimer(30 * 60 * 1000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val minutes = millisUntilFinished / 1000 / 60
+                val seconds = (millisUntilFinished / 1000) % 60
+                txtTimer.text = String.format("%02d:%02d", minutes, seconds)
+            }
+
+            override fun onFinish() {
+                endQuiz()
+            }
+        }.start()
+    }
+
+    private fun endQuiz() {
+        timer.cancel()
+        val intent = Intent(this, ResultActivity::class.java)
+        intent.putExtra("score", score)
+        intent.putExtra("total", questions.size)
+        startActivity(intent)
+        finish()
+    }
+
+    override fun onBackPressed() {
+        // blokada cofania w trakcie quizu
     }
 }
