@@ -3,7 +3,7 @@ package com.example.quizpozarniczy
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.EditText
+import android.widget.NumberPicker
 import androidx.appcompat.app.AppCompatActivity
 
 class JudgeActivity : AppCompatActivity() {
@@ -12,17 +12,24 @@ class JudgeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_judge)
 
-        val edtPlayers = findViewById<EditText>(R.id.edtPlayers)
-        val edtTime = findViewById<EditText>(R.id.edtTime)
+        val pickerPlayers = findViewById<NumberPicker>(R.id.pickerPlayers)
+        val pickerTime = findViewById<NumberPicker>(R.id.pickerTime)
         val btnStart = findViewById<Button>(R.id.btnStartQuiz)
 
-        btnStart.setOnClickListener {
-            val players = edtPlayers.text.toString().toIntOrNull() ?: 1
-            val time = edtTime.text.toString().toIntOrNull() ?: 30
+        // 1–5 zawodników
+        pickerPlayers.minValue = 1
+        pickerPlayers.maxValue = 5
+        pickerPlayers.value = 1
 
+        // 1–30 minut
+        pickerTime.minValue = 1
+        pickerTime.maxValue = 30
+        pickerTime.value = 10
+
+        btnStart.setOnClickListener {
             val intent = Intent(this, QuizActivity::class.java)
-            intent.putExtra("PLAYERS", players.coerceAtMost(5))
-            intent.putExtra("TIME", time.coerceAtMost(30))
+            intent.putExtra("PLAYERS_COUNT", pickerPlayers.value)
+            intent.putExtra("QUIZ_TIME", pickerTime.value)
             startActivity(intent)
         }
     }
