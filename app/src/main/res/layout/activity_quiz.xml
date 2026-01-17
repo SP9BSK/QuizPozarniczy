@@ -1,0 +1,14 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView android:id="@+id/tvTimer"/>
+    <TextView android:id="@+id/tvQuestion"/>
+
+    <Button android:id="@+id/b1"/>
+    <Button android:id="@+id/b2"/>
+    <Button android:id="@+id/b3"/>
+    <Button android:id="@+id/b4"/>
+</LinearLayout>
