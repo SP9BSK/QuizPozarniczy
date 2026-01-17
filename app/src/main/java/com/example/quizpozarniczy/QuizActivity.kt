@@ -1,5 +1,10 @@
 package com.example.quizpozarniczy
 
+val questionsCount = intent.getIntExtra("QUESTIONS", 10)
+val timeMinutes = intent.getIntExtra("TIME", 10)
+val playersCount = intent.getIntExtra("PLAYERS", 1)
+
+
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
