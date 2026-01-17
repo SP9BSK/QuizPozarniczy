@@ -2,10 +2,9 @@ package com.example.quizpozarniczy
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.quizpozarniczy.util.ResultStore
 
 class ResultActivity : AppCompatActivity() {
 
@@ -13,16 +12,19 @@ class ResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
 
-        val tv = findViewById<TextView>(R.id.tvResults)
+        val score = intent.getIntExtra("score", 0)
+        val max = intent.getIntExtra("max", 0)
 
-        val sorted = ResultStore.results.sortedByDescending { it.score }
-        tv.text = sorted.joinToString("\n") {
-            "Zawodnik ${it.playerNumber}: ${it.score} pkt"
+        val txtResult = findViewById<TextView>(R.id.txtResult)
+        val btnBack = findViewById<Button>(R.id.btnBackToJudge)
+
+        txtResult.text = "Wynik: $score / $max"
+
+        btnBack.setOnClickListener {
+            val intent = Intent(this, JudgeActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(intent)
+            finish()
         }
-    }
-
-    fun restart(v: View) {
-        startActivity(Intent(this, MainActivity::class.java))
-        finish()
     }
 }
