@@ -1,10 +1,21 @@
+package com.example.quizpozarniczy
+
+import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.example.quizpozarniczy.model.Question
+import com.example.quizpozarniczy.util.QuizRepository
+
 class QuizActivity : AppCompatActivity() {
 
     private lateinit var questions: List<Question>
     private var index = 0
     private var score = 0
 
-    override fun onBackPressed() {} // blokada cofania
+    override fun onBackPressed() {
+        // blokada cofania
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,6 +27,7 @@ class QuizActivity : AppCompatActivity() {
 
     private fun showQuestion() {
         val q = questions[index]
+
         findViewById<TextView>(R.id.tvQuestion).text = q.question
 
         val buttons = listOf(
