@@ -1,35 +1,40 @@
 package com.example.quizpozarniczy
 
-import android.content.Context
-import org.json.JSONArray
+data class Question(
+    val question: String,
+    val answers: List<String>,
+    val correct: Int
+)
 
 object QuizRepository {
 
-    fun loadQuestions(context: Context): List<Question> {
-        val json = context.assets.open("questions.json")
-            .bufferedReader()
-            .use { it.readText() }
-
-        val array = JSONArray(json)
-        val list = mutableListOf<Question>()
-
-        for (i in 0 until array.length()) {
-            val obj = array.getJSONObject(i)
-
-            val answersJson = obj.getJSONArray("answers")
-            val answers = mutableListOf<String>()
-            for (j in 0 until answersJson.length()) {
-                answers.add(answersJson.getString(j))
-            }
-
-            list.add(
-                Question(
-                    question = obj.getString("question"),
-                    answers = answers,
-                    correctIndex = obj.getInt("correctIndex")
-                )
+    fun getQuestions(): List<Question> {
+        return listOf(
+            Question(
+                "Jaki numer alarmowy ma straż pożarna?",
+                listOf("998", "999", "112", "997"),
+                0
+            ),
+            Question(
+                "Co oznacza skrót OSP?",
+                listOf(
+                    "Ochotnicza Straż Pożarna",
+                    "Oficjalna Straż Państwowa",
+                    "Organizacja Strażacka",
+                    "Oddział Straży Publicznej"
+                ),
+                0
+            ),
+            Question(
+                "Jaki gaz jest niezbędny do spalania?",
+                listOf("Azot", "Tlen", "Dwutlenek węgla", "Hel"),
+                1
+            ),
+            Question(
+                "Jakim kolorem oznacza się hydrant?",
+                listOf("Niebieskim", "Czerwonym", "Zielonym", "Żółtym"),
+                1
             )
-        }
-        return list
+        )
     }
 }
