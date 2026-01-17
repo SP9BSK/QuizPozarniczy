@@ -43,15 +43,30 @@ class QuizActivity : AppCompatActivity() {
         }
     }
 
-    private fun answer(selected: Int) {
-        if (selected == questions[index].correctIndex) {
-            score++
-        }
-        index++
-        if (index < questions.size) {
-            showQuestion()
+  private fun answer(selected: Int) {
+    if (selected == questions[index].correctIndex) {
+        score++
+    }
+    index++
+    if (index < questions.size) {
+        showQuestion()
+    } else {
+        val playerIndex = intent.getIntExtra("PLAYER_INDEX", 1)
+        val players = intent.getIntExtra("PLAYERS", 1)
+
+        com.example.quizpozarniczy.util.ResultStore.results.add(
+            com.example.quizpozarniczy.model.PlayerResult(playerIndex, score)
+        )
+
+        if (playerIndex < players) {
+            val i = Intent(this, QuizActivity::class.java)
+            i.putExtra("PLAYER_INDEX", playerIndex + 1)
+            i.putExtra("PLAYERS", players)
+            i.putExtra("TIME", intent.getIntExtra("TIME", 300))
+            startActivity(i)
         } else {
-            finish()
+            startActivity(Intent(this, ResultActivity::class.java))
         }
+        finish()
     }
 }
