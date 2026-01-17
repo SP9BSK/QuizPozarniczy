@@ -13,6 +13,10 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var questions: List<Question>
     private var index = 0
     private var score = 0
+    private var playerIndex = 1
+    private var playersCount = 1
+    private val results = mutableListOf<Int>()
+
     private lateinit var timerText: TextView
     private lateinit var timer: CountDownTimer
 
