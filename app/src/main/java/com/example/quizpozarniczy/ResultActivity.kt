@@ -1,6 +1,8 @@
 package com.example.quizpozarniczy
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -15,5 +17,21 @@ class ResultActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.txtResult).text =
             "Wynik: $score / $total"
+
+        val btnBack = findViewById<Button>(R.id.btnBackToJudge)
+        btnBack.setOnClickListener {
+            val intent = Intent(this, JudgeActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+            finish()
+        }
+    }
+
+    // systemowy przycisk WSTECZ
+    override fun onBackPressed() {
+        val intent = Intent(this, JudgeActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
+        finish()
     }
 }
