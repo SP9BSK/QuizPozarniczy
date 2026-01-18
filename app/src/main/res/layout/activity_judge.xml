@@ -19,25 +19,29 @@
 
         <!-- ZAWODNICY -->
         <TextView
-            android:text="Liczba zawodników"
+            android:text="Liczba zawodników (1–5)"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <NumberPicker
-            android:id="@+id/pickerPlayers"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/edtPlayers"
+            android:inputType="number"
+            android:hint="np. 3"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <!-- PYTANIA -->
         <TextView
-            android:text="Liczba pytań"
+            android:text="Liczba pytań (5–30)"
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <NumberPicker
-            android:id="@+id/pickerQuestions"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/edtQuestions"
+            android:inputType="number"
+            android:hint="np. 20"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <!-- CZAS -->
@@ -47,9 +51,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <NumberPicker
-            android:id="@+id/pickerTime"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/edtTime"
+            android:inputType="number"
+            android:hint="np. 15"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <Button
