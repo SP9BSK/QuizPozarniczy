@@ -25,24 +25,21 @@ class QuizActivity : AppCompatActivity() {
         txtTimer = findViewById(R.id.txtTimer)
         btnNext = findViewById(R.id.btnNext)
 
-        // ====== DANE Z PANELU SĘDZIEGO ======
-        val players = intent.getIntExtra("PLAYERS", 1)
-        val questionLimit = intent.getIntExtra("QUESTIONS", 10)
+        // dane z panelu sędziego
+        val questionLimit = intent.getIntExtra("QUESTIONS", 5)
         val timeMinutes = intent.getIntExtra("TIME", 10)
 
         val totalTimeMillis = timeMinutes * 60 * 1000L
 
-        // ====== PYTANIA ======
         questions = QuizRepository.getQuestions().take(questionLimit)
 
         showQuestion()
 
-        // ====== TIMER ======
         timer = object : CountDownTimer(totalTimeMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                val minutes = millisUntilFinished / 60000
-                val seconds = (millisUntilFinished % 60000) / 1000
-                txtTimer.text = "$minutes:${seconds.toString().padStart(2, '0')}"
+                val min = millisUntilFinished / 60000
+                val sec = (millisUntilFinished % 60000) / 1000
+                txtTimer.text = "$min:${sec.toString().padStart(2, '0')}"
             }
 
             override fun onFinish() {
@@ -51,7 +48,6 @@ class QuizActivity : AppCompatActivity() {
             }
         }.start()
 
-        // ====== NASTĘPNE PYTANIE ======
         btnNext.setOnClickListener {
             currentIndex++
             if (currentIndex < questions.size) {
