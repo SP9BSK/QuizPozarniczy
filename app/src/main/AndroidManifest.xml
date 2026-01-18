@@ -4,30 +4,35 @@
     <application
         android:allowBackup="true"
         android:label="Quiz Pożarniczy"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <activity
-            android:name=".ResultActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".QuizActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".JudgeActivity"
-            android:exported="false" />
-
+        <!-- EKRAN STARTOWY -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
         </activity>
+
+        <!-- PANEL SĘDZIEGO -->
+        <activity
+            android:name=".JudgeActivity"
+            android:exported="false" />
+
+        <!-- QUIZ -->
+        <activity
+            android:name=".QuizActivity"
+            android:exported="false" />
+
+        <!-- RANKING KOŃCOWY -->
+        <activity
+            android:name=".RankingActivity"
+            android:exported="false" />
 
     </application>
 
