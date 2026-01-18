@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:gravity="center"
+    android:padding="24dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/txtTimer"
-        android:text="10:00"
-        android:textSize="20sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
         android:id="@+id/txtQuestion"
-        android:textSize="18sp"
-        android:layout_marginTop="20dp"
+        android:text="Pytanie"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="32dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <Button android:id="@+id/btnA" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-    <Button android:id="@+id/btnB" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-    <Button android:id="@+id/btnC" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-    <Button android:id="@+id/btnD" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btnYes"
+        android:text="TAK"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btnNo"
+        android:text="NIE"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"/>
 
 </LinearLayout>
