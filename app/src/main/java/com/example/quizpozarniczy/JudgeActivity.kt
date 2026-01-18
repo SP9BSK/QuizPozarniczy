@@ -13,24 +13,27 @@ class JudgeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_judge)
 
         val pickerPlayers = findViewById<NumberPicker>(R.id.pickerPlayers)
+        val pickerQuestions = findViewById<NumberPicker>(R.id.pickerQuestions)
         val pickerTime = findViewById<NumberPicker>(R.id.pickerTime)
         val btnStart = findViewById<Button>(R.id.btnStartQuiz)
 
-        // 1–5 zawodników
+        // konfiguracja pickerów
         pickerPlayers.minValue = 1
         pickerPlayers.maxValue = 5
-        pickerPlayers.value = 1
 
-        // 1–30 minut
+        pickerQuestions.minValue = 5
+        pickerQuestions.maxValue = 30
+
         pickerTime.minValue = 1
         pickerTime.maxValue = 30
-        pickerTime.value = 10
 
         btnStart.setOnClickListener {
             val intent = Intent(this, QuizActivity::class.java)
-            intent.putExtra("PLAYERS_COUNT", pickerPlayers.value)
-            intent.putExtra("QUIZ_TIME", pickerTime.value)
+            intent.putExtra("PLAYERS", pickerPlayers.value)
+            intent.putExtra("QUESTIONS", pickerQuestions.value)
+            intent.putExtra("TIME", pickerTime.value)
             startActivity(intent)
+            finish()
         }
     }
 }
