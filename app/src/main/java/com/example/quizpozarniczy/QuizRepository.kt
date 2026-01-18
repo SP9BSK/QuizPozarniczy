@@ -4,26 +4,11 @@ object QuizRepository {
 
     fun getQuestions(): List<Question> {
         return listOf(
-            Question(
-                "Jaki numer alarmowy ma straż pożarna?",
-                listOf("998", "999", "112", "997"),
-                0
-            ),
-            Question(
-                "Co oznacza skrót OSP?",
-                listOf(
-                    "Ochotnicza Straż Pożarna",
-                    "Oficjalna Straż Państwowa",
-                    "Organizacja Strażacka",
-                    "Oddział Straży Publicznej"
-                ),
-                0
-            ),
-            Question(
-                "Jaki gaz jest niezbędny do spalania?",
-                listOf("Azot", "Tlen", "Dwutlenek węgla", "Hel"),
-                1
-            )
+            Question("Jaki jest numer alarmowy straży pożarnej?"),
+            Question("Co oznacza skrót PSP?"),
+            Question("Jakim kolorem oznacza się hydrant?"),
+            Question("Co robić jako pierwsze przy pożarze?"),
+            Question("Kto dowodzi akcją ratowniczą?")
         )
     }
 }
