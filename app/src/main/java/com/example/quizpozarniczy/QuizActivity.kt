@@ -1,62 +1,31 @@
-package com.example.quizpozarniczy
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-import android.content.Intent
-import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+    <TextView
+        android:id="@+id/txtQuestion"
+        android:text="Pytanie"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
-class QuizActivity : AppCompatActivity() {
+    <Button
+        android:id="@+id/btnYes"
+        android:text="TAK"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-    private var score = 0
-    private var index = 0
-    private lateinit var questions: List<Question>
+    <Button
+        android:id="@+id/btnNo"
+        android:text="NIE"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"/>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_quiz)
-
-        val txtTitle = findViewById<TextView>(R.id.txtTitle)
-        val txtQuestion = findViewById<TextView>(R.id.txtQuestion)
-        val btnYes = findViewById<Button>(R.id.btnYes)
-        val btnNo = findViewById<Button>(R.id.btnNo)
-
-        val limit = intent.getIntExtra("QUESTIONS", 10)
-        questions = QuizRepository.getQuestions().take(limit)
-
-        txtTitle.text = "Zawodnik ${QuizSession.currentPlayer}"
-
-        fun showQuestion() {
-            if (index >= questions.size) {
-                QuizSession.results.add(
-                    PlayerResult(QuizSession.currentPlayer, score)
-                )
-
-                if (QuizSession.currentPlayer < QuizSession.totalPlayers) {
-                    QuizSession.currentPlayer++
-                    startActivity(Intent(this, QuizActivity::class.java))
-                } else {
-                    startActivity(Intent(this, RankingActivity::class.java))
-                }
-                finish()
-                return
-            }
-
-            txtQuestion.text = questions[index].text
-        }
-
-        btnYes.setOnClickListener {
-            if (questions[index].correct) score++
-            index++
-            showQuestion()
-        }
-
-        btnNo.setOnClickListener {
-            if (!questions[index].correct) score++
-            index++
-            showQuestion()
-        }
-
-        showQuestion()
-    }
-}
+</LinearLayout>
