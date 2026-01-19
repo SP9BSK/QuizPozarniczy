@@ -1,5 +1,12 @@
 package com.example.quizpozarniczy
 
+val intent = Intent(this, QuizActivity::class.java)
+intent.putExtra("QUESTIONS_COUNT", questionsCount)
+intent.putExtra("QUIZ_TIME", quizTime)
+intent.putExtra("PLAYERS_COUNT", playersCount)
+startActivity(intent)
+
+
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
