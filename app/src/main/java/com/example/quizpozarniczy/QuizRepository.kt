@@ -1,33 +1,25 @@
 package com.example.quizpozarniczy
 
+import com.example.quizpozarniczy.model.Question
+
 object QuizRepository {
 
     fun getQuestions(): List<Question> {
         return listOf(
             Question(
-                text = "Jaki numer alarmowy ma Straż Pożarna?",
-                answers = listOf("998", "997", "999", "112"),
-                correctIndex = 0
+                "Co jest pierwszym środkiem gaśniczym?",
+                listOf("Woda", "Piana", "Piasek", "Proszek"),
+                0
             ),
             Question(
-                text = "Co oznacza skrót OSP?",
-                answers = listOf(
-                    "Ochotnicza Straż Pożarna",
-                    "Ogólna Służba Pożarna",
-                    "Oddział Specjalny PSP",
-                    "Organizacja Strażacka Państwowa"
-                ),
-                correctIndex = 0
+                "Numer alarmowy straży pożarnej to:",
+                listOf("997", "998", "999", "112"),
+                1
             ),
             Question(
-                text = "Kto dowodzi akcją ratowniczą?",
-                answers = listOf(
-                    "Najstarszy stażem",
-                    "Dowódca wyznaczony",
-                    "Każdy strażak",
-                    "Dyżurny PSP"
-                ),
-                correctIndex = 1
+                "Kolor hełmu dowódcy to:",
+                listOf("Czarny", "Biały", "Czerwony", "Żółty"),
+                1
             )
         )
     }
