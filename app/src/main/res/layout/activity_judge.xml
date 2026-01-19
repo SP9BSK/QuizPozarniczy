@@ -1,69 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:padding="24dp"
+    <EditText
+        android:id="@+id/edtPlayers"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:hint="Liczba zawodników"
+        android:inputType="number" />
 
-        <TextView
-            android:text="Panel sędziego"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="24dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/edtQuestions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Liczba pytań"
+        android:inputType="number" />
 
-        <!-- ZAWODNICY -->
-        <TextView
-            android:text="Liczba zawodników (1–5)"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/edtTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Czas quizu (min)"
+        android:inputType="number" />
 
-        <EditText
-            android:id="@+id/edtPlayers"
-            android:inputType="number"
-            android:hint="np. 3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btnStartQuiz"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="START QUIZU"
+        android:layout_marginTop="24dp" />
 
-        <!-- PYTANIA -->
-        <TextView
-            android:text="Liczba pytań (5–30)"
-            android:layout_marginTop="16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/edtQuestions"
-            android:inputType="number"
-            android:hint="np. 20"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- CZAS -->
-        <TextView
-            android:text="Czas quizu (minuty)"
-            android:layout_marginTop="16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/edtTime"
-            android:inputType="number"
-            android:hint="np. 15"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/btnStartQuiz"
-            android:text="START QUIZU"
-            android:layout_marginTop="32dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>
