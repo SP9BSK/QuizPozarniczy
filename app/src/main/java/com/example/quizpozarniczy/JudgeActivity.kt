@@ -1,12 +1,5 @@
 package com.example.quizpozarniczy
 
-val intent = Intent(this, QuizActivity::class.java)
-intent.putExtra("QUESTIONS_COUNT", questionsCount)
-intent.putExtra("QUIZ_TIME", quizTime)
-intent.putExtra("PLAYERS_COUNT", playersCount)
-startActivity(intent)
-
-
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -20,21 +13,19 @@ class JudgeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_judge)
 
         val edtPlayers = findViewById<EditText>(R.id.edtPlayers)
-        val edtTime = findViewById<EditText>(R.id.edtTime)
         val edtQuestions = findViewById<EditText>(R.id.edtQuestions)
+        val edtTime = findViewById<EditText>(R.id.edtTime)
         val btnStart = findViewById<Button>(R.id.btnStartQuiz)
 
         btnStart.setOnClickListener {
             val players = edtPlayers.text.toString().toIntOrNull() ?: 1
+            val questions = edtQuestions.text.toString().toIntOrNull() ?: 5
             val time = edtTime.text.toString().toIntOrNull() ?: 10
-            val questions = edtQuestions.text.toString().toIntOrNull() ?: 10
-
-            QuizSession.reset()
-            QuizSession.totalPlayers = players
 
             val intent = Intent(this, QuizActivity::class.java)
-            intent.putExtra("TIME", time)
-            intent.putExtra("QUESTIONS", questions)
+            intent.putExtra("PLAYERS_COUNT", players)
+            intent.putExtra("QUESTIONS_COUNT", questions)
+            intent.putExtra("QUIZ_TIME", time)
             startActivity(intent)
         }
     }
