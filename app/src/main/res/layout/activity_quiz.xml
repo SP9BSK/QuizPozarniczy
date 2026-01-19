@@ -28,4 +28,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"/>
 
+<Button
+    android:id="@+id/btnBackToJudge"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Powrót do panelu sędziego"
+    android:visibility="gone"
+    android:layout_marginTop="24dp" />
+
+    
 </LinearLayout>
