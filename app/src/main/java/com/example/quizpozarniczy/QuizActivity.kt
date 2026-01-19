@@ -1,31 +1,60 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="24dp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+package com.example.quizpozarniczy
 
-    <TextView
-        android:id="@+id/txtQuestion"
-        android:text="Pytanie"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="32dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 
-    <Button
-        android:id="@+id/btnYes"
-        android:text="TAK"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+class QuizActivity : AppCompatActivity() {
 
-    <Button
-        android:id="@+id/btnNo"
-        android:text="NIE"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"/>
+    private lateinit var txtQuestion: TextView
+    private lateinit var btnYes: Button
+    private lateinit var btnNo: Button
 
-</LinearLayout>
+    private val questions = listOf(
+        "Czy woda nadaje się do gaszenia pożaru oleju?",
+        "Czy strażak musi nosić hełm podczas akcji?",
+        "Czy gaśnica proszkowa nadaje się do gaszenia instalacji elektrycznych?"
+    )
+
+    private val answers = listOf(
+        false,
+        true,
+        true
+    )
+
+    private var index = 0
+    private var score = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_quiz)
+
+        txtQuestion = findViewById(R.id.txtQuestion)
+        btnYes = findViewById(R.id.btnYes)
+        btnNo = findViewById(R.id.btnNo)
+
+        showQuestion()
+
+        btnYes.setOnClickListener { checkAnswer(true) }
+        btnNo.setOnClickListener { checkAnswer(false) }
+    }
+
+    private fun showQuestion() {
+        if (index < questions.size) {
+            txtQuestion.text = questions[index]
+        } else {
+            txtQuestion.text = "Koniec quizu\nWynik: $score / ${questions.size}"
+            btnYes.isEnabled = false
+            btnNo.isEnabled = false
+        }
+    }
+
+    private fun checkAnswer(userAnswer: Boolean) {
+        if (answers[index] == userAnswer) {
+            score++
+        }
+        index++
+        showQuestion()
+    }
+}
