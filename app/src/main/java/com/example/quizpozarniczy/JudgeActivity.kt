@@ -15,18 +15,17 @@ class JudgeActivity : AppCompatActivity() {
         val etPlayers = findViewById<EditText>(R.id.etPlayers)
         val etQuestions = findViewById<EditText>(R.id.etQuestions)
         val etTime = findViewById<EditText>(R.id.etTime)
-        val btnStart = findViewById<Button>(R.id.btnStartQuiz)
+        val btnStart = findViewById<Button>(R.id.btnStart)
 
         btnStart.setOnClickListener {
             val players = etPlayers.text.toString().toIntOrNull() ?: 1
             val questions = etQuestions.text.toString().toIntOrNull() ?: 1
-            val time = etTime.text.toString().toIntOrNull() ?: 10
+            val time = etTime.text.toString().toIntOrNull() ?: 30
 
             val intent = Intent(this, QuizActivity::class.java)
-            intent.putExtra("PLAYERS_COUNT", players)
-            intent.putExtra("QUESTIONS_COUNT", questions)
-            intent.putExtra("QUIZ_TIME", time)
-
+            intent.putExtra("PLAYERS", players)
+            intent.putExtra("QUESTIONS", questions)
+            intent.putExtra("TIME", time)
             startActivity(intent)
         }
     }
