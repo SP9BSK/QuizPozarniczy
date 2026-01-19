@@ -1,40 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="24dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/txtTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Czas: 00:00"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/txtQuestion"
-        android:text="Pytanie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:textSize="22sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="32dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_marginTop="24dp" />
 
     <Button
         android:id="@+id/btnYes"
-        android:text="TAK"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="TAK"
+        android:layout_marginTop="24dp" />
 
     <Button
         android:id="@+id/btnNo"
-        android:text="NIE"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"/>
+        android:text="NIE" />
 
-<Button
-    android:id="@+id/btnBackToJudge"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Powrót do panelu sędziego"
-    android:visibility="gone"
-    android:layout_marginTop="24dp" />
+    <TextView
+        android:id="@+id/txtResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginTop="24dp" />
 
-    
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Powrót do panelu sędziego"
+        android:visibility="gone"
+        android:layout_marginTop="16dp" />
+
 </LinearLayout>
