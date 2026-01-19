@@ -2,101 +2,88 @@ package com.example.quizpozarniczy
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.quizpozarniczy.model.Player
 
 class QuizActivity : AppCompatActivity() {
 
-    private lateinit var txtQuestion: TextView
-    private lateinit var txtTimer: TextView
-    private lateinit var txtResult: TextView
-    private lateinit var btnYes: Button
-    private lateinit var btnNo: Button
-    private lateinit var btnBack: Button
+    private lateinit var questionText: TextView
+    private lateinit var playerText: TextView
+    private lateinit var yesButton: Button
+    private lateinit var noButton: Button
 
-    private var index = 0
-    private var score = 0
-    private lateinit var questions: List<String>
-    private lateinit var answers: List<Boolean>
-    private var timer: CountDownTimer? = null
+    private val questions = listOf(
+        "Czy woda przewodzi prąd?",
+        "Czy gaśnica pianowa nadaje się do gaszenia urządzeń elektrycznych?",
+        "Czy dym jest bardziej niebezpieczny niż ogień?",
+        "Czy hełm strażacki chroni przed temperaturą?",
+        "Czy można gasić olej wodą?"
+    )
+
+    private var maxQuestions = 0
+    private var currentQuestionIndex = 0
+
+    private var players: List<Player> = emptyList()
+    private var currentPlayerIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
 
-        txtQuestion = findViewById(R.id.txtQuestion)
-        txtTimer = findViewById(R.id.txtTimer)
-        txtResult = findViewById(R.id.txtResult)
-        btnYes = findViewById(R.id.btnYes)
-        btnNo = findViewById(R.id.btnNo)
-        btnBack = findViewById(R.id.btnBack)
+        questionText = findViewById(R.id.questionText)
+        playerText = findViewById(R.id.playerText)
+        yesButton = findViewById(R.id.yesButton)
+        noButton = findViewById(R.id.noButton)
 
-        val questionsLimit = intent.getIntExtra("QUESTIONS_COUNT", 5)
-        val quizTime = intent.getIntExtra("QUIZ_TIME", 10)
+        // dane z panelu sędziego
+        val playerCount = intent.getIntExtra("PLAYER_COUNT", 1)
+        maxQuestions = intent.getIntExtra("QUESTION_COUNT", 1)
 
-        val allQuestions = listOf(
-            "Czy woda nadaje się do gaszenia oleju?",
-            "Czy strażak musi nosić hełm?",
-            "Czy CO2 przewodzi prąd?",
-            "Czy dym jest niebezpieczny?",
-            "Czy gaśnica proszkowa jest uniwersalna?"
-        )
-
-        val allAnswers = listOf(false, true, false, true, true)
-
-        questions = allQuestions.take(questionsLimit)
-        answers = allAnswers.take(questionsLimit)
+        players = (1..playerCount).map { Player(it) }
 
         showQuestion()
-        startTimer(quizTime)
 
-        btnYes.setOnClickListener { answer(true) }
-        btnNo.setOnClickListener { answer(false) }
+        yesButton.setOnClickListener {
+            players[currentPlayerIndex].points++
+            nextTurn()
+        }
 
-        btnBack.setOnClickListener {
-            startActivity(Intent(this, JudgeActivity::class.java))
-            finish()
+        noButton.setOnClickListener {
+            nextTurn()
         }
     }
 
     private fun showQuestion() {
-        if (index < questions.size) {
-            txtQuestion.text = questions[index]
-        } else {
+        questionText.text = questions[currentQuestionIndex]
+        playerText.text = "Zawodnik ${players[currentPlayerIndex].id}"
+    }
+
+    private fun nextTurn() {
+        currentPlayerIndex++
+
+        if (currentPlayerIndex >= players.size) {
+            currentPlayerIndex = 0
+            currentQuestionIndex++
+        }
+
+        if (currentQuestionIndex >= maxQuestions) {
             endQuiz()
+        } else {
+            showQuestion()
         }
-    }
-
-    private fun answer(userAnswer: Boolean) {
-        if (userAnswer == answers[index]) {
-            score++
-        }
-        index++
-        showQuestion()
-    }
-
-    private fun startTimer(minutes: Int) {
-        timer = object : CountDownTimer(minutes * 60 * 1000L, 1000) {
-            override fun onTick(ms: Long) {
-                val min = ms / 60000
-                val sec = (ms % 60000) / 1000
-                txtTimer.text = "Czas: %02d:%02d".format(min, sec)
-            }
-
-            override fun onFinish() {
-                endQuiz()
-            }
-        }.start()
     }
 
     private fun endQuiz() {
-        timer?.cancel()
-        txtQuestion.text = "Koniec quizu"
-        txtResult.text = "Wynik: $score / ${questions.size}"
-        btnYes.isEnabled = false
-        btnNo.isEnabled = false
-        btnBack.visibility = Button.VISIBLE
+        val intent = Intent(this, ResultActivity::class.java)
+        intent.putExtra(
+            "RESULTS",
+            players.joinToString("\n") {
+                "Zawodnik ${it.id}: ${it.points} pkt"
+            }
+        )
+        startActivity(intent)
+        finish()
     }
 }
