@@ -4,11 +4,31 @@ object QuizRepository {
 
     fun getQuestions(): List<Question> {
         return listOf(
-            Question("Czy strażak może pracować bez hełmu?", false),
-            Question("Czy numer alarmowy to 112?", true),
-            Question("Czy pożarów nie gasi się wodą?", false),
-            Question("Czy OSP jest częścią KSRG?", true),
-            Question("Czy aparat ODO służy do oddychania?", true)
+            Question(
+                text = "Jaki numer alarmowy ma Straż Pożarna?",
+                answers = listOf("998", "997", "999", "112"),
+                correctIndex = 0
+            ),
+            Question(
+                text = "Co oznacza skrót OSP?",
+                answers = listOf(
+                    "Ochotnicza Straż Pożarna",
+                    "Ogólna Służba Pożarna",
+                    "Oddział Specjalny PSP",
+                    "Organizacja Strażacka Państwowa"
+                ),
+                correctIndex = 0
+            ),
+            Question(
+                text = "Kto dowodzi akcją ratowniczą?",
+                answers = listOf(
+                    "Najstarszy stażem",
+                    "Dowódca wyznaczony",
+                    "Każdy strażak",
+                    "Dyżurny PSP"
+                ),
+                correctIndex = 1
+            )
         )
     }
 }
