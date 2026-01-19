@@ -1,7 +1,7 @@
 package com.example.quizpozarniczy.model
 
 data class Question(
-    val question: String,
+    val text: String,
     val answers: List<String>,
-    val correctIndex: Int
+    val correctAnswerIndex: Int
 )
