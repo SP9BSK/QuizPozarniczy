@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,31 +5,31 @@
     android:padding="24dp">
 
     <EditText
-        android:id="@+id/edtPlayers"
+        android:id="@+id/etPlayers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Liczba zawodników"
         android:inputType="number" />
 
     <EditText
-        android:id="@+id/edtQuestions"
+        android:id="@+id/etQuestions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Liczba pytań"
         android:inputType="number" />
 
     <EditText
-        android:id="@+id/edtTime"
+        android:id="@+id/etTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Czas quizu (min)"
+        android:hint="Czas na pytanie (sekundy)"
         android:inputType="number" />
 
     <Button
-        android:id="@+id/btnStartQuiz"
+        android:id="@+id/btnStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="START QUIZU"
-        android:layout_marginTop="24dp" />
+        android:text="Start quizu"
+        android:layout_marginTop="16dp" />
 
 </LinearLayout>
