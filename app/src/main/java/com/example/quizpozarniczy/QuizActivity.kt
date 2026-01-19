@@ -13,25 +13,8 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var btnC: Button
     private lateinit var btnD: Button
 
+    private val questions = QuizRepository.getQuestions()
     private var current = 0
-
-    private val questions = listOf(
-        Question(
-            "Jaki numer alarmowy ma Straż Pożarna?",
-            listOf("998", "997", "999", "112"),
-            0
-        ),
-        Question(
-            "Co oznacza skrót OSP?",
-            listOf(
-                "Ochotnicza Straż Pożarna",
-                "Ogólna Służba Pożarna",
-                "Obrona Straży Państwowej",
-                "Oddział Specjalny PSP"
-            ),
-            0
-        )
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,23 +28,16 @@ class QuizActivity : AppCompatActivity() {
 
         showQuestion()
 
-        val listener = { index: Int ->
+        val click = { index: Int ->
             current++
-            if (current < questions.size) {
-                showQuestion()
-            } else {
-                txtQuestion.text = "Koniec quizu"
-                btnA.isEnabled = false
-                btnB.isEnabled = false
-                btnC.isEnabled = false
-                btnD.isEnabled = false
-            }
+            if (current < questions.size) showQuestion()
+            else txtQuestion.text = "Koniec quizu"
         }
 
-        btnA.setOnClickListener { listener(0) }
-        btnB.setOnClickListener { listener(1) }
-        btnC.setOnClickListener { listener(2) }
-        btnD.setOnClickListener { listener(3) }
+        btnA.setOnClickListener { click(0) }
+        btnB.setOnClickListener { click(1) }
+        btnC.setOnClickListener { click(2) }
+        btnD.setOnClickListener { click(3) }
     }
 
     private fun showQuestion() {
