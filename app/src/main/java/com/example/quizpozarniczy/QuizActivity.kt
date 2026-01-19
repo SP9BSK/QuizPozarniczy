@@ -1,89 +1,75 @@
 package com.example.quizpozarniczy
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.quizpozarniczy.model.Player
 
 class QuizActivity : AppCompatActivity() {
 
-    private lateinit var questionText: TextView
-    private lateinit var playerText: TextView
-    private lateinit var yesButton: Button
-    private lateinit var noButton: Button
+    private lateinit var txtTimer: TextView
+    private lateinit var txtQuestion: TextView
+    private lateinit var btnYes: Button
+    private lateinit var btnNo: Button
+    private lateinit var txtResult: TextView
+    private lateinit var btnBack: Button
 
     private val questions = listOf(
-        "Czy woda przewodzi prąd?",
-        "Czy gaśnica pianowa nadaje się do gaszenia urządzeń elektrycznych?",
-        "Czy dym jest bardziej niebezpieczny niż ogień?",
-        "Czy hełm strażacki chroni przed temperaturą?",
-        "Czy można gasić olej wodą?"
+        "Czy ogień potrzebuje tlenu?",
+        "Czy woda gasi wszystkie pożary?",
+        "Czy dym jest niebezpieczny?"
     )
 
-    private var maxQuestions = 0
-    private var currentQuestionIndex = 0
-
-    private var players: List<Player> = emptyList()
-    private var currentPlayerIndex = 0
+    private var currentQuestion = 0
+    private var points = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
 
-        questionText = findViewById(R.id.questionText)
-        playerText = findViewById(R.id.playerText)
-        yesButton = findViewById(R.id.yesButton)
-        noButton = findViewById(R.id.noButton)
-
-        // dane z panelu sędziego
-        val playerCount = intent.getIntExtra("PLAYER_COUNT", 1)
-        maxQuestions = intent.getIntExtra("QUESTION_COUNT", 1)
-
-        players = (1..playerCount).map { Player(it) }
+        // POWIĄZANIE Z XML
+        txtTimer = findViewById(R.id.txtTimer)
+        txtQuestion = findViewById(R.id.txtQuestion)
+        btnYes = findViewById(R.id.btnYes)
+        btnNo = findViewById(R.id.btnNo)
+        txtResult = findViewById(R.id.txtResult)
+        btnBack = findViewById(R.id.btnBack)
 
         showQuestion()
 
-        yesButton.setOnClickListener {
-            players[currentPlayerIndex].points++
-            nextTurn()
+        btnYes.setOnClickListener {
+            points++
+            nextQuestion()
         }
 
-        noButton.setOnClickListener {
-            nextTurn()
+        btnNo.setOnClickListener {
+            nextQuestion()
+        }
+
+        btnBack.setOnClickListener {
+            finish()
         }
     }
 
     private fun showQuestion() {
-        questionText.text = questions[currentQuestionIndex]
-        playerText.text = "Zawodnik ${players[currentPlayerIndex].id}"
+        txtQuestion.text = questions[currentQuestion]
     }
 
-    private fun nextTurn() {
-        currentPlayerIndex++
+    private fun nextQuestion() {
+        currentQuestion++
 
-        if (currentPlayerIndex >= players.size) {
-            currentPlayerIndex = 0
-            currentQuestionIndex++
-        }
-
-        if (currentQuestionIndex >= maxQuestions) {
-            endQuiz()
-        } else {
+        if (currentQuestion < questions.size) {
             showQuestion()
+        } else {
+            endQuiz()
         }
     }
 
     private fun endQuiz() {
-        val intent = Intent(this, ResultActivity::class.java)
-        intent.putExtra(
-            "RESULTS",
-            players.joinToString("\n") {
-                "Zawodnik ${it.id}: ${it.points} pkt"
-            }
-        )
-        startActivity(intent)
-        finish()
+        txtQuestion.text = "Koniec quizu"
+        txtResult.text = "Twój wynik: $points / ${questions.size}"
+        btnYes.isEnabled = false
+        btnNo.isEnabled = false
+        btnBack.visibility = Button.VISIBLE
     }
 }
