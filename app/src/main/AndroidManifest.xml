@@ -11,6 +11,10 @@
             android:name=".QuizActivity"
             android:exported="false" />
 
+         <activity
+               android:name=".ResultsActivity"
+               android:exported="false" /> 
+        
         <activity
             android:name=".JudgeActivity"
             android:exported="true">
