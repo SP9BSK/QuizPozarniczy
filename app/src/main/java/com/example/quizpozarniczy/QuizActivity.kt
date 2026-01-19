@@ -7,92 +7,56 @@ import androidx.appcompat.app.AppCompatActivity
 
 class QuizActivity : AppCompatActivity() {
 
-    private lateinit var txtTimer: TextView
-    private lateinit var txtQuestion: TextView
-    private lateinit var txtResult: TextView
-
-    private lateinit var btnA: Button
-    private lateinit var btnB: Button
-    private lateinit var btnC: Button
-    private lateinit var btnD: Button
-    private lateinit var btnBack: Button
-
-    private var currentQuestionIndex = 0
-    private var points = 0
-
-    // TYMCZASOWE pytania – prawdziwe podmienimy później
-    private val questions = listOf(
-        Pair(
-            "Jakie napięcie ma standardowe gniazdko w Polsce?",
-            listOf("110V", "220V", "230V", "400V")
-        ),
-        Pair(
-            "Jaki numer alarmowy ma straż pożarna?",
-            listOf("997", "998", "999", "112")
-        )
+    private val allQuestions = listOf(
+        "Czy woda przewodzi prąd?",
+        "Czy gaśnica proszkowa nadaje się do gaszenia instalacji elektrycznych?",
+        "Czy tlen podtrzymuje spalanie?",
+        "Czy dym jest zawsze gorący?",
+        "Czy można gasić olej wodą?"
     )
 
-    private val correctAnswers = listOf(2, 1) // index poprawnej odpowiedzi
+    private var currentIndex = 0
+    private lateinit var questions: List<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
 
-        txtTimer = findViewById(R.id.txtTimer)
-        txtQuestion = findViewById(R.id.txtQuestion)
-        txtResult = findViewById(R.id.txtResult)
+        val txtQuestion = findViewById<TextView>(R.id.txtQuestion)
+        val btnYes = findViewById<Button>(R.id.btnYes)
+        val btnNo = findViewById<Button>(R.id.btnNo)
+        val txtResult = findViewById<TextView>(R.id.txtResult)
+        val btnBack = findViewById<Button>(R.id.btnBack)
 
-        btnA = findViewById(R.id.btnAnswerA)
-        btnB = findViewById(R.id.btnAnswerB)
-        btnC = findViewById(R.id.btnAnswerC)
-        btnD = findViewById(R.id.btnAnswerD)
-        btnBack = findViewById(R.id.btnBack)
+        val questionsCount = intent.getIntExtra("QUESTIONS_COUNT", 1)
 
-        showQuestion()
+        questions = allQuestions.take(questionsCount.coerceAtMost(allQuestions.size))
 
-        btnA.setOnClickListener { answer(0) }
-        btnB.setOnClickListener { answer(1) }
-        btnC.setOnClickListener { answer(2) }
-        btnD.setOnClickListener { answer(3) }
+        fun showQuestion() {
+            if (currentIndex < questions.size) {
+                txtQuestion.text = questions[currentIndex]
+            } else {
+                txtQuestion.text = "Koniec quizu"
+                btnYes.isEnabled = false
+                btnNo.isEnabled = false
+                btnBack.visibility = Button.VISIBLE
+            }
+        }
+
+        btnYes.setOnClickListener {
+            currentIndex++
+            showQuestion()
+        }
+
+        btnNo.setOnClickListener {
+            currentIndex++
+            showQuestion()
+        }
 
         btnBack.setOnClickListener {
             finish()
         }
-    }
 
-    private fun showQuestion() {
-        if (currentQuestionIndex >= questions.size) {
-            showResult()
-            return
-        }
-
-        val question = questions[currentQuestionIndex]
-        txtQuestion.text = question.first
-
-        btnA.text = "A. ${question.second[0]}"
-        btnB.text = "B. ${question.second[1]}"
-        btnC.text = "C. ${question.second[2]}"
-        btnD.text = "D. ${question.second[3]}"
-    }
-
-    private fun answer(selectedIndex: Int) {
-        if (selectedIndex == correctAnswers[currentQuestionIndex]) {
-            points++
-        }
-
-        currentQuestionIndex++
         showQuestion()
-    }
-
-    private fun showResult() {
-        txtQuestion.text = "Koniec quizu"
-        txtResult.text = "Wynik: $points / ${questions.size}"
-
-        btnA.isEnabled = false
-        btnB.isEnabled = false
-        btnC.isEnabled = false
-        btnD.isEnabled = false
-
-        btnBack.visibility = Button.VISIBLE
     }
 }
