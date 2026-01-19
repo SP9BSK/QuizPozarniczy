@@ -18,14 +18,9 @@ class JudgeActivity : AppCompatActivity() {
         val btnStart = findViewById<Button>(R.id.btnStart)
 
         btnStart.setOnClickListener {
-            val players = etPlayers.text.toString().toIntOrNull() ?: 1
-            val questions = etQuestions.text.toString().toIntOrNull() ?: 1
-            val time = etTime.text.toString().toIntOrNull() ?: 30
-
             val intent = Intent(this, QuizActivity::class.java)
-            intent.putExtra("PLAYERS", players)
-            intent.putExtra("QUESTIONS", questions)
-            intent.putExtra("TIME", time)
+            intent.putExtra("QUESTIONS", etQuestions.text.toString().toInt())
+            intent.putExtra("TIME", etTime.text.toString().toInt())
             startActivity(intent)
         }
     }
