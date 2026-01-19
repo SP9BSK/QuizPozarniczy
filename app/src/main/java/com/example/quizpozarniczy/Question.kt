@@ -2,5 +2,6 @@ package com.example.quizpozarniczy
 
 data class Question(
     val text: String,
-    val answerYes: Boolean
+    val answers: List<String>,
+    val correctIndex: Int
 )
