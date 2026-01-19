@@ -3,10 +3,10 @@ package com.example.quizpozarniczy
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.quizpozarniczy.model.Player
 
 class QuizActivity : AppCompatActivity() {
 
@@ -16,10 +16,11 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var btnB: Button
     private lateinit var btnC: Button
     private lateinit var btnD: Button
-    private lateinit var btnBack: Button
 
     private val questions = QuizRepository.getQuestions()
-    private var current = 0
+    private var currentQuestion = 0
+    private var currentPlayer = 0
+    private lateinit var players: List<Player>
     private lateinit var timer: CountDownTimer
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,35 +33,42 @@ class QuizActivity : AppCompatActivity() {
         btnB = findViewById(R.id.btnB)
         btnC = findViewById(R.id.btnC)
         btnD = findViewById(R.id.btnD)
-        btnBack = findViewById(R.id.btnBack)
 
+        val playerCount = intent.getIntExtra("PLAYERS", 1)
         val timeSeconds = intent.getIntExtra("TIME", 60)
+
+        players = List(playerCount) { Player(it + 1) }
 
         startTimer(timeSeconds)
         showQuestion()
 
-        val click = { _: Int ->
-            current++
-            if (current < questions.size) {
+        val answerClick = { index: Int ->
+            val q = questions[currentQuestion]
+            if (index == q.correctIndex) {
+                players[currentPlayer].points++
+            }
+
+            currentPlayer = (currentPlayer + 1) % players.size
+            currentQuestion++
+
+            if (currentQuestion < questions.size) {
                 showQuestion()
             } else {
                 endQuiz()
             }
         }
 
-        btnA.setOnClickListener { click(0) }
-        btnB.setOnClickListener { click(1) }
-        btnC.setOnClickListener { click(2) }
-        btnD.setOnClickListener { click(3) }
-
-        btnBack.setOnClickListener {
-            finish()
-        }
+        btnA.setOnClickListener { answerClick(0) }
+        btnB.setOnClickListener { answerClick(1) }
+        btnC.setOnClickListener { answerClick(2) }
+        btnD.setOnClickListener { answerClick(3) }
     }
 
     private fun showQuestion() {
-        val q = questions[current]
-        txtQuestion.text = q.text
+        val q = questions[currentQuestion]
+        txtQuestion.text =
+            "Zawodnik ${players[currentPlayer].id}\n\n${q.text}"
+
         btnA.text = q.answers[0]
         btnB.text = q.answers[1]
         btnC.text = q.answers[2]
@@ -70,8 +78,7 @@ class QuizActivity : AppCompatActivity() {
     private fun startTimer(seconds: Int) {
         timer = object : CountDownTimer(seconds * 1000L, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                val sec = millisUntilFinished / 1000
-                txtTimer.text = "Czas: ${sec}s"
+                txtTimer.text = "Czas: ${millisUntilFinished / 1000}s"
             }
 
             override fun onFinish() {
@@ -83,13 +90,13 @@ class QuizActivity : AppCompatActivity() {
     private fun endQuiz() {
         timer.cancel()
 
-        txtQuestion.text = "Koniec quizu"
+        val resultText = players.joinToString("\n") {
+            "Zawodnik ${it.id}: ${it.points} pkt"
+        }
 
-        btnA.visibility = View.GONE
-        btnB.visibility = View.GONE
-        btnC.visibility = View.GONE
-        btnD.visibility = View.GONE
-
-        btnBack.visibility = View.VISIBLE
+        val intent = Intent(this, ResultsActivity::class.java)
+        intent.putExtra("RESULTS", resultText)
+        startActivity(intent)
+        finish()
     }
 }
