@@ -1,62 +1,32 @@
 package com.example.quizpozarniczy
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TextView
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 
-class QuizActivity : AppCompatActivity() {
-
-    private val allQuestions = listOf(
-        "Czy woda przewodzi prąd?",
-        "Czy gaśnica proszkowa nadaje się do gaszenia instalacji elektrycznych?",
-        "Czy tlen podtrzymuje spalanie?",
-        "Czy dym jest zawsze gorący?",
-        "Czy można gasić olej wodą?"
-    )
-
-    private var currentIndex = 0
-    private lateinit var questions: List<String>
+class JudgeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_quiz)
+        setContentView(R.layout.activity_judge)
 
-        val txtQuestion = findViewById<TextView>(R.id.txtQuestion)
-        val btnYes = findViewById<Button>(R.id.btnYes)
-        val btnNo = findViewById<Button>(R.id.btnNo)
-        val txtResult = findViewById<TextView>(R.id.txtResult)
-        val btnBack = findViewById<Button>(R.id.btnBack)
+        val etPlayers = findViewById<EditText>(R.id.etPlayers)
+        val etQuestions = findViewById<EditText>(R.id.etQuestions)
+        val etTime = findViewById<EditText>(R.id.etTime)
+        val btnStart = findViewById<Button>(R.id.btnStart)
 
-        val questionsCount = intent.getIntExtra("QUESTIONS_COUNT", 1)
+        btnStart.setOnClickListener {
+            val players = etPlayers.text.toString().toIntOrNull() ?: 1
+            val questions = etQuestions.text.toString().toIntOrNull() ?: 1
+            val time = etTime.text.toString().toIntOrNull() ?: 30
 
-        questions = allQuestions.take(questionsCount.coerceAtMost(allQuestions.size))
-
-        fun showQuestion() {
-            if (currentIndex < questions.size) {
-                txtQuestion.text = questions[currentIndex]
-            } else {
-                txtQuestion.text = "Koniec quizu"
-                btnYes.isEnabled = false
-                btnNo.isEnabled = false
-                btnBack.visibility = Button.VISIBLE
-            }
+            val intent = Intent(this, QuizActivity::class.java)
+            intent.putExtra("PLAYERS", players)
+            intent.putExtra("QUESTIONS", questions)
+            intent.putExtra("TIME", time)
+            startActivity(intent)
         }
-
-        btnYes.setOnClickListener {
-            currentIndex++
-            showQuestion()
-        }
-
-        btnNo.setOnClickListener {
-            currentIndex++
-            showQuestion()
-        }
-
-        btnBack.setOnClickListener {
-            finish()
-        }
-
-        showQuestion()
     }
 }
