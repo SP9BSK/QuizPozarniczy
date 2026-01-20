@@ -51,7 +51,7 @@ class QuizActivity : AppCompatActivity() {
         btnD.setOnClickListener { nextQuestion() }
 
         btnBack.setOnClickListener {
-            finish()
+           
         }
     }
 
