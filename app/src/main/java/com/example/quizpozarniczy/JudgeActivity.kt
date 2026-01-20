@@ -18,15 +18,20 @@ class JudgeActivity : AppCompatActivity() {
         val btnStart = findViewById<Button>(R.id.btnStart)
 
         btnStart.setOnClickListener {
+
             val players = etPlayers.text.toString().toIntOrNull() ?: 1
             val questions = etQuestions.text.toString().toIntOrNull() ?: 1
-            val timeMinutes = etTime.text.toString().toIntOrNull() ?: 1
+            val minutes = etTime.text.toString().toIntOrNull() ?: 1
 
             val intent = Intent(this, QuizActivity::class.java)
             intent.putExtra("PLAYERS", players)
             intent.putExtra("QUESTIONS", questions)
-            intent.putExtra("TIME_SECONDS", timeMinutes * 60) // 🔴 MINUTY → SEKUNDY
+            intent.putExtra("TIME_SECONDS", minutes * 60)
+
             startActivity(intent)
+
+            // ❗❗❗ NIE DAJEMY finish() ❗❗❗
+            // bo wtedy Android wraca do pierwszego ekranu
         }
     }
 }
