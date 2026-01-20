@@ -1,4 +1,4 @@
-package com.example.quizpozarniczy.data
+package com.example.quizpozarniczy
 
 import com.example.quizpozarniczy.model.Question
 
@@ -25,11 +25,6 @@ object QuizRepository {
                     "Oddział Straży Pożarnej"
                 ),
                 0
-            ),
-            Question(
-                "Który gaz jest najczęściej przyczyną wybuchów w domach?",
-                listOf("Tlen", "Propan-butan", "Azot", "Dwutlenek węgla"),
-                1
             ),
             Question(
                 "Pierwszą czynnością przy pożarze jest:",
