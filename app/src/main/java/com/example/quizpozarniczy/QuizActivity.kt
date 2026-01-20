@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.quizpozarniczy.data.QuizRepository
 import com.example.quizpozarniczy.model.Question
 import kotlin.math.min
 
@@ -39,10 +38,12 @@ class QuizActivity : AppCompatActivity() {
         val questionsLimit = intent.getIntExtra("QUESTIONS", 1)
         val timeMinutes = intent.getIntExtra("TIME_MINUTES", 1)
 
-        questions = QuizRepository
-            .getQuestions()
+        // 🔧 KLUCZOWA LINIA – używa TWOJEGO repozytorium
+        val allQuestions = QuizRepository.getQuestions()
+
+        questions = allQuestions
             .shuffled()
-            .take(min(questionsLimit, QuizRepository.getQuestions().size))
+            .take(min(questionsLimit, allQuestions.size))
 
         startTimer(timeMinutes)
         showQuestion()
