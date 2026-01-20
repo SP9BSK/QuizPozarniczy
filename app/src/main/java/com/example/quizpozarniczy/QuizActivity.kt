@@ -1,48 +1,109 @@
 package com.example.quizpozarniczy
 
 import android.os.Bundle
-import android.util.Log
+import android.os.CountDownTimer
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.quizpozarniczy.data.QuizRepository
+import com.example.quizpozarniczy.model.Question
+import kotlin.math.min
 
 class QuizActivity : AppCompatActivity() {
 
+    private lateinit var txtQuestion: TextView
+    private lateinit var txtTimer: TextView
+    private lateinit var btnA: Button
+    private lateinit var btnB: Button
+    private lateinit var btnC: Button
+    private lateinit var btnD: Button
+    private lateinit var btnBack: Button
+
+    private var questions: List<Question> = emptyList()
+    private var currentIndex = 0
+    private var timer: CountDownTimer? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Log.d("QUIZ", "QuizActivity onCreate START")
-
         setContentView(R.layout.activity_quiz)
 
-        val txtQuestion = findViewById<TextView>(R.id.txtQuestion)
-        val txtTimer = findViewById<TextView>(R.id.txtTimer)
-        val btnA = findViewById<Button>(R.id.btnA)
-        val btnB = findViewById<Button>(R.id.btnB)
-        val btnC = findViewById<Button>(R.id.btnC)
-        val btnD = findViewById<Button>(R.id.btnD)
+        txtQuestion = findViewById(R.id.txtQuestion)
+        txtTimer = findViewById(R.id.txtTimer)
+        btnA = findViewById(R.id.btnA)
+        btnB = findViewById(R.id.btnB)
+        btnC = findViewById(R.id.btnC)
+        btnD = findViewById(R.id.btnD)
+        btnBack = findViewById(R.id.btnBack)
 
-        // 🔐 BEZPIECZNE ODCZYTANIE DANYCH
-        val players = intent.getIntExtra("PLAYERS", 1)
         val questionsLimit = intent.getIntExtra("QUESTIONS", 1)
-        val timeSeconds = intent.getIntExtra("TIME_SECONDS", 60)
+        val timeMinutes = intent.getIntExtra("TIME_MINUTES", 1)
 
-        Log.d("QUIZ", "players=$players questions=$questionsLimit time=$timeSeconds")
+        questions = QuizRepository
+            .getQuestions()
+            .shuffled()
+            .take(min(questionsLimit, QuizRepository.getQuestions().size))
 
-        // 🔒 TEST – NIE MA ŻADNEJ LOGIKI KOŃCZĄCEJ QUIZ
-        txtQuestion.text = "QUIZ WYSTARTOWAŁ ✅"
-        txtTimer.text = "Czas: ${timeSeconds / 60} min"
+        startTimer(timeMinutes)
+        showQuestion()
 
-        btnA.text = "Odpowiedź A"
-        btnB.text = "Odpowiedź B"
-        btnC.text = "Odpowiedź C"
-        btnD.text = "Odpowiedź D"
+        btnA.setOnClickListener { nextQuestion() }
+        btnB.setOnClickListener { nextQuestion() }
+        btnC.setOnClickListener { nextQuestion() }
+        btnD.setOnClickListener { nextQuestion() }
 
-        btnA.setOnClickListener { }
-        btnB.setOnClickListener { }
-        btnC.setOnClickListener { }
-        btnD.setOnClickListener { }
+        btnBack.setOnClickListener {
+            finish()
+        }
+    }
 
-        Log.d("QUIZ", "QuizActivity onCreate END")
+    private fun startTimer(minutes: Int) {
+        val millis = minutes * 60 * 1000L
+
+        timer = object : CountDownTimer(millis, 1000) {
+            override fun onTick(ms: Long) {
+                val min = ms / 1000 / 60
+                val sec = (ms / 1000) % 60
+                txtTimer.text = String.format("Czas: %02d:%02d", min, sec)
+            }
+
+            override fun onFinish() {
+                endQuiz()
+            }
+        }.start()
+    }
+
+    private fun showQuestion() {
+        if (currentIndex >= questions.size) {
+            endQuiz()
+            return
+        }
+
+        val q = questions[currentIndex]
+        txtQuestion.text = q.text
+
+        btnA.text = q.answers[0]
+        btnB.text = q.answers[1]
+        btnC.text = q.answers[2]
+        btnD.text = q.answers[3]
+    }
+
+    private fun nextQuestion() {
+        currentIndex++
+        showQuestion()
+    }
+
+    private fun endQuiz() {
+        timer?.cancel()
+
+        txtQuestion.text = "Koniec quizu"
+        txtTimer.text = ""
+
+        btnA.visibility = View.GONE
+        btnB.visibility = View.GONE
+        btnC.visibility = View.GONE
+        btnD.visibility = View.GONE
+
+        btnBack.visibility = View.VISIBLE
     }
 }
