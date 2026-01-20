@@ -7,16 +7,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
+        <!-- EKRAN STARTOWY -->
         <activity
-            android:name=".QuizActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".JudgeActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".MainActivity"
+            android:name=".StartActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +17,13 @@
             </intent-filter>
         </activity>
 
-    </application>
+        <activity
+            android:name=".JudgeActivity"
+            android:exported="false" />
 
+        <activity
+            android:name=".QuizActivity"
+            android:exported="false" />
+
+    </application>
 </manifest>
