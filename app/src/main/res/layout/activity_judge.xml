@@ -22,7 +22,7 @@
         android:id="@+id/etTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Czas na pytanie (sekundy)"
+        android:hint="Czas quizu (minuty)"
         android:inputType="number" />
 
     <Button
