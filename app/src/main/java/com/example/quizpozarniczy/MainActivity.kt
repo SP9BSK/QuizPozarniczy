@@ -1,18 +1,26 @@
-package com.example.quizpozarniczy
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp">
 
-import android.content.Intent
-import android.os.Bundle
-import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
+    <!-- HERB -->
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/herb"
+        android:contentDescription="Herb"
+        android:layout_marginBottom="32dp" />
 
-class MainActivity : AppCompatActivity() {
+    <!-- PRZYCISK PANEL SĘDZIEGO -->
+    <Button
+        android:id="@+id/btnJudgePanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Panel sędziego"
+        android:textSize="18sp" />
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        findViewById<Button>(R.id.btnJudge).setOnClickListener {
-            startActivity(Intent(this, JudgeActivity::class.java))
-        }
-    }
-}
+</LinearLayout>
