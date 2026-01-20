@@ -7,7 +7,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <!-- EKRAN STARTOWY -->
+        <!-- START APP -->
         <activity
             android:name=".StartActivity"
             android:exported="true">
