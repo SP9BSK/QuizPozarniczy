@@ -7,20 +7,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <!-- PANEL SĘDZIEGO – START APLIKACJI -->
+        <activity
+            android:name=".QuizActivity"
+            android:exported="false" />
+
         <activity
             android:name=".JudgeActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- QUIZ -->
-        <activity
-            android:name=".QuizActivity"
-            android:exported="false" />
 
     </application>
 
