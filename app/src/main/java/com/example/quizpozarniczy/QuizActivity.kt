@@ -36,16 +36,13 @@ class QuizActivity : AppCompatActivity() {
         btnBack = findViewById(R.id.btnBack)
 
         val questionsLimit = intent.getIntExtra("QUESTIONS", 1)
-        val timeMinutes = intent.getIntExtra("TIME_MINUTES", 1)
+        val timeSeconds = intent.getIntExtra("TIME_SECONDS", 60)
 
-        // 🔧 KLUCZOWA LINIA – używa TWOJEGO repozytorium
         val allQuestions = QuizRepository.getQuestions()
-
-        questions = allQuestions
-            .shuffled()
+        questions = allQuestions.shuffled()
             .take(min(questionsLimit, allQuestions.size))
 
-        startTimer(timeMinutes)
+        startTimer(timeSeconds)
         showQuestion()
 
         btnA.setOnClickListener { nextQuestion() }
@@ -58,10 +55,8 @@ class QuizActivity : AppCompatActivity() {
         }
     }
 
-    private fun startTimer(minutes: Int) {
-        val millis = minutes * 60 * 1000L
-
-        timer = object : CountDownTimer(millis, 1000) {
+    private fun startTimer(seconds: Int) {
+        timer = object : CountDownTimer(seconds * 1000L, 1000) {
             override fun onTick(ms: Long) {
                 val min = ms / 1000 / 60
                 val sec = (ms / 1000) % 60
