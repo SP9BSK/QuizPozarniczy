@@ -7,27 +7,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-<activity
-    android:name=".MainActivity"
-    android:exported="true">
-    <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
-        <category android:name="android.intent.category.LAUNCHER" />
-    </intent-filter>
-</activity>
-
-<activity android:name=".JudgeActivity" />
-<activity android:name=".QuizActivity" />
-
-        
-        <activity
-            android:name=".QuizActivity"
-            android:exported="false" />
-
-         <activity
-               android:name=".ResultsActivity"
-               android:exported="false" /> 
-        
+        <!-- PANEL SĘDZIEGO – START APLIKACJI -->
         <activity
             android:name=".JudgeActivity"
             android:exported="true">
@@ -37,5 +17,11 @@
             </intent-filter>
         </activity>
 
+        <!-- QUIZ -->
+        <activity
+            android:name=".QuizActivity"
+            android:exported="false" />
+
     </application>
+
 </manifest>
