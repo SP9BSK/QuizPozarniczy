@@ -1,4 +1,4 @@
-package com.example.quizpozarniczy
+package com.example.quizpozarniczy.data
 
 import com.example.quizpozarniczy.model.Question
 
@@ -8,63 +8,38 @@ object QuizRepository {
         return listOf(
             Question(
                 "Numer alarmowy do straży pożarnej to:",
-                listOf("998", "997", "999", "112"),
+                listOf("998", "999", "112", "997"),
                 0
             ),
             Question(
-                "Kto dowodzi akcją ratowniczą?",
-                listOf(
-                    "Najstarszy strażak",
-                    "Dowódca zastępu",
-                    "Dyżurny PSP",
-                    "Kierowca"
-                ),
-                1
-            ),
-            Question(
-                "Kolor hełmu dowódcy OSP to:",
-                listOf("Czerwony", "Biały", "Czarny", "Żółty"),
-                1
-            ),
-            Question(
-                "Co oznacza skrót PSP?",
-                listOf(
-                    "Państwowa Straż Pożarna",
-                    "Polska Straż Pożarna",
-                    "Publiczna Straż Pożarna",
-                    "Pożarna Służba Państwowa"
-                ),
-                0
-            ),
-            Question(
-                "Jakim środkiem gasi się pożary grupy F?",
-                listOf("Woda", "Piana", "Proszek", "Tłuszcz"),
-                1
-            ),
-            Question(
-                "Kto może ogłosić alarm OSP?",
-                listOf(
-                    "Każdy strażak",
-                    "Sołtys",
-                    "Dyżurny SKKP",
-                    "Dowódca JRG"
-                ),
+                "Czym gasi się pożar instalacji elektrycznej?",
+                listOf("Wodą", "Pianą", "Gaśnicą proszkową", "Kocem"),
                 2
             ),
             Question(
                 "Co oznacza skrót OSP?",
                 listOf(
                     "Ochotnicza Straż Pożarna",
-                    "Obronna Straż Publiczna",
-                    "Organizacja Straży Pożarnej",
-                    "Ochronna Służba Pożaru"
+                    "Ogólnopolska Służba Pożaru",
+                    "Oficjalna Straż Państwowa",
+                    "Oddział Straży Pożarnej"
                 ),
                 0
             ),
             Question(
-                "Podstawowy środek gaśniczy w PSP to:",
-                listOf("Woda", "Piana", "Proszek", "CO2"),
-                0
+                "Który gaz jest najczęściej przyczyną wybuchów w domach?",
+                listOf("Tlen", "Propan-butan", "Azot", "Dwutlenek węgla"),
+                1
+            ),
+            Question(
+                "Pierwszą czynnością przy pożarze jest:",
+                listOf(
+                    "Gaszenie",
+                    "Alarmowanie",
+                    "Ewakuacja",
+                    "Wyniesienie mienia"
+                ),
+                1
             )
         )
     }
