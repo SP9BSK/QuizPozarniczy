@@ -121,4 +121,8 @@ class QuizActivity : AppCompatActivity() {
         super.onDestroy()
         timer?.cancel()
     }
+    btnBack.setOnClickListener {
+    finish()
+}
+
 }
