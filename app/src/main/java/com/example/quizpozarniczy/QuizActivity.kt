@@ -92,11 +92,7 @@ class QuizActivity : AppCompatActivity() {
         currentIndex++
         showQuestion()
     }
-    private fun answerSelected(selectedIndex: Int) {
-        val correct = questions[currentIndex].correctIndex
-        if (selectedIndex == correct) {
-            score++
-        }
+   
         nextQuestion()
     }
 private fun answerSelected(selectedIndex: Int) {
