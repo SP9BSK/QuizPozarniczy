@@ -6,20 +6,18 @@
     android:gravity="center"
     android:padding="24dp">
 
-    <!-- HERB -->
     <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:src="@mipmap/herb.png"
-        android:contentDescription="Herb" />
+        android:src="@drawable/herb"
+        android:contentDescription="Herb jednostki"
+        android:layout_marginBottom="32dp" />
 
-    <!-- PRZYCISK -->
     <Button
         android:id="@+id/btnJudge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Panel sędziego"
-        android:layout_marginTop="32dp" />
+        android:text="Panel sędziego" />
 
 </LinearLayout>
