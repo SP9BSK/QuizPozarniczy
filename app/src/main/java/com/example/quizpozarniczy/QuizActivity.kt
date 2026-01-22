@@ -19,10 +19,9 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var btnD: Button
     private lateinit var btnBack: Button
 
-    private lateinit var questions: List<Question>
+    private var questions: List<Question> = emptyList()
     private var currentIndex = 0
     private var timer: CountDownTimer? = null
-    private var quizFinished = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +39,6 @@ class QuizActivity : AppCompatActivity() {
         val timeSeconds = intent.getIntExtra("TIME_SECONDS", 60)
 
         val allQuestions = QuizRepository.getQuestions()
-
         questions = allQuestions
             .shuffled()
             .take(min(questionsLimit, allQuestions.size))
@@ -48,25 +46,17 @@ class QuizActivity : AppCompatActivity() {
         startTimer(timeSeconds)
         showQuestion()
 
-        val answerClick = View.OnClickListener {
-            if (!quizFinished) {
-                nextQuestion()
-            }
-        }
-
-        btnA.setOnClickListener(answerClick)
-        btnB.setOnClickListener(answerClick)
-        btnC.setOnClickListener(answerClick)
-        btnD.setOnClickListener(answerClick)
+        btnA.setOnClickListener { nextQuestion() }
+        btnB.setOnClickListener { nextQuestion() }
+        btnC.setOnClickListener { nextQuestion() }
+        btnD.setOnClickListener { nextQuestion() }
 
         btnBack.setOnClickListener {
-            finish() // wraca do JudgeActivity
+            finish()
         }
     }
 
     private fun startTimer(seconds: Int) {
-        timer?.cancel()
-
         timer = object : CountDownTimer(seconds * 1000L, 1000) {
             override fun onTick(ms: Long) {
                 val min = ms / 1000 / 60
@@ -87,8 +77,8 @@ class QuizActivity : AppCompatActivity() {
         }
 
         val q = questions[currentIndex]
-
         txtQuestion.text = q.text
+
         btnA.text = q.answers[0]
         btnB.text = q.answers[1]
         btnC.text = q.answers[2]
@@ -101,9 +91,6 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun endQuiz() {
-        if (quizFinished) return
-        quizFinished = true
-
         timer?.cancel()
 
         txtQuestion.text = "Koniec quizu"
@@ -116,13 +103,4 @@ class QuizActivity : AppCompatActivity() {
 
         btnBack.visibility = View.VISIBLE
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        timer?.cancel()
-    }
-    btnBack.setOnClickListener {
-    finish()
-}
-
 }
