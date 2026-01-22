@@ -187,9 +187,7 @@ class QuizActivity : AppCompatActivity() {
         currentIndex++
         showQuestion()
     }
-   
-        nextQuestion()
-    }
+    
 private fun answerSelected(selectedIndex: Int) {
         val correct = questions[currentIndex].correctIndex
         if (selectedIndex == correct) {
