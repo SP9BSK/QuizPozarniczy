@@ -1,46 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="24dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
 
     <TextView
         android:id="@+id/txtTimer"
-        android:text="Czas: 00:00"
-        android:textSize="18sp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Czas: 00:00"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/txtQuestion"
-        android:textSize="22sp"
-        android:layout_marginTop="24dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Pytanie"
+        android:textSize="22sp"
+        android:layout_marginTop="24dp" />
 
     <Button
         android:id="@+id/btnA"
-        android:text="A"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="A"
+        android:layout_marginTop="24dp" />
 
     <Button
         android:id="@+id/btnB"
-        android:text="B"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="B" />
 
     <Button
         android:id="@+id/btnC"
-        android:text="C"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="C" />
 
     <Button
         android:id="@+id/btnD"
-        android:text="D"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="D" />
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Powrót do panelu sędziego"
+        android:visibility="gone"
+        android:layout_marginTop="24dp" />
 
 </LinearLayout>
