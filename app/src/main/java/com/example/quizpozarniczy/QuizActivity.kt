@@ -27,6 +27,8 @@ class QuizActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
 
+         private var score = 0
+        
         txtQuestion = findViewById(R.id.txtQuestion)
         txtTimer = findViewById(R.id.txtTimer)
         btnA = findViewById(R.id.btnA)
@@ -46,10 +48,11 @@ class QuizActivity : AppCompatActivity() {
         startTimer(timeSeconds)
         showQuestion()
 
-        btnA.setOnClickListener { nextQuestion() }
-        btnB.setOnClickListener { nextQuestion() }
-        btnC.setOnClickListener { nextQuestion() }
-        btnD.setOnClickListener { nextQuestion() }
+         btnA.setOnClickListener { answerSelected(0) }
+        btnB.setOnClickListener { answerSelected(1) }
+        btnC.setOnClickListener { answerSelected(2) }
+        btnD.setOnClickListener { answerSelected(3) }
+
 
         btnBack.setOnClickListener {
             finish()
@@ -91,9 +94,18 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun endQuiz() {
+    private fun answerSelected(selectedIndex: Int) {
+        val correct = questions[currentIndex].correctIndex
+        if (selectedIndex == correct) {
+            score++
+        }
+        nextQuestion()
+    }
+
         timer?.cancel()
 
-        txtQuestion.text = "Koniec quizu"
+               txtQuestion.text = "Koniec quizu\n\nWynik: $score / ${questions.size}"
+
         txtTimer.text = ""
 
         btnA.visibility = View.GONE
