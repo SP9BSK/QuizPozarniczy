@@ -22,12 +22,12 @@ class QuizActivity : AppCompatActivity() {
     private var questions: List<Question> = emptyList()
     private var currentIndex = 0
     private var timer: CountDownTimer? = null
+     private var score = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
 
-         private var score = 0
         
         txtQuestion = findViewById(R.id.txtQuestion)
         txtTimer = findViewById(R.id.txtTimer)
@@ -91,6 +91,13 @@ class QuizActivity : AppCompatActivity() {
     private fun nextQuestion() {
         currentIndex++
         showQuestion()
+    }
+    private fun answerSelected(selectedIndex: Int) {
+        val correct = questions[currentIndex].correctIndex
+        if (selectedIndex == correct) {
+            score++
+        }
+        nextQuestion()
     }
 
     private fun endQuiz() {
