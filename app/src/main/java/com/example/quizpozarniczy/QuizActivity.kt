@@ -27,6 +27,8 @@ class QuizActivity : AppCompatActivity() {
     private var playersCount = 1
     private lateinit var scores: IntArray
     private var questionsPerPlayer = 0
+    private var timePerPlayerSeconds = 60
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +56,8 @@ class QuizActivity : AppCompatActivity() {
 
         questionsPerPlayer = questions.size
 
-        startTimer(timeSeconds)
+        timePerPlayerSeconds = intent.getIntExtra("TIME_SECONDS", 60)
+
         showQuestion()
 
         btnA.setOnClickListener { answerSelected(0) }
@@ -74,31 +77,38 @@ class QuizActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                endQuiz()
+                showPlayerResult()
+
             }
         }.start()
     }
 
     private fun showQuestion() {
-        if (currentQuestionIndex >= questions.size) {
-            showPlayerResult()
-            return
-        }
 
-        val q = questions[currentQuestionIndex]
-        txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\n${q.text}"
-
-        btnA.text = q.answers[0]
-        btnB.text = q.answers[1]
-        btnC.text = q.answers[2]
-        btnD.text = q.answers[3]
-
-        btnA.visibility = View.VISIBLE
-        btnB.visibility = View.VISIBLE
-        btnC.visibility = View.VISIBLE
-        btnD.visibility = View.VISIBLE
-        btnBack.visibility = View.GONE
+    if (currentQuestionIndex == 0) {
+        startTimer(timePerPlayerSeconds)
     }
+
+    if (currentQuestionIndex >= questions.size) {
+        showPlayerResult()
+        return
+    }
+
+    val q = questions[currentQuestionIndex]
+    txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\n${q.text}"
+
+    btnA.text = q.answers[0]
+    btnB.text = q.answers[1]
+    btnC.text = q.answers[2]
+    btnD.text = q.answers[3]
+
+    btnA.visibility = View.VISIBLE
+    btnB.visibility = View.VISIBLE
+    btnC.visibility = View.VISIBLE
+    btnD.visibility = View.VISIBLE
+    btnBack.visibility = View.GONE
+}
+
 
     private fun answerSelected(selectedIndex: Int) {
         val correct = questions[currentQuestionIndex].correctIndex
@@ -112,6 +122,8 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun showPlayerResult() {
+        timer?.cancel()
+
         val result = "${scores[currentPlayer]}/$questionsPerPlayer"
 
         txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\nWynik: $result"
