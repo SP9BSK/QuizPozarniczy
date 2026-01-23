@@ -8,21 +8,21 @@
         android:id="@+id/etPlayers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Liczba zawodników"
+        android:hint="Liczba zawodników (max 10)"
         android:inputType="number" />
 
     <EditText
         android:id="@+id/etQuestions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Liczba pytań"
+        android:hint="Liczba pytań (max 30)"
         android:inputType="number" />
 
     <EditText
         android:id="@+id/etTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Czas quizu (minuty)"
+        android:hint="Czas quizu (max 30 minut)"
         android:inputType="number" />
 
     <Button
