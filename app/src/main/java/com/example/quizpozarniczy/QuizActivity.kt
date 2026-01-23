@@ -25,11 +25,13 @@ class QuizActivity : AppCompatActivity() {
     private var currentQuestionIndex = 0
     private var timer: CountDownTimer? = null
     private var playersCount = 1
+    private var questionsPerPlayer = 0
     private lateinit var scores: IntArray
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
+        questionsPerPlayer = questions.size
 
         // 🔒 ekran nie gaśnie podczas quizu
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -103,20 +105,57 @@ class QuizActivity : AppCompatActivity() {
 
         currentQuestionIndex++
 
-        if (currentQuestionIndex >= questions.size) {
-            currentPlayer++
+       private fun answerSelected(selectedIndex: Int) {
+    val correct = questions[currentQuestionIndex].correctIndex
 
-            if (currentPlayer >= playersCount) {
-                endQuiz()
-                return
-            }
+    if (selectedIndex == correct) {
+        scores[currentPlayer]++
+    }
 
-            currentQuestionIndex = 0
+    currentQuestionIndex++
+
+    if (currentQuestionIndex >= questions.size) {
+        if (currentPlayer == playersCount - 1) {
+            endQuiz()
+        } else {
+            showPlayerResult()
         }
+        return
+    }
+
+    showQuestion()
+}
+
 
         showQuestion()
     }
 
+private fun showPlayerResult() {
+    val result = "${scores[currentPlayer]}/${questionsPerPlayer}"
+
+    txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\nWynik: $result"
+    txtTimer.text = ""
+
+    btnA.visibility = View.GONE
+    btnB.visibility = View.GONE
+    btnC.visibility = View.GONE
+    btnD.visibility = View.GONE
+
+    btnBack.visibility = View.VISIBLE
+    btnBack.text = "Następny zawodnik"
+
+    btnBack.setOnClickListener {
+        currentPlayer++
+        currentQuestionIndex = 0
+
+        btnBack.text = "Zakończ"
+        btnBack.setOnClickListener { finish() }
+
+        showQuestion()
+    }
+
+
+    
     private fun endQuiz() {
         timer?.cancel()
 
@@ -133,6 +172,9 @@ class QuizActivity : AppCompatActivity() {
         btnC.visibility = View.GONE
         btnD.visibility = View.GONE
 
-        btnBack.visibility = View.VISIBLE
+       btnBack.visibility = View.VISIBLE
+       btnBack.text = "Zakończ"
+       btnBack.setOnClickListener { finish() }
+
     }
 }
