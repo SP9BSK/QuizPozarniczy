@@ -153,7 +153,8 @@ class QuizActivity : AppCompatActivity() {
             if (currentPlayer < playersCount) {
                 showQuestion()
             } else {
-                finish()
+               showFinalResults()
+
             }
         }
     }
@@ -164,5 +165,29 @@ class QuizActivity : AppCompatActivity() {
         btnC.isEnabled = enabled
         btnD.isEnabled = enabled
     }
+    private fun showFinalResults() {
+    timer?.cancel()
+
+    val resultText = StringBuilder("Koniec quizu\n\n")
+
+    for (i in 0 until playersCount) {
+        resultText.append(
+            "Zawodnik ${i + 1}: ${scores[i]}/${questions.size}\n"
+        )
+    }
+
+    txtQuestion.text = resultText.toString()
+    txtTimer.text = ""
+
+    btnA.visibility = View.GONE
+    btnB.visibility = View.GONE
+    btnC.visibility = View.GONE
+    btnD.visibility = View.GONE
+
+    btnBack.visibility = View.VISIBLE
+    btnBack.text = "Zamknij quiz"
+    btnBack.setOnClickListener { finish() }
+}
+
 }
 
