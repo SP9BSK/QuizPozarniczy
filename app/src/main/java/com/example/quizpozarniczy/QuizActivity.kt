@@ -69,15 +69,35 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun startTimer(seconds: Int) {
+        
+                import android.media.ToneGenerator
+                import android.media.AudioManager
         timer = object : CountDownTimer(seconds * 1000L, 1000) {
             override fun onTick(ms: Long) {
                 val min = ms / 1000 / 60
                 val sec = (ms / 1000) % 60
                 txtTimer.text = String.format("Czas: %02d:%02d", min, sec)
+                val secondsLeft = ms / 1000
+
+if (secondsLeft in 1..3) {
+    toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP, 150)
+}
+
+private val toneGenerator = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
+
+if (ms <= 10_000) {
+    txtTimer.setTextColor(getColor(android.R.color.holo_red_dark))
+} else {
+    txtTimer.setTextColor(getColor(android.R.color.black))
+
+
             }
 
-            override fun onFinish() {
-                showPlayerResult()
+           override fun onFinish() {
+    setAnswersEnabled(false)
+    showPlayerResult()
+}
+
 
             }
         }.start()
@@ -107,6 +127,8 @@ class QuizActivity : AppCompatActivity() {
     btnC.visibility = View.VISIBLE
     btnD.visibility = View.VISIBLE
     btnBack.visibility = View.GONE
+        setAnswersEnabled(true)
+
 }
 
 
