@@ -37,15 +37,12 @@ class QuizActivity : AppCompatActivity() {
     companion object {
         private const val MAX_PLAYERS = 10
         private const val MAX_QUESTIONS = 100
-        private const val MAX_TIME_SECONDS = 30 * 60 // 30 minut
+        private const val MAX_TIME_SECONDS = 30 * 60
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
-
-        // 🔒 ekran zawsze włączony
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         txtQuestion = findViewById(R.id.txtQuestion)
         txtTimer = findViewById(R.id.txtTimer)
@@ -102,6 +99,17 @@ class QuizActivity : AppCompatActivity() {
         btnD.setOnClickListener { answerSelected(3) }
     }
 
+    // 🔒 EKRAN ZAWSZE WŁĄCZONY – PEWNA WERSJA
+    override fun onResume() {
+        super.onResume()
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
+
     // ================= TIMER =================
 
     private fun startTimer() {
@@ -116,24 +124,21 @@ class QuizActivity : AppCompatActivity() {
 
                 txtTimer.text = String.format("%02d:%02d", minutes, seconds)
 
-                // 🔴 czerwony od 10 sekund
                 if (totalSeconds <= 10) {
                     txtTimer.setTextColor(getColor(android.R.color.holo_red_dark))
                 } else {
                     txtTimer.setTextColor(getColor(android.R.color.black))
                 }
 
-                // 🔊 piknięcie 3…2…1
                 if (totalSeconds in 1..3) {
                     toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP, 120)
                 }
             }
 
             override fun onFinish() {
-                // 🔔 dźwięk końca czasu (0)
                 toneGenerator.startTone(
                     ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD,
-                    500
+                    800
                 )
                 setAnswersEnabled(false)
                 showPlayerResult()
@@ -222,8 +227,6 @@ class QuizActivity : AppCompatActivity() {
         btnBack.text = "Zamknij"
         btnBack.setOnClickListener { finish() }
     }
-
-    // ================= POMOCNICZE =================
 
     private fun setAnswersEnabled(enabled: Boolean) {
         btnA.isEnabled = enabled
