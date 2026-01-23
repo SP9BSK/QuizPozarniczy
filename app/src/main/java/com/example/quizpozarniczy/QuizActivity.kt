@@ -8,6 +8,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.model.Question
 import kotlin.math.min
@@ -33,6 +34,12 @@ class QuizActivity : AppCompatActivity() {
 
     private val toneGenerator = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
 
+    companion object {
+        private const val MAX_PLAYERS = 10
+        private const val MAX_QUESTIONS = 100
+        private const val MAX_TIME_SECONDS = 30 * 60 // 30 minut
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
@@ -48,14 +55,44 @@ class QuizActivity : AppCompatActivity() {
         btnD = findViewById(R.id.btnD)
         btnBack = findViewById(R.id.btnBack)
 
-        val questionsLimit = intent.getIntExtra("QUESTIONS", 5)
-        timePerPlayerSeconds = intent.getIntExtra("TIME_SECONDS", 60)
-        playersCount = min(intent.getIntExtra("PLAYERS", 1), 10)
+        // ===== WALIDACJA DANYCH Z PANELU SĘDZIEGO =====
+
+        var questionsLimit = intent.getIntExtra("QUESTIONS", 5)
+        if (questionsLimit > MAX_QUESTIONS) {
+            Toast.makeText(
+                this,
+                "Maksymalnie $MAX_QUESTIONS pytań – wartość została zmniejszona",
+                Toast.LENGTH_LONG
+            ).show()
+            questionsLimit = MAX_QUESTIONS
+        }
+
+        var timeFromIntent = intent.getIntExtra("TIME_SECONDS", 60)
+        if (timeFromIntent > MAX_TIME_SECONDS) {
+            Toast.makeText(
+                this,
+                "Maksymalny czas to 30 minut – wartość została zmniejszona",
+                Toast.LENGTH_LONG
+            ).show()
+            timeFromIntent = MAX_TIME_SECONDS
+        }
+        timePerPlayerSeconds = timeFromIntent
+
+        var playersFromIntent = intent.getIntExtra("PLAYERS", 1)
+        if (playersFromIntent > MAX_PLAYERS) {
+            Toast.makeText(
+                this,
+                "Maksymalnie $MAX_PLAYERS zawodników",
+                Toast.LENGTH_LONG
+            ).show()
+            playersFromIntent = MAX_PLAYERS
+        }
+        playersCount = playersFromIntent
 
         scores = IntArray(playersCount)
 
         val allQuestions = QuizRepository.getQuestions()
-        questions = allQuestions.shuffled().take(questionsLimit)
+        questions = allQuestions.shuffled().take(min(questionsLimit, allQuestions.size))
 
         showQuestion()
 
@@ -71,31 +108,33 @@ class QuizActivity : AppCompatActivity() {
         timer?.cancel()
 
         timer = object : CountDownTimer(timePerPlayerSeconds * 1000L, 1000) {
-            override fun onTick(ms: Long) {
 
+            override fun onTick(ms: Long) {
                 val totalSeconds = ms / 1000
                 val minutes = totalSeconds / 60
                 val seconds = totalSeconds % 60
 
                 txtTimer.text = String.format("%02d:%02d", minutes, seconds)
 
-                // 🔴 czerwony od ostatnich 10 sekund
+                // 🔴 czerwony od 10 sekund
                 if (totalSeconds <= 10) {
                     txtTimer.setTextColor(getColor(android.R.color.holo_red_dark))
                 } else {
                     txtTimer.setTextColor(getColor(android.R.color.black))
                 }
 
-                // 🔔 dźwięk końca czasu w ostatniej sekundzie
-                if (totalSeconds == 1L) {
-                    toneGenerator.startTone(
-                        ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD,
-                        400
-                    )
+                // 🔊 piknięcie 3…2…1
+                if (totalSeconds in 1..3) {
+                    toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP, 120)
                 }
             }
 
             override fun onFinish() {
+                // 🔔 dźwięk końca czasu (0)
+                toneGenerator.startTone(
+                    ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD,
+                    500
+                )
                 setAnswersEnabled(false)
                 showPlayerResult()
             }
