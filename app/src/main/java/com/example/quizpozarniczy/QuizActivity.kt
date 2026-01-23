@@ -24,7 +24,6 @@ class QuizActivity : AppCompatActivity() {
     private var currentQuestionIndex = 0
     private var timer: CountDownTimer? = null
     private var playersCount = 1
-    private var currentPlayer = 0
     private lateinit var scores: IntArray
 
     override fun onCreate(savedInstanceState: Bundle?) {
