@@ -37,7 +37,7 @@ class QuizActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
 
-        // 🔒 ekran nie gaśnie podczas quizu
+        // 🔒 ekran zawsze włączony
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         txtQuestion = findViewById(R.id.txtQuestion)
@@ -48,28 +48,24 @@ class QuizActivity : AppCompatActivity() {
         btnD = findViewById(R.id.btnD)
         btnBack = findViewById(R.id.btnBack)
 
-        val questionsLimit = intent.getIntExtra("QUESTIONS", 1)
-        val timeSeconds = intent.getIntExtra("TIME_SECONDS", 60)
+        val questionsLimit = intent.getIntExtra("QUESTIONS", 5)
+        timePerPlayerSeconds = intent.getIntExtra("TIME_SECONDS", 60)
         playersCount = min(intent.getIntExtra("PLAYERS", 1), 10)
 
         scores = IntArray(playersCount)
 
         val allQuestions = QuizRepository.getQuestions()
-        questions = allQuestions.shuffled()
-            .take(min(questionsLimit, allQuestions.size))
+        questions = allQuestions.shuffled().take(questionsLimit)
 
-        startTimer(timeSeconds)
         showQuestion()
 
         btnA.setOnClickListener { answerSelected(0) }
         btnB.setOnClickListener { answerSelected(1) }
         btnC.setOnClickListener { answerSelected(2) }
         btnD.setOnClickListener { answerSelected(3) }
-
-        btnBack.setOnClickListener {
-            finish()
-        }
     }
+
+    // ================= TIMER =================
 
     private fun startTimer() {
         timer?.cancel()
@@ -79,23 +75,29 @@ class QuizActivity : AppCompatActivity() {
                 val sec = ms / 1000
                 txtTimer.text = "Czas: $sec s"
 
+                // 🔴 czerwony <10s
                 if (ms <= 10_000) {
                     txtTimer.setTextColor(getColor(android.R.color.holo_red_dark))
                 } else {
                     txtTimer.setTextColor(getColor(android.R.color.black))
                 }
 
+                // 🔊 3…2…1
                 if (sec in 1..3) {
                     toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP, 150)
                 }
             }
 
             override fun onFinish() {
+                // 🔔 koniec czasu
+                toneGenerator.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 400)
                 setAnswersEnabled(false)
                 showPlayerResult()
             }
         }.start()
     }
+
+    // ================= QUIZ =================
 
     private fun showQuestion() {
         if (currentQuestionIndex == 0) {
@@ -132,6 +134,8 @@ class QuizActivity : AppCompatActivity() {
         showQuestion()
     }
 
+    // ================= WYNIKI =================
+
     private fun showPlayerResult() {
         timer?.cancel()
 
@@ -146,10 +150,8 @@ class QuizActivity : AppCompatActivity() {
         btnD.visibility = View.GONE
 
         btnBack.visibility = View.VISIBLE
-        btnBack.text = if (currentPlayer + 1 < playersCount)
-            "Następny zawodnik"
-        else
-            "Zakończ"
+        btnBack.text =
+            if (currentPlayer + 1 < playersCount) "Następny zawodnik" else "Zobacz wyniki"
 
         btnBack.setOnClickListener {
             currentPlayer++
@@ -158,11 +160,26 @@ class QuizActivity : AppCompatActivity() {
             if (currentPlayer < playersCount) {
                 showQuestion()
             } else {
-               showFinalResults()
-
+                showFinalResults()
             }
         }
     }
+
+    private fun showFinalResults() {
+        val result = StringBuilder("Koniec quizu\n\n")
+
+        for (i in 0 until playersCount) {
+            result.append("Zawodnik ${i + 1}: ${scores[i]}/${questions.size}\n")
+        }
+
+        txtQuestion.text = result.toString()
+        txtTimer.text = ""
+
+        btnBack.text = "Zamknij"
+        btnBack.setOnClickListener { finish() }
+    }
+
+    // ================= POMOCNICZE =================
 
     private fun setAnswersEnabled(enabled: Boolean) {
         btnA.isEnabled = enabled
@@ -170,29 +187,4 @@ class QuizActivity : AppCompatActivity() {
         btnC.isEnabled = enabled
         btnD.isEnabled = enabled
     }
-    private fun showFinalResults() {
-    timer?.cancel()
-
-    val resultText = StringBuilder("Koniec quizu\n\n")
-
-    for (i in 0 until playersCount) {
-        resultText.append(
-            "Zawodnik ${i + 1}: ${scores[i]}/${questions.size}\n"
-        )
-    }
-
-    txtQuestion.text = resultText.toString()
-    txtTimer.text = ""
-
-    btnA.visibility = View.GONE
-    btnB.visibility = View.GONE
-    btnC.visibility = View.GONE
-    btnD.visibility = View.GONE
-
-    btnBack.visibility = View.VISIBLE
-    btnBack.text = "Zamknij quiz"
-    btnBack.setOnClickListener { finish() }
 }
-
-}
-
