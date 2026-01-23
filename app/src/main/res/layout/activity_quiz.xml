@@ -6,11 +6,21 @@
     android:padding="24dp">
 
     <TextView
-        android:id="@+id/txtTimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Czas: 00:00"
-        android:textSize="18sp" />
+    android:id="@+id/txtTimer"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Czas: 60"
+    android:textSize="48sp"
+    android:textStyle="bold"
+    android:textColor="@android:color/black"
+    android:gravity="center"
+
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintVertical_bias="0.25" />
+
 
     <TextView
         android:id="@+id/txtQuestion"
