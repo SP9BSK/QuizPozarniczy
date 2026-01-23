@@ -25,15 +25,13 @@ class QuizActivity : AppCompatActivity() {
     private var currentQuestionIndex = 0
     private var timer: CountDownTimer? = null
     private var playersCount = 1
-    private var questionsPerPlayer = 0
     private lateinit var scores: IntArray
+    private var questionsPerPlayer = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
-        questionsPerPlayer = questions.size
 
-        // 🔒 ekran nie gaśnie podczas quizu
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         txtQuestion = findViewById(R.id.txtQuestion)
@@ -54,6 +52,8 @@ class QuizActivity : AppCompatActivity() {
         questions = allQuestions.shuffled()
             .take(min(questionsLimit, allQuestions.size))
 
+        questionsPerPlayer = questions.size
+
         startTimer(timeSeconds)
         showQuestion()
 
@@ -62,9 +62,7 @@ class QuizActivity : AppCompatActivity() {
         btnC.setOnClickListener { answerSelected(2) }
         btnD.setOnClickListener { answerSelected(3) }
 
-        btnBack.setOnClickListener {
-            finish()
-        }
+        btnBack.setOnClickListener { finish() }
     }
 
     private fun startTimer(seconds: Int) {
@@ -83,7 +81,7 @@ class QuizActivity : AppCompatActivity() {
 
     private fun showQuestion() {
         if (currentQuestionIndex >= questions.size) {
-            endQuiz()
+            showPlayerResult()
             return
         }
 
@@ -94,6 +92,12 @@ class QuizActivity : AppCompatActivity() {
         btnB.text = q.answers[1]
         btnC.text = q.answers[2]
         btnD.text = q.answers[3]
+
+        btnA.visibility = View.VISIBLE
+        btnB.visibility = View.VISIBLE
+        btnC.visibility = View.VISIBLE
+        btnD.visibility = View.VISIBLE
+        btnBack.visibility = View.GONE
     }
 
     private fun answerSelected(selectedIndex: Int) {
@@ -104,64 +108,41 @@ class QuizActivity : AppCompatActivity() {
         }
 
         currentQuestionIndex++
-
-       private fun answerSelected(selectedIndex: Int) {
-    val correct = questions[currentQuestionIndex].correctIndex
-
-    if (selectedIndex == correct) {
-        scores[currentPlayer]++
+        showQuestion()
     }
 
-    currentQuestionIndex++
+    private fun showPlayerResult() {
+        val result = "${scores[currentPlayer]}/$questionsPerPlayer"
 
-    if (currentQuestionIndex >= questions.size) {
-        if (currentPlayer == playersCount - 1) {
-            endQuiz()
-        } else {
-            showPlayerResult()
+        txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\nWynik: $result"
+        txtTimer.text = ""
+
+        btnA.visibility = View.GONE
+        btnB.visibility = View.GONE
+        btnC.visibility = View.GONE
+        btnD.visibility = View.GONE
+
+        btnBack.visibility = View.VISIBLE
+        btnBack.text = "Następny zawodnik"
+
+        btnBack.setOnClickListener {
+            currentPlayer++
+            currentQuestionIndex = 0
+
+            if (currentPlayer >= playersCount) {
+                endQuiz()
+            } else {
+                showQuestion()
+            }
         }
-        return
     }
 
-    showQuestion()
-}
-
-
-        showQuestion()
-    }
-
-private fun showPlayerResult() {
-    val result = "${scores[currentPlayer]}/${questionsPerPlayer}"
-
-    txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\nWynik: $result"
-    txtTimer.text = ""
-
-    btnA.visibility = View.GONE
-    btnB.visibility = View.GONE
-    btnC.visibility = View.GONE
-    btnD.visibility = View.GONE
-
-    btnBack.visibility = View.VISIBLE
-    btnBack.text = "Następny zawodnik"
-
-    btnBack.setOnClickListener {
-        currentPlayer++
-        currentQuestionIndex = 0
-
-        btnBack.text = "Zakończ"
-        btnBack.setOnClickListener { finish() }
-
-        showQuestion()
-    }
-
-
-    
     private fun endQuiz() {
         timer?.cancel()
 
         val resultText = StringBuilder("Koniec quizu\n\n")
         for (i in 0 until playersCount) {
-            resultText.append("Zawodnik ${i + 1}: ${scores[i]} pkt\n")
+            resultText.append("Zawodnik ${i + 1}: ${scores[i]}/${questionsPerPlayer}\n")
         }
 
         txtQuestion.text = resultText.toString()
@@ -172,9 +153,8 @@ private fun showPlayerResult() {
         btnC.visibility = View.GONE
         btnD.visibility = View.GONE
 
-       btnBack.visibility = View.VISIBLE
-       btnBack.text = "Zakończ"
-       btnBack.setOnClickListener { finish() }
-
+        btnBack.visibility = View.VISIBLE
+        btnBack.text = "Zakończ"
+        btnBack.setOnClickListener { finish() }
     }
 }
