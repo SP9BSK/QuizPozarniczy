@@ -20,7 +20,8 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var btnBack: Button
 
     private var questions: List<Question> = emptyList()
-    private var currentIndex = 0
+    private var currentPlayer = 0
+    private var currentQuestionIndex = 0
     private var timer: CountDownTimer? = null
     private var playersCount = 1
     private var currentPlayer = 0
@@ -75,34 +76,44 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun showQuestion() {
-        if (currentIndex >= questions.size) {
+    if (currentQuestionIndex >= questions.size) {
+        endQuiz()
+        return
+    }
+
+    val q = questions[currentQuestionIndex]
+    txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\n${q.text}"
+
+    btnA.text = q.answers[0]
+    btnB.text = q.answers[1]
+    btnC.text = q.answers[2]
+    btnD.text = q.answers[3]
+}
+
+
+    private fun answerSelected(selectedIndex: Int) {
+    val correct = questions[currentQuestionIndex].correctIndex
+
+    if (selectedIndex == correct) {
+        scores[currentPlayer]++
+    }
+
+    currentQuestionIndex++
+
+    if (currentQuestionIndex >= questions.size) {
+        currentPlayer++
+
+        if (currentPlayer >= playersCount) {
             endQuiz()
             return
         }
 
-        val q = questions[currentIndex]
-        txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\n${q.text}"
-
-        btnA.text = q.answers[0]
-        btnB.text = q.answers[1]
-        btnC.text = q.answers[2]
-        btnD.text = q.answers[3]
+        currentQuestionIndex = 0
     }
 
-    private fun nextQuestion() {
-        currentIndex++
-        showQuestion()
-    }
+    showQuestion()
+}
 
-    private fun answerSelected(selectedIndex: Int) {
-        val correct = questions[currentIndex].correctIndex
-        if (selectedIndex == correct) {
-            scores[currentPlayer]++
-        }
-
-        currentPlayer = (currentPlayer + 1) % playersCount
-        nextQuestion()
-    }
 
     private fun endQuiz() {
         timer?.cancel()
