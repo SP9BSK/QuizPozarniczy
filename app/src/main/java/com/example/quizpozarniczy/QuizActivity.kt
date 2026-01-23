@@ -72,25 +72,30 @@ class QuizActivity : AppCompatActivity() {
 
         timer = object : CountDownTimer(timePerPlayerSeconds * 1000L, 1000) {
             override fun onTick(ms: Long) {
-                val sec = ms / 1000
-                txtTimer.text = "Czas: $sec s"
 
-                // 🔴 czerwony <10s
-                if (ms <= 10_000) {
+                val totalSeconds = ms / 1000
+                val minutes = totalSeconds / 60
+                val seconds = totalSeconds % 60
+
+                txtTimer.text = String.format("%02d:%02d", minutes, seconds)
+
+                // 🔴 czerwony od ostatnich 10 sekund
+                if (totalSeconds <= 10) {
                     txtTimer.setTextColor(getColor(android.R.color.holo_red_dark))
                 } else {
                     txtTimer.setTextColor(getColor(android.R.color.black))
                 }
 
-                // 🔊 3…2…1
-                if (sec in 1..3) {
-                    toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP, 150)
+                // 🔔 dźwięk końca czasu w ostatniej sekundzie
+                if (totalSeconds == 1L) {
+                    toneGenerator.startTone(
+                        ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD,
+                        400
+                    )
                 }
             }
 
             override fun onFinish() {
-                // 🔔 koniec czasu
-                toneGenerator.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 400)
                 setAnswersEnabled(false)
                 showPlayerResult()
             }
