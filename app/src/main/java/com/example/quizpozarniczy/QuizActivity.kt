@@ -22,11 +22,10 @@ class QuizActivity : AppCompatActivity() {
     private var questions: List<Question> = emptyList()
     private var currentIndex = 0
     private var timer: CountDownTimer? = null
-    private var score = 0
     private var playersCount = 1
     private var currentPlayer = 0
     private lateinit var scores: IntArray
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
@@ -41,14 +40,12 @@ class QuizActivity : AppCompatActivity() {
 
         val questionsLimit = intent.getIntExtra("QUESTIONS", 1)
         val timeSeconds = intent.getIntExtra("TIME_SECONDS", 60)
-        playersCount = intent.getIntExtra("PLAYERS", 1)
-        playersCount = min(playersCount, 10) // max 10 zawodników
+        playersCount = min(intent.getIntExtra("PLAYERS", 1), 10)
+
         scores = IntArray(playersCount)
-        
+
         val allQuestions = QuizRepository.getQuestions()
-        questions = allQuestions
-            .shuffled()
-            .take(min(questionsLimit, allQuestions.size))
+        questions = allQuestions.shuffled().take(min(questionsLimit, allQuestions.size))
 
         startTimer(timeSeconds)
         showQuestion()
@@ -83,9 +80,8 @@ class QuizActivity : AppCompatActivity() {
             return
         }
 
-       val q = questions[currentIndex]
-        txtQuestion.text =
-            "Zawodnik ${currentPlayer + 1}\n\n${q.text}"
+        val q = questions[currentIndex]
+        txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\n${q.text}"
 
         btnA.text = q.answers[0]
         btnB.text = q.answers[1]
@@ -108,7 +104,8 @@ class QuizActivity : AppCompatActivity() {
         nextQuestion()
     }
 
-    timer?.cancel()
+    private fun endQuiz() {
+        timer?.cancel()
 
         val resultText = StringBuilder("Koniec quizu\n\n")
         for (i in 0 until playersCount) {
