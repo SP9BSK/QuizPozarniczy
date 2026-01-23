@@ -3,6 +3,7 @@ package com.example.quizpozarniczy
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -29,16 +30,10 @@ class QuizActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
-        override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_quiz)
 
-    window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        // 🔒 ekran nie gaśnie podczas quizu
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-    ...
-}
-
-        
         txtQuestion = findViewById(R.id.txtQuestion)
         txtTimer = findViewById(R.id.txtTimer)
         btnA = findViewById(R.id.btnA)
@@ -54,7 +49,8 @@ class QuizActivity : AppCompatActivity() {
         scores = IntArray(playersCount)
 
         val allQuestions = QuizRepository.getQuestions()
-        questions = allQuestions.shuffled().take(min(questionsLimit, allQuestions.size))
+        questions = allQuestions.shuffled()
+            .take(min(questionsLimit, allQuestions.size))
 
         startTimer(timeSeconds)
         showQuestion()
@@ -84,44 +80,42 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun showQuestion() {
-    if (currentQuestionIndex >= questions.size) {
-        endQuiz()
-        return
-    }
-
-    val q = questions[currentQuestionIndex]
-    txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\n${q.text}"
-
-    btnA.text = q.answers[0]
-    btnB.text = q.answers[1]
-    btnC.text = q.answers[2]
-    btnD.text = q.answers[3]
-}
-
-
-    private fun answerSelected(selectedIndex: Int) {
-    val correct = questions[currentQuestionIndex].correctIndex
-
-    if (selectedIndex == correct) {
-        scores[currentPlayer]++
-    }
-
-    currentQuestionIndex++
-
-    if (currentQuestionIndex >= questions.size) {
-        currentPlayer++
-
-        if (currentPlayer >= playersCount) {
+        if (currentQuestionIndex >= questions.size) {
             endQuiz()
             return
         }
 
-        currentQuestionIndex = 0
+        val q = questions[currentQuestionIndex]
+        txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\n${q.text}"
+
+        btnA.text = q.answers[0]
+        btnB.text = q.answers[1]
+        btnC.text = q.answers[2]
+        btnD.text = q.answers[3]
     }
 
-    showQuestion()
-}
+    private fun answerSelected(selectedIndex: Int) {
+        val correct = questions[currentQuestionIndex].correctIndex
 
+        if (selectedIndex == correct) {
+            scores[currentPlayer]++
+        }
+
+        currentQuestionIndex++
+
+        if (currentQuestionIndex >= questions.size) {
+            currentPlayer++
+
+            if (currentPlayer >= playersCount) {
+                endQuiz()
+                return
+            }
+
+            currentQuestionIndex = 0
+        }
+
+        showQuestion()
+    }
 
     private fun endQuiz() {
         timer?.cancel()
