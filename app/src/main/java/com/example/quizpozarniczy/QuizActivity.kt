@@ -37,6 +37,7 @@ class QuizActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
 
+        // 🔒 ekran nie gaśnie podczas quizu
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         txtQuestion = findViewById(R.id.txtQuestion)
@@ -47,15 +48,17 @@ class QuizActivity : AppCompatActivity() {
         btnD = findViewById(R.id.btnD)
         btnBack = findViewById(R.id.btnBack)
 
-        val questionsLimit = intent.getIntExtra("QUESTIONS", 5)
-        timePerPlayerSeconds = intent.getIntExtra("TIME_SECONDS", 60)
+        val questionsLimit = intent.getIntExtra("QUESTIONS", 1)
+        val timeSeconds = intent.getIntExtra("TIME_SECONDS", 60)
         playersCount = min(intent.getIntExtra("PLAYERS", 1), 10)
 
         scores = IntArray(playersCount)
 
         val allQuestions = QuizRepository.getQuestions()
-        questions = allQuestions.shuffled().take(questionsLimit)
+        questions = allQuestions.shuffled()
+            .take(min(questionsLimit, allQuestions.size))
 
+        startTimer(timeSeconds)
         showQuestion()
 
         btnA.setOnClickListener { answerSelected(0) }
@@ -63,7 +66,9 @@ class QuizActivity : AppCompatActivity() {
         btnC.setOnClickListener { answerSelected(2) }
         btnD.setOnClickListener { answerSelected(3) }
 
-        btnBack.setOnClickListener { finish() }
+        btnBack.setOnClickListener {
+            finish()
+        }
     }
 
     private fun startTimer() {
