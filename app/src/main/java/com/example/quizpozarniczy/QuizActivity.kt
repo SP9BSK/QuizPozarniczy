@@ -52,13 +52,13 @@ class QuizActivity : AppCompatActivity() {
         btnD = findViewById(R.id.btnD)
         btnBack = findViewById(R.id.btnBack)
 
-        // ===== WALIDACJA DANYCH Z PANELU SĘDZIEGO =====
+        // ===== WALIDACJA PANELU SĘDZIEGO =====
 
         var questionsLimit = intent.getIntExtra("QUESTIONS", 5)
         if (questionsLimit > MAX_QUESTIONS) {
             Toast.makeText(
                 this,
-                "Maksymalnie $MAX_QUESTIONS pytań – wartość została zmniejszona",
+                "Wpisano $questionsLimit pytań — użyto maksymalnie $MAX_QUESTIONS",
                 Toast.LENGTH_LONG
             ).show()
             questionsLimit = MAX_QUESTIONS
@@ -68,7 +68,7 @@ class QuizActivity : AppCompatActivity() {
         if (timeFromIntent > MAX_TIME_SECONDS) {
             Toast.makeText(
                 this,
-                "Maksymalny czas to 30 minut – wartość została zmniejszona",
+                "Wpisano ${timeFromIntent / 60} min — użyto maks. 30 min",
                 Toast.LENGTH_LONG
             ).show()
             timeFromIntent = MAX_TIME_SECONDS
@@ -79,7 +79,7 @@ class QuizActivity : AppCompatActivity() {
         if (playersFromIntent > MAX_PLAYERS) {
             Toast.makeText(
                 this,
-                "Maksymalnie $MAX_PLAYERS zawodników",
+                "Wpisano $playersFromIntent zawodników — użyto maks. $MAX_PLAYERS",
                 Toast.LENGTH_LONG
             ).show()
             playersFromIntent = MAX_PLAYERS
@@ -99,7 +99,7 @@ class QuizActivity : AppCompatActivity() {
         btnD.setOnClickListener { answerSelected(3) }
     }
 
-    // 🔒 EKRAN ZAWSZE WŁĄCZONY – PEWNA WERSJA
+    // 🔒 EKRAN ZAWSZE WŁĄCZONY
     override fun onResume() {
         super.onResume()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -130,15 +130,17 @@ class QuizActivity : AppCompatActivity() {
                     txtTimer.setTextColor(getColor(android.R.color.black))
                 }
 
-                if (totalSeconds in 1..3) {
+                // 🔊 tylko 3 i 2
+                if (totalSeconds == 3L || totalSeconds == 2L) {
                     toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP, 120)
                 }
             }
 
             override fun onFinish() {
+                // 🔔 jeden długi dźwięk na 0
                 toneGenerator.startTone(
                     ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD,
-                    800
+                    1200
                 )
                 setAnswersEnabled(false)
                 showPlayerResult()
