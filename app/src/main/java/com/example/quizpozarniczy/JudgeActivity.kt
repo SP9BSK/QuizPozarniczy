@@ -58,6 +58,7 @@ class JudgeActivity : AppCompatActivity() {
         max: Int,
         label: String
     ): Int {
+
         val value = editText.text.toString().toIntOrNull()
 
         return when {
@@ -74,3 +75,14 @@ class JudgeActivity : AppCompatActivity() {
             value > max -> {
                 Toast.makeText(
                     this,
+                    "$label nie może być większe niż $max",
+                    Toast.LENGTH_SHORT
+                ).show()
+                editText.setText(max.toString())
+                max
+            }
+
+            else -> value
+        }
+    }
+}
