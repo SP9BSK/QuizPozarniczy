@@ -176,9 +176,12 @@ class QuizActivity : AppCompatActivity() {
         txtQuestion.text = result.toString()
         txtTimer.text = ""
 
-        btnBack.text = "Zamknij"
-        btnBack.setOnClickListener { finish() }
-    }
+        btnBack.text = "Powrót do panelu sędziego"
+btnBack.setOnClickListener {
+    startActivity(Intent(this, JudgeActivity::class.java))
+    finish()
+}
+
 
     // ===== ZABIJANIE WSZYSTKIEGO PO WYJŚCIU =====
     override fun onPause() {
