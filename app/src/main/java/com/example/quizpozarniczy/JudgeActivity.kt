@@ -22,7 +22,7 @@ class JudgeActivity : AppCompatActivity() {
 
         // 🔥 WALIDACJA NATYCHMIASTOWA
         attachValidator(etPlayers, 1, 10, "Liczba zawodników")
-        attachValidator(etQuestions, 1, 100, "Liczba pytań")
+        attachValidator(etQuestions, 1, 30, "Liczba pytań")
         attachValidator(etTime, 1, 30, "Czas (minuty)")
 
         btnStart.setOnClickListener {
