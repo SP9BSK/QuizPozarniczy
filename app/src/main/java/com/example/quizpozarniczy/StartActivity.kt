@@ -18,20 +18,13 @@ class StartActivity : AppCompatActivity() {
         val btnStart = findViewById<Button>(R.id.btnStart)
 
         btnStart.setOnClickListener {
-            val intent = Intent(this, JudgeActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, JudgeActivity::class.java))
         }
     }
 
     override fun onPause() {
         super.onPause()
-        // ❌ nie trzymamy flagi gdy aplikacja idzie w tło
+        // zdejmujemy flagę tylko gdy aplikacja idzie w tło
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        // 💀 zabicie Activity – nic nie ma prawa działać w tle
-        finish()
     }
 }
