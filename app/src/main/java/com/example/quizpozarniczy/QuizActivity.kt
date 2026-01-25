@@ -8,7 +8,6 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.model.Question
 import kotlin.math.min
@@ -34,15 +33,12 @@ class QuizActivity : AppCompatActivity() {
 
     private val toneGenerator = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
 
-    companion object {
-        private const val MAX_PLAYERS = 10
-        private const val MAX_QUESTIONS = 100
-        private const val MAX_TIME_SECONDS = 30 * 60
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
+
+        // 🔒 ekran zawsze włączony
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         txtQuestion = findViewById(R.id.txtQuestion)
         txtTimer = findViewById(R.id.txtTimer)
@@ -52,39 +48,9 @@ class QuizActivity : AppCompatActivity() {
         btnD = findViewById(R.id.btnD)
         btnBack = findViewById(R.id.btnBack)
 
-        // ===== WALIDACJA PANELU SĘDZIEGO =====
-
-        var questionsLimit = intent.getIntExtra("QUESTIONS", 5)
-        if (questionsLimit > MAX_QUESTIONS) {
-            Toast.makeText(
-                this,
-                "Wpisano $questionsLimit pytań — użyto maksymalnie $MAX_QUESTIONS",
-                Toast.LENGTH_LONG
-            ).show()
-            questionsLimit = MAX_QUESTIONS
-        }
-
-        var timeFromIntent = intent.getIntExtra("TIME_SECONDS", 60)
-        if (timeFromIntent > MAX_TIME_SECONDS) {
-            Toast.makeText(
-                this,
-                "Wpisano ${timeFromIntent / 60} min — użyto maks. 30 min",
-                Toast.LENGTH_LONG
-            ).show()
-            timeFromIntent = MAX_TIME_SECONDS
-        }
-        timePerPlayerSeconds = timeFromIntent
-
-        var playersFromIntent = intent.getIntExtra("PLAYERS", 1)
-        if (playersFromIntent > MAX_PLAYERS) {
-            Toast.makeText(
-                this,
-                "Wpisano $playersFromIntent zawodników — użyto maks. $MAX_PLAYERS",
-                Toast.LENGTH_LONG
-            ).show()
-            playersFromIntent = MAX_PLAYERS
-        }
-        playersCount = playersFromIntent
+        playersCount = intent.getIntExtra("PLAYERS", 1)
+        val questionsLimit = intent.getIntExtra("QUESTIONS", 5)
+        timePerPlayerSeconds = intent.getIntExtra("TIME_SECONDS", 60)
 
         scores = IntArray(playersCount)
 
@@ -99,19 +65,7 @@ class QuizActivity : AppCompatActivity() {
         btnD.setOnClickListener { answerSelected(3) }
     }
 
-    // 🔒 EKRAN ZAWSZE WŁĄCZONY
-    override fun onResume() {
-        super.onResume()
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-    }
-
-    // ================= TIMER =================
-
+    // ===== TIMER =====
     private fun startTimer() {
         timer?.cancel()
 
@@ -124,32 +78,30 @@ class QuizActivity : AppCompatActivity() {
 
                 txtTimer.text = String.format("%02d:%02d", minutes, seconds)
 
-                if (totalSeconds <= 10) {
-                    txtTimer.setTextColor(getColor(android.R.color.holo_red_dark))
-                } else {
-                    txtTimer.setTextColor(getColor(android.R.color.black))
-                }
+                txtTimer.setTextColor(
+                    if (totalSeconds <= 10)
+                        getColor(android.R.color.holo_red_dark)
+                    else
+                        getColor(android.R.color.black)
+                )
 
-                // 🔊 tylko 3 i 2
-                if (totalSeconds == 3L || totalSeconds == 2L) {
-                    toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP, 120)
+                // 🔊 TYLKO 3 PIKNIĘCIA: 2, 1, 0
+                if (totalSeconds in 0..2) {
+                    toneGenerator.startTone(
+                        ToneGenerator.TONE_PROP_BEEP,
+                        150
+                    )
                 }
             }
 
             override fun onFinish() {
-                // 🔔 jeden długi dźwięk na 0
-                toneGenerator.startTone(
-                    ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD,
-                    1200
-                )
                 setAnswersEnabled(false)
                 showPlayerResult()
             }
         }.start()
     }
 
-    // ================= QUIZ =================
-
+    // ===== QUIZ =====
     private fun showQuestion() {
         if (currentQuestionIndex == 0) {
             startTimer()
@@ -161,8 +113,8 @@ class QuizActivity : AppCompatActivity() {
         }
 
         val q = questions[currentQuestionIndex]
-
         txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\n${q.text}"
+
         btnA.text = q.answers[0]
         btnB.text = q.answers[1]
         btnC.text = q.answers[2]
@@ -185,8 +137,7 @@ class QuizActivity : AppCompatActivity() {
         showQuestion()
     }
 
-    // ================= WYNIKI =================
-
+    // ===== WYNIKI =====
     private fun showPlayerResult() {
         timer?.cancel()
 
@@ -218,7 +169,6 @@ class QuizActivity : AppCompatActivity() {
 
     private fun showFinalResults() {
         val result = StringBuilder("Koniec quizu\n\n")
-
         for (i in 0 until playersCount) {
             result.append("Zawodnik ${i + 1}: ${scores[i]}/${questions.size}\n")
         }
@@ -228,6 +178,23 @@ class QuizActivity : AppCompatActivity() {
 
         btnBack.text = "Zamknij"
         btnBack.setOnClickListener { finish() }
+    }
+
+    // ===== ZABIJANIE WSZYSTKIEGO PO WYJŚCIU =====
+    override fun onPause() {
+        super.onPause()
+        timer?.cancel()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        timer?.cancel()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        timer?.cancel()
+        toneGenerator.release()
     }
 
     private fun setAnswersEnabled(enabled: Boolean) {
