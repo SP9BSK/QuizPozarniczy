@@ -2,6 +2,8 @@ package com.example.quizpozarniczy
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -18,28 +20,16 @@ class JudgeActivity : AppCompatActivity() {
         val etTime = findViewById<EditText>(R.id.etTime)
         val btnStart = findViewById<Button>(R.id.btnStart)
 
+        // 🔥 WALIDACJA NATYCHMIASTOWA
+        attachValidator(etPlayers, 1, 10, "Liczba zawodników")
+        attachValidator(etQuestions, 1, 100, "Liczba pytań")
+        attachValidator(etTime, 1, 30, "Czas (minuty)")
+
         btnStart.setOnClickListener {
 
-            val players = validateAndFix(
-                etPlayers,
-                min = 1,
-                max = 10,
-                label = "Liczba zawodników"
-            )
-
-            val questions = validateAndFix(
-                etQuestions,
-                min = 1,
-                max = 100,
-                label = "Liczba pytań"
-            )
-
-            val minutes = validateAndFix(
-                etTime,
-                min = 1,
-                max = 30,
-                label = "Czas (minuty)"
-            )
+            val players = etPlayers.text.toString().toInt()
+            val questions = etQuestions.text.toString().toInt()
+            val minutes = etTime.text.toString().toInt()
 
             val intent = Intent(this, QuizActivity::class.java)
             intent.putExtra("PLAYERS", players)
@@ -50,39 +40,46 @@ class JudgeActivity : AppCompatActivity() {
         }
     }
 
-    // ================= WALIDACJA =================
+    // ================= WALIDATOR LIVE =================
 
-    private fun validateAndFix(
+    private fun attachValidator(
         editText: EditText,
         min: Int,
         max: Int,
         label: String
-    ): Int {
+    ) {
+        editText.addTextChangedListener(object : TextWatcher {
 
-        val value = editText.text.toString().toIntOrNull()
+            override fun afterTextChanged(s: Editable?) {
+                if (s.isNullOrEmpty()) return
 
-        return when {
-            value == null || value < min -> {
-                Toast.makeText(
-                    this,
-                    "$label nie może być mniejsze niż $min",
-                    Toast.LENGTH_SHORT
-                ).show()
-                editText.setText(min.toString())
-                min
+                val value = s.toString().toIntOrNull() ?: return
+
+                when {
+                    value < min -> {
+                        Toast.makeText(
+                            this@JudgeActivity,
+                            "$label nie może być mniejsze niż $min",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        editText.setText(min.toString())
+                        editText.setSelection(editText.text.length)
+                    }
+
+                    value > max -> {
+                        Toast.makeText(
+                            this@JudgeActivity,
+                            "$label nie może być większe niż $max",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        editText.setText(max.toString())
+                        editText.setSelection(editText.text.length)
+                    }
+                }
             }
 
-            value > max -> {
-                Toast.makeText(
-                    this,
-                    "$label nie może być większe niż $max",
-                    Toast.LENGTH_SHORT
-                ).show()
-                editText.setText(max.toString())
-                max
-            }
-
-            else -> value
-        }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
     }
 }
