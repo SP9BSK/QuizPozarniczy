@@ -2,154 +2,144 @@ package com.example.quizpozarniczy.data
 
 import com.example.quizpozarniczy.model.Question
 
-val questionsPart1 = listOf(
+val questionsPart2 = listOf(
 
-    Question(
-        text = "Pojemność zbiornika na środek pianotwórczy w samochodzie GBA 2,5/16 TYP 005 wynosi:",
-        answers = listOf("160 l", "250 l", "500 l"),
-        correctIndex = 1
-    ),
-
-    Question(
-        text = "Najwyższą władzą w OSP jest:",
-        answers = listOf("Prezes", "Zarząd", "Walne zebranie"),
-        correctIndex = 2
-    ),
-
-    Question(
-        text = "Gdzie w Polsce znajdują się relikwie św. Floriana?",
-        answers = listOf("W Gnieźnie", "W Krakowie", "W Częstochowie"),
-        correctIndex = 1
-    ),
-
-    Question(
-        text = "Jaki gaz o właściwościach wybuchowych wydziela się podczas ładowania akumulatorów kwasowych?",
-        answers = listOf("Metan", "Etan", "Wodór"),
-        correctIndex = 2
-    ),
-
-    Question(
-        text = "Oświetlenie awaryjne obejmuje:",
-        answers = listOf(
-            "Oświetlenie bezpieczeństwa i ewakuacyjne",
-            "Oświetlenie bezpieczeństwa, ewakuacyjne, kierunkowe i przeszkodowe",
-            "Taki termin nie istnieje"
+        Question(
+            text = "Jaka jest praktyczna wysokość ssania motopomp strażackich?",
+            answers = listOf("7,5 m", "7 m", "6,5 m"),
+            correctIndex = 0
         ),
-        correctIndex = 0
-    ),
 
-    Question(
-        text = "Komendanta Głównego PSP powołuje i odwołuje:",
-        answers = listOf(
-            "Minister Spraw Wewnętrznych i Administracji",
-            "Prezydent RP na wniosek Prezesa Rady Ministrów",
-            "Prezes Rady Ministrów na wniosek Ministra Spraw Wewnętrznych i Administracji"
+        Question(
+            text = "Drabina dwuprzęsłowa wysuwana może być sprawiona jako:",
+            answers = listOf("przyparta", "odchylona", "wolnostojąca"),
+            correctIndex = 2
         ),
-        correctIndex = 2
-    ),
 
-    Question(
-        text = "Gdzie sprawdzamy tętno u dorosłych poszkodowanych?",
-        answers = listOf("Na przegubie ręki", "Na tętnicach szyjnych", "W pachwinach"),
-        correctIndex = 1
-    ),
-
-    Question(
-        text = "Projekt budowlany wymaga uzgodnienia z:",
-        answers = listOf(
-            "Rzeczoznawcą ds. zabezpieczeń przeciwpożarowych",
-            "Komendą Miejską / Powiatową PSP",
-            "Komendą Wojewódzką PSP"
+        Question(
+            text = "Jaka jest normatywna szerokość poziomych dróg ewakuacyjnych w nowo projektowanych budynkach?",
+            answers = listOf("1,5 m", "1,4 m", "1,8 m"),
+            correctIndex = 1
         ),
-        correctIndex = 0
-    ),
 
-    Question(
-        text = "Klasa odporności pożarowej dotyczy:",
-        answers = listOf("Elementów budynku", "Budynku", "Oddzieleń przeciwpożarowych budynku"),
-        correctIndex = 1
-    ),
-
-    Question(
-        text = "Decyzję pokontrolną nakazującą usunięcie nieprawidłowości wydaje:",
-        answers = listOf(
-            "Komendant Miejski / Powiatowy PSP",
-            "Oficer prewencji Komendy Miejskiej / Powiatowej PSP",
-            "Komendant Wojewódzki PSP"
+        Question(
+            text = "Związek Ochotniczych Straży Pożarnych został powołany w roku:",
+            answers = listOf("1948", "1958", "1956"),
+            correctIndex = 2
         ),
-        correctIndex = 0
-    ),
 
-    Question(
-        text = "Odległość hydrantu zewnętrznego od ścian budynku powinna wynosić:",
-        answers = listOf("2–10 m", "Najmniej 5 m", "Do 5 m"),
-        correctIndex = 1
-    ),
-
-    Question(
-        text = "Produkowane obecnie gaśnice śniegowe posiadają zawór:",
-        answers = listOf("Zbijakowy", "Pokrętny", "Szybkootwieralny"),
-        correctIndex = 2
-    ),
-
-    Question(
-        text = "W jakiej minimalnej odległości od lasu można rozpalić ognisko?",
-        answers = listOf("70 m", "50 m", "100 m"),
-        correctIndex = 2
-    ),
-
-    Question(
-        text = "Czy samochód GBAM – 2/8 + 8 posiada motopompę?",
-        answers = listOf("Może posiadać", "Nie", "Tak"),
-        correctIndex = 2
-    ),
-
-    Question(
-        text = "Minimalna odległość między butlą z gazem propan-butan a urządzeniem grzewczym powinna wynosić:",
-        answers = listOf("2 m", "1,5 m", "0,5 m"),
-        correctIndex = 1
-    ),
-
-    Question(
-        text = "Gaz propan-butan jest:",
-        answers = listOf(
-            "Cięższy od powietrza",
-            "Lżejszy od powietrza",
-            "Ma taki sam ciężar jak powietrze"
+        Question(
+            text = "Co stanie się z płomieniem świecy, jeżeli w pomieszczeniu zwiększymy stężenie tlenu?",
+            answers = listOf(
+                "płomień wydłuży się",
+                "płomień skróci się i rozszerzy",
+                "płomień zgaśnie"
+            ),
+            correctIndex = 0
         ),
-        correctIndex = 0
-    ),
 
-    Question(
-        text = "Co oznacza skrót KCKR?",
-        answers = listOf(
-            "Krajowe Centrum Koordynacji Ratownictwa",
-            "Krajowe Centrum Komend Ratowniczych",
-            "Komisja Centralna Koordynacji Ratownictwa"
+        Question(
+            text = "Muzea, jako budynki można zaliczyć do kategorii zagrożenia ludzi:",
+            answers = listOf("ZL I", "ZL IV", "ZL V"),
+            correctIndex = 2
         ),
-        correctIndex = 0
-    ),
 
-    Question(
-        text = "Samochód gaśniczy GBA 2,5/16 typ 005 posiada:",
-        answers = listOf(
-            "Urządzenie szybkiego natarcia W-52",
-            "Urządzenie szybkiego natarcia W-25",
-            "Nie posiada urządzenia szybkiego natarcia"
+        Question(
+            text = "Co oznacza symbol GBAM?",
+            answers = listOf(
+                "samochód specjalny gaśniczy z autopompą",
+                "samochód specjalny gaśniczy ze zbiornikiem autopompą i motopompą",
+                "samochód gaśniczy ze zbiornikiem z autopompą i motopompą"
+            ),
+            correctIndex = 2
         ),
-        correctIndex = 1
-    ),
 
-    Question(
-        text = "Wydobywający się CO₂ z gaśnicy śniegowej osiąga temperaturę:",
-        answers = listOf("2°C", "-10°C", "-79°C"),
-        correctIndex = 2
-    ),
+        Question(
+            text = "W którym roku powołano Związek Ochotniczych Straży Pożarnych RP?",
+            answers = listOf("1975", "1995", "1992"),
+            correctIndex = 2
+        ),
 
-    Question(
-        text = "Front działania prądu gaśniczego w obronie wynosi:",
-        answers = listOf("10 m", "20 m", "5 m"),
-        correctIndex = 1
+        Question(
+            text = "Wokół placów składowych należy zachować pas ochronny o szerokości minimum:",
+            answers = listOf("1 m", "2 m", "4 m"),
+            correctIndex = 1
+        ),
+
+        Question(
+            text = "Z przewodów dymowych i spalinowych w budynkach opalanych paliwem stałym należy usuwać zanieczyszczenia:",
+            answers = listOf(
+                "co najmniej 2 razy w roku",
+                "co najmniej 4 razy w roku",
+                "co najmniej raz do roku"
+            ),
+            correctIndex = 1
+        ),
+
+        Question(
+            text = "Budynki niskie to:",
+            answers = listOf(
+                "budynki mieszkalne o wysokości do 4 kondygnacji włącznie",
+                "budynki mieszkalne o wysokości do 9 kondygnacji włącznie",
+                "budynki mieszkalne o wysokości do 2 kondygnacji włącznie"
+            ),
+            correctIndex = 0
+        ),
+
+        Question(
+            text = "Jaki jest najwyższy stopień zagrożenia pożarowego lasu?",
+            answers = listOf("I", "III", "II"),
+            correctIndex = 1
+        ),
+
+        Question(
+            text = "Co to jest wstrząs pourazowy?",
+            answers = listOf(
+                "reakcja organizmu na uraz",
+                "uderzenie po upadku",
+                "utrata przytomności"
+            ),
+            correctIndex = 0
+        ),
+
+        Question(
+            text = "Jednostką organizacyjną najniższego szczebla w PSP jest:",
+            answers = listOf(
+                "oddział ratowniczy",
+                "zawodowa straż pożarna",
+                "jednostka ratowniczo-gaśnicza"
+            ),
+            correctIndex = 2
+        ),
+
+        Question(
+            text = "Minimum ile osób potrzeba do utworzenia OSP?",
+            answers = listOf("10", "15", "20"),
+            correctIndex = 1
+        ),
+
+        Question(
+            text = "Elew to słuchacz szkoły:",
+            answers = listOf("podoficerskiej", "aspirantów", "oficerskiej"),
+            correctIndex = 0
+        ),
+
+        Question(
+            text = "Ile stopni liczy korpus oficerów w Straży Pożarnej?",
+            answers = listOf("8", "5", "6"),
+            correctIndex = 0
+        ),
+
+        Question(
+            text = "Patron strażaków trzyma w ręku:",
+            answers = listOf("wiadro", "toporek", "bosak"),
+            correctIndex = 0
+        ),
+
+        Question(
+            text = "Do sprzętu gaśniczego powinien być zapewniony dostęp co najmniej:",
+            answers = listOf("1 m", "1,5 m", "1,6 m"),
+            correctIndex = 0
+        )
     )
-
-)
+}
