@@ -19,7 +19,8 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var btnA: Button
     private lateinit var btnB: Button
     private lateinit var btnC: Button
-    private lateinit var btnNext: Button
+    private lateinit var btnD: Button
+    private lateinit var btnBack: Button
 
     private var questions: List<Question> = emptyList()
     private var currentPlayer = 0
@@ -30,12 +31,19 @@ class QuizActivity : AppCompatActivity() {
     private var timePerPlayerSeconds = 60
     private var timer: CountDownTimer? = null
 
-    private val tone = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
+    private val toneGenerator = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
+
+    companion object {
+        private const val MAX_PLAYERS = 10
+        private const val MAX_QUESTIONS = 30
+        private const val MAX_TIME_SECONDS = 30 * 60
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
 
+        // 🔒 ekran zawsze włączony
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         txtQuestion = findViewById(R.id.txtQuestion)
@@ -43,22 +51,35 @@ class QuizActivity : AppCompatActivity() {
         btnA = findViewById(R.id.btnA)
         btnB = findViewById(R.id.btnB)
         btnC = findViewById(R.id.btnC)
-        btnNext = findViewById(R.id.btnBack)
+        btnD = findViewById(R.id.btnD)
+        btnBack = findViewById(R.id.btnBack)
 
-        playersCount = intent.getIntExtra("PLAYERS", 1)
-        timePerPlayerSeconds = intent.getIntExtra("TIME_SECONDS", 60)
-        val questionsLimit = intent.getIntExtra("QUESTIONS", 10)
+        // ❗❗❗ TRWALE USUWAMY 4 ODPOWIEDŹ ❗❗❗
+        btnD.visibility = View.GONE
+        btnD.isEnabled = false
+
+        // dane z panelu sędziego
+        var questionsLimit = intent.getIntExtra("QUESTIONS", 5)
+        if (questionsLimit > MAX_QUESTIONS) questionsLimit = MAX_QUESTIONS
+
+        var timeFromIntent = intent.getIntExtra("TIME_SECONDS", 60)
+        if (timeFromIntent > MAX_TIME_SECONDS) timeFromIntent = MAX_TIME_SECONDS
+        timePerPlayerSeconds = timeFromIntent
+
+        var playersFromIntent = intent.getIntExtra("PLAYERS", 1)
+        if (playersFromIntent > MAX_PLAYERS) playersFromIntent = MAX_PLAYERS
+        playersCount = playersFromIntent
 
         scores = IntArray(playersCount)
 
         val allQuestions = QuizRepository.getQuestions()
         questions = allQuestions.shuffled().take(min(questionsLimit, allQuestions.size))
 
+        showQuestion()
+
         btnA.setOnClickListener { answerSelected(0) }
         btnB.setOnClickListener { answerSelected(1) }
         btnC.setOnClickListener { answerSelected(2) }
-
-        showQuestion()
     }
 
     override fun onPause() {
@@ -72,33 +93,35 @@ class QuizActivity : AppCompatActivity() {
         timer?.cancel()
 
         timer = object : CountDownTimer(timePerPlayerSeconds * 1000L, 1000) {
+
             override fun onTick(ms: Long) {
-                val sec = ms / 1000
-                val min = sec / 60
-                val s = sec % 60
+                val totalSeconds = ms / 1000
+                val minutes = totalSeconds / 60
+                val seconds = totalSeconds % 60
 
-                txtTimer.text = String.format("%02d:%02d", min, s)
+                txtTimer.text = String.format("%02d:%02d", minutes, seconds)
 
-                if (sec <= 10) {
-                    txtTimer.setTextColor(getColor(android.R.color.holo_red_dark))
-                } else {
-                    txtTimer.setTextColor(getColor(android.R.color.black))
-                }
+                txtTimer.setTextColor(
+                    if (totalSeconds <= 10)
+                        getColor(android.R.color.holo_red_dark)
+                    else
+                        getColor(android.R.color.black)
+                )
 
-                if (sec in 0..2) {
-                    tone.startTone(ToneGenerator.TONE_PROP_BEEP, 120)
+                // 🔊 piknięcia: 2, 1, 0
+                if (totalSeconds in 0..2) {
+                    toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP, 120)
                 }
             }
 
             override fun onFinish() {
-                tone.startTone(ToneGenerator.TONE_DTMF_0, 800)
                 setAnswersEnabled(false)
                 showPlayerResult()
             }
         }.start()
     }
 
-    // ================= PYTANIA =================
+    // ================= QUIZ =================
     private fun showQuestion() {
         if (currentQuestionIndex == 0) startTimer()
 
@@ -110,7 +133,6 @@ class QuizActivity : AppCompatActivity() {
         val q = questions[currentQuestionIndex]
 
         txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\n${q.text}"
-
         btnA.text = q.answers[0]
         btnB.text = q.answers[1]
         btnC.text = q.answers[2]
@@ -118,7 +140,7 @@ class QuizActivity : AppCompatActivity() {
         btnA.visibility = View.VISIBLE
         btnB.visibility = View.VISIBLE
         btnC.visibility = View.VISIBLE
-        btnNext.visibility = View.GONE
+        btnBack.visibility = View.GONE
 
         setAnswersEnabled(true)
     }
@@ -129,7 +151,6 @@ class QuizActivity : AppCompatActivity() {
         if (index == questions[currentQuestionIndex].correctIndex) {
             scores[currentPlayer]++
         }
-
         currentQuestionIndex++
         showQuestion()
     }
@@ -137,7 +158,6 @@ class QuizActivity : AppCompatActivity() {
     // ================= WYNIK ZAWODNIKA =================
     private fun showPlayerResult() {
         timer?.cancel()
-        timer = null
 
         txtQuestion.text =
             "Zawodnik ${currentPlayer + 1}\n\nWynik: ${scores[currentPlayer]}/${questions.size}"
@@ -147,12 +167,13 @@ class QuizActivity : AppCompatActivity() {
         btnA.visibility = View.GONE
         btnB.visibility = View.GONE
         btnC.visibility = View.GONE
+        btnBack.visibility = View.VISIBLE
 
-        btnNext.visibility = View.VISIBLE
-        btnNext.text =
-            if (currentPlayer + 1 < playersCount) "Następny zawodnik" else "Zobacz wyniki końcowe"
+        btnBack.text =
+            if (currentPlayer + 1 < playersCount) "Następny zawodnik"
+            else "Zobacz wyniki"
 
-        btnNext.setOnClickListener {
+        btnBack.setOnClickListener {
             currentPlayer++
             currentQuestionIndex = 0
 
@@ -166,17 +187,17 @@ class QuizActivity : AppCompatActivity() {
 
     // ================= WYNIKI KOŃCOWE =================
     private fun showFinalResults() {
-        val sb = StringBuilder("Wyniki końcowe\n\n")
+        val result = StringBuilder("Koniec quizu\n\n")
 
-        for (i in scores.indices) {
-            sb.append("Zawodnik ${i + 1}: ${scores[i]}/${questions.size}\n")
+        for (i in 0 until playersCount) {
+            result.append("Zawodnik ${i + 1}: ${scores[i]}/${questions.size}\n")
         }
 
-        txtQuestion.text = sb.toString()
+        txtQuestion.text = result.toString()
         txtTimer.text = ""
 
-        btnNext.text = "Powrót do panelu sędziego"
-        btnNext.setOnClickListener { finish() }
+        btnBack.text = "Powrót do panelu sędziego"
+        btnBack.setOnClickListener { finish() }
     }
 
     private fun setAnswersEnabled(enabled: Boolean) {
