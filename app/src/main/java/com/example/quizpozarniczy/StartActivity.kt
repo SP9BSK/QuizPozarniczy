@@ -12,14 +12,10 @@ class StartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
 
-        // 🔒 ekran zawsze włączony
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        val btnJudge = findViewById<Button>(R.id.btnJudge)
-
-        btnJudge.setOnClickListener {
-            val intent = Intent(this, JudgeActivity::class.java)
-            startActivity(intent)
+        findViewById<Button>(R.id.btnJudge).setOnClickListener {
+            startActivity(Intent(this, JudgeActivity::class.java))
         }
     }
 }
