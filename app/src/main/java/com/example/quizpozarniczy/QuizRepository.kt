@@ -1,12 +1,12 @@
 package com.example.quizpozarniczy
 
-import com.example.quizpozarniczy.data.QuestionsPart1
-import com.example.quizpozarniczy.data.QuestionsPart2
+import com.example.quizpozarniczy.data.questionsPart1
+import com.example.quizpozarniczy.data.questionsPart2
 import com.example.quizpozarniczy.model.Question
 
 object QuizRepository {
 
     fun getQuestions(): List<Question> {
-        return QuestionsPart1.questions + QuestionsPart2.questions
+        return questionsPart1 + questionsPart2
     }
 }
