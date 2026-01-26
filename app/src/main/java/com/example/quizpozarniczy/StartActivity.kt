@@ -12,15 +12,17 @@ class StartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
 
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-
-        findViewById<Button>(R.id.btnJudge).setOnClickListener {
-            startActivity(Intent(this, JudgeActivity::class.java))
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
+        // ⛔ na ekranie startowym EKRAN MOŻE GASNĄĆ
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+        val btnStart = findViewById<Button>(R.id.btnStart)
+
+        btnStart.setOnClickListener {
+            val intent = Intent(this, JudgeActivity::class.java)
+            startActivity(intent)
+
+            // 🔴 BARDZO WAŻNE
+            finish()
+        }
     }
 }
