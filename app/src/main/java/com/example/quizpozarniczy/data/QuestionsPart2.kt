@@ -142,4 +142,4 @@ val questionsPart2 = listOf(
             correctIndex = 0
         )
     
-}
+)
