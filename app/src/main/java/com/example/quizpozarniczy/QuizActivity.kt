@@ -143,9 +143,22 @@ class QuizActivity : BaseActivity() {
         btnBack.setOnClickListener { finishAffinity() }
     }
 
-    override fun onStop() {
-        super.onStop()
-        timer?.cancel()
-        tone.release()
-    }
+    override fun onPause() {
+    super.onPause()
+    // ❌ NIC TU NIE CZYŚCIMY
+}
+
+override fun onStop() {
+    super.onStop()
+    // ❌ NIC TU NIE CZYŚCIMY
+}
+
+override fun onDestroy() {
+    super.onDestroy()
+    timer?.cancel()
+    try {
+        toneGenerator.release()
+    } catch (_: Exception) { }
+}
+
 }
