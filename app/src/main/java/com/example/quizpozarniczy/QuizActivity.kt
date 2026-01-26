@@ -51,12 +51,9 @@ class QuizActivity : AppCompatActivity() {
         btnA = findViewById(R.id.btnA)
         btnB = findViewById(R.id.btnB)
         btnC = findViewById(R.id.btnC)
-        btnD = findViewById(R.id.btnD)
         btnBack = findViewById(R.id.btnBack)
 
-        // ❗❗❗ TRWALE USUWAMY 4 ODPOWIEDŹ ❗❗❗
-        btnD.visibility = View.GONE
-        btnD.isEnabled = false
+    
 
         // dane z panelu sędziego
         var questionsLimit = intent.getIntExtra("QUESTIONS", 5)
