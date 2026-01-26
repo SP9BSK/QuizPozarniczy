@@ -7,38 +7,35 @@ import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 
-class JudgeActivity : AppCompatActivity() {
+class JudgeActivity : BaseActivity() {
+
+    private lateinit var etPlayers: EditText
+    private lateinit var etQuestions: EditText
+    private lateinit var etTime: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_judge)
 
-        val etPlayers = findViewById<EditText>(R.id.etPlayers)
-        val etQuestions = findViewById<EditText>(R.id.etQuestions)
-        val etTime = findViewById<EditText>(R.id.etTime)
-        val btnStart = findViewById<Button>(R.id.btnStart)
+        etPlayers = findViewById(R.id.etPlayers)
+        etQuestions = findViewById(R.id.etQuestions)
+        etTime = findViewById(R.id.etTime)
 
-        attachWatcher(etPlayers, 1, 10, "Liczba zawodników")
-        attachWatcher(etQuestions, 1, 30, "Liczba pytań")
-        attachWatcher(etTime, 1, 30, "Czas (min)")
+        attachValidator(etPlayers, 1, 10, "Liczba zawodników")
+        attachValidator(etQuestions, 1, 30, "Liczba pytań")
+        attachValidator(etTime, 1, 30, "Czas (minuty)")
 
-        btnStart.setOnClickListener {
-            val players = etPlayers.text.toString().toIntOrNull() ?: 1
-            val questions = etQuestions.text.toString().toIntOrNull() ?: 1
-            val minutes = etTime.text.toString().toIntOrNull() ?: 1
-
+        findViewById<Button>(R.id.btnStart).setOnClickListener {
             val intent = Intent(this, QuizActivity::class.java)
-            intent.putExtra("PLAYERS", players)
-            intent.putExtra("QUESTIONS", questions)
-            intent.putExtra("TIME_SECONDS", minutes * 60)
-
+            intent.putExtra("PLAYERS", etPlayers.text.toString().toInt())
+            intent.putExtra("QUESTIONS", etQuestions.text.toString().toInt())
+            intent.putExtra("TIME_SECONDS", etTime.text.toString().toInt() * 60)
             startActivity(intent)
         }
     }
 
-    private fun attachWatcher(
+    private fun attachValidator(
         editText: EditText,
         min: Int,
         max: Int,
@@ -46,19 +43,20 @@ class JudgeActivity : AppCompatActivity() {
     ) {
         editText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                val text = s.toString()
-                if (text.isEmpty()) return   // 🔑 kluczowe
+                if (s.isNullOrBlank()) return
 
-                val value = text.toIntOrNull() ?: return
+                val value = s.toString().toIntOrNull() ?: return
 
                 when {
                     value < min -> {
-                        Toast.makeText(this@JudgeActivity, "$label min. $min", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@JudgeActivity,
+                            "$label min. $min", Toast.LENGTH_SHORT).show()
                         editText.setText(min.toString())
                         editText.setSelection(editText.text.length)
                     }
                     value > max -> {
-                        Toast.makeText(this@JudgeActivity, "$label max. $max", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@JudgeActivity,
+                            "$label max. $max", Toast.LENGTH_SHORT).show()
                         editText.setText(max.toString())
                         editText.setSelection(editText.text.length)
                     }
