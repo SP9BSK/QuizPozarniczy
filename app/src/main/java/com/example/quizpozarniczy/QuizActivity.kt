@@ -5,14 +5,12 @@ import android.media.ToneGenerator
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.model.Question
 import kotlin.math.min
 
-class QuizActivity : AppCompatActivity() {
+class QuizActivity : BaseActivity() {
 
     private lateinit var txtQuestion: TextView
     private lateinit var txtTimer: TextView
@@ -30,14 +28,7 @@ class QuizActivity : AppCompatActivity() {
 
     private var timePerPlayerSeconds = 60
     private var timer: CountDownTimer? = null
-
-    private val toneGenerator = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
-
-    companion object {
-        private const val MAX_PLAYERS = 10
-        private const val MAX_QUESTIONS = 30
-        private const val MAX_TIME_SECONDS = 30 * 60
-    }
+    private val tone = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,90 +42,46 @@ class QuizActivity : AppCompatActivity() {
         btnD = findViewById(R.id.btnD)
         btnBack = findViewById(R.id.btnBack)
 
-        // ekran zawsze włączony
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-
-        // WALIDACJA DANYCH
-        var questionsLimit = intent.getIntExtra("QUESTIONS", 5)
-        if (questionsLimit > MAX_QUESTIONS) {
-            questionsLimit = MAX_QUESTIONS
-        }
-
-        var timeFromIntent = intent.getIntExtra("TIME_SECONDS", 60)
-        if (timeFromIntent > MAX_TIME_SECONDS) {
-            timeFromIntent = MAX_TIME_SECONDS
-        }
-        timePerPlayerSeconds = timeFromIntent
-
-        var playersFromIntent = intent.getIntExtra("PLAYERS", 1)
-        if (playersFromIntent > MAX_PLAYERS) {
-            playersFromIntent = MAX_PLAYERS
-        }
-        playersCount = playersFromIntent
+        playersCount = intent.getIntExtra("PLAYERS", 1)
+        timePerPlayerSeconds = intent.getIntExtra("TIME_SECONDS", 60)
+        val limit = intent.getIntExtra("QUESTIONS", 10)
 
         scores = IntArray(playersCount)
 
-        val allQuestions = QuizRepository.getQuestions()
-        questions = allQuestions.shuffled().take(min(questionsLimit, allQuestions.size))
+        questions = QuizRepository
+            .getQuestions()
+            .shuffled()
+            .take(min(limit, QuizRepository.getQuestions().size))
+
+        btnA.setOnClickListener { answer(0) }
+        btnB.setOnClickListener { answer(1) }
+        btnC.setOnClickListener { answer(2) }
+        btnD.setOnClickListener { answer(3) }
 
         showQuestion()
-
-        btnA.setOnClickListener { answerSelected(0) }
-        btnB.setOnClickListener { answerSelected(1) }
-        btnC.setOnClickListener { answerSelected(2) }
-        btnD.setOnClickListener { answerSelected(3) }
     }
 
-    override fun onResume() {
-        super.onResume()
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        timer?.cancel()
-        timer = null
-        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-    }
-
-    // ================= TIMER =================
     private fun startTimer() {
         timer?.cancel()
-
         timer = object : CountDownTimer(timePerPlayerSeconds * 1000L, 1000) {
-
             override fun onTick(ms: Long) {
-                val totalSeconds = ms / 1000
-                val minutes = totalSeconds / 60
-                val seconds = totalSeconds % 60
+                val s = ms / 1000
+                txtTimer.text = String.format("%02d:%02d", s / 60, s % 60)
 
-                txtTimer.text = String.format("%02d:%02d", minutes, seconds)
-
-                if (totalSeconds <= 10) {
-                    txtTimer.setTextColor(getColor(android.R.color.holo_red_dark))
-                } else {
-                    txtTimer.setTextColor(getColor(android.R.color.black))
-                }
-
-                // tylko 3 piknięcia: 2,1,0
-                if (totalSeconds in 0..2) {
-                    toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP, 120)
+                if (s in 0..2) {
+                    tone.startTone(ToneGenerator.TONE_PROP_BEEP, 150)
                 }
             }
 
             override fun onFinish() {
-                toneGenerator.startTone(ToneGenerator.TONE_DTMF_0, 800)
-                setAnswersEnabled(false)
+                tone.startTone(ToneGenerator.TONE_PROP_BEEP2, 800)
                 showPlayerResult()
             }
         }.start()
     }
 
-    // ================= QUIZ =================
     private fun showQuestion() {
-        if (currentQuestionIndex == 0) {
-            startTimer()
-        }
+        if (currentQuestionIndex == 0) startTimer()
 
         if (currentQuestionIndex >= questions.size) {
             showPlayerResult()
@@ -142,41 +89,29 @@ class QuizActivity : AppCompatActivity() {
         }
 
         val q = questions[currentQuestionIndex]
-
         txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\n${q.text}"
+
         btnA.text = q.answers[0]
         btnB.text = q.answers[1]
         btnC.text = q.answers[2]
         btnD.text = q.answers[3]
 
-        btnA.visibility = View.VISIBLE
-        btnB.visibility = View.VISIBLE
-        btnC.visibility = View.VISIBLE
-        btnD.visibility = View.VISIBLE
         btnBack.visibility = View.GONE
-
-        setAnswersEnabled(true)
     }
 
-    private fun answerSelected(index: Int) {
-        if (!btnA.isEnabled) return
-
-        if (index == questions[currentQuestionIndex].correctIndex) {
+    private fun answer(i: Int) {
+        if (i == questions[currentQuestionIndex].correctIndex) {
             scores[currentPlayer]++
         }
         currentQuestionIndex++
         showQuestion()
     }
 
-    // ================= WYNIKI PO ZAWODNIKU =================
     private fun showPlayerResult() {
         timer?.cancel()
-        timer = null
 
         txtQuestion.text =
-            "Zawodnik ${currentPlayer + 1}\n\nWynik: ${scores[currentPlayer]}/${questions.size}"
-
-        txtTimer.text = ""
+            "Zawodnik ${currentPlayer + 1}\nWynik: ${scores[currentPlayer]}/${questions.size}"
 
         btnA.visibility = View.GONE
         btnB.visibility = View.GONE
@@ -185,12 +120,11 @@ class QuizActivity : AppCompatActivity() {
 
         btnBack.visibility = View.VISIBLE
         btnBack.text =
-            if (currentPlayer + 1 < playersCount) "Następny zawodnik" else "Zobacz wyniki"
+            if (currentPlayer + 1 < playersCount) "Następny zawodnik" else "Wyniki końcowe"
 
         btnBack.setOnClickListener {
             currentPlayer++
             currentQuestionIndex = 0
-
             if (currentPlayer < playersCount) {
                 showQuestion()
             } else {
@@ -199,25 +133,19 @@ class QuizActivity : AppCompatActivity() {
         }
     }
 
-    // ================= WYNIKI WSZYSTKICH =================
     private fun showFinalResults() {
-        val result = StringBuilder("Koniec quizu\n\n")
-
-        for (i in 0 until playersCount) {
-            result.append("Zawodnik ${i + 1}: ${scores[i]}/${questions.size}\n")
+        val sb = StringBuilder("WYNIKI KOŃCOWE\n\n")
+        scores.forEachIndexed { i, s ->
+            sb.append("Zawodnik ${i + 1}: $s/${questions.size}\n")
         }
-
-        txtQuestion.text = result.toString()
-        txtTimer.text = ""
-
-        btnBack.text = "Powrót do panelu sędziego"
-        btnBack.setOnClickListener { finish() }
+        txtQuestion.text = sb.toString()
+        btnBack.text = "Zamknij"
+        btnBack.setOnClickListener { finishAffinity() }
     }
 
-    private fun setAnswersEnabled(enabled: Boolean) {
-        btnA.isEnabled = enabled
-        btnB.isEnabled = enabled
-        btnC.isEnabled = enabled
-        btnD.isEnabled = enabled
+    override fun onStop() {
+        super.onStop()
+        timer?.cancel()
+        tone.release()
     }
 }
