@@ -141,5 +141,5 @@ val questionsPart2 = listOf(
             answers = listOf("1 m", "1,5 m", "1,6 m"),
             correctIndex = 0
         )
-    )
+    
 }
