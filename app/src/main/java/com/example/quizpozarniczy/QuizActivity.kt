@@ -4,6 +4,7 @@ import android.media.AudioManager
 import android.media.ToneGenerator
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
@@ -20,13 +21,13 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var btnC: Button
     private lateinit var btnNext: Button
 
-    private lateinit var questions: List<Question>
+    private var questions: List<Question> = emptyList()
+    private var currentPlayer = 0
+    private var currentQuestionIndex = 0
+    private var playersCount = 1
     private lateinit var scores: IntArray
 
-    private var player = 0
-    private var qIndex = 0
-    private var playersCount = 1
-    private var timeSeconds = 60
+    private var timePerPlayerSeconds = 60
     private var timer: CountDownTimer? = null
 
     private val tone = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
@@ -34,6 +35,7 @@ class QuizActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
+
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         txtQuestion = findViewById(R.id.txtQuestion)
@@ -44,66 +46,142 @@ class QuizActivity : AppCompatActivity() {
         btnNext = findViewById(R.id.btnBack)
 
         playersCount = intent.getIntExtra("PLAYERS", 1)
-        timeSeconds = intent.getIntExtra("TIME", 60)
-        val limit = intent.getIntExtra("QUESTIONS", 30)
+        timePerPlayerSeconds = intent.getIntExtra("TIME_SECONDS", 60)
+        val questionsLimit = intent.getIntExtra("QUESTIONS", 10)
 
         scores = IntArray(playersCount)
 
-        val all = QuizRepository.getQuestions()
-        questions = all.shuffled().take(min(limit, all.size))
+        val allQuestions = QuizRepository.getQuestions()
+        questions = allQuestions.shuffled().take(min(questionsLimit, allQuestions.size))
 
-        startTimer()
+        btnA.setOnClickListener { answerSelected(0) }
+        btnB.setOnClickListener { answerSelected(1) }
+        btnC.setOnClickListener { answerSelected(2) }
+
         showQuestion()
-
-        btnA.setOnClickListener { answer(0) }
-        btnB.setOnClickListener { answer(1) }
-        btnC.setOnClickListener { answer(2) }
     }
 
+    override fun onPause() {
+        super.onPause()
+        timer?.cancel()
+        timer = null
+    }
+
+    // ================= TIMER =================
     private fun startTimer() {
-        timer = object : CountDownTimer(timeSeconds * 1000L, 1000) {
+        timer?.cancel()
+
+        timer = object : CountDownTimer(timePerPlayerSeconds * 1000L, 1000) {
             override fun onTick(ms: Long) {
-                val s = ms / 1000
-                txtTimer.text = "${s / 60}:${String.format("%02d", s % 60)}"
-                if (s in 0..2) tone.startTone(ToneGenerator.TONE_PROP_BEEP)
+                val sec = ms / 1000
+                val min = sec / 60
+                val s = sec % 60
+
+                txtTimer.text = String.format("%02d:%02d", min, s)
+
+                if (sec <= 10) {
+                    txtTimer.setTextColor(getColor(android.R.color.holo_red_dark))
+                } else {
+                    txtTimer.setTextColor(getColor(android.R.color.black))
+                }
+
+                if (sec in 0..2) {
+                    tone.startTone(ToneGenerator.TONE_PROP_BEEP, 120)
+                }
             }
+
             override fun onFinish() {
+                tone.startTone(ToneGenerator.TONE_DTMF_0, 800)
+                setAnswersEnabled(false)
                 showPlayerResult()
             }
         }.start()
     }
 
+    // ================= PYTANIA =================
     private fun showQuestion() {
-        val q = questions[qIndex]
-        txtQuestion.text = "Zawodnik ${player + 1}\n\n${q.text}"
+        if (currentQuestionIndex == 0) startTimer()
+
+        if (currentQuestionIndex >= questions.size) {
+            showPlayerResult()
+            return
+        }
+
+        val q = questions[currentQuestionIndex]
+
+        txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\n${q.text}"
+
         btnA.text = q.answers[0]
         btnB.text = q.answers[1]
         btnC.text = q.answers[2]
+
+        btnA.visibility = View.VISIBLE
+        btnB.visibility = View.VISIBLE
+        btnC.visibility = View.VISIBLE
+        btnNext.visibility = View.GONE
+
+        setAnswersEnabled(true)
     }
 
-    private fun answer(i: Int) {
-        if (i == questions[qIndex].correctIndex) scores[player]++
-        qIndex++
-        if (qIndex < questions.size) showQuestion() else showPlayerResult()
+    private fun answerSelected(index: Int) {
+        if (!btnA.isEnabled) return
+
+        if (index == questions[currentQuestionIndex].correctIndex) {
+            scores[currentPlayer]++
+        }
+
+        currentQuestionIndex++
+        showQuestion()
     }
 
+    // ================= WYNIK ZAWODNIKA =================
     private fun showPlayerResult() {
         timer?.cancel()
-        txtQuestion.text = "Zawodnik ${player + 1}\nWynik: ${scores[player]}/${questions.size}"
-        btnNext.text = if (player + 1 < playersCount) "Następny" else "Wyniki końcowe"
+        timer = null
+
+        txtQuestion.text =
+            "Zawodnik ${currentPlayer + 1}\n\nWynik: ${scores[currentPlayer]}/${questions.size}"
+
+        txtTimer.text = ""
+
+        btnA.visibility = View.GONE
+        btnB.visibility = View.GONE
+        btnC.visibility = View.GONE
+
+        btnNext.visibility = View.VISIBLE
+        btnNext.text =
+            if (currentPlayer + 1 < playersCount) "Następny zawodnik" else "Zobacz wyniki końcowe"
+
         btnNext.setOnClickListener {
-            player++
-            qIndex = 0
-            if (player < playersCount) {
-                startTimer()
+            currentPlayer++
+            currentQuestionIndex = 0
+
+            if (currentPlayer < playersCount) {
                 showQuestion()
-            } else finish()
+            } else {
+                showFinalResults()
+            }
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        timer?.cancel()
-        tone.release()
+    // ================= WYNIKI KOŃCOWE =================
+    private fun showFinalResults() {
+        val sb = StringBuilder("Wyniki końcowe\n\n")
+
+        for (i in scores.indices) {
+            sb.append("Zawodnik ${i + 1}: ${scores[i]}/${questions.size}\n")
+        }
+
+        txtQuestion.text = sb.toString()
+        txtTimer.text = ""
+
+        btnNext.text = "Powrót do panelu sędziego"
+        btnNext.setOnClickListener { finish() }
+    }
+
+    private fun setAnswersEnabled(enabled: Boolean) {
+        btnA.isEnabled = enabled
+        btnB.isEnabled = enabled
+        btnC.isEnabled = enabled
     }
 }
