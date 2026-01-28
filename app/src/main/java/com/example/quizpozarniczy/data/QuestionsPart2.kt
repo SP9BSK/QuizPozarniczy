@@ -49,7 +49,7 @@ val questionsPart2 = listOf(
             answers = listOf(
                 "samochód specjalny gaśniczy z autopompą",
                 "samochód specjalny gaśniczy ze zbiornikiem autopompą i motopompą",
-                "samochód gaśniczy ze zbiornikiem z autopompą i motopompą"
+                "samochód gaśniczy średni ze zbiornikiem z autopompą i motopompą"
             ),
             correctIndex = 2
         ),
