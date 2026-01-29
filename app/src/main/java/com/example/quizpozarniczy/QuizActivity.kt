@@ -272,14 +272,15 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun resetButtons() {
-        val def = android.R.drawable.btn_default
-        btnA.setBackgroundResource(def)
-        btnB.setBackgroundResource(def)
-        btnC.setBackgroundResource(def)
+    val def = android.R.drawable.btn_default
 
-        btnA.visibility = View.VISIBLE
-        btnB.visibility = View.VISIBLE
-        btnC.visibility = View.VISIBLE
+    listOf(btnA, btnB, btnC).forEach { btn ->
+        btn.setBackgroundResource(def)
+        btn.setTextColor(getColor(android.R.color.black))
+        btn.textSize = 16f
+        btn.setPadding(24, 20, 24, 20)
+        btn.visibility = View.VISIBLE
+        btn.isEnabled = true
     }
 
     private fun setAnswersEnabled(enabled: Boolean) {
