@@ -14,18 +14,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <!-- 🔥 NOWY PRZYCISK -->
+    <!-- 🔍 POKAŻ DOBRE ODPOWIEDZI -->
     <Button
         android:id="@+id/btnShowCorrect"
         android:text="Pokaż dobre odpowiedzi"
-        android:visibility="visible"
-        android:layout_marginBottom="16dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginBottom="16dp"/>
 
+    <!-- ⬅️ POWRÓT -->
     <Button
         android:id="@+id/btnBackToJudge"
-        android:text="Następny zawodnik"
+        android:text="Powrót do panelu sędziego"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </LinearLayout>
