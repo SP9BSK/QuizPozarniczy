@@ -14,11 +14,25 @@ class ResultActivity : AppCompatActivity() {
 
         val score = intent.getIntExtra("SCORE", 0)
         val total = intent.getIntExtra("TOTAL", 0)
+        val resultsText = intent.getStringExtra("RESULTS") ?: ""
 
         findViewById<TextView>(R.id.txtResult).text =
             "Wynik: $score / $total"
 
         val btnBack = findViewById<Button>(R.id.btnBackToJudge)
+        val btnShowCorrect = findViewById<Button>(R.id.btnShowCorrect)
+
+        // 🔥 JEŚLI SĄ BŁĘDY → POKAŻ PRZYCISK
+        if (score < total) {
+            btnShowCorrect.visibility = Button.VISIBLE
+        }
+
+        btnShowCorrect.setOnClickListener {
+            val intent = Intent(this, ResultsActivity::class.java)
+            intent.putExtra("RESULTS", resultsText)
+            startActivity(intent)
+        }
+
         btnBack.setOnClickListener {
             val intent = Intent(this, JudgeActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -27,7 +41,6 @@ class ResultActivity : AppCompatActivity() {
         }
     }
 
-    // systemowy przycisk WSTECZ
     override fun onBackPressed() {
         val intent = Intent(this, JudgeActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
