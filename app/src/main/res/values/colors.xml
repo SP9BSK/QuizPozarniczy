@@ -3,6 +3,8 @@
 
     <!-- Kolor tła ikony aplikacji -->
     <color name="ic_launcher_background">#FFFFFF</color>
+     <color name="answer_correct">#C8E6C9</color> <!-- zielony -->
+     <color name="answer_wrong">#FFCDD2</color>   <!-- czerwony -->
 
     <!-- Domyślne kolory (na przyszłość, żeby Gradle nie marudził) -->
     <color name="purple_200">#BB86FC</color>
