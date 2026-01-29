@@ -7,8 +7,3 @@ data class PlayerResult(
     val wrongAnswers: List<WrongAnswer>
 )
 
-data class WrongAnswer(
-    val question: String,
-    val chosenAnswer: String,
-    val correctAnswer: String
-)
