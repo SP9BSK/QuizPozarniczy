@@ -22,17 +22,16 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var btnB: Button
     private lateinit var btnC: Button
     private lateinit var btnBack: Button
-    private lateinit var btnShowCorrect: Button   // ✅ NOWY PRZYCISK
+    private lateinit var btnShowCorrect: Button
 
     private var questions: List<Question> = emptyList()
     private var currentPlayer = 0
     private var currentQuestionIndex = 0
     private var playersCount = 1
-    private var showingWrongAnswers = false
+
     private var wrongAnswerIndex = 0
 
     private lateinit var scores: IntArray
-
     private val playerResults = mutableListOf<PlayerResult>()
     private val wrongAnswersCurrentPlayer = mutableListOf<WrongAnswer>()
 
@@ -59,11 +58,12 @@ class QuizActivity : AppCompatActivity() {
         btnB = findViewById(R.id.btnB)
         btnC = findViewById(R.id.btnC)
         btnBack = findViewById(R.id.btnBack)
-        btnShowCorrect = findViewById(R.id.btnShowCorrect) // ✅ FIND
+        btnShowCorrect = findViewById(R.id.btnShowCorrect)
 
         btnShowCorrect.visibility = View.GONE
 
         btnShowCorrect.setOnClickListener {
+            wrongAnswerIndex = 0
             showWrongAnswers()
         }
 
@@ -101,9 +101,11 @@ class QuizActivity : AppCompatActivity() {
         timer = object : CountDownTimer(timePerPlayerSeconds * 1000L, 1000) {
             override fun onTick(ms: Long) {
                 val totalSeconds = ms / 1000
-                val minutes = totalSeconds / 60
-                val seconds = totalSeconds % 60
-                txtTimer.text = String.format("%02d:%02d", minutes, seconds)
+                txtTimer.text = String.format(
+                    "%02d:%02d",
+                    totalSeconds / 60,
+                    totalSeconds % 60
+                )
             }
 
             override fun onFinish() {
@@ -117,6 +119,7 @@ class QuizActivity : AppCompatActivity() {
         if (currentQuestionIndex == 0) {
             wrongAnswersCurrentPlayer.clear()
             btnShowCorrect.visibility = View.GONE
+            resetAnswerColors()
             startTimer()
         }
 
@@ -136,7 +139,6 @@ class QuizActivity : AppCompatActivity() {
         btnB.visibility = View.VISIBLE
         btnC.visibility = View.VISIBLE
         btnBack.visibility = View.GONE
-        btnShowCorrect.visibility = View.GONE
 
         setAnswersEnabled(true)
     }
@@ -170,8 +172,6 @@ class QuizActivity : AppCompatActivity() {
                 playerNumber = currentPlayer + 1,
                 score = scores[currentPlayer],
                 total = questions.size,
-                wrongAnswerIndex = 0
-                showingWrongAnswers = false
                 wrongAnswers = wrongAnswersCurrentPlayer.toList()
             )
         )
@@ -185,7 +185,6 @@ class QuizActivity : AppCompatActivity() {
         btnB.visibility = View.GONE
         btnC.visibility = View.GONE
 
-        // ✅ pokaż tylko gdy były błędy
         btnShowCorrect.visibility =
             if (wrongAnswersCurrentPlayer.isNotEmpty()) View.VISIBLE else View.GONE
 
@@ -207,56 +206,48 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun showWrongAnswers() {
-    if (wrongAnswerIndex >= wrongAnswersCurrentPlayer.size) {
-        btnShowCorrect.visibility = View.GONE
-        return
-    }
+        if (wrongAnswerIndex >= wrongAnswersCurrentPlayer.size) {
+            btnShowCorrect.visibility = View.GONE
+            showPlayerResult()
+            return
+        }
 
-    showingWrongAnswers = true
-    val w = wrongAnswersCurrentPlayer[wrongAnswerIndex]
+        val w = wrongAnswersCurrentPlayer[wrongAnswerIndex]
 
-    txtQuestion.text =
-        "Pytanie ${wrongAnswerIndex + 1}/${wrongAnswersCurrentPlayer.size}\n\n${w.question}"
+        txtQuestion.text =
+            "Pytanie ${wrongAnswerIndex + 1}/${wrongAnswersCurrentPlayer.size}\n\n${w.question}"
 
-    val answers = listOf(
-        btnA,
-        btnB,
-        btnC
-    )
+        val buttons = listOf(btnA, btnB, btnC)
 
-    for (btn in answers) {
-        btn.visibility = View.VISIBLE
-        btn.isEnabled = false
+        for (btn in buttons) {
+            btn.visibility = View.VISIBLE
+            btn.isEnabled = false
 
-        when (btn.text.toString()) {
-            w.correctAnswer -> {
-                btn.setBackgroundColor(getColor(R.color.answer_correct))
-            }
-            w.chosenAnswer -> {
-                btn.setBackgroundColor(getColor(R.color.answer_wrong))
-            }
-            else -> {
-                btn.setBackgroundColor(getColor(android.R.color.darker_gray))
+            when (btn.text.toString()) {
+                w.correctAnswer ->
+                    btn.setBackgroundColor(getColor(R.color.answer_correct))
+                w.chosenAnswer ->
+                    btn.setBackgroundColor(getColor(R.color.answer_wrong))
+                else ->
+                    btn.setBackgroundColor(getColor(android.R.color.darker_gray))
             }
         }
-        private fun resetAnswerColors() {
-    btnA.setBackgroundColor(getColor(android.R.color.holo_blue_light))
-    btnB.setBackgroundColor(getColor(android.R.color.holo_blue_light))
-    btnC.setBackgroundColor(getColor(android.R.color.holo_blue_light))
-}
 
+        btnBack.visibility = View.VISIBLE
+        btnBack.text = "Dalej"
+
+        btnBack.setOnClickListener {
+            resetAnswerColors()
+            wrongAnswerIndex++
+            showWrongAnswers()
+        }
     }
 
-    btnBack.visibility = View.VISIBLE
-    btnBack.text = "Dalej"
-
-    btnBack.setOnClickListener {
-        resetAnswerColors()
-        wrongAnswerIndex++
-        showWrongAnswers()
+    private fun resetAnswerColors() {
+        btnA.setBackgroundColor(getColor(android.R.color.holo_blue_light))
+        btnB.setBackgroundColor(getColor(android.R.color.holo_blue_light))
+        btnC.setBackgroundColor(getColor(android.R.color.holo_blue_light))
     }
-}
-
 
     private fun showFinalResults() {
         val result = StringBuilder("Koniec quizu\n\n")
