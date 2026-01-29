@@ -127,9 +127,9 @@ val questionsPart7 = listOf(
     Question(
         text = "Podaj sposób reanimacji prowadzonej przez 1 ratownika:",
         answers = listOf(
-            "15 na 4",
+            "15 na 2",
             "10 na 2",
-            "15 na 2"
+            "30 na 2"
         ),
         correctIndex = 2
     ),
