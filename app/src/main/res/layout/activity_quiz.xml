@@ -39,12 +39,22 @@
         android:layout_height="wrap_content"
         android:text="C" />
 
+    <!-- 🔍 POKAŻ POPRAWNE ODPOWIEDZI -->
+    <Button
+        android:id="@+id/btnShowCorrect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pokaż dobre odpowiedzi"
+        android:visibility="gone"
+        android:layout_marginTop="16dp" />
+
+    <!-- ⏭ NASTĘPNY ZAWODNIK / WYNIKI -->
     <Button
         android:id="@+id/btnBack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Powrót do panelu sędziego"
+        android:text="Następny zawodnik"
         android:visibility="gone"
-        android:layout_marginTop="24dp" />
+        android:layout_marginTop="16dp" />
 
 </LinearLayout>
