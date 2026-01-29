@@ -192,31 +192,55 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun showWrongAnswer() {
-        btnShowCorrect.visibility = View.GONE
+    btnShowCorrect.visibility = View.GONE
 
-        if (wrongAnswerIndex >= wrongAnswersCurrentPlayer.size) {
-            showPlayerResult()
-            return
-        }
+    if (wrongAnswerIndex >= wrongAnswersCurrentPlayer.size) {
+        showPlayerResult()
+        return
+    }
 
-        val w = wrongAnswersCurrentPlayer[wrongAnswerIndex]
+    val w = wrongAnswersCurrentPlayer[wrongAnswerIndex]
 
-        txtQuestion.text =
-            "Pytanie ${wrongAnswerIndex + 1}/${wrongAnswersCurrentPlayer.size}\n\n${w.question}"
+    txtQuestion.text =
+        "Pytanie ${wrongAnswerIndex + 1}/${wrongAnswersCurrentPlayer.size}\n\n${w.question}"
 
-        val buttons = listOf(btnA, btnB, btnC)
+    val buttons = listOf(btnA, btnB, btnC)
 
-        for ((i, btn) in buttons.withIndex()) {
-            btn.visibility = View.VISIBLE
-            btn.isEnabled = false
-            btn.text = w.answers[i]
+    for ((i, btn) in buttons.withIndex()) {
+        btn.visibility = View.VISIBLE
+        btn.isEnabled = false
+        btn.text = w.answers[i]
 
-            when (i) {
-                w.correctIndex -> btn.setBackgroundResource(R.color.answer_correct)
-                w.chosenIndex -> btn.setBackgroundResource(R.color.answer_wrong)
-                else -> btn.setBackgroundResource(android.R.drawable.btn_default)
+        // 🔥 MOCNE KOLORY + TEKST
+        when (i) {
+            w.correctIndex -> {
+                btn.setBackgroundColor(getColor(R.color.answer_correct))
+                btn.setTextColor(getColor(android.R.color.black))
+            }
+            w.chosenIndex -> {
+                btn.setBackgroundColor(getColor(R.color.answer_wrong))
+                btn.setTextColor(getColor(android.R.color.black))
+            }
+            else -> {
+                btn.setBackgroundColor(getColor(android.R.color.darker_gray))
+                btn.setTextColor(getColor(android.R.color.white))
             }
         }
+
+        // 🔎 większy, czytelny tekst
+        btn.textSize = 18f
+        btn.setPadding(32, 24, 32, 24)
+    }
+
+    btnBack.visibility = View.VISIBLE
+    btnBack.text = "Dalej"
+    btnBack.setOnClickListener {
+        wrongAnswerIndex++
+        resetButtons()
+        showWrongAnswer()
+    }
+}
+
 
         btnBack.visibility = View.VISIBLE
         btnBack.text = "Dalej"
