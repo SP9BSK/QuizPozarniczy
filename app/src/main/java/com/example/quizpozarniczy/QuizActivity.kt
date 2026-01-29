@@ -28,6 +28,9 @@ class QuizActivity : AppCompatActivity() {
     private var currentPlayer = 0
     private var currentQuestionIndex = 0
     private var playersCount = 1
+    private var showingWrongAnswers = false
+    private var wrongAnswerIndex = 0
+
     private lateinit var scores: IntArray
 
     private val playerResults = mutableListOf<PlayerResult>()
@@ -167,6 +170,8 @@ class QuizActivity : AppCompatActivity() {
                 playerNumber = currentPlayer + 1,
                 score = scores[currentPlayer],
                 total = questions.size,
+                wrongAnswerIndex = 0
+                showingWrongAnswers = false
                 wrongAnswers = wrongAnswersCurrentPlayer.toList()
             )
         )
@@ -202,17 +207,56 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun showWrongAnswers() {
-        val sb = StringBuilder("Błędne odpowiedzi:\n\n")
-
-        for (w in wrongAnswersCurrentPlayer) {
-            sb.append(w.question).append("\n")
-            sb.append("✗ ").append(w.chosenAnswer).append("\n")
-            sb.append("✔ ").append(w.correctAnswer).append("\n\n")
-        }
-
-        txtQuestion.text = sb.toString()
+    if (wrongAnswerIndex >= wrongAnswersCurrentPlayer.size) {
         btnShowCorrect.visibility = View.GONE
+        return
     }
+
+    showingWrongAnswers = true
+    val w = wrongAnswersCurrentPlayer[wrongAnswerIndex]
+
+    txtQuestion.text =
+        "Pytanie ${wrongAnswerIndex + 1}/${wrongAnswersCurrentPlayer.size}\n\n${w.question}"
+
+    val answers = listOf(
+        btnA,
+        btnB,
+        btnC
+    )
+
+    for (btn in answers) {
+        btn.visibility = View.VISIBLE
+        btn.isEnabled = false
+
+        when (btn.text.toString()) {
+            w.correctAnswer -> {
+                btn.setBackgroundColor(getColor(R.color.answer_correct))
+            }
+            w.chosenAnswer -> {
+                btn.setBackgroundColor(getColor(R.color.answer_wrong))
+            }
+            else -> {
+                btn.setBackgroundColor(getColor(android.R.color.darker_gray))
+            }
+        }
+        private fun resetAnswerColors() {
+    btnA.setBackgroundColor(getColor(android.R.color.holo_blue_light))
+    btnB.setBackgroundColor(getColor(android.R.color.holo_blue_light))
+    btnC.setBackgroundColor(getColor(android.R.color.holo_blue_light))
+}
+
+    }
+
+    btnBack.visibility = View.VISIBLE
+    btnBack.text = "Dalej"
+
+    btnBack.setOnClickListener {
+        resetAnswerColors()
+        wrongAnswerIndex++
+        showWrongAnswers()
+    }
+}
+
 
     private fun showFinalResults() {
         val result = StringBuilder("Koniec quizu\n\n")
