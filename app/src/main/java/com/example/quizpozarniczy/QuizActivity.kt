@@ -22,6 +22,7 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var btnB: Button
     private lateinit var btnC: Button
     private lateinit var btnBack: Button
+    private lateinit var btnShowCorrect: Button   // ✅ NOWY PRZYCISK
 
     private var questions: List<Question> = emptyList()
     private var currentPlayer = 0
@@ -55,6 +56,13 @@ class QuizActivity : AppCompatActivity() {
         btnB = findViewById(R.id.btnB)
         btnC = findViewById(R.id.btnC)
         btnBack = findViewById(R.id.btnBack)
+        btnShowCorrect = findViewById(R.id.btnShowCorrect) // ✅ FIND
+
+        btnShowCorrect.visibility = View.GONE
+
+        btnShowCorrect.setOnClickListener {
+            showWrongAnswers()
+        }
 
         var questionsLimit = intent.getIntExtra("QUESTIONS", 5)
         if (questionsLimit > MAX_QUESTIONS) questionsLimit = MAX_QUESTIONS
@@ -105,6 +113,7 @@ class QuizActivity : AppCompatActivity() {
     private fun showQuestion() {
         if (currentQuestionIndex == 0) {
             wrongAnswersCurrentPlayer.clear()
+            btnShowCorrect.visibility = View.GONE
             startTimer()
         }
 
@@ -124,6 +133,7 @@ class QuizActivity : AppCompatActivity() {
         btnB.visibility = View.VISIBLE
         btnC.visibility = View.VISIBLE
         btnBack.visibility = View.GONE
+        btnShowCorrect.visibility = View.GONE
 
         setAnswersEnabled(true)
     }
@@ -169,8 +179,12 @@ class QuizActivity : AppCompatActivity() {
         btnA.visibility = View.GONE
         btnB.visibility = View.GONE
         btnC.visibility = View.GONE
-        btnBack.visibility = View.VISIBLE
 
+        // ✅ pokaż tylko gdy były błędy
+        btnShowCorrect.visibility =
+            if (wrongAnswersCurrentPlayer.isNotEmpty()) View.VISIBLE else View.GONE
+
+        btnBack.visibility = View.VISIBLE
         btnBack.text =
             if (currentPlayer + 1 < playersCount) "Następny zawodnik"
             else "Zobacz wyniki"
@@ -185,6 +199,19 @@ class QuizActivity : AppCompatActivity() {
                 showFinalResults()
             }
         }
+    }
+
+    private fun showWrongAnswers() {
+        val sb = StringBuilder("Błędne odpowiedzi:\n\n")
+
+        for (w in wrongAnswersCurrentPlayer) {
+            sb.append(w.question).append("\n")
+            sb.append("✗ ").append(w.chosenAnswer).append("\n")
+            sb.append("✔ ").append(w.correctAnswer).append("\n\n")
+        }
+
+        txtQuestion.text = sb.toString()
+        btnShowCorrect.visibility = View.GONE
     }
 
     private fun showFinalResults() {
