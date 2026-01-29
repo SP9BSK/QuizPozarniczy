@@ -145,8 +145,10 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun showPlayerResult() {
-        timer?.cancel()
+    timer?.cancel()
+    showingWrongAnswers = false
 
+    if (!resultSavedForPlayer) {
         playerResults.add(
             PlayerResult(
                 currentPlayer + 1,
@@ -155,103 +157,101 @@ class QuizActivity : AppCompatActivity() {
                 wrongAnswersCurrentPlayer.toList()
             )
         )
+        resultSavedForPlayer = true
+    }
 
-        txtQuestion.text =
-            "Zawodnik ${currentPlayer + 1}\n\nWynik: ${scores[currentPlayer]}/${questions.size}"
+    txtQuestion.text =
+        "Zawodnik ${currentPlayer + 1}\n\nWynik: ${scores[currentPlayer]}/${questions.size}"
 
-        txtTimer.text = ""
+    txtTimer.text = ""
 
-        btnA.visibility = View.GONE
-        btnB.visibility = View.GONE
-        btnC.visibility = View.GONE
+    // ❌ chowamy odpowiedzi
+    btnA.visibility = View.GONE
+    btnB.visibility = View.GONE
+    btnC.visibility = View.GONE
 
-        btnShowCorrect.visibility =
-            if (wrongAnswersCurrentPlayer.isNotEmpty()) View.VISIBLE else View.GONE
+    // ✅ pokazuj TYLKO jeśli były błędy
+    btnShowCorrect.visibility =
+        if (wrongAnswersCurrentPlayer.isNotEmpty()) View.VISIBLE else View.GONE
 
-        btnBack.visibility = View.VISIBLE
-        btnBack.text =
-            if (currentPlayer + 1 < playersCount) "Następny zawodnik"
-            else "Zobacz wyniki"
+    btnBack.visibility = View.VISIBLE
+    btnBack.text =
+        if (currentPlayer + 1 < playersCount) "Następny zawodnik"
+        else "Zobacz wyniki"
 
-        btnBack.setOnClickListener {
-            currentPlayer++
-            currentQuestionIndex = 0
-            resetButtons()
+    btnBack.setOnClickListener {
+        btnShowCorrect.visibility = View.GONE
+        currentPlayer++
+        currentQuestionIndex = 0
+        wrongAnswerIndex = 0
+        resultSavedForPlayer = false
 
-            if (currentPlayer < playersCount) showQuestion()
-            else showFinalResults()
+        if (currentPlayer < playersCount) {
+            showQuestion()
+        } else {
+            showFinalResults()
         }
     }
+}
 
     private fun showWrongAnswer() {
-        if (wrongAnswerIndex >= wrongAnswersCurrentPlayer.size) {
-            btnShowCorrect.visibility = View.GONE
-            showPlayerResult()
-            return
-        }
+    btnShowCorrect.visibility = View.GONE
 
-        val w = wrongAnswersCurrentPlayer[wrongAnswerIndex]
+    if (wrongAnswerIndex >= wrongAnswersCurrentPlayer.size) {
+        showPlayerResult()
+        return
+    }
 
-        txtQuestion.text =
-            "Błąd ${wrongAnswerIndex + 1}/${wrongAnswersCurrentPlayer.size}\n\n${w.question}"
+    val w = wrongAnswersCurrentPlayer[wrongAnswerIndex]
 
-        val buttons = listOf(btnA, btnB, btnC)
+    txtQuestion.text =
+        "Pytanie ${wrongAnswerIndex + 1}/${wrongAnswersCurrentPlayer.size}\n\n${w.question}"
 
-        for (i in buttons.indices) {
-            val btn = buttons[i]
-            btn.visibility = View.VISIBLE
-            btn.isEnabled = false
-            btn.text = w.answers[i]
+    val answers = listOf(btnA, btnB, btnC)
 
-            when (i) {
-                w.correctIndex -> {
-                    btn.setBackgroundColor(getColor(R.color.answer_correct))
-                    btn.setTextColor(getColor(android.R.color.black))
-                }
-                w.chosenIndex -> {
-                    btn.setBackgroundColor(getColor(R.color.answer_wrong))
-                    btn.setTextColor(getColor(android.R.color.black))
-                }
-                else -> {
-                    btn.setBackgroundColor(getColor(android.R.color.darker_gray))
-                    btn.setTextColor(getColor(android.R.color.black))
-                }
-            }
-        }
+    for ((i, btn) in answers.withIndex()) {
+        btn.visibility = View.VISIBLE
+        btn.isEnabled = false
+        btn.text = w.answers[i]
 
-        btnBack.visibility = View.VISIBLE
-        btnBack.text = "Dalej"
-        btnBack.setOnClickListener {
-            wrongAnswerIndex++
-            showWrongAnswer()
+        when (i) {
+            w.correctIndex -> btn.setBackgroundResource(R.color.answer_correct)
+            w.chosenIndex -> btn.setBackgroundResource(R.color.answer_wrong)
+            else -> btn.setBackgroundResource(android.R.drawable.btn_default)
         }
     }
+
+    btnBack.visibility = View.VISIBLE
+    btnBack.text = "Dalej"
+    btnBack.setOnClickListener {
+        wrongAnswerIndex++
+        resetButtons()
+        showWrongAnswer()
+    }
+}
+
 
     private fun showFinalResults() {
-        val sb = StringBuilder("Koniec quizu\n\n")
-        for (p in playerResults) {
-            sb.append("Zawodnik ${p.playerNumber}: ${p.score}/${p.total}\n")
-        }
+    btnShowCorrect.visibility = View.GONE
 
-        txtQuestion.text = sb.toString()
-        btnBack.text = "Powrót do panelu sędziego"
-        btnBack.setOnClickListener { finish() }
+    btnA.visibility = View.GONE
+    btnB.visibility = View.GONE
+    btnC.visibility = View.GONE
+
+    val sb = StringBuilder("Koniec quizu\n\n")
+
+    playerResults.forEach { p ->
+        sb.append("Zawodnik ${p.playerNumber}: ${p.score}/${p.total}\n")
     }
 
-    private fun resetButtons() {
-        val def = android.R.drawable.btn_default
-        btnA.setBackgroundResource(def)
-        btnB.setBackgroundResource(def)
-        btnC.setBackgroundResource(def)
+    txtQuestion.text = sb.toString()
+    txtTimer.text = ""
 
-        btnA.setTextColor(getColor(android.R.color.black))
-        btnB.setTextColor(getColor(android.R.color.black))
-        btnC.setTextColor(getColor(android.R.color.black))
+    btnBack.text = "Powrót do panelu sędziego"
+    btnBack.visibility = View.VISIBLE
+    btnBack.setOnClickListener { finish() }
+}
 
-        btnA.visibility = View.VISIBLE
-        btnB.visibility = View.VISIBLE
-        btnC.visibility = View.VISIBLE
-    }
 
     private fun setAnswersEnabled(enabled: Boolean) {
         btnA.isEnabled = enabled
