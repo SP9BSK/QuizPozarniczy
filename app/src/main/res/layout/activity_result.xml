@@ -19,4 +19,13 @@
         android:text="Powrót do panelu sędziego"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <Button
+    android:id="@+id/btnShowCorrect"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Pokaż dobre odpowiedzi"
+    android:visibility="gone"
+    android:layout_marginBottom="16dp"/>
+
 </LinearLayout>
