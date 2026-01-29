@@ -9,7 +9,9 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.quizpozarniczy.model.PlayerResult
 import com.example.quizpozarniczy.model.Question
+import com.example.quizpozarniczy.model.WrongAnswer
 import kotlin.math.min
 
 class QuizActivity : AppCompatActivity() {
@@ -19,7 +21,6 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var btnA: Button
     private lateinit var btnB: Button
     private lateinit var btnC: Button
-    private lateinit var btnD: Button
     private lateinit var btnBack: Button
 
     private var questions: List<Question> = emptyList()
@@ -27,6 +28,9 @@ class QuizActivity : AppCompatActivity() {
     private var currentQuestionIndex = 0
     private var playersCount = 1
     private lateinit var scores: IntArray
+
+    private val playerResults = mutableListOf<PlayerResult>()
+    private val wrongAnswersCurrentPlayer = mutableListOf<WrongAnswer>()
 
     private var timePerPlayerSeconds = 60
     private var timer: CountDownTimer? = null
@@ -43,7 +47,6 @@ class QuizActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
 
-        // 🔒 ekran zawsze włączony
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         txtQuestion = findViewById(R.id.txtQuestion)
@@ -53,9 +56,6 @@ class QuizActivity : AppCompatActivity() {
         btnC = findViewById(R.id.btnC)
         btnBack = findViewById(R.id.btnBack)
 
-    
-
-        // dane z panelu sędziego
         var questionsLimit = intent.getIntExtra("QUESTIONS", 5)
         if (questionsLimit > MAX_QUESTIONS) questionsLimit = MAX_QUESTIONS
 
@@ -85,30 +85,14 @@ class QuizActivity : AppCompatActivity() {
         timer = null
     }
 
-    // ================= TIMER =================
     private fun startTimer() {
         timer?.cancel()
-
         timer = object : CountDownTimer(timePerPlayerSeconds * 1000L, 1000) {
-
             override fun onTick(ms: Long) {
                 val totalSeconds = ms / 1000
                 val minutes = totalSeconds / 60
                 val seconds = totalSeconds % 60
-
                 txtTimer.text = String.format("%02d:%02d", minutes, seconds)
-
-                txtTimer.setTextColor(
-                    if (totalSeconds <= 10)
-                        getColor(android.R.color.holo_red_dark)
-                    else
-                        getColor(android.R.color.black)
-                )
-
-                // 🔊 piknięcia: 2, 1, 0
-                if (totalSeconds in 0..2) {
-                    toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP, 120)
-                }
             }
 
             override fun onFinish() {
@@ -118,9 +102,11 @@ class QuizActivity : AppCompatActivity() {
         }.start()
     }
 
-    // ================= QUIZ =================
     private fun showQuestion() {
-        if (currentQuestionIndex == 0) startTimer()
+        if (currentQuestionIndex == 0) {
+            wrongAnswersCurrentPlayer.clear()
+            startTimer()
+        }
 
         if (currentQuestionIndex >= questions.size) {
             showPlayerResult()
@@ -145,16 +131,35 @@ class QuizActivity : AppCompatActivity() {
     private fun answerSelected(index: Int) {
         if (!btnA.isEnabled) return
 
-        if (index == questions[currentQuestionIndex].correctIndex) {
+        val q = questions[currentQuestionIndex]
+
+        if (index == q.correctIndex) {
             scores[currentPlayer]++
+        } else {
+            wrongAnswersCurrentPlayer.add(
+                WrongAnswer(
+                    question = q.text,
+                    chosenAnswer = q.answers[index],
+                    correctAnswer = q.answers[q.correctIndex]
+                )
+            )
         }
+
         currentQuestionIndex++
         showQuestion()
     }
 
-    // ================= WYNIK ZAWODNIKA =================
     private fun showPlayerResult() {
         timer?.cancel()
+
+        playerResults.add(
+            PlayerResult(
+                playerNumber = currentPlayer + 1,
+                score = scores[currentPlayer],
+                total = questions.size,
+                wrongAnswers = wrongAnswersCurrentPlayer.toList()
+            )
+        )
 
         txtQuestion.text =
             "Zawodnik ${currentPlayer + 1}\n\nWynik: ${scores[currentPlayer]}/${questions.size}"
@@ -182,12 +187,10 @@ class QuizActivity : AppCompatActivity() {
         }
     }
 
-    // ================= WYNIKI KOŃCOWE =================
     private fun showFinalResults() {
         val result = StringBuilder("Koniec quizu\n\n")
-
-        for (i in 0 until playersCount) {
-            result.append("Zawodnik ${i + 1}: ${scores[i]}/${questions.size}\n")
+        for (p in playerResults) {
+            result.append("Zawodnik ${p.playerNumber}: ${p.score}/${p.total}\n")
         }
 
         txtQuestion.text = result.toString()
