@@ -5,14 +5,17 @@ import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
+import com.example.quizpozarniczy.model.LocalQuestion
 
 class EditLocalQuestionsActivity : AppCompatActivity() {
 
     private var index = 0
+    private lateinit var currentQuestion: LocalQuestion
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_local_questions)
+
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         val etQuestion = findViewById<EditText>(R.id.etQuestion)
@@ -28,44 +31,46 @@ class EditLocalQuestionsActivity : AppCompatActivity() {
         val btnNext = findViewById<Button>(R.id.btnNext)
 
         fun loadQuestion() {
-            val q = LocalQuestionsRepository.questions[index]
+            currentQuestion = LocalQuestionsRepository.questions[index]
 
-            etQuestion.setText(q.question)
-            etA.setText(q.answers[0])
-            etB.setText(q.answers[1])
-            etC.setText(q.answers[2])
+            etQuestion.setText(currentQuestion.question)
+            etA.setText(currentQuestion.answers[0])
+            etB.setText(currentQuestion.answers[1])
+            etC.setText(currentQuestion.answers[2])
 
-            rbA.isChecked = q.correctIndex == 0
-            rbB.isChecked = q.correctIndex == 1
-            rbC.isChecked = q.correctIndex == 2
+            rbA.isChecked = currentQuestion.correctIndex == 0
+            rbB.isChecked = currentQuestion.correctIndex == 1
+            rbC.isChecked = currentQuestion.correctIndex == 2
         }
 
         fun saveQuestion() {
-            val q = LocalQuestionsRepository.questions[index]
-            q.question = etQuestion.text.toString()
-            q.answers[0] = etA.text.toString()
-            q.answers[1] = etB.text.toString()
-            q.answers[2] = etC.text.toString()
+            currentQuestion.question = etQuestion.text.toString()
+            currentQuestion.answers[0] = etA.text.toString()
+            currentQuestion.answers[1] = etB.text.toString()
+            currentQuestion.answers[2] = etC.text.toString()
 
-            q.correctIndex = when {
+            currentQuestion.correctIndex = when {
                 rbA.isChecked -> 0
                 rbB.isChecked -> 1
                 else -> 2
             }
+
+            Toast.makeText(this, "Zapisano pytanie ${currentQuestion.id}", Toast.LENGTH_SHORT).show()
         }
 
         btnSave.setOnClickListener {
             saveQuestion()
-            Toast.makeText(this, "Zapisano", Toast.LENGTH_SHORT).show()
         }
 
         btnNext.setOnClickListener {
             saveQuestion()
-            if (index < LocalQuestionsRepository.questions.lastIndex) {
-                index++
+            index++
+
+            if (index < LocalQuestionsRepository.questions.size) {
                 loadQuestion()
             } else {
-                Toast.makeText(this, "To było ostatnie pytanie", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Koniec listy pytań", Toast.LENGTH_LONG).show()
+                finish()
             }
         }
 
