@@ -1,35 +1,55 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="24dp">
+package com.example.quizpozarniczy
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.example.quizpozarniczy.data.LocalQuestionsRepository
 
-        <!-- Podgląd pytania -->
-        <TextView
-            android:id="@+id/txtPreview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+class EditLocalQuestionsActivity : AppCompatActivity() {
 
-        <!-- Edycja tylko słowa w cudzysłowie -->
-        <EditText
-            android:id="@+id/etQuotedValue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Edytuj tekst w cudzysłowie"/>
+    private var currentIndex = 0
 
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Zapisz"
-            android:layout_marginTop="24dp"/>
-    </LinearLayout>
-</ScrollView>
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_edit_local_questions)
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+        val txtPreview = findViewById<TextView>(R.id.txtPreview)
+        val etQuoted = findViewById<EditText>(R.id.etQuotedValue)
+        val btnSave = findViewById<Button>(R.id.btnSave)
+
+        val question = LocalQuestionsRepository.questions[currentIndex]
+
+        fun refreshPreview() {
+            txtPreview.text = question.fullQuestion()
+        }
+
+        // ustawienie początkowe
+        etQuoted.setText(question.quotedValue)
+        refreshPreview()
+
+        // ✅ KLASYCZNY TextWatcher – PEWNY I STABILNY
+        etQuoted.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                question.quotedValue = s?.toString() ?: ""
+                refreshPreview()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        // ✅ PRZYCISK ZAPISU – jak wcześniej
+        btnSave.setOnClickListener {
+            Toast.makeText(this, "Zapisano zmiany", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+    }
+}
