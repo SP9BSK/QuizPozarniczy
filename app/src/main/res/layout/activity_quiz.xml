@@ -5,17 +5,39 @@
     android:orientation="vertical"
     android:padding="24dp">
 
-    <TextView
-    android:id="@+id/txtTimer"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="00:00"
-    android:textSize="36sp"
-    android:textStyle="bold"
-    android:textColor="@android:color/black"
-    android:layout_gravity="center_horizontal" />
+    <!-- ⏱ ZEGAR + LICZNIK PYTAŃ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/txtTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black" />
 
+        <!-- WYPEŁNIACZ – spycha licznik w prawo -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/txtQuestionCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 / 20"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <!-- ❓ PYTANIE -->
     <TextView
         android:id="@+id/txtQuestion"
         android:layout_width="match_parent"
@@ -24,6 +46,7 @@
         android:textSize="22sp"
         android:layout_marginTop="24dp" />
 
+    <!-- 🅰️🅱️🅲 ODPOWIEDZI -->
     <Button
         android:id="@+id/btnA"
         android:layout_width="match_parent"
@@ -35,13 +58,15 @@
         android:id="@+id/btnB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="B" />
+        android:text="B"
+        android:layout_marginTop="12dp" />
 
     <Button
         android:id="@+id/btnC"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="C" />
+        android:text="C"
+        android:layout_marginTop="12dp" />
 
     <!-- 🔍 POKAŻ POPRAWNE ODPOWIEDZI -->
     <Button
