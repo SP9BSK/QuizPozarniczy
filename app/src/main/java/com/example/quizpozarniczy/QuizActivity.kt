@@ -115,9 +115,18 @@ class QuizActivity : AppCompatActivity() {
         }
 
         override fun onFinish() {
-            txtTimer.text = "00:00"
-            showPlayerResult()
-        }
+    txtTimer.text = "00:00"
+    txtTimer.setTextColor(getColor(android.R.color.holo_red_dark))
+
+    // 🔊 DŁUGI DŹWIĘK KOŃCA CZASU – 2 SEKUNDY
+    toneGenerator.startTone(
+        ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD,
+        2000
+    )
+
+    showPlayerResult()
+}
+
     }.start()
 }
 
