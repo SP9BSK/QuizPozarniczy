@@ -86,19 +86,41 @@ class QuizActivity : AppCompatActivity() {
         timer?.cancel()
     }
 
-    private fun startTimer() {
-        timer?.cancel()
-        timer = object : CountDownTimer(timePerPlayerSeconds * 1000L, 1000) {
-            override fun onTick(ms: Long) {
-                val s = ms / 1000
-                txtTimer.text = String.format("%02d:%02d", s / 60, s % 60)
+   private fun startTimer() {
+    timer?.cancel()
+
+    timer = object : CountDownTimer(timePerPlayerSeconds * 1000L, 1000) {
+
+        override fun onTick(ms: Long) {
+            val totalSeconds = ms / 1000
+            val minutes = totalSeconds / 60
+            val seconds = totalSeconds % 60
+
+            txtTimer.text = String.format("%02d:%02d", minutes, seconds)
+
+            // 🔴 ostatnie 10 sekund – czerwony
+            if (totalSeconds <= 10) {
+                txtTimer.setTextColor(getColor(android.R.color.holo_red_dark))
+            } else {
+                txtTimer.setTextColor(getColor(android.R.color.black))
             }
 
-            override fun onFinish() {
-                showPlayerResult()
+            // 🔊 piknięcia: 3, 2, 1
+            if (totalSeconds in 1..3) {
+                toneGenerator.startTone(
+                    ToneGenerator.TONE_PROP_BEEP,
+                    150
+                )
             }
-        }.start()
-    }
+        }
+
+        override fun onFinish() {
+            txtTimer.text = "00:00"
+            showPlayerResult()
+        }
+    }.start()
+}
+
 
     private fun showQuestion() {
         if (currentQuestionIndex == 0) {
