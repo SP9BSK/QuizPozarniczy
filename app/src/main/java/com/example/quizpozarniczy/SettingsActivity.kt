@@ -15,7 +15,7 @@ class SettingsActivity : AppCompatActivity() {
 
         // Na razie tylko przycisk – logikę dodamy później
         findViewById<Button>(R.id.btnEditLocalQuestions).setOnClickListener {
-            // TODO: przejście do edycji pytań
-        }
+    startActivity(Intent(this, EditLocalQuestionsActivity::class.java))
+}
     }
 }
