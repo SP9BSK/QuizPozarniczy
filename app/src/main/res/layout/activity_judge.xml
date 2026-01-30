@@ -1,38 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="24dp">
 
-    <EditText
-        android:id="@+id/etPlayers"
+    <!-- 👨‍🚒 LICZBA ZAWODNIKÓW -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Liczba zawodników (max 10)"
-        android:inputType="number"
-        android:digits="0123456789"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
 
-    <EditText
-        android:id="@+id/etQuestions"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Liczba zawodników"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/etPlayers"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:digits="0123456789"
+            android:gravity="end"
+            android:textAlignment="viewEnd"
+            android:hint="1–10" />
+    </LinearLayout>
+
+    <!-- ❓ LICZBA PYTAŃ -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Liczba pytań (max 30)"
-        android:inputType="number"
-        android:digits="0123456789"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
 
-    <EditText
-        android:id="@+id/etTime"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Liczba pytań"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/etQuestions"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:digits="0123456789"
+            android:gravity="end"
+            android:textAlignment="viewEnd"
+            android:hint="1–30" />
+    </LinearLayout>
+
+    <!-- ⏱ CZAS -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Czas quizu (max 30 minut)"
-        android:inputType="number"
-        android:digits="0123456789"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp">
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Czas (minuty)"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/etTime"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:digits="0123456789"
+            android:gravity="end"
+            android:textAlignment="viewEnd"
+            android:hint="1–30" />
+    </LinearLayout>
+
+    <!-- ▶ START -->
     <Button
         android:id="@+id/btnStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Start quizu"
+        android:textSize="18sp"
         android:layout_marginTop="16dp" />
 
 </LinearLayout>
