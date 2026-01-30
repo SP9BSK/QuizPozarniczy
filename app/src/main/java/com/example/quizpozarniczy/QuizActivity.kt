@@ -18,6 +18,7 @@ class QuizActivity : AppCompatActivity() {
 
     private lateinit var txtQuestion: TextView
     private lateinit var txtTimer: TextView
+    private lateinit var txtQuestionCounter: TextView
     private lateinit var btnA: Button
     private lateinit var btnB: Button
     private lateinit var btnC: Button
@@ -53,6 +54,7 @@ class QuizActivity : AppCompatActivity() {
 
         txtQuestion = findViewById(R.id.txtQuestion)
         txtTimer = findViewById(R.id.txtTimer)
+        txtQuestionCounter = findViewById(R.id.txtQuestionCounter)
         btnA = findViewById(R.id.btnA)
         btnB = findViewById(R.id.btnB)
         btnC = findViewById(R.id.btnC)
@@ -156,6 +158,9 @@ class QuizActivity : AppCompatActivity() {
 
         btnShowCorrect.visibility = View.GONE
         btnBack.visibility = View.GONE
+        txtQuestionCounter.text =
+    "${currentQuestionIndex + 1} / ${questions.size}"
+
     }
 
     private fun answerSelected(index: Int) {
