@@ -16,66 +16,28 @@ class EditLocalQuestionsActivity : AppCompatActivity() {
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        val txtQuestion = findViewById<TextView>(R.id.txtQuestion)
-        val etA = findViewById<EditText>(R.id.etA)
-        val etB = findViewById<EditText>(R.id.etB)
-        val etC = findViewById<EditText>(R.id.etC)
-        val rgCorrect = findViewById<RadioGroup>(R.id.rgCorrect)
-
-        val btnPrev = findViewById<Button>(R.id.btnPrev)
-        val btnNext = findViewById<Button>(R.id.btnNext)
+        val txtPreview = findViewById<TextView>(R.id.txtPreview)
+        val etQuoted = findViewById<EditText>(R.id.etQuotedValue)
         val btnSave = findViewById<Button>(R.id.btnSave)
 
-        fun loadQuestion() {
-            val q = LocalQuestionsRepository.questions[currentIndex]
-            txtQuestion.text = q.question
-            etA.setText(q.answers[0])
-            etB.setText(q.answers[1])
-            etC.setText(q.answers[2])
-            rgCorrect.check(
-                when (q.correctIndex) {
-                    0 -> R.id.rbA
-                    1 -> R.id.rbB
-                    else -> R.id.rbC
-                }
-            )
+        val question = LocalQuestionsRepository.questions[currentIndex]
+
+        fun refreshPreview() {
+            txtPreview.text = question.fullQuestion()
         }
 
-        fun saveQuestion() {
-            val q = LocalQuestionsRepository.questions[currentIndex]
-            q.answers[0] = etA.text.toString()
-            q.answers[1] = etB.text.toString()
-            q.answers[2] = etC.text.toString()
+        etQuoted.setText(question.quotedValue)
+        refreshPreview()
 
-            q.correctIndex = when (rgCorrect.checkedRadioButtonId) {
-                R.id.rbA -> 0
-                R.id.rbB -> 1
-                else -> 2
-            }
-        }
-
-        btnPrev.setOnClickListener {
-            saveQuestion()
-            if (currentIndex > 0) {
-                currentIndex--
-                loadQuestion()
-            }
-        }
-
-        btnNext.setOnClickListener {
-            saveQuestion()
-            if (currentIndex < LocalQuestionsRepository.questions.size - 1) {
-                currentIndex++
-                loadQuestion()
-            }
+        etQuoted.addTextChangedListener {
+            question.quotedValue = it.toString()
+            refreshPreview()
         }
 
         btnSave.setOnClickListener {
-            saveQuestion()
-            Toast.makeText(this, "Zapisano pytania lokalne", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Zapisano zmiany", Toast.LENGTH_SHORT).show()
             finish()
         }
-
-        loadQuestion()
     }
 }
+
