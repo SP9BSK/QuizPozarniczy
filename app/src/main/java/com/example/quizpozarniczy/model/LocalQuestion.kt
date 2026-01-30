@@ -2,13 +2,16 @@ package com.example.quizpozarniczy.model
 
 data class LocalQuestion(
     val id: Int,
-    val prefix: String,          // tekst PRZED cudzysłowem
-    var quotedValue: String,     // 🔥 EDYTOWALNE
-    val suffix: String,          // tekst PO cudzysłowie
+    val prefix: String,
+    var quotedValue: String?,   // 🔥 NULL = brak edycji
+    val suffix: String,
     val answers: MutableList<String>,
     var correctIndex: Int
 ) {
     fun fullQuestion(): String {
-        return "$prefix „$quotedValue”$suffix"
+        return if (quotedValue != null)
+            "$prefix „$quotedValue”$suffix"
+        else
+            prefix
     }
 }
