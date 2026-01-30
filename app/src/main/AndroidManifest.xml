@@ -29,6 +29,10 @@
             android:name=".QuizActivity"
             android:exported="false" />
 
+         <!-- USTAWIENIA -->
+        <activity android:name=".SettingsActivity" />
+
+
     </application>
 
 </manifest>
