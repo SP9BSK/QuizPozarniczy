@@ -9,81 +9,58 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <!-- PYTANIE 1 -->
         <TextView
-            android:text="1. Kto jest Komendantem Głównym Państwowej Straży Pożarnej?"
+            android:id="@+id/txtQuestion"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <EditText
-            android:hint="Odpowiedź A"
+            android:id="@+id/etA"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:hint="Odpowiedź A" />
 
         <EditText
-            android:hint="Odpowiedź B"
+            android:id="@+id/etB"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:hint="Odpowiedź B" />
 
         <EditText
-            android:hint="Odpowiedź C"
+            android:id="@+id/etC"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:hint="Odpowiedź C" />
 
         <RadioGroup
-            android:orientation="horizontal"
-            android:layout_marginBottom="24dp"
+            android:id="@+id/rgCorrect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <RadioButton android:text="A"/>
-            <RadioButton android:text="B"/>
-            <RadioButton android:text="C"/>
-        </RadioGroup>
+            <RadioButton android:id="@+id/rbA" android:text="Poprawna A"/>
+            <RadioButton android:id="@+id/rbB" android:text="Poprawna B"/>
+            <RadioButton android:id="@+id/rbC" android:text="Poprawna C"/>
 
-        <!-- PYTANIE 2 -->
-        <TextView
-            android:text="2. Kto jest Prezesem Zarządu Głównego Związku OSP RP?"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:hint="Odpowiedź A"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:hint="Odpowiedź B"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:hint="Odpowiedź C"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <RadioGroup
-            android:orientation="horizontal"
-            android:layout_marginBottom="32dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <RadioButton android:text="A"/>
-            <RadioButton android:text="B"/>
-            <RadioButton android:text="C"/>
         </RadioGroup>
 
         <Button
-            android:id="@+id/btnSave"
-            android:text="Zapisz"
+            android:id="@+id/btnPrev"
+            android:text="Poprzednie"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
+        <Button
+            android:id="@+id/btnNext"
+            android:text="Następne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnSave"
+            android:text="Zapisz i wróć"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </ScrollView>
