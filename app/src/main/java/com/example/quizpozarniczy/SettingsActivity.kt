@@ -1,5 +1,6 @@
 package com.example.quizpozarniczy
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Button
