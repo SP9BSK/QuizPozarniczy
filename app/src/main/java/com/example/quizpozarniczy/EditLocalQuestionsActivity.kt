@@ -5,12 +5,8 @@ import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
-import com.example.quizpozarniczy.model.LocalQuestion
 
 class EditLocalQuestionsActivity : AppCompatActivity() {
-
-    private var index = 0
-    private lateinit var currentQuestion: LocalQuestion
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,62 +14,41 @@ class EditLocalQuestionsActivity : AppCompatActivity() {
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        val etQuestion = findViewById<EditText>(R.id.etQuestion)
+        // 🔹 Na razie edytujemy PIERWSZE pytanie (jak wcześniej)
+        val question = LocalQuestionsRepository.questions.first()
+
+        val txtQuestion = findViewById<TextView>(R.id.txtQuestion)
+        val etQuoted = findViewById<EditText>(R.id.etQuoted)
         val etA = findViewById<EditText>(R.id.etA)
         val etB = findViewById<EditText>(R.id.etB)
         val etC = findViewById<EditText>(R.id.etC)
-
-        val rbA = findViewById<RadioButton>(R.id.rbA)
-        val rbB = findViewById<RadioButton>(R.id.rbB)
-        val rbC = findViewById<RadioButton>(R.id.rbC)
-
+        val spCorrect = findViewById<Spinner>(R.id.spCorrect)
         val btnSave = findViewById<Button>(R.id.btnSave)
-        val btnNext = findViewById<Button>(R.id.btnNext)
 
-        fun loadQuestion() {
-            currentQuestion = LocalQuestionsRepository.questions[index]
+        // 🔹 Wyświetlenie pytania
+        txtQuestion.text = question.fullQuestion()
+        etQuoted.setText(question.quotedValue)
 
-            etQuestion.setText(currentQuestion.question)
-            etA.setText(currentQuestion.answers[0])
-            etB.setText(currentQuestion.answers[1])
-            etC.setText(currentQuestion.answers[2])
+        etA.setText(question.answers[0])
+        etB.setText(question.answers[1])
+        etC.setText(question.answers[2])
 
-            rbA.isChecked = currentQuestion.correctIndex == 0
-            rbB.isChecked = currentQuestion.correctIndex == 1
-            rbC.isChecked = currentQuestion.correctIndex == 2
-        }
-
-        fun saveQuestion() {
-            currentQuestion.question = etQuestion.text.toString()
-            currentQuestion.answers[0] = etA.text.toString()
-            currentQuestion.answers[1] = etB.text.toString()
-            currentQuestion.answers[2] = etC.text.toString()
-
-            currentQuestion.correctIndex = when {
-                rbA.isChecked -> 0
-                rbB.isChecked -> 1
-                else -> 2
-            }
-
-            Toast.makeText(this, "Zapisano pytanie ${currentQuestion.id}", Toast.LENGTH_SHORT).show()
-        }
+        spCorrect.adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            listOf("A", "B", "C")
+        )
+        spCorrect.setSelection(question.correctIndex)
 
         btnSave.setOnClickListener {
-            saveQuestion()
+            question.quotedValue = etQuoted.text.toString()
+            question.answers[0] = etA.text.toString()
+            question.answers[1] = etB.text.toString()
+            question.answers[2] = etC.text.toString()
+            question.correctIndex = spCorrect.selectedItemPosition
+
+            Toast.makeText(this, "Zapisano pytanie lokalne", Toast.LENGTH_SHORT).show()
+            finish()
         }
-
-        btnNext.setOnClickListener {
-            saveQuestion()
-            index++
-
-            if (index < LocalQuestionsRepository.questions.size) {
-                loadQuestion()
-            } else {
-                Toast.makeText(this, "Koniec listy pytań", Toast.LENGTH_LONG).show()
-                finish()
-            }
-        }
-
-        loadQuestion()
     }
 }
