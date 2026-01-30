@@ -14,8 +14,14 @@ class StartActivity : AppCompatActivity() {
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
+        // Panel sędziego
         findViewById<Button>(R.id.btnJudge).setOnClickListener {
             startActivity(Intent(this, JudgeActivity::class.java))
+        }
+
+        // Ustawienia
+        findViewById<Button>(R.id.btnSettings).setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
     }
 }
