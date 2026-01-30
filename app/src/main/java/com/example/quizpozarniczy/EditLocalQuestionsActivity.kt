@@ -1,8 +1,13 @@
 package com.example.quizpozarniczy
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.WindowManager
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
 
@@ -26,18 +31,25 @@ class EditLocalQuestionsActivity : AppCompatActivity() {
             txtPreview.text = question.fullQuestion()
         }
 
+        // ustawienie początkowe
         etQuoted.setText(question.quotedValue)
         refreshPreview()
 
-        etQuoted.addTextChangedListener {
-            question.quotedValue = it.toString()
-            refreshPreview()
-        }
+        // ✅ KLASYCZNY TextWatcher – PEWNY I STABILNY
+        etQuoted.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                question.quotedValue = s?.toString() ?: ""
+                refreshPreview()
+            }
 
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        // ✅ PRZYCISK ZAPISU – jak wcześniej
         btnSave.setOnClickListener {
             Toast.makeText(this, "Zapisano zmiany", Toast.LENGTH_SHORT).show()
             finish()
         }
     }
 }
-
