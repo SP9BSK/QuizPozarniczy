@@ -1,0 +1,21 @@
+package com.example.quizpozarniczy
+
+import android.os.Bundle
+import android.view.WindowManager
+import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+
+class SettingsActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_settings)
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+        // Na razie tylko przycisk – logikę dodamy później
+        findViewById<Button>(R.id.btnEditLocalQuestions).setOnClickListener {
+            // TODO: przejście do edycji pytań
+        }
+    }
+}
