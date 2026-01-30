@@ -9,61 +9,55 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/etQuestion"
+        <!-- PEŁNE PYTANIE (NIEEDYTOWALNE) -->
+        <TextView
+            android:id="@+id/txtQuestion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Treść pytania"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp" />
 
-        <!-- A -->
-        <RadioButton
-            android:id="@+id/rbA"
-            android:layout_width="wrap_content"
+        <!-- EDYTOWALNA CZĘŚĆ W CUDZYSŁOWIE -->
+        <EditText
+            android:id="@+id/etQuoted"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="A – poprawna" />
+            android:hint="Tekst w cudzysłowie"
+            android:layout_marginBottom="16dp" />
 
+        <!-- ODPOWIEDZI -->
         <EditText
             android:id="@+id/etA"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <!-- B -->
-        <RadioButton
-            android:id="@+id/rbB"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="B – poprawna" />
+            android:hint="Odpowiedź A" />
 
         <EditText
             android:id="@+id/etB"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <!-- C -->
-        <RadioButton
-            android:id="@+id/rbC"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="C – poprawna" />
+            android:hint="Odpowiedź B" />
 
         <EditText
             android:id="@+id/etC"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Odpowiedź C" />
+
+        <!-- POPRAWNA ODPOWIEDŹ -->
+        <Spinner
+            android:id="@+id/spCorrect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" />
 
         <Button
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Zapisz"
-            android:layout_marginTop="16dp" />
-
-        <Button
-            android:id="@+id/btnNext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Następne pytanie" />
+            android:layout_marginTop="24dp" />
 
     </LinearLayout>
 </ScrollView>
