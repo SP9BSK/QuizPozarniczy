@@ -1,55 +1,69 @@
-package com.example.quizpozarniczy
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp">
 
-import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.WindowManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.example.quizpozarniczy.data.LocalQuestionsRepository
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-class EditLocalQuestionsActivity : AppCompatActivity() {
+        <EditText
+            android:id="@+id/etQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Treść pytania"
+            android:textSize="18sp" />
 
-    private var currentIndex = 0
+        <!-- A -->
+        <RadioButton
+            android:id="@+id/rbA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A – poprawna" />
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_local_questions)
+        <EditText
+            android:id="@+id/etA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        <!-- B -->
+        <RadioButton
+            android:id="@+id/rbB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="B – poprawna" />
 
-        val txtPreview = findViewById<TextView>(R.id.txtPreview)
-        val etQuoted = findViewById<EditText>(R.id.etQuotedValue)
-        val btnSave = findViewById<Button>(R.id.btnSave)
+        <EditText
+            android:id="@+id/etB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-        val question = LocalQuestionsRepository.questions[currentIndex]
+        <!-- C -->
+        <RadioButton
+            android:id="@+id/rbC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="C – poprawna" />
 
-        fun refreshPreview() {
-            txtPreview.text = question.fullQuestion()
-        }
+        <EditText
+            android:id="@+id/etC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-        // ustawienie początkowe
-        etQuoted.setText(question.quotedValue)
-        refreshPreview()
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Zapisz"
+            android:layout_marginTop="16dp" />
 
-        // ✅ KLASYCZNY TextWatcher – PEWNY I STABILNY
-        etQuoted.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                question.quotedValue = s?.toString() ?: ""
-                refreshPreview()
-            }
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Następne pytanie" />
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-
-        // ✅ PRZYCISK ZAPISU – jak wcześniej
-        btnSave.setOnClickListener {
-            Toast.makeText(this, "Zapisano zmiany", Toast.LENGTH_SHORT).show()
-            finish()
-        }
-    }
-}
+    </LinearLayout>
+</ScrollView>
