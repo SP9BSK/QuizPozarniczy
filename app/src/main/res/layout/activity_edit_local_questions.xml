@@ -1,66 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="24dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:orientation="vertical">
 
+        <!-- Podgląd pytania -->
         <TextView
-            android:id="@+id/txtQuestion"
-            android:textSize="20sp"
+            android:id="@+id/txtPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_marginBottom="16dp"/>
 
+        <!-- Edycja tylko słowa w cudzysłowie -->
         <EditText
-            android:id="@+id/etA"
+            android:id="@+id/etQuotedValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Odpowiedź A" />
-
-        <EditText
-            android:id="@+id/etB"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Odpowiedź B" />
-
-        <EditText
-            android:id="@+id/etC"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Odpowiedź C" />
-
-        <RadioGroup
-            android:id="@+id/rgCorrect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <RadioButton android:id="@+id/rbA" android:text="Poprawna A"/>
-            <RadioButton android:id="@+id/rbB" android:text="Poprawna B"/>
-            <RadioButton android:id="@+id/rbC" android:text="Poprawna C"/>
-
-        </RadioGroup>
-
-        <Button
-            android:id="@+id/btnPrev"
-            android:text="Poprzednie"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btnNext"
-            android:text="Następne"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:hint="Edytuj tekst w cudzysłowie"/>
 
         <Button
             android:id="@+id/btnSave"
-            android:text="Zapisz i wróć"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Zapisz"
+            android:layout_marginTop="24dp"/>
     </LinearLayout>
 </ScrollView>
