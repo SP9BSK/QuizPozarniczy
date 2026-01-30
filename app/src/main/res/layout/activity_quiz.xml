@@ -6,11 +6,15 @@
     android:padding="24dp">
 
     <TextView
-        android:id="@+id/txtTimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Czas: 00:00"
-        android:textSize="18sp" />
+    android:id="@+id/txtTimer"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="00:00"
+    android:textSize="36sp"
+    android:textStyle="bold"
+    android:textColor="@android:color/black"
+    android:layout_gravity="center_horizontal" />
+
 
     <TextView
         android:id="@+id/txtQuestion"
