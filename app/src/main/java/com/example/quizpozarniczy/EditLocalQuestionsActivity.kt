@@ -10,6 +10,8 @@ import com.example.quizpozarniczy.model.LocalQuestion
 class EditLocalQuestionsActivity : AppCompatActivity() {
 
     private lateinit var txtQuestion: TextView
+    private lateinit var etQuoted1: EditText
+    private lateinit var etQuoted2: EditText
     private lateinit var etA: EditText
     private lateinit var etB: EditText
     private lateinit var etC: EditText
@@ -29,6 +31,8 @@ class EditLocalQuestionsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_edit_local_questions)
 
         txtQuestion = findViewById(R.id.txtQuestion)
+        etQuoted1 = findViewById(R.id.etQuoted1)
+        etQuoted2 = findViewById(R.id.etQuoted2)
         etA = findViewById(R.id.etA)
         etB = findViewById(R.id.etB)
         etC = findViewById(R.id.etC)
@@ -69,6 +73,22 @@ class EditLocalQuestionsActivity : AppCompatActivity() {
 
         txtQuestion.text = q.fullQuestion()
 
+        // -------- FRAGMENTY W CUDZYSŁOWIE --------
+        if (q.quotedValue1 != null) {
+            etQuoted1.visibility = View.VISIBLE
+            etQuoted1.setText(q.quotedValue1)
+        } else {
+            etQuoted1.visibility = View.GONE
+        }
+
+        if (q.quotedValue2 != null) {
+            etQuoted2.visibility = View.VISIBLE
+            etQuoted2.setText(q.quotedValue2)
+        } else {
+            etQuoted2.visibility = View.GONE
+        }
+
+        // -------- ODPOWIEDZI --------
         etA.setText(q.answers[0])
         etB.setText(q.answers[1])
         etC.setText(q.answers[2])
@@ -78,17 +98,18 @@ class EditLocalQuestionsActivity : AppCompatActivity() {
             1 -> rbB.isChecked = true
             2 -> rbC.isChecked = true
         }
-
-        // 🔒 blokada edycji pytań 1 i 2 (brak fragmentów edytowalnych)
-        if (q.quotedValue1 == null && q.quotedValue2 == null) {
-            txtQuestion.alpha = 0.6f
-        } else {
-            txtQuestion.alpha = 1f
-        }
     }
 
     private fun saveCurrent() {
-        val q: LocalQuestion = questions[currentIndex]
+        val q = questions[currentIndex]
+
+        if (q.quotedValue1 != null) {
+            q.quotedValue1 = etQuoted1.text.toString()
+        }
+
+        if (q.quotedValue2 != null) {
+            q.quotedValue2 = etQuoted2.text.toString()
+        }
 
         q.answers[0] = etA.text.toString()
         q.answers[1] = etB.text.toString()
@@ -100,5 +121,7 @@ class EditLocalQuestionsActivity : AppCompatActivity() {
             rbC.isChecked -> 2
             else -> q.correctIndex
         }
+
+        txtQuestion.text = q.fullQuestion()
     }
 }
