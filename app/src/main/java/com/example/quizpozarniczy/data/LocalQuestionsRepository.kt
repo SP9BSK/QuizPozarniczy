@@ -6,39 +6,13 @@ object LocalQuestionsRepository {
 
     val questions: MutableList<LocalQuestion> = mutableListOf(
 
-        // 1
-        LocalQuestion(
-            id = 1,
-            prefix = "Kto jest Komendantem Głównym Państwowej Straży Pożarnej",
-            quotedValue = "",
-            suffix = "?",
-            answers = mutableListOf(
-                "nadbryg. Wojciech Kruczek",
-                "nadbryg. dr inż. Mariusz Feltynowski",
-                "gen. brygadier dr inż. Andrzej Bartkowiak"
-            ),
-            correctIndex = 0
-        ),
-
-        // 2
-        LocalQuestion(
-            id = 2,
-            prefix = "Kto jest Prezesem Zarządu Głównego Związku OSP RP",
-            quotedValue = "",
-            suffix = "?",
-            answers = mutableListOf(
-                "dh Waldemar Pawlak",
-                "dh Wiesław Leśniakiewicz",
-                "dh Edward Siarka"
-            ),
-            correctIndex = 0
-        ),
-
         // 3
         LocalQuestion(
             id = 3,
             prefix = "Kto jest",
-            quotedValue = "małopolskim",
+            quotedValue1 = "małopolskim",
+            middle = "",
+            quotedValue2 = null,
             suffix = " Komendantem Wojewódzkim PSP?",
             answers = mutableListOf(
                 "st. bryg. Michał Polak",
@@ -52,7 +26,9 @@ object LocalQuestionsRepository {
         LocalQuestion(
             id = 4,
             prefix = "Kto jest Prezesem Zarządu oddziału wojewódzkiego ZOSP RP województwa",
-            quotedValue = "małopolskiego",
+            quotedValue1 = "małopolskiego",
+            middle = "",
+            quotedValue2 = null,
             suffix = "?",
             answers = mutableListOf(
                 "dh Edward Siarka",
@@ -65,8 +41,10 @@ object LocalQuestionsRepository {
         // 5
         LocalQuestion(
             id = 5,
-            prefix = "Kto jest Komendantem Powiatowym PSP w",
-            quotedValue = "Suchej Beskidzkiej",
+            prefix = "Kto jest Komendantem",
+            quotedValue1 = "Powiatowym",
+            middle = " PSP w",
+            quotedValue2 = "Suchej Beskidzkiej",
             suffix = "?",
             answers = mutableListOf(
                 "st. bryg. Tomasz Marek",
@@ -79,8 +57,10 @@ object LocalQuestionsRepository {
         // 6
         LocalQuestion(
             id = 6,
-            prefix = "Kto jest Prezesem Oddziału Powiatowego ZOSP RP w",
-            quotedValue = "Suchej Beskidzkiej",
+            prefix = "Kto jest Prezesem Oddziału",
+            quotedValue1 = "Powiatowego",
+            middle = " ZOSP RP w",
+            quotedValue2 = "Suchej Beskidzkiej",
             suffix = "?",
             answers = mutableListOf(
                 "dh Andrzej Gwiazdonik",
@@ -94,8 +74,10 @@ object LocalQuestionsRepository {
         LocalQuestion(
             id = 7,
             prefix = "Kto jest Prezesem Oddziału",
-            quotedValue = "Miejsko-Gminnego",
-            suffix = " ZOSP RP w Makowie Podhalańskim?",
+            quotedValue1 = "Miejsko-Gminnego",
+            middle = " ZOSP RP w",
+            quotedValue2 = "Makowie Podhalańskim",
+            suffix = "?",
             answers = mutableListOf(
                 "dh Edward Orawiec",
                 "dh Stanisław Marek",
@@ -108,7 +90,9 @@ object LocalQuestionsRepository {
         LocalQuestion(
             id = 8,
             prefix = "W którym roku powstała Ochotnicza Straż Pożarna w",
-            quotedValue = "Makowie Podhalańskim",
+            quotedValue1 = "Makowie Podhalańskim",
+            middle = "",
+            quotedValue2 = null,
             suffix = "?",
             answers = mutableListOf(
                 "1962",
@@ -122,7 +106,9 @@ object LocalQuestionsRepository {
         LocalQuestion(
             id = 9,
             prefix = "Jakie pojazdy posiada na swoim wyposażeniu Ochotnicza Straż Pożarna w",
-            quotedValue = "Makowie Podhalańskim",
+            quotedValue1 = "Makowie Podhalańskim",
+            middle = "",
+            quotedValue2 = null,
             suffix = "?",
             answers = mutableListOf(
                 "GCBA 5/32, GBA 3/30, SLRR, SD 30",
@@ -136,7 +122,9 @@ object LocalQuestionsRepository {
         LocalQuestion(
             id = 10,
             prefix = "Kto jest Prezesem Ochotniczej Straży Pożarnej w",
-            quotedValue = "Makowie Podhalańskim",
+            quotedValue1 = "Makowie Podhalańskim",
+            middle = "",
+            quotedValue2 = null,
             suffix = "?",
             answers = mutableListOf(
                 "dh Piotr Fila",
@@ -150,7 +138,9 @@ object LocalQuestionsRepository {
         LocalQuestion(
             id = 11,
             prefix = "Kto jest Naczelnikiem Ochotniczej Straży Pożarnej w",
-            quotedValue = "Makowie Podhalańskim",
+            quotedValue1 = "Makowie Podhalańskim",
+            middle = "",
+            quotedValue2 = null,
             suffix = "?",
             answers = mutableListOf(
                 "dh Maciej Musiał",
@@ -164,8 +154,10 @@ object LocalQuestionsRepository {
         LocalQuestion(
             id = 12,
             prefix = "Kto jest Dowódcą",
-            quotedValue = "Jednostki Ratowniczo-Gaśniczej",
-            suffix = " PSP w Suchej Beskidzkiej?",
+            quotedValue1 = "Jednostki Ratowniczo Gaśniczej",
+            middle = " PSP w",
+            quotedValue2 = "Suchej Beskidzkiej",
+            suffix = "?",
             answers = mutableListOf(
                 "mł. bryg. Wojciech Kania",
                 "bryg. Łukasz Patera",
@@ -177,8 +169,10 @@ object LocalQuestionsRepository {
         // 13
         LocalQuestion(
             id = 13,
-            prefix = "Kto jest Komendantem Gminnym ZOSP RP w",
-            quotedValue = "Makowie Podhalańskim",
+            prefix = "Kto jest Komendantem",
+            quotedValue1 = "Gminnym",
+            middle = " ZOSP RP w",
+            quotedValue2 = "Makowie Podhalańskim",
             suffix = "?",
             answers = mutableListOf(
                 "dh Edward Orawiec",
