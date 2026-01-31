@@ -51,7 +51,7 @@
     </LinearLayout>
 
     <TextView
-        android:text="Autor: st. ogn.Michał Pałka – opiekun MDP OSP Maków Podhalański"
+        android:text="Autor: Michał Pałka – opiekun MDP OSP Maków Podhalański"
         android:textSize="12sp"
         android:gravity="center"
         android:layout_width="match_parent"
