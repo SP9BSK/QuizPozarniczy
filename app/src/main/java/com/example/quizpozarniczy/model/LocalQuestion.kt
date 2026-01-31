@@ -40,4 +40,23 @@ data class LocalQuestion(
 
         return sb.toString()
     }
+    fun fullQuestionNoQuotes(): String {
+    val sb = StringBuilder()
+    sb.append(prefix)
+
+    if (quotedValue1 != null) {
+        sb.append(" ").append(quotedValue1)
+    }
+
+    sb.append(middle)
+
+    if (quotedValue2 != null) {
+        sb.append(" ").append(quotedValue2)
+    }
+
+    sb.append(suffix)
+
+    return sb.toString()
+}
+
 }
