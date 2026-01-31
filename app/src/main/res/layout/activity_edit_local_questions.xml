@@ -9,21 +9,34 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <!-- TREŚĆ PYTANIA (NIEEDYTOWALNA) -->
+        <!-- PODGLĄD PYTANIA -->
         <TextView
             android:id="@+id/txtQuestion"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <!-- 🔥 EDYTOWALNA CZĘŚĆ W CUDZYSŁOWIE (TYLKO DLA PYTAŃ 3+) -->
-        <EditText
-            android:id="@+id/etQuoted"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tekst w cudzysłowie"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:paddingBottom="16dp" />
+
+        <!-- EDYCJA 1 FRAGMENTU -->
+        <EditText
+            android:id="@+id/etQuoted1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Fragment w cudzysłowie (1)"
             android:visibility="gone" />
+
+        <!-- EDYCJA 2 FRAGMENTU -->
+        <EditText
+            android:id="@+id/etQuoted2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Fragment w cudzysłowie (2)"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
 
         <EditText
             android:id="@+id/etA"
@@ -63,21 +76,20 @@
 
         <Button
             android:id="@+id/btnPrev"
-            android:text="Poprzednie"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Poprzednie" />
 
         <Button
             android:id="@+id/btnNext"
-            android:text="Następne"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Następne" />
 
         <Button
             android:id="@+id/btnSave"
-            android:text="Zapisz i wróć"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
+            android:layout_height="wrap_content"
+            android:text="Zapisz i wróć" />
     </LinearLayout>
 </ScrollView>
