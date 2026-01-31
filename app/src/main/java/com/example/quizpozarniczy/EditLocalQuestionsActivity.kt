@@ -62,10 +62,11 @@ class EditLocalQuestionsActivity : AppCompatActivity() {
             }
         }
 
-        btnSave.setOnClickListener {
-            saveCurrent()
-            finish()
-        }
+       btnSave.setOnClickListener {
+    saveCurrent()
+    LocalQuestionsRepository.save(this)
+    finish()
+}
     }
 
     private fun loadQuestion() {
