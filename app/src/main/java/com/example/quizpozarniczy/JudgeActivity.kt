@@ -36,10 +36,11 @@ class JudgeActivity : AppCompatActivity() {
             val localQuestions = etLocalQuestions.text.toString().toInt()
             val timeSeconds = etTime.text.toString().toInt() * 60
 
-            if (localQuestions >= questionsTotal) {
+            // ❗ JEDYNA POPRAWNA WALIDACJA
+            if (localQuestions > questionsTotal) {
                 Toast.makeText(
                     this,
-                    "Pytania lokalne muszą być mniejsze niż liczba pytań ogółem",
+                    "Pytania lokalne nie mogą być większe niż liczba pytań ogółem",
                     Toast.LENGTH_LONG
                 ).show()
                 return@setOnClickListener
