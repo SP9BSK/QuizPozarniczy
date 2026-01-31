@@ -21,22 +21,35 @@ class JudgeActivity : AppCompatActivity() {
 
         val etPlayers = findViewById<EditText>(R.id.etPlayers)
         val etQuestions = findViewById<EditText>(R.id.etQuestions)
+        val etLocalQuestions = findViewById<EditText>(R.id.etLocalQuestions)
         val etTime = findViewById<EditText>(R.id.etTime)
         val btnStart = findViewById<Button>(R.id.btnStart)
 
         setupLiveValidation(etPlayers, 1, 10, "Zawodników")
-        setupLiveValidation(etQuestions, 1, 30, "Pytań")
+        setupLiveValidation(etQuestions, 1, 30, "Pytań ogółem")
+        setupLiveValidation(etLocalQuestions, 1, 3, "Pytań lokalnych")
         setupLiveValidation(etTime, 1, 30, "Czas (min)")
 
         btnStart.setOnClickListener {
             val players = etPlayers.text.toString().toInt()
-            val questions = etQuestions.text.toString().toInt()
+            val questionsTotal = etQuestions.text.toString().toInt()
+            val localQuestions = etLocalQuestions.text.toString().toInt()
             val timeSeconds = etTime.text.toString().toInt() * 60
+
+            if (localQuestions >= questionsTotal) {
+                Toast.makeText(
+                    this,
+                    "Pytania lokalne muszą być mniejsze niż liczba pytań ogółem",
+                    Toast.LENGTH_LONG
+                ).show()
+                return@setOnClickListener
+            }
 
             val intent = Intent(this, QuizActivity::class.java)
             intent.putExtra("PLAYERS", players)
-            intent.putExtra("QUESTIONS", questions)
-            intent.putExtra("TIME_SECONDS", timeSeconds) // ✅ KLUCZ ZGODNY
+            intent.putExtra("QUESTIONS", questionsTotal)
+            intent.putExtra("LOCAL_QUESTIONS", localQuestions)
+            intent.putExtra("TIME_SECONDS", timeSeconds)
 
             startActivity(intent)
         }
