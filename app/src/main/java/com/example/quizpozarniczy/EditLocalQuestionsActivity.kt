@@ -2,7 +2,6 @@ package com.example.quizpozarniczy
 
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
@@ -10,96 +9,96 @@ import com.example.quizpozarniczy.model.LocalQuestion
 
 class EditLocalQuestionsActivity : AppCompatActivity() {
 
-    private var index = 0
-    private lateinit var question: LocalQuestion
+    private lateinit var txtQuestion: TextView
+    private lateinit var etA: EditText
+    private lateinit var etB: EditText
+    private lateinit var etC: EditText
+    private lateinit var rgCorrect: RadioGroup
+    private lateinit var rbA: RadioButton
+    private lateinit var rbB: RadioButton
+    private lateinit var rbC: RadioButton
+    private lateinit var btnPrev: Button
+    private lateinit var btnNext: Button
+    private lateinit var btnSave: Button
+
+    private var currentIndex = 0
+    private val questions = LocalQuestionsRepository.questions
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_local_questions)
 
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        txtQuestion = findViewById(R.id.txtQuestion)
+        etA = findViewById(R.id.etA)
+        etB = findViewById(R.id.etB)
+        etC = findViewById(R.id.etC)
+        rgCorrect = findViewById(R.id.rgCorrect)
+        rbA = findViewById(R.id.rbA)
+        rbB = findViewById(R.id.rbB)
+        rbC = findViewById(R.id.rbC)
+        btnPrev = findViewById(R.id.btnPrev)
+        btnNext = findViewById(R.id.btnNext)
+        btnSave = findViewById(R.id.btnSave)
 
-        val txtQuestion = findViewById<TextView>(R.id.txtQuestion)
-        val etQuoted = findViewById<EditText>(R.id.etQuoted)
-
-        val etA = findViewById<EditText>(R.id.etA)
-        val etB = findViewById<EditText>(R.id.etB)
-        val etC = findViewById<EditText>(R.id.etC)
-
-        val rgCorrect = findViewById<RadioGroup>(R.id.rgCorrect)
-        val rbA = findViewById<RadioButton>(R.id.rbA)
-        val rbB = findViewById<RadioButton>(R.id.rbB)
-        val rbC = findViewById<RadioButton>(R.id.rbC)
-
-        val btnPrev = findViewById<Button>(R.id.btnPrev)
-        val btnNext = findViewById<Button>(R.id.btnNext)
-        val btnSave = findViewById<Button>(R.id.btnSave)
-
-        fun loadQuestion() {
-            question = LocalQuestionsRepository.questions[index]
-
-            // 🔹 pytanie bez edycji
-            txtQuestion.text = question.fullQuestion()
-
-            // 🔥 część w cudzysłowie TYLKO jeśli istnieje
-            if (question.quotedValue != null) {
-                etQuoted.visibility = View.VISIBLE
-                etQuoted.setText(question.quotedValue)
-            } else {
-                etQuoted.visibility = View.GONE
-            }
-
-            etA.setText(question.answers[0])
-            etB.setText(question.answers[1])
-            etC.setText(question.answers[2])
-
-            rgCorrect.clearCheck()
-            when (question.correctIndex) {
-                0 -> rbA.isChecked = true
-                1 -> rbB.isChecked = true
-                2 -> rbC.isChecked = true
-            }
-        }
-
-        fun saveQuestion() {
-            question.answers[0] = etA.text.toString()
-            question.answers[1] = etB.text.toString()
-            question.answers[2] = etC.text.toString()
-
-            if (question.quotedValue != null) {
-                question.quotedValue = etQuoted.text.toString()
-            }
-
-            question.correctIndex = when (rgCorrect.checkedRadioButtonId) {
-                R.id.rbA -> 0
-                R.id.rbB -> 1
-                R.id.rbC -> 2
-                else -> 0
-            }
-        }
+        loadQuestion()
 
         btnPrev.setOnClickListener {
-            saveQuestion()
-            if (index > 0) {
-                index--
+            saveCurrent()
+            if (currentIndex > 0) {
+                currentIndex--
                 loadQuestion()
             }
         }
 
         btnNext.setOnClickListener {
-            saveQuestion()
-            if (index < LocalQuestionsRepository.questions.lastIndex) {
-                index++
+            saveCurrent()
+            if (currentIndex < questions.size - 1) {
+                currentIndex++
                 loadQuestion()
             }
         }
 
         btnSave.setOnClickListener {
-            saveQuestion()
-            Toast.makeText(this, "Zapisano pytania lokalne", Toast.LENGTH_SHORT).show()
+            saveCurrent()
             finish()
         }
+    }
 
-        loadQuestion()
+    private fun loadQuestion() {
+        val q = questions[currentIndex]
+
+        txtQuestion.text = q.fullQuestion()
+
+        etA.setText(q.answers[0])
+        etB.setText(q.answers[1])
+        etC.setText(q.answers[2])
+
+        when (q.correctIndex) {
+            0 -> rbA.isChecked = true
+            1 -> rbB.isChecked = true
+            2 -> rbC.isChecked = true
+        }
+
+        // 🔒 blokada edycji pytań 1 i 2 (brak fragmentów edytowalnych)
+        if (q.quotedValue1 == null && q.quotedValue2 == null) {
+            txtQuestion.alpha = 0.6f
+        } else {
+            txtQuestion.alpha = 1f
+        }
+    }
+
+    private fun saveCurrent() {
+        val q: LocalQuestion = questions[currentIndex]
+
+        q.answers[0] = etA.text.toString()
+        q.answers[1] = etB.text.toString()
+        q.answers[2] = etC.text.toString()
+
+        q.correctIndex = when {
+            rbA.isChecked -> 0
+            rbB.isChecked -> 1
+            rbC.isChecked -> 2
+            else -> q.correctIndex
+        }
     }
 }
