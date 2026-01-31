@@ -6,17 +6,39 @@ object LocalQuestionsRepository {
 
     val questions: MutableList<LocalQuestion> = mutableListOf(
 
+        // 1 (brak edycji)
+        LocalQuestion(
+            id = 1,
+            prefix = "Kto jest Komendantem Głównym Państwowej Straży Pożarnej?",
+            answers = mutableListOf(
+                "nadbryg. Mariusz Feltynowski",
+                "nadbryg. Wojciech Kruczek",
+                "gen. brygadier Andrzej Bartkowiak"
+            ),
+            correctIndex = 1
+        ),
+
+        // 2 (brak edycji)
+        LocalQuestion(
+            id = 2,
+            prefix = "Kto jest Prezesem Zarządy Głównego Związku OSP RP?",
+            answers = mutableListOf(
+                "dh Waldemar Pawlak",
+                "dh Wiesław Leśniakiewicz",
+                "dh Edward Siarka"
+            ),
+            correctIndex = 0
+        ),
+
         // 3
         LocalQuestion(
             id = 3,
             prefix = "Kto jest",
             quotedValue1 = "małopolskim",
-            middle = "",
-            quotedValue2 = null,
-            suffix = " Komendantem Wojewódzkim PSP?",
+            middle = " Komendantem Wojewódzkim PSP?",
             answers = mutableListOf(
-                "st. bryg. Michał Polak",
-                "bryg. Marcin Głogowski",
+                "st. bryg. Marek Bębenek",
+                "nadbryg. Piotr Filipek",
                 "st. bryg. Przemysław Przęczek"
             ),
             correctIndex = 2
@@ -27,8 +49,6 @@ object LocalQuestionsRepository {
             id = 4,
             prefix = "Kto jest Prezesem Zarządu oddziału wojewódzkiego ZOSP RP województwa",
             quotedValue1 = "małopolskiego",
-            middle = "",
-            quotedValue2 = null,
             suffix = "?",
             answers = mutableListOf(
                 "dh Edward Siarka",
@@ -38,7 +58,7 @@ object LocalQuestionsRepository {
             correctIndex = 0
         ),
 
-        // 5
+        // 5 (2 fragmenty edytowalne)
         LocalQuestion(
             id = 5,
             prefix = "Kto jest Komendantem",
@@ -89,10 +109,8 @@ object LocalQuestionsRepository {
         // 8
         LocalQuestion(
             id = 8,
-            prefix = "W którym roku powstała Ochotnicza Straż Pożarna w",
+            prefix = "W który roku powstała Ochotnicza Straż Pożarna w",
             quotedValue1 = "Makowie Podhalańskim",
-            middle = "",
-            quotedValue2 = null,
             suffix = "?",
             answers = mutableListOf(
                 "1962",
@@ -107,8 +125,6 @@ object LocalQuestionsRepository {
             id = 9,
             prefix = "Jakie pojazdy posiada na swoim wyposażeniu Ochotnicza Straż Pożarna w",
             quotedValue1 = "Makowie Podhalańskim",
-            middle = "",
-            quotedValue2 = null,
             suffix = "?",
             answers = mutableListOf(
                 "GCBA 5/32, GBA 3/30, SLRR, SD 30",
@@ -123,8 +139,6 @@ object LocalQuestionsRepository {
             id = 10,
             prefix = "Kto jest Prezesem Ochotniczej Straży Pożarnej w",
             quotedValue1 = "Makowie Podhalańskim",
-            middle = "",
-            quotedValue2 = null,
             suffix = "?",
             answers = mutableListOf(
                 "dh Piotr Fila",
@@ -139,8 +153,6 @@ object LocalQuestionsRepository {
             id = 11,
             prefix = "Kto jest Naczelnikiem Ochotniczej Straży Pożarnej w",
             quotedValue1 = "Makowie Podhalańskim",
-            middle = "",
-            quotedValue2 = null,
             suffix = "?",
             answers = mutableListOf(
                 "dh Maciej Musiał",
