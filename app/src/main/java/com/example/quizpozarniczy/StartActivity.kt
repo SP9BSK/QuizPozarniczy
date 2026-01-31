@@ -5,12 +5,16 @@ import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.example.quizpozarniczy.data.LocalQuestionsRepository
 
 class StartActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
+
+        // 🔥 TO JEST TEN PUNKT 4
+        LocalQuestionsRepository.init(this)
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
