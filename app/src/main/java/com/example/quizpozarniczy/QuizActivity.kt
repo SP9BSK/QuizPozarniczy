@@ -9,6 +9,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.quizpozarniczy.data.LocalQuestionsRepository
 import com.example.quizpozarniczy.model.PlayerResult
 import com.example.quizpozarniczy.model.Question
 import com.example.quizpozarniczy.model.WrongAnswer
@@ -61,15 +62,41 @@ class QuizActivity : AppCompatActivity() {
         btnBack = findViewById(R.id.btnBack)
         btnShowCorrect = findViewById(R.id.btnShowCorrect)
 
-        val questionsLimit = min(intent.getIntExtra("QUESTIONS", 5), MAX_QUESTIONS)
-        playersCount = min(intent.getIntExtra("PLAYERS", 1), MAX_PLAYERS)
-        timePerPlayerSeconds = intent.getIntExtra("TIME_SECONDS", 60)
+        val questionsLimit =
+            min(intent.getIntExtra("QUESTIONS", 5), MAX_QUESTIONS)
+
+        val localQuestionsLimit =
+            intent.getIntExtra("LOCAL_QUESTIONS", 1).coerceIn(1, 3)
+
+        playersCount =
+            min(intent.getIntExtra("PLAYERS", 1), MAX_PLAYERS)
+
+        timePerPlayerSeconds =
+            intent.getIntExtra("TIME_SECONDS", 60)
 
         scores = IntArray(playersCount)
 
-        questions = QuizRepository.getQuestions()
+        // 🔥 PYTANIA LOKALNE
+        val localQuestions = LocalQuestionsRepository.questions
             .shuffled()
-            .take(questionsLimit)
+            .take(localQuestionsLimit)
+            .map {
+                Question(
+                    text = it.fullQuestion(),
+                    answers = it.answers,
+                    correctIndex = it.correctIndex
+                )
+            }
+
+        // 🔥 PYTANIA OGÓLNE
+        val normalQuestionsCount = questionsLimit - localQuestions.size
+
+        val normalQuestions = QuizRepository.getQuestions()
+            .shuffled()
+            .take(normalQuestionsCount)
+
+        // 🔥 POŁĄCZENIE + LOSOWA KOLEJNOŚĆ
+        questions = (localQuestions + normalQuestions).shuffled()
 
         btnA.setOnClickListener { answerSelected(0) }
         btnB.setOnClickListener { answerSelected(1) }
@@ -88,50 +115,52 @@ class QuizActivity : AppCompatActivity() {
         timer?.cancel()
     }
 
-   private fun startTimer() {
-    timer?.cancel()
+    private fun startTimer() {
+        timer?.cancel()
 
-    timer = object : CountDownTimer(timePerPlayerSeconds * 1000L, 1000) {
+        timer = object : CountDownTimer(timePerPlayerSeconds * 1000L, 1000) {
 
-        override fun onTick(ms: Long) {
-            val totalSeconds = ms / 1000
-            val minutes = totalSeconds / 60
-            val seconds = totalSeconds % 60
+            override fun onTick(ms: Long) {
+                val totalSeconds = ms / 1000
+                val minutes = totalSeconds / 60
+                val seconds = totalSeconds % 60
 
-            txtTimer.text = String.format("%02d:%02d", minutes, seconds)
+                txtTimer.text =
+                    String.format("%02d:%02d", minutes, seconds)
 
-            // 🔴 ostatnie 10 sekund – czerwony
-            if (totalSeconds <= 10) {
-                txtTimer.setTextColor(getColor(android.R.color.holo_red_dark))
-            } else {
-                txtTimer.setTextColor(getColor(android.R.color.black))
+                if (totalSeconds <= 10) {
+                    txtTimer.setTextColor(
+                        getColor(android.R.color.holo_red_dark)
+                    )
+                } else {
+                    txtTimer.setTextColor(
+                        getColor(android.R.color.black)
+                    )
+                }
+
+                if (totalSeconds in 1..3) {
+                    toneGenerator.startTone(
+                        ToneGenerator.TONE_PROP_BEEP,
+                        150
+                    )
+                }
             }
 
-            // 🔊 piknięcia: 3, 2, 1
-            if (totalSeconds in 1..3) {
-                toneGenerator.startTone(
-                    ToneGenerator.TONE_PROP_BEEP,
-                    150
+            override fun onFinish() {
+                txtTimer.text = "00:00"
+                txtTimer.setTextColor(
+                    getColor(android.R.color.holo_red_dark)
                 )
+
+                toneGenerator.startTone(
+                    ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD,
+                    2000
+                )
+
+                showPlayerResult()
             }
-        }
-
-        override fun onFinish() {
-    txtTimer.text = "00:00"
-    txtTimer.setTextColor(getColor(android.R.color.holo_red_dark))
-
-    // 🔊 DŁUGI DŹWIĘK KOŃCA CZASU – 2 SEKUNDY
-    toneGenerator.startTone(
-        ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD,
-        2000
-    )
-
-    showPlayerResult()
-}
-
-    }.start()
-}
-
+        }.start()
+    }
 
     private fun showQuestion() {
         if (currentQuestionIndex == 0) {
@@ -147,7 +176,8 @@ class QuizActivity : AppCompatActivity() {
 
         val q = questions[currentQuestionIndex]
 
-        txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\n${q.text}"
+        txtQuestion.text =
+            "Zawodnik ${currentPlayer + 1}\n\n${q.text}"
 
         btnA.text = q.answers[0]
         btnB.text = q.answers[1]
@@ -158,9 +188,9 @@ class QuizActivity : AppCompatActivity() {
 
         btnShowCorrect.visibility = View.GONE
         btnBack.visibility = View.GONE
-        txtQuestionCounter.text =
-    "${currentQuestionIndex + 1} / ${questions.size}"
 
+        txtQuestionCounter.text =
+            "${currentQuestionIndex + 1} / ${questions.size}"
     }
 
     private fun answerSelected(index: Int) {
@@ -208,12 +238,15 @@ class QuizActivity : AppCompatActivity() {
         btnC.visibility = View.GONE
 
         btnShowCorrect.visibility =
-            if (wrongAnswersCurrentPlayer.isNotEmpty()) View.VISIBLE else View.GONE
+            if (wrongAnswersCurrentPlayer.isNotEmpty())
+                View.VISIBLE else View.GONE
 
         btnBack.visibility = View.VISIBLE
         btnBack.text =
-            if (currentPlayer + 1 < playersCount) "Następny zawodnik"
-            else "Zobacz wyniki"
+            if (currentPlayer + 1 < playersCount)
+                "Następny zawodnik"
+            else
+                "Zobacz wyniki"
 
         btnBack.setOnClickListener {
             btnShowCorrect.visibility = View.GONE
@@ -252,21 +285,21 @@ class QuizActivity : AppCompatActivity() {
 
             when (i) {
                 w.correctIndex -> {
-                    btn.setBackgroundColor(getColor(R.color.answer_correct))
-                    btn.setTextColor(getColor(android.R.color.black))
+                    btn.setBackgroundColor(
+                        getColor(R.color.answer_correct)
+                    )
                 }
                 w.chosenIndex -> {
-                    btn.setBackgroundColor(getColor(R.color.answer_wrong))
-                    btn.setTextColor(getColor(android.R.color.black))
+                    btn.setBackgroundColor(
+                        getColor(R.color.answer_wrong)
+                    )
                 }
                 else -> {
-                    btn.setBackgroundColor(getColor(android.R.color.darker_gray))
-                    btn.setTextColor(getColor(android.R.color.white))
+                    btn.setBackgroundColor(
+                        getColor(android.R.color.darker_gray)
+                    )
                 }
             }
-
-            btn.textSize = 18f
-            btn.setPadding(32, 24, 32, 24)
         }
 
         btnBack.visibility = View.VISIBLE
@@ -280,14 +313,15 @@ class QuizActivity : AppCompatActivity() {
 
     private fun showFinalResults() {
         btnShowCorrect.visibility = View.GONE
-
         btnA.visibility = View.GONE
         btnB.visibility = View.GONE
         btnC.visibility = View.GONE
 
         val sb = StringBuilder("Koniec quizu\n\n")
         playerResults.forEach {
-            sb.append("Zawodnik ${it.playerNumber}: ${it.score}/${it.total}\n")
+            sb.append(
+                "Zawodnik ${it.playerNumber}: ${it.score}/${it.total}\n"
+            )
         }
 
         txtQuestion.text = sb.toString()
@@ -304,8 +338,6 @@ class QuizActivity : AppCompatActivity() {
         listOf(btnA, btnB, btnC).forEach { btn ->
             btn.setBackgroundResource(def)
             btn.setTextColor(getColor(android.R.color.black))
-            btn.textSize = 16f
-            btn.setPadding(24, 20, 24, 20)
             btn.visibility = View.VISIBLE
             btn.isEnabled = true
         }
