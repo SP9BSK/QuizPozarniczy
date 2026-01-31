@@ -76,17 +76,10 @@ class QuizActivity : AppCompatActivity() {
 
         scores = IntArray(playersCount)
 
-        // 🔥 PYTANIA LOKALNE
-        val localQuestions = LocalQuestionsRepository.questions
-            .shuffled()
-            .take(localQuestionsLimit)
-            .map {
-                Question(
-                    text = it.fullQuestion(),
-                    answers = it.answers,
-                    correctIndex = it.correctIndex
-                )
-            }
+        // 🔥 PYTANIA LOKALNE (BEZ CUDZYSŁOWÓW)
+val localQuestions = LocalQuestionsRepository
+    .toQuizQuestions(localQuestionsLimit)
+
 
         // 🔥 PYTANIA OGÓLNE
         val normalQuestionsCount = questionsLimit - localQuestions.size
