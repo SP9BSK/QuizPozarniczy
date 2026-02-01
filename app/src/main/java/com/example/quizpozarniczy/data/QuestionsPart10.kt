@@ -27,8 +27,8 @@ val questionsPart10 = listOf(
     Question(
         text = "Ekoperl to:",
         answers = listOf(
-            "Nazwa pompy do ratownictwa chemiczno–ekologicznego",
-            "Sorbent – środek wiążący substancje niebezpieczne",
+            "Nazwa pompy do ratownictwa chemiczno-ekologicznego",
+            "Sorbent - środek wiążący substancje niebezpieczne",
             "Urządzenie do szybkiego mierzenia ciśnienia"
         ),
         correctIndex = 1
@@ -77,7 +77,7 @@ val questionsPart10 = listOf(
     Question(
         text = "Odległość hydrantu zewnętrznego od ścian budynku powinna wynosić:",
         answers = listOf(
-            "2–10 m",
+            "2-10 m",
             "Najmniej 5 m",
             "Do 5 m"
         ),
@@ -85,7 +85,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
-        text = "Minimalna odległość między butlą z gazem propan–butan a urządzeniem grzewczym powinna wynosić:",
+        text = "Minimalna odległość między butlą z gazem propan-butan a urządzeniem grzewczym powinna wynosić:",
         answers = listOf(
             "1,5 m",
             "2 m",
@@ -115,7 +115,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
-        text = "Ustawa „Prawo ochrony środowiska” została uchwalona:",
+        text = "Ustawa \"Prawo ochrony środowiska\" została uchwalona:",
         answers = listOf(
             "27 kwietnia 2001 r.",
             "3 listopada 1999 r.",
@@ -125,7 +125,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
-        text = "Funkcjonariusz PSP wykonujący czynności kontrolno–rozpoznawcze może ukarać kontrolowanego poprzez:",
+        text = "Funkcjonariusz PSP wykonujący czynności kontrolno-rozpoznawcze może ukarać kontrolowanego poprzez:",
         answers = listOf(
             "Skierowanie wniosku do kolegium ds. wykroczeń",
             "Skierowanie wniosku do Sądu Grodzkiego",
@@ -141,7 +141,7 @@ val questionsPart10 = listOf(
             "Wodór",
             "Nie wydziela się żaden gaz"
         ),
-        correctIndex = 2
+        correctIndex = 1
     ),
 
     Question(
@@ -162,3 +162,5 @@ val questionsPart10 = listOf(
             "Obniżenie górnych granic wybuchowości"
         ),
         correctIndex = 1
+    )
+)
