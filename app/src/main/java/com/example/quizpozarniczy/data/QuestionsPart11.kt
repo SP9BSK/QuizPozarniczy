@@ -225,4 +225,53 @@ val questionsPart11 = listOf(
     ),
 
     Question(
-        text = "Na jakiej wysokości powinny być i
+        text = "Na jakiej wysokości powinny być instalowane zawory przy hydrantach wewnętrznych?",
+        answers = listOf(
+            "1,0 m (±0,05 m)",
+            "1,35 m (±0,05 m)",
+            "1,4 m (±0,05 m)"
+        ),
+        correctIndex = 1
+    ),
+
+    Question(
+        text = "Czy w obiektach kultu religijnego wymagane jest stosowanie znaków ewakuacyjnych?",
+        answers = listOf(
+            "Tak",
+            "Nie",
+            "Tak, jeżeli powierzchnia przekracza 500 m²"
+        ),
+        correctIndex = 0
+    ),
+
+    Question(
+        text = "W ilu zbiornikach może być zgromadzona woda do gaszenia kompleksu leśnego powyżej 10 ha?",
+        answers = listOf(
+            "Tylko w jednym",
+            "Nie ogranicza się",
+            "Najwyżej w dwóch"
+        ),
+        correctIndex = 2
+    ),
+
+    Question(
+        text = "Lekka woda to:",
+        answers = listOf(
+            "Wypełniacz poduszek niskociśnieniowych",
+            "Środek gaśniczy skuteczny przy pożarach grupy B i A sypkich",
+            "Roztwór piany lekkiej"
+        ),
+        correctIndex = 1
+    ),
+
+    Question(
+        text = "Ile wynosi minimalna głębokość przeciwpożarowego zbiornika wodnego?",
+        answers = listOf(
+            "0,5 m",
+            "0,7 m",
+            "1,2 m"
+        ),
+        correctIndex = 0
+    )
+
+)
