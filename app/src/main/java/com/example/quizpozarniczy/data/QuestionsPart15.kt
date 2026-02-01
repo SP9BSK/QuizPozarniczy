@@ -224,7 +224,44 @@ val questionsPart15 = listOf(
         correctIndex = 0
     ),
 
-    Question(
+   Question(
         text = "W jakim pomieszczeniu kraty w oknach powinny otwierać się od wewnątrz?",
         answers = listOf(
             "W każdym przeznaczonym na pobyt ludzi",
+            "Hotelowym",
+            "Produkcyjnym i usługowym"
+        ),
+        correctIndex = 1
+    ),
+
+    Question(
+        text = "Jaki jest nominalny zasięg poziomy hydrantu wewnętrznego 25 z jednym odcinkiem węża 15 m?",
+        answers = listOf(
+            "25 m",
+            "30 m",
+            "35 m"
+        ),
+        correctIndex = 0
+    ),
+
+    Question(
+        text = "Ile wynosi najmniejsza powierzchnia otworu pod klapę dymową?",
+        answers = listOf(
+            "0,6 m²",
+            "1,8 m²",
+            "1,0 m²"
+        ),
+        correctIndex = 1
+    ),
+
+    Question(
+        text = "Jaką nazwę nosiła utworzona w 1860 r. w Galicji instytucja ubezpieczeń od ognia?",
+        answers = listOf(
+            "Powszechne Towarzystwo Ubezpieczeń",
+            "Krajowe Towarzystwo Ubezpieczeń od Ognia",
+            "Towarzystwo Ubezpieczeń od Klęsk Żywiołowych i Ognia"
+        ),
+        correctIndex = 1
+    )
+
+)
