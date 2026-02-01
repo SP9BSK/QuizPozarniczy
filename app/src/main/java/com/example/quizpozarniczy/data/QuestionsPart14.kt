@@ -157,4 +157,91 @@ val questionsPart14 = listOf(
     Question(
         text = "CKG są to ubrania:",
         answers = listOf(
-            "Ochrony przeciwchem
+            "Ochrony przeciwchemicznej",
+            "Żaroodporne",
+            "Nurkowe"
+        ),
+        correctIndex = 0
+    ),
+
+    Question(
+        text = "27.06.1996 r. ZG ZOSP RP ustanowił Medal Honorowy im.:",
+        answers = listOf(
+            "Zygmunta Hormańskiego",
+            "Bolesława Chomicza",
+            "Józefa Tuliszkowskiego"
+        ),
+        correctIndex = 1
+    ),
+
+    Question(
+        text = "Organizatorami zdobywania Młodzieżowej Odznaki Sprawności Obronnej o specjalności pożarniczej były:",
+        answers = listOf(
+            "OSP i Ludowe Zespoły Sportowe",
+            "OSP i Liga Obrony Kraju",
+            "OSP, LZS, LOK"
+        ),
+        correctIndex = 2
+    ),
+
+    Question(
+        text = "Drużyny strażackie brały udział w konkursie im. Władysława Orkana, który poświęcony był:",
+        answers = listOf(
+            "Organizowaniu bibliotek przez OSP",
+            "Organizowaniu kółek dramatycznych",
+            "Upowszechnianiu czytelnictwa"
+        ),
+        correctIndex = 2
+    ),
+
+    Question(
+        text = "W którym roku w miejsce zlikwidowanego „Strażaka” utworzono periodyk „Przegląd Pożarniczy”?",
+        answers = listOf(
+            "1905 r.",
+            "1912 r.",
+            "1920 r."
+        ),
+        correctIndex = 1
+    ),
+
+    Question(
+        text = "Jeśli w 1970 r. straży typu „S” było 5467, to w 1980 r. było:",
+        answers = listOf(
+            "7900",
+            "8446",
+            "10320"
+        ),
+        correctIndex = 1
+    ),
+
+    Question(
+        text = "Najwcześniej w Europie samochody pojawiły się w strażach:",
+        answers = listOf(
+            "Paryża i Hanoweru",
+            "Berlina i Londynu",
+            "Wiednia i Amsterdamu"
+        ),
+        correctIndex = 0
+    ),
+
+    Question(
+        text = "W 1961 r. utworzono stałych kin strażackich:",
+        answers = listOf(
+            "161",
+            "192",
+            "221"
+        ),
+        correctIndex = 0
+    ),
+
+    Question(
+        text = "Pierwszą myśl i koncepcję utworzenia w Królestwie Polskim oddziałów „strażaczek” sformułowano:",
+        answers = listOf(
+            "Na Zjeździe Straży Ogniowych we Wrocławiu w 1912 r.",
+            "W „Strażaku” w 1910 r.",
+            "W „Przewodniku Pożarniczym” w 1916 r."
+        ),
+        correctIndex = 1
+    )
+
+)
