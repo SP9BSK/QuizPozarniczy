@@ -45,4 +45,83 @@ val questionsPart12 = listOf(
     ),
 
     Question(
-        text = "Budynki szkolne najczęściej zalicza się do
+        text = "Budynki szkolne najczęściej zalicza się do kategorii zagrożenia życia ludzi:",
+        answers = listOf(
+            "ZL II",
+            "ZL III",
+            "ZL IV"
+        ),
+        correctIndex = 1
+    ),
+
+    Question(
+        text = "Chlor jest gazem o barwie:",
+        answers = listOf(
+            "Niebiesko-żółtej",
+            "Żółto-zielonej",
+            "Niebiesko-fioletowej"
+        ),
+        correctIndex = 1
+    ),
+
+    Question(
+        text = "W obowiązujących przepisach techniczno–budowlanych ustanowiono liczbę klas odporności pożarowej budynków:",
+        answers = listOf(
+            "6",
+            "7",
+            "5"
+        ),
+        correctIndex = 2
+    ),
+
+    Question(
+        text = "Co zyskujemy przy szeregowym łączeniu pomp?",
+        answers = listOf(
+            "Sumę ciśnień wszystkich pomp",
+            "Sumę wydatków wszystkich pomp",
+            "Sumę ciśnień i wydatków wszystkich pomp"
+        ),
+        correctIndex = 0
+    ),
+
+    Question(
+        text = "Front działania prądu gaśniczego w obronie wynosi:",
+        answers = listOf(
+            "10 m",
+            "20 m",
+            "25 m"
+        ),
+        correctIndex = 1
+    ),
+
+    Question(
+        text = "Jak nazywa się popularnie kamizelka ratowniczo–wypornościowa (KRW) stosowana podczas nurkowania?",
+        answers = listOf(
+            "Jacket",
+            "Dry suit",
+            "Hydrodyna"
+        ),
+        correctIndex = 0
+    ),
+
+    Question(
+        text = "Pożar lasu o powierzchni 6 ha zostanie zakwalifikowany jako:",
+        answers = listOf(
+            "Pożar średni",
+            "Pożar mały",
+            "Pożar duży"
+        ),
+        correctIndex = 0
+    ),
+
+    Question(
+        text = "Ile wynosi najmniejsza czynna powierzchnia klapy dymowej?",
+        answers = listOf(
+            "0,6 m²",
+            "0,8 m²",
+            "1,0 m²"
+        ),
+        correctIndex = 1
+    )
+
+)
