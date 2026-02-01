@@ -162,5 +162,36 @@ val questionsPart10 = listOf(
             "Obniżenie górnych granic wybuchowości"
         ),
         correctIndex = 1
+    ),
+
+    Question(
+        text = "Chloropikryna jest substancją:",
+        answers = listOf(
+            "Cieczą żrącą o błękitnej barwie",
+            "Cieczą palną, bezbarwną o duszącym zapachu",
+            "Cieczą niepalną, bezbarwną, ogólnotoksyczną o ostrym i duszącym zapachu"
+        ),
+        correctIndex = 2
+    ),
+
+    Question(
+        text = "Czy pod kładką dla pieszych o konstrukcji stalowej można garażować samochody osobowe?",
+        answers = listOf(
+            "Tak",
+            "Nie",
+            "Tak, jeżeli wysokość wynosi co najmniej 4 m"
+        ),
+        correctIndex = 1
+    ),
+
+    Question(
+        text = "Jaki rodzaj ochrony odgromowej należy zastosować w budynku szpitala psychiatrycznego?",
+        answers = listOf(
+            "Ochronę podstawową",
+            "Ochronę obostrzoną",
+            "Ochronę specjalną"
+        ),
+        correctIndex = 0
     )
+
 )
