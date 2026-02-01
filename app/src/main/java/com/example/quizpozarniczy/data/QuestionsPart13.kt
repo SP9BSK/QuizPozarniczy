@@ -155,4 +155,73 @@ val questionsPart13 = listOf(
     ),
 
     Question(
-        text = "Obowiązujące rozporządzenie w sprawie warunków technicznych, jakim powinny odpowi
+        text = "Obowiązujące rozporządzenie w sprawie warunków technicznych, jakim powinny odpowiadać budynki i ich usytuowanie, wydał:",
+        answers = listOf(
+            "Minister Gospodarki Przestrzennej i Budownictwa",
+            "Minister Spraw Wewnętrznych i Administracji",
+            "Minister Infrastruktury"
+        ),
+        correctIndex = 2
+    ),
+
+    Question(
+        text = "Sekcja wysokiego ciśnienia w autopompie samochodu gaśniczego podaje wodę pod ciśnieniem:",
+        answers = listOf(
+            "100 bar",
+            "140 bar",
+            "40 bar"
+        ),
+        correctIndex = 2
+    ),
+
+    Question(
+        text = "Gdzie należy stosować oświetlenie ewakuacyjne?",
+        answers = listOf(
+            "Na wszystkich drogach ewakuacyjnych",
+            "Na drogach ewakuacyjnych niedoświetlonych światłem dziennym",
+            "Na drogach ewakuacyjnych w obiektach ZL III"
+        ),
+        correctIndex = 1
+    ),
+
+    Question(
+        text = "Starosta kieruje działaniami w celu zapobieżenia skutkom klęski żywiołowej przy pomocy:",
+        answers = listOf(
+            "Zespołu do spraw ochrony przeciwpożarowej i ratownictwa",
+            "Powiatowego zespołu reagowania kryzysowego",
+            "Powiatowego zespołu do spraw bezpieczeństwa"
+        ),
+        correctIndex = 1
+    ),
+
+    Question(
+        text = "Toporek strażacki ma masę:",
+        answers = listOf(
+            "1,25 kg",
+            "1,5 kg",
+            "1,7 kg"
+        ),
+        correctIndex = 0
+    ),
+
+    Question(
+        text = "Elementy nierozprzestrzeniające ognia to elementy wykonane z materiałów:",
+        answers = listOf(
+            "Trudno zapalnych",
+            "Niepalnych i niezapalnych",
+            "Łatwo zapalnych"
+        ),
+        correctIndex = 1
+    ),
+
+    Question(
+        text = "Odległość między ścianami zewnętrznymi budynków może być zmniejszona o 50%, jeżeli zastosowano:",
+        answers = listOf(
+            "Urządzenia oddymiające",
+            "Instalację sygnalizacji pożaru",
+            "Stałe urządzenia gaśnicze wodne"
+        ),
+        correctIndex = 2
+    )
+
+)
