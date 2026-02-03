@@ -24,14 +24,12 @@ class StartActivity : AppCompatActivity() {
             startActivity(Intent(this, JudgeActivity::class.java))
         }
 
-        // Tryb nauki (na razie placeholder)
+        // Tryb nauki 
         findViewById<Button>(R.id.btnLearn).setOnClickListener {
-            Toast.makeText(
-                this,
-                "Tryb nauki – w przygotowaniu",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+    startActivity(Intent(this, LearningActivity::class.java))
+       } 
+
+        
 
         // Ustawienia
         findViewById<Button>(R.id.btnSettings).setOnClickListener {
