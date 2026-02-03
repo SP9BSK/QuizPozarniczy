@@ -16,6 +16,12 @@ import com.example.quizpozarniczy.data.questionsPart12
 import com.example.quizpozarniczy.data.questionsPart13
 import com.example.quizpozarniczy.data.questionsPart14
 import com.example.quizpozarniczy.data.questionsPart15
+import com.example.quizpozarniczy.data.questionsPart16
+import com.example.quizpozarniczy.data.questionsPart17
+import com.example.quizpozarniczy.data.questionsPart18
+import com.example.quizpozarniczy.data.questionsPart19
+import com.example.quizpozarniczy.data.questionsPart20
+import com.example.quizpozarniczy.data.questionsPart21
 import com.example.quizpozarniczy.model.Question
 
 object QuizRepository {
@@ -40,7 +46,13 @@ object QuizRepository {
             questionsPart12 +
             questionsPart13 +
             questionsPart14 +
-            questionsPart15
+            questionsPart15 +
+            questionsPart16 +
+            questionsPart17 +
+            questionsPart18 +
+            questionsPart19 +
+            questionsPart20 +
+            questionsPart21
 
         val localQuestions = DefaultLocalQuestions.questions
             .shuffled()
