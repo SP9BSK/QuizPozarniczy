@@ -11,39 +11,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Nadaj prawa wykonywalne dla gradlew
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-
-      # Java 17
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      # Gradle
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v3
         with:
           gradle-version: 8.2
 
-      # Build FullDebug (Opiekun)
-      - name: Build FullDebug APK
-        run: ./gradlew assembleFullDebug --no-daemon
+      - name: Build debug APKs
+        run: gradle assembleDebug
 
-      - name: Upload FullDebug APK
+      - name: Upload APKs
         uses: actions/upload-artifact@v4
         with:
-          name: QuizPożarniczyMDP-Opiekun
-          path: app/build/outputs/apk/full/debug/app-full-debug.apk
-
-      # Build LearningDebug (Młodzież)
-      - name: Build LearningDebug APK
-        run: ./gradlew assembleLearningDebug --no-daemon
-
-      - name: Upload LearningDebug APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: QuizPożarniczyMDP-Młodzież
-          path: app/build/outputs/apk/learning/debug/app-learning-debug.apk
+          name: QuizPozarniczy-APKs
+          path: app/build/outputs/apk/
