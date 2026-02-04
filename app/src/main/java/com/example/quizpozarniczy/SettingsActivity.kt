@@ -7,6 +7,7 @@ import android.view.WindowManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.DefaultLocalQuestions
+import com.example.quizpozarniczy.model.Question
 import com.example.quizpozarniczy.util.QuizExporter
 
 class SettingsActivity : AppCompatActivity() {
@@ -29,20 +30,33 @@ class SettingsActivity : AppCompatActivity() {
 
         // UDOSTĘPNIJ TRYB NAUKI
         findViewById<Button>(R.id.btnShareLearningMode).setOnClickListener {
-            // Pobieramy pytania lokalne
-            val localQuestions = DefaultLocalQuestions.questions
 
-            // Generujemy plik JSON i dostajemy Uri
-            val fileUri: Uri = QuizExporter.createExportJson(this, localQuestions)
+            // 1️⃣ Pytania ogólne (WSZYSTKIE, bez lokalnych)
+            val generalQuestions: List<Question> =
+                QuizRepository.getQuestions(localCount = 0)
 
-            // Tworzymy Intent do udostępnienia JSON
+            // 2️⃣ Pytania lokalne po edycji
+            val localQuestions =
+                DefaultLocalQuestions.questions
+
+            // 3️⃣ Eksport do JSON → Uri
+            val uri: Uri = QuizExporter
+                .createExportJson(this, generalQuestions, localQuestions)
+                ?: return@setOnClickListener
+
+            // 4️⃣ Udostępnienie pliku
             val shareIntent = Intent(Intent.ACTION_SEND).apply {
                 type = "application/json"
-                putExtra(Intent.EXTRA_STREAM, fileUri)
+                putExtra(Intent.EXTRA_STREAM, uri)
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
 
-            startActivity(Intent.createChooser(shareIntent, "Udostępnij Quiz Pożarniczy MDP"))
+            startActivity(
+                Intent.createChooser(
+                    shareIntent,
+                    "Udostępnij Quiz Pożarniczy MDP – Tryb Nauki"
+                )
+            )
         }
     }
 }
