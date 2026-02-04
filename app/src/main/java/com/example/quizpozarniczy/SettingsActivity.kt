@@ -1,12 +1,12 @@
 package com.example.quizpozarniczy
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.DefaultLocalQuestions
-import com.example.quizpozarniczy.model.Question
 import com.example.quizpozarniczy.util.QuizExporter
 
 class SettingsActivity : AppCompatActivity() {
@@ -29,11 +29,19 @@ class SettingsActivity : AppCompatActivity() {
 
         // UDOSTĘPNIJ TRYB NAUKI
         findViewById<Button>(R.id.btnShareLearningMode).setOnClickListener {
-            // Pobieramy wszystkie pytania: ogólne + lokalne
-            val questions: List<Question> = QuizRepository.getQuestions(DefaultLocalQuestions.questions.size)
+            // Pobieramy pytania lokalne
+            val localQuestions = DefaultLocalQuestions.questions
 
-            // Generujemy JSON i udostępniamy
-            val shareIntent = QuizExporter.createExportJson(this, questions)
+            // Generujemy plik JSON i dostajemy Uri
+            val fileUri: Uri = QuizExporter.createExportJson(this, localQuestions)
+
+            // Tworzymy Intent do udostępnienia JSON
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "application/json"
+                putExtra(Intent.EXTRA_STREAM, fileUri)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+
             startActivity(Intent.createChooser(shareIntent, "Udostępnij Quiz Pożarniczy MDP"))
         }
     }
