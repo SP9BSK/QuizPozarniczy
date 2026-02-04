@@ -5,10 +5,33 @@
     android:orientation="vertical"
     android:padding="24dp">
 
+    <!-- ISTNIEJĄCY PRZYCISK -->
     <Button
         android:id="@+id/btnEditLocalQuestions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Edycja pytań lokalnych" />
+
+    <!-- NOWE PRZYCISKI -->
+    <Button
+        android:id="@+id/btnA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="A"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/btnB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="B"
+        android:layout_marginTop="12dp" />
+
+    <Button
+        android:id="@+id/btnRegulamin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Regulamin"
+        android:layout_marginTop="24dp" />
 
 </LinearLayout>
