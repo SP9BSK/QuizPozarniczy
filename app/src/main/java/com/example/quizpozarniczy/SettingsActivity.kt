@@ -33,13 +33,19 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun shareLearningMode() {
-        // Pobierz pytania z repozytorium
-        val quizRepository = QuizRepository.getInstance(this)
+        // Pobierz wszystkie pytania z repozytorium
+        val allQuestions = QuizRepository.getQuestions(localCount = DefaultLocalQuestions.questions.size)
+
+        // Konwertujemy LocalQuestion z DefaultLocalQuestions na format eksportowy
+        val localQuestions = DefaultLocalQuestions.questions
 
         val uri = QuizExporter.createExportJson(
             context = this,
-            generalQuestions = quizRepository.getGeneralQuestions(),
-            localQuestions = quizRepository.getLocalQuestions()
+            generalQuestions = allQuestions.map { q ->
+                // Te pytania, które nie są lokalnymi, traktujemy jako ogólne
+                Question(q.text, q.answers, q.correctIndex)
+            },
+            localQuestions = localQuestions
         )
 
         uri?.let {
