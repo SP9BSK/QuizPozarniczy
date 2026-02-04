@@ -12,35 +12,39 @@ jobs:
       # 1. Pobranie kodu
       - uses: actions/checkout@v4
 
-      # 2. Java 17
+      # 2. Nadaj prawa wykonywalne dla gradlew
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      # 3. Java 17
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      # 3. Gradle
+      # 4. Gradle
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v3
         with:
           gradle-version: 8.2
 
-      # 4. Build FullDebug (Opiekun)
+      # 5. Build FullDebug (Opiekun)
       - name: Build FullDebug APK
         run: ./gradlew assembleFullDebug
 
-      # 5. Upload FullDebug APK
+      # 6. Upload FullDebug APK
       - name: Upload FullDebug APK
         uses: actions/upload-artifact@v4
         with:
           name: "Quiz Pożarniczy MDP – Opiekun"
           path: app/build/outputs/apk/full/debug/app-full-debug.apk
 
-      # 6. Build LearningDebug (Młodzież)
+      # 7. Build LearningDebug (Młodzież)
       - name: Build LearningDebug APK
         run: ./gradlew assembleLearningDebug
 
-      # 7. Upload LearningDebug APK
+      # 8. Upload LearningDebug APK
       - name: Upload LearningDebug APK
         uses: actions/upload-artifact@v4
         with:
