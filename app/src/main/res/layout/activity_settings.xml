@@ -21,11 +21,12 @@
         android:layout_marginTop="16dp" />
 
     <Button
-        android:id="@+id/btnB"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="B"
-        android:layout_marginTop="12dp" />
+    android:id="@+id/btnShareLearningMode"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Udostępnij tryb nauki"
+    android:layout_marginTop="16dp"/>
+
 
     <Button
         android:id="@+id/btnRegulamin"
