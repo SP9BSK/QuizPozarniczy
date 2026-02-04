@@ -27,20 +27,20 @@ android {
     }
 
     flavorDimensions "mode"
-    productFlavors {
-        full {
-            dimension "mode"
-            applicationId "com.example.quizpozarniczy"
-            resValue "string", "app_name", "Quiz Pożarniczy"
-            manifestPlaceholders = [startActivity: "com.example.quizpozarniczy.StartActivity"]
-        }
-        learning {
-            dimension "mode"
-            applicationId "com.example.quizpozarniczy.learning"
-            resValue "string", "app_name", "Quiz Pożarniczy MDP - Tryb Nauki"
-            manifestPlaceholders = [startActivity: "com.example.quizpozarniczy.LearningActivity"]
-        }
+
+productFlavors {
+
+    full {
+        dimension "mode"
+        resValue "string", "app_name", "Quiz Pożarniczy MDP – Opiekun"
     }
+
+    learning {
+        dimension "mode"
+        resValue "string", "app_name", "Quiz Pożarniczy MDP – Młodzież"
+    }
+}
+
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
