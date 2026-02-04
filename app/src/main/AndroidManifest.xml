@@ -9,7 +9,7 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round">
 
-        <!-- START / LEARNING ACTIVITY -->
+        <!-- DYNAMICZNE START ACTIVITY -->
         <activity
             android:name="${startActivity}"
             android:exported="true">
@@ -27,11 +27,6 @@
         <!-- QUIZ -->
         <activity
             android:name=".QuizActivity"
-            android:exported="false" />
-
-        <!-- TRYB NAUKI -->
-        <activity
-            android:name=".LearningActivity"
             android:exported="false" />
 
         <!-- USTAWIENIA -->
