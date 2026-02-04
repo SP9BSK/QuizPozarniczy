@@ -1,6 +1,7 @@
 package com.example.quizpozarniczy
 
 import android.os.Bundle
+import android.view.WindowManager   // ⬅️ TO BYŁO POTRZEBNE
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -29,6 +30,7 @@ class LearningActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_learning)
 
+        // 🔥 NIE GAŚ EKRAN
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         txtProgress = findViewById(R.id.txtProgress)
@@ -51,6 +53,10 @@ class LearningActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    // reszta pliku BEZ ZMIAN
+}
+
 
     private fun loadAllQuestions() {
         allQuestions.clear()
