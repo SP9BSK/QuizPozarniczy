@@ -9,24 +9,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Pobranie kodu
       - uses: actions/checkout@v4
 
+      # 2. Java 17
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
+      # 3. Gradle
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v3
         with:
           gradle-version: 8.2
 
-      - name: Build debug APKs
-        run: gradle assembleDebug
+      # 4. Build FullDebug (Opiekun)
+      - name: Build FullDebug APK
+        run: ./gradlew assembleFullDebug
 
-      - name: Upload APKs
+      # 5. Upload FullDebug APK
+      - name: Upload FullDebug APK
         uses: actions/upload-artifact@v4
         with:
-          name: QuizPozarniczy-APKs
-          path: app/build/outputs/apk/
+          name: "Quiz Pożarniczy MDP – Opiekun"
+          path: app/build/outputs/apk/full/debug/app-full-debug.apk
+
+      # 6. Build LearningDebug (Młodzież)
+      - name: Build LearningDebug APK
+        run: ./gradlew assembleLearningDebug
+
+      # 7. Upload LearningDebug APK
+      - name: Upload LearningDebug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: "Quiz Pożarniczy MDP – Młodzież"
+          path: app/build/outputs/apk/learning/debug/app-learning-debug.apk
