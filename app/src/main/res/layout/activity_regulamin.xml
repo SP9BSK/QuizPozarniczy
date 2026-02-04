@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvRegulamin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textIsSelectable="true"
+        android:lineSpacingExtra="4dp"
+        android:text="
+REGULAMIN APLIKACJI „Quiz Pożarniczy MDP”
+
+§1. Postanowienia ogólne
+Niniejszy regulamin określa zasady korzystania z darmowej aplikacji mobilnej „Quiz Pożarniczy MDP” przeznaczonej na urządzenia z systemem Android.
+
+Autorem aplikacji jest Michał Pałka, opiekun Młodzieżowej Drużyny Pożarniczej Maków Podhalański.
+Kontakt: ratownik_xl@wp.pl
+
+Właścicielem aplikacji jest:
+Ochotnicza Straż Pożarna Maków Podhalański
+ul. Kościuszki 2, 34-220 Maków Podhalański
+
+§2. Cel i przeznaczenie
+Aplikacja ma charakter edukacyjny i służy do nauki wiedzy pożarniczej, w szczególności w MDP, OSP, harcerstwie oraz szkołach.
+
+§3. Zasady korzystania
+Aplikacja jest darmowa.
+Zabrania się wykorzystywania aplikacji w sposób sprzeczny z prawem lub dobrym imieniem OSP.
+
+§4. Rozpowszechnianie
+Aplikację można rozpowszechniać nieodpłatnie i bez czerpania korzyści majątkowych.
+
+§5. Wsparcie MDP
+Możliwe jest dobrowolne wsparcie MDP Maków Podhalański:
+BS Jordanów
+82 8799 0001 0010 0100 1124 0001
+Tytuł: Wsparcie MDP Maków Podhalański – Quiz Pożarniczy
+
+§6. Odpowiedzialność
+Aplikacja ma charakter pomocniczy i nie jest oficjalnym materiałem szkoleniowym PSP.
+
+--------------------------------------------------
+
+POLITYKA PRYWATNOŚCI
+
+Aplikacja nie zbiera, nie przetwarza ani nie przechowuje danych osobowych.
+Nie wymaga rejestracji ani logowania.
+Nie zawiera reklam ani systemów analitycznych.
+
+Administrator:
+OSP Maków Podhalański
+Kontakt: ratownik_xl@wp.pl
+        " />
+
+</ScrollView>
