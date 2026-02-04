@@ -8,10 +8,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        flavor: [full, learning]   # iterujemy po wszystkich flavorach
-
     steps:
       - uses: actions/checkout@v4
 
@@ -26,11 +22,11 @@ jobs:
         with:
           gradle-version: 8.2
 
-      - name: Build APK
-        run: gradle assemble${{ matrix.flavor | capitalize }}Debug
+      - name: Build debug APKs
+        run: gradle assembleDebug
 
-      - name: Upload APK
+      - name: Upload APKs
         uses: actions/upload-artifact@v4
         with:
-          name: QuizPozarniczy-${{ matrix.flavor }}
-          path: app/build/outputs/apk/${{ matrix.flavor }}/debug/app-${{ matrix.flavor }}-debug.apk
+          name: QuizPozarniczy-APKs
+          path: app/build/outputs/apk/
