@@ -14,9 +14,14 @@ class SettingsActivity : AppCompatActivity() {
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        // Na razie tylko przycisk – logikę dodamy później
+        // ISTNIEJĄCA LOGIKA
         findViewById<Button>(R.id.btnEditLocalQuestions).setOnClickListener {
-    startActivity(Intent(this, EditLocalQuestionsActivity::class.java))
-}
+            startActivity(Intent(this, EditLocalQuestionsActivity::class.java))
+        }
+
+        // REGULAMIN
+        findViewById<Button>(R.id.btnRegulamin).setOnClickListener {
+            startActivity(Intent(this, RegulaminActivity::class.java))
+        }
     }
 }
