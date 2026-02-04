@@ -15,6 +15,33 @@ android {
         versionName "1.0"
     }
 
+    buildTypes {
+        release {
+            isMinifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-DEBUG"
+        }
+    }
+
+    flavorDimensions "mode"
+    productFlavors {
+        full {
+            dimension "mode"
+            applicationId "com.example.quizpozarniczy"
+            resValue "string", "app_name", "Quiz Pożarniczy"
+            manifestPlaceholders = [startActivity: "com.example.quizpozarniczy.StartActivity"]
+        }
+        learning {
+            dimension "mode"
+            applicationId "com.example.quizpozarniczy.learning"
+            resValue "string", "app_name", "Quiz Pożarniczy MDP - Tryb Nauki"
+            manifestPlaceholders = [startActivity: "com.example.quizpozarniczy.LearningActivity"]
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -30,5 +57,4 @@ dependencies {
     implementation "androidx.appcompat:appcompat:1.6.1"
     implementation "com.google.android.material:material:1.11.0"
     implementation 'com.google.code.gson:gson:2.10.1'
-
 }
