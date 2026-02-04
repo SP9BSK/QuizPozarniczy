@@ -54,8 +54,6 @@ class LearningActivity : AppCompatActivity() {
         }
     }
 
-    // reszta pliku BEZ ZMIAN
-}
 
 
     private fun loadAllQuestions() {
