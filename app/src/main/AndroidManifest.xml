@@ -29,11 +29,20 @@
             android:name=".QuizActivity"
             android:exported="false" />
 
-         <!-- USTAWIENIA -->
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".EditLocalQuestionsActivity" />
+        <!-- TRYB NAUKI -->
+        <activity
+            android:name=".LearningActivity"
+            android:exported="false" />
 
+        <!-- USTAWIENIA -->
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
 
+        <!-- EDYCJA PYTAŃ -->
+        <activity
+            android:name=".EditLocalQuestionsActivity"
+            android:exported="false" />
 
     </application>
 
