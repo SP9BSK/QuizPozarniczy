@@ -9,9 +9,9 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round">
 
-        <!-- DYNAMICZNE START ACTIVITY -->
+        <!-- START -->
         <activity
-            android:name="${startActivity}"
+            android:name=".StartActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,30 +19,11 @@
             </intent-filter>
         </activity>
 
-        <!-- PANEL SĘDZIEGO -->
-        <activity
-            android:name=".JudgeActivity"
-            android:exported="false" />
-
-        <!-- QUIZ -->
-        <activity
-            android:name=".QuizActivity"
-            android:exported="false" />
-
-        <!-- USTAWIENIA -->
-        <activity
-            android:name=".SettingsActivity"
-            android:exported="false" />
-
-        <!-- EDYCJA PYTAŃ -->
-        <activity
-            android:name=".EditLocalQuestionsActivity"
-            android:exported="false" />
-
-        <!-- REGULAMIN -->
-        <activity
-            android:name=".RegulaminActivity"
-            android:exported="false" />
+        <activity android:name=".JudgeActivity" android:exported="false" />
+        <activity android:name=".QuizActivity" android:exported="false" />
+        <activity android:name=".SettingsActivity" android:exported="false" />
+        <activity android:name=".EditLocalQuestionsActivity" android:exported="false" />
+        <activity android:name=".RegulaminActivity" android:exported="false" />
 
         <!-- FILE PROVIDER (DO EKSPORTU JSON) -->
         <provider
