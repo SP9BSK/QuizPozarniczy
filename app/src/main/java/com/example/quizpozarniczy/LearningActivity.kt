@@ -1,103 +1,134 @@
 package com.example.quizpozarniczy
 
 import android.os.Bundle
-import android.widget.*
-import androidx.appcompat.app.AlertDialog
+import android.view.View
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
 import com.example.quizpozarniczy.model.Question
-import kotlin.random.Random
 
 class LearningActivity : AppCompatActivity() {
 
+    private lateinit var txtProgress: TextView
     private lateinit var txtQuestion: TextView
     private lateinit var btnA: Button
     private lateinit var btnB: Button
     private lateinit var btnC: Button
+    private lateinit var btnSaveExit: Button
 
-    private val allQuestions = mutableListOf<Question>()
-    private val remainingQuestions = mutableListOf<Question>()
+    private val prefsName = "learning_mode"
+    private val keySolved = "solved_ids"
 
-    private lateinit var currentQuestion: Question
+    private var allQuestions: List<Question> = emptyList()
+    private val solvedIds = mutableSetOf<String>()
+    private var currentQuestion: Question? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_learning)
 
+        txtProgress = findViewById(R.id.txtProgress)
         txtQuestion = findViewById(R.id.txtQuestion)
         btnA = findViewById(R.id.btnA)
         btnB = findViewById(R.id.btnB)
         btnC = findViewById(R.id.btnC)
+        btnSaveExit = findViewById(R.id.btnSaveExit)
 
-        loadAllQuestions()
-        startLearning()
+        loadProgress()
+        loadQuestions()
+        showNextQuestion()
 
-        btnA.setOnClickListener { checkAnswer(0) }
-        btnB.setOnClickListener { checkAnswer(1) }
-        btnC.setOnClickListener { checkAnswer(2) }
+        btnA.setOnClickListener { answerClicked(0) }
+        btnB.setOnClickListener { answerClicked(1) }
+        btnC.setOnClickListener { answerClicked(2) }
+
+        btnSaveExit.setOnClickListener {
+            saveProgress()
+            finish()
+        }
     }
 
-    private fun loadAllQuestions() {
-        // pytania ogólne
-        allQuestions.addAll(QuizRepository.getQuestions())
+    private fun loadQuestions() {
+        val local = LocalQuestionsRepository.toQuizQuestions(Int.MAX_VALUE)
+        val normal = QuizRepository.getQuestions()
 
-        // pytania lokalne – BEZ CUDZYSŁOWÓW
-        allQuestions.addAll(
-            LocalQuestionsRepository.toQuizQuestions(Int.MAX_VALUE)
-        )
+        allQuestions = (local + normal)
+            .distinctBy { it.text } // zabezpieczenie przed duplikatami
     }
 
-    private fun startLearning() {
-        remainingQuestions.clear()
-        remainingQuestions.addAll(allQuestions)
-        nextQuestion()
+    private fun loadProgress() {
+        val prefs = getSharedPreferences(prefsName, MODE_PRIVATE)
+        solvedIds.clear()
+        solvedIds.addAll(prefs.getStringSet(keySolved, emptySet()) ?: emptySet())
     }
 
-    private fun nextQuestion() {
-        if (remainingQuestions.isEmpty()) {
-            showFinishedDialog()
+    private fun saveProgress() {
+        val prefs = getSharedPreferences(prefsName, MODE_PRIVATE)
+        prefs.edit()
+            .putStringSet(keySolved, solvedIds)
+            .apply()
+    }
+
+    private fun showNextQuestion() {
+        updateProgress()
+
+        val remaining = allQuestions.filter { it.text !in solvedIds }
+
+        if (remaining.isEmpty()) {
+            txtQuestion.text =
+                "🎉 Wszystkie pytania opanowane!\n\nCzy chcesz zacząć od początku?"
+            btnA.text = "Tak"
+            btnB.text = "Nie"
+            btnC.visibility = View.GONE
+
+            btnA.setOnClickListener {
+                solvedIds.clear()
+                saveProgress()
+                recreate()
+            }
+
+            btnB.setOnClickListener {
+                finish()
+            }
             return
         }
 
-        currentQuestion = remainingQuestions.random()
+        currentQuestion = remaining.random()
+        val q = currentQuestion!!
 
-        txtQuestion.text = currentQuestion.text
-        btnA.text = currentQuestion.answers[0]
-        btnB.text = currentQuestion.answers[1]
-        btnC.text = currentQuestion.answers[2]
+        txtQuestion.text = q.text
+        btnA.text = q.answers[0]
+        btnB.text = q.answers[1]
+        btnC.text = q.answers[2]
+        btnC.visibility = View.VISIBLE
     }
 
-    private fun checkAnswer(selectedIndex: Int) {
-        if (selectedIndex == currentQuestion.correctIndex) {
-            Toast.makeText(this, "✅ Dobra odpowiedź!", Toast.LENGTH_SHORT).show()
-            remainingQuestions.remove(currentQuestion)
-            nextQuestion()
+    private fun answerClicked(index: Int) {
+        val q = currentQuestion ?: return
+
+        if (index == q.correctIndex) {
+            solvedIds.add(q.text)
+            Toast.makeText(this, "✅ Dobra odpowiedź", Toast.LENGTH_SHORT).show()
+            showNextQuestion()
         } else {
-            val correctText = currentQuestion.answers[currentQuestion.correctIndex]
-            AlertDialog.Builder(this)
-                .setTitle("❌ Zła odpowiedź")
-                .setMessage("Poprawna odpowiedź to:\n\n$correctText")
-                .setPositiveButton("Dalej") { _, _ ->
-                    nextQuestion()
-                }
-                .setCancelable(false)
-                .show()
+            val correct = q.answers[q.correctIndex]
+            Toast.makeText(
+                this,
+                "❌ Zła odpowiedź\nPoprawna: $correct",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
-    private fun showFinishedDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("🎉 Brawo!")
-            .setMessage(
-                "Na wszystkie pytania zostały udzielone poprawne odpowiedzi.\n\nCzy zaczynamy od początku?"
-            )
-            .setPositiveButton("TAK") { _, _ ->
-                startLearning()
-            }
-            .setNegativeButton("NIE") { _, _ ->
-                finish()
-            }
-            .setCancelable(false)
-            .show()
+    private fun updateProgress() {
+        txtProgress.text =
+            "Opanowane: ${solvedIds.size} / ${allQuestions.size}"
+    }
+
+    override fun onPause() {
+        super.onPause()
+        saveProgress()
     }
 }
