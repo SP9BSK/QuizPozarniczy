@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.example.quizpozarniczy.data.DefaultLocalQuestions
+import com.example.quizpozarniczy.model.Question
 import com.example.quizpozarniczy.util.QuizExporter
 
 class SettingsActivity : AppCompatActivity() {
@@ -13,7 +15,6 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        // Zabezpieczenie ekranu
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         // EDYCJA PYTAŃ LOKALNYCH
@@ -26,35 +27,14 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(Intent(this, RegulaminActivity::class.java))
         }
 
-        // 🔥 UDOSTĘPNIJ TRYB NAUKI
+        // UDOSTĘPNIJ TRYB NAUKI
         findViewById<Button>(R.id.btnShareLearningMode).setOnClickListener {
-            shareLearningMode()
-        }
-    }
+            // Pobieramy wszystkie pytania: ogólne + lokalne
+            val questions: List<Question> = QuizRepository.getQuestions(DefaultLocalQuestions.questions.size)
 
-    private fun shareLearningMode() {
-        // Pobierz wszystkie pytania z repozytorium
-        val allQuestions = QuizRepository.getQuestions(localCount = DefaultLocalQuestions.questions.size)
-
-        // Konwertujemy LocalQuestion z DefaultLocalQuestions na format eksportowy
-        val localQuestions = DefaultLocalQuestions.questions
-
-        val uri = QuizExporter.createExportJson(
-            context = this,
-            generalQuestions = allQuestions.map { q ->
-                // Te pytania, które nie są lokalnymi, traktujemy jako ogólne
-                Question(q.text, q.answers, q.correctIndex)
-            },
-            localQuestions = localQuestions
-        )
-
-        uri?.let {
-            val shareIntent = Intent(Intent.ACTION_SEND).apply {
-                type = "application/json"
-                putExtra(Intent.EXTRA_STREAM, it)
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
-            startActivity(Intent.createChooser(shareIntent, "Udostępnij tryb nauki"))
+            // Generujemy JSON i udostępniamy
+            val shareIntent = QuizExporter.createExportJson(this, questions)
+            startActivity(Intent.createChooser(shareIntent, "Udostępnij Quiz Pożarniczy MDP"))
         }
     }
 }
