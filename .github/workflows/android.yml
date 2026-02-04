@@ -8,6 +8,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        flavor: [full, learning]   # iterujemy po wszystkich flavorach
+
     steps:
       - uses: actions/checkout@v4
 
@@ -22,11 +26,25 @@ jobs:
         with:
           gradle-version: 8.2
 
-      - name: Build debug APKs
-        run: gradle assembleDebug
+      - name: Build APK
+        run: gradle assemble${{ matrix.flavor | capitalize }}Debug
 
-      - name: Upload APKs
+      - name: Determine app_name for flavor
+        id: appname
+        run: |
+          # odczytaj app_name z odpowiedniego strings.xml dla flavoru
+          APP_NAME=$(grep -oPm1 "(?<=<string name=\"app_name\">)[^<]+" app/src/main/res/values/strings.xml)
+          if [ "${{ matrix.flavor }}" = "full" ]; then
+            APP_NAME=$(grep -oPm1 "(?<=<string name=\"app_name\">)[^<]+" app/src/full/res/values/strings.xml)
+          elif [ "${{ matrix.flavor }}" = "learning" ]; then
+            APP_NAME=$(grep -oPm1 "(?<=<string name=\"app_name\">)[^<]+" app/src/learning/res/values/strings.xml)
+          fi
+          # usuń spacje na końcach i ewentualne dziwne znaki
+          APP_NAME=$(echo $APP_NAME | sed 's/^[ \t]*//;s/[ \t]*$//;s/–/-/g')
+          echo "APP_NAME=$APP_NAME.apk" >> $GITHUB_ENV
+
+      - name: Upload APK with proper name
         uses: actions/upload-artifact@v4
         with:
-          name: QuizPozarniczy-APKs
-          path: app/build/outputs/apk/
+          name: ${{ env.APP_NAME }}
+          path: app/build/outputs/apk/${{ matrix.flavor }}/debug/app-${{ matrix.flavor }}-debug.apk
