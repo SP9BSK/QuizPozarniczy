@@ -32,14 +32,17 @@ productFlavors {
 
     full {
         dimension "mode"
+        applicationIdSuffix ".opiekun"
         resValue "string", "app_name", "Quiz Pożarniczy MDP – Opiekun"
     }
 
     learning {
         dimension "mode"
+        applicationIdSuffix ".mlodziez"
         resValue "string", "app_name", "Quiz Pożarniczy MDP – Młodzież"
     }
 }
+
 
 
     compileOptions {
