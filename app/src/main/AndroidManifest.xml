@@ -19,13 +19,37 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".JudgeActivity" android:exported="false" />
-        <activity android:name=".QuizActivity" android:exported="false" />
-        <activity android:name=".SettingsActivity" android:exported="false" />
-        <activity android:name=".EditLocalQuestionsActivity" android:exported="false" />
-        <activity android:name=".RegulaminActivity" android:exported="false" />
+        <!-- TRYB NAUKI -->
+        <activity
+            android:name=".LearningActivity"
+            android:exported="false" />
 
-        <!-- FILE PROVIDER (DO EKSPORTU JSON) -->
+        <!-- PANEL SĘDZIEGO -->
+        <activity
+            android:name=".JudgeActivity"
+            android:exported="false" />
+
+        <!-- QUIZ -->
+        <activity
+            android:name=".QuizActivity"
+            android:exported="false" />
+
+        <!-- USTAWIENIA -->
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+
+        <!-- EDYCJA PYTAŃ -->
+        <activity
+            android:name=".EditLocalQuestionsActivity"
+            android:exported="false" />
+
+        <!-- REGULAMIN -->
+        <activity
+            android:name=".RegulaminActivity"
+            android:exported="false" />
+
+        <!-- FILE PROVIDER -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
