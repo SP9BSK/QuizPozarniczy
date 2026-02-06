@@ -18,12 +18,13 @@ class LearningActivity : AppCompatActivity() {
     private lateinit var btnC: Button
     private lateinit var btnSaveExit: Button
 
-    private val prefsName = "learning_mode"
+    // 🔒 osobne prefs dla każdej aplikacji
+    private val prefsName by lazy { "${packageName}_learning_mode" }
     private val keySolved = "solved_ids"
 
     private val allQuestions = mutableListOf<Question>()
     private val solvedIds = mutableSetOf<String>()
-    private lateinit var currentQuestion: Question
+    private var currentQuestion: Question? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +39,17 @@ class LearningActivity : AppCompatActivity() {
 
         loadProgress()
         loadAllQuestions()
+
+        if (allQuestions.isEmpty()) {
+            Toast.makeText(
+                this,
+                "Brak pytań w trybie nauki",
+                Toast.LENGTH_LONG
+            ).show()
+            finish()
+            return
+        }
+
         nextQuestion()
 
         btnA.setOnClickListener { checkAnswer(0) }
@@ -53,10 +65,7 @@ class LearningActivity : AppCompatActivity() {
     private fun loadAllQuestions() {
         allQuestions.clear()
 
-        // pytania ogólne
         allQuestions.addAll(QuizRepository.getQuestions())
-
-        // pytania lokalne – BEZ CUDZYSŁOWÓW
         allQuestions.addAll(
             LocalQuestionsRepository.toQuizQuestions(Int.MAX_VALUE)
         )
@@ -72,9 +81,7 @@ class LearningActivity : AppCompatActivity() {
 
     private fun saveProgress() {
         val prefs = getSharedPreferences(prefsName, MODE_PRIVATE)
-        prefs.edit()
-            .putStringSet(keySolved, solvedIds)
-            .apply()
+        prefs.edit().putStringSet(keySolved, solvedIds).apply()
     }
 
     private fun nextQuestion() {
@@ -89,27 +96,26 @@ class LearningActivity : AppCompatActivity() {
 
         currentQuestion = remaining.random()
 
-        txtQuestion.text = currentQuestion.text
-        btnA.text = currentQuestion.answers[0]
-        btnB.text = currentQuestion.answers[1]
-        btnC.text = currentQuestion.answers[2]
+        txtQuestion.text = currentQuestion!!.text
+        btnA.text = currentQuestion!!.answers[0]
+        btnB.text = currentQuestion!!.answers[1]
+        btnC.text = currentQuestion!!.answers[2]
     }
 
     private fun checkAnswer(selectedIndex: Int) {
-        if (selectedIndex == currentQuestion.correctIndex) {
+        val q = currentQuestion ?: return
+
+        if (selectedIndex == q.correctIndex) {
             Toast.makeText(this, "✅ Dobra odpowiedź!", Toast.LENGTH_SHORT).show()
-            solvedIds.add(currentQuestion.text)
+            solvedIds.add(q.text)
             nextQuestion()
         } else {
-            val correctText =
-                currentQuestion.answers[currentQuestion.correctIndex]
-
             AlertDialog.Builder(this)
                 .setTitle("❌ Zła odpowiedź")
-                .setMessage("Poprawna odpowiedź to:\n\n$correctText")
-                .setPositiveButton("Dalej") { _, _ ->
-                    nextQuestion()
-                }
+                .setMessage(
+                    "Poprawna odpowiedź:\n\n${q.answers[q.correctIndex]}"
+                )
+                .setPositiveButton("Dalej") { _, _ -> nextQuestion() }
                 .setCancelable(false)
                 .show()
         }
@@ -124,16 +130,14 @@ class LearningActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle("🎉 Brawo!")
             .setMessage(
-                "Na wszystkie pytania zostały udzielone poprawne odpowiedzi.\n\nCzy zaczynamy od początku?"
+                "Na wszystkie pytania udzielono poprawnych odpowiedzi.\n\nZaczynamy od nowa?"
             )
             .setPositiveButton("TAK") { _, _ ->
                 solvedIds.clear()
                 saveProgress()
                 nextQuestion()
             }
-            .setNegativeButton("NIE") { _, _ ->
-                finish()
-            }
+            .setNegativeButton("NIE") { _, _ -> finish() }
             .setCancelable(false)
             .show()
     }
