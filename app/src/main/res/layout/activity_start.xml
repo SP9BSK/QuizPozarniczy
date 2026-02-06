@@ -57,6 +57,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <!-- 👇 NOWY NAPIS -->
+        <TextView
+            android:text="Opiekun"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 
     <TextView
