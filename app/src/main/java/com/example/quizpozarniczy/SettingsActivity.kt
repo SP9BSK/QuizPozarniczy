@@ -21,38 +21,55 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val btnPrimary = findViewById<Button>(R.id.btnPrimary)
-        val btnShareLearningMode = findViewById<Button>(R.id.btnShareLearningMode)
+        val btnEditOrB = findViewById<Button>(R.id.btnEditOrB)
+        val btnA = findViewById<Button>(R.id.btnA)
+        val btnShareOrDownload = findViewById<Button>(R.id.btnShareOrDownload)
         val btnRegulamin = findViewById<Button>(R.id.btnRegulamin)
 
         // Flavor-specific text / behavior
         if (isOpiekun) {
-            // Opiekun: edycja pytań lokalnych + udostępnianie
-            btnPrimary.text = "Edycja pytań lokalnych"
-            btnPrimary.setOnClickListener {
+            // 🔹 Opiekun
+            btnEditOrB.text = "Edycja pytań lokalnych"
+            btnEditOrB.setOnClickListener {
                 startActivity(Intent(this, EditLocalQuestionsActivity::class.java))
             }
 
-            btnShareLearningMode.text = "UDOSTĘPNIJ PYTANIA LOKALNE"
-            btnShareLearningMode.setOnClickListener {
+            btnA.text = "A"
+            btnA.setOnClickListener {
+                Toast.makeText(this, "Przycisk A (do implementacji)", Toast.LENGTH_SHORT).show()
+            }
+
+            btnShareOrDownload.text = "UDOSTĘPNIJ PYTANIA LOKALNE"
+            btnShareOrDownload.setOnClickListener {
                 exportLocalQuestions()
             }
+
+            btnRegulamin.text = "Regulamin"
+            btnRegulamin.setOnClickListener {
+                startActivity(Intent(this, RegulaminActivity::class.java))
+            }
+
         } else {
-            // Młodzież: przycisk B + pobieranie pytań
-            btnPrimary.text = "B"
-            btnPrimary.setOnClickListener {
+            // 🔹 Młodzież
+            btnEditOrB.text = "B"
+            btnEditOrB.setOnClickListener {
                 Toast.makeText(this, "Funkcja B (do implementacji)", Toast.LENGTH_SHORT).show()
             }
 
-            btnShareLearningMode.text = "POBIERZ PYTANIA LOKALNE"
-            btnShareLearningMode.setOnClickListener {
+            btnA.text = "A"
+            btnA.setOnClickListener {
+                Toast.makeText(this, "Przycisk A (do implementacji)", Toast.LENGTH_SHORT).show()
+            }
+
+            btnShareOrDownload.text = "POBIERZ PYTANIA LOKALNE"
+            btnShareOrDownload.setOnClickListener {
                 importLocalQuestions()
             }
-        }
 
-        // Regulamin (tak samo w obu)
-        btnRegulamin.setOnClickListener {
-            startActivity(Intent(this, RegulaminActivity::class.java))
+            btnRegulamin.text = "Regulamin"
+            btnRegulamin.setOnClickListener {
+                startActivity(Intent(this, RegulaminActivity::class.java))
+            }
         }
     }
 
