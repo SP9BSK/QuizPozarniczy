@@ -9,7 +9,6 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
-import com.example.quizpozarniczy.model.Question
 import com.example.quizpozarniczy.util.QuizExporter
 import com.example.quizpozarniczy.util.QuizImporter
 
@@ -23,19 +22,15 @@ class SettingsActivity : AppCompatActivity() {
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        // EDYCJA PYTAŃ LOKALNYCH (TYLKO OPIEKUN REALNIE KORZYSTA)
         findViewById<Button>(R.id.btnEditLocalQuestions).setOnClickListener {
             startActivity(Intent(this, EditLocalQuestionsActivity::class.java))
         }
 
-        // REGULAMIN
         findViewById<Button>(R.id.btnRegulamin).setOnClickListener {
             startActivity(Intent(this, RegulaminActivity::class.java))
         }
 
-        // UDOSTĘPNIJ / POBIERZ PYTANIA LOKALNE
         findViewById<Button>(R.id.btnShareLearningMode).setOnClickListener {
-
             if (isOpiekunApp()) {
                 exportLocalQuestions()
             } else {
@@ -49,8 +44,8 @@ class SettingsActivity : AppCompatActivity() {
     // =========================
     private fun exportLocalQuestions() {
 
-        val localQuestions: List<Question> =
-            LocalQuestionsRepository.toQuizQuestions(Int.MAX_VALUE)
+        val localQuestions =
+            LocalQuestionsRepository.getAllLocalQuestions()
 
         if (localQuestions.isEmpty()) {
             Toast.makeText(
@@ -100,19 +95,16 @@ class SettingsActivity : AppCompatActivity() {
         if (requestCode == IMPORT_JSON_REQUEST && resultCode == Activity.RESULT_OK) {
             val uri = data?.data ?: return
 
-            val importedCount = QuizImporter.importFromJson(this, uri)
+            val count = QuizImporter.import(this, uri)
 
             Toast.makeText(
                 this,
-                "Dodano pytań lokalnych: $importedCount",
+                "Zaimportowano pytań lokalnych: $count",
                 Toast.LENGTH_LONG
             ).show()
         }
     }
 
-    // =========================
-    // ROZRÓŻNIENIE APKI
-    // =========================
     private fun isOpiekunApp(): Boolean {
         return packageName.contains(".opiekun")
     }
