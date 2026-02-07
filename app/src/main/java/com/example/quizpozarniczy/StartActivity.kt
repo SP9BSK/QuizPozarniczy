@@ -18,8 +18,8 @@ class StartActivity : AppCompatActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         // 🔥 inicjalizacja lokalnych pytań
-        // W apce opiekun domyślnie wczytujemy pytania lokalne
-        val loadDefaults = applicationId.endsWith(".opiekun")
+        // full = Opiekun → domyślnie wczytujemy pytania lokalne
+        val loadDefaults = BuildConfig.FLAVOR == "full"
         LocalQuestionsRepository.init(this, loadDefaults = loadDefaults)
 
         val btnJudge = findViewById<Button>(R.id.btnJudge)
