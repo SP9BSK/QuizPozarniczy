@@ -7,10 +7,10 @@
 
     <!-- ISTNIEJĄCY PRZYCISK -->
     <Button
-        android:id="@+id/btnEditLocalQuestions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Edycja pytań lokalnych" />
+    android:id="@+id/btnPrimary"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="PRIMARY" />
 
     <!-- NOWE PRZYCISKI -->
     <Button
