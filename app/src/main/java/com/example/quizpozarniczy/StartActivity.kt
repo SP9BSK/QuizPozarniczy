@@ -6,38 +6,28 @@ import android.view.WindowManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
-import com.example.quizpozarniczy.BuildConfig // <-- dodany import
 
 class StartActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Ładujemy layout w zależności od flavoru
         setContentView(R.layout.activity_start)
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        // 🔥 inicjalizacja lokalnych pytań
-        val loadDefaults = BuildConfig.APPLICATION_ID.endsWith(".opiekun")
-        LocalQuestionsRepository.init(this, loadDefaults = loadDefaults)
+        // ❗ NIE ładujemy domyślnych lokalnych pytań
+        // Opiekun ma je zapisane w SharedPreferences
+        LocalQuestionsRepository.init(this, loadDefaults = false)
 
-        val btnJudge = findViewById<Button>(R.id.btnJudge)
-        val btnLearn = findViewById<Button>(R.id.btnLearn)
-        val btnSettings = findViewById<Button>(R.id.btnSettings)
-
-        // Panel sędziego / A – już ustawione w XML
-        btnJudge.setOnClickListener {
+        findViewById<Button>(R.id.btnJudge).setOnClickListener {
             startActivity(Intent(this, JudgeActivity::class.java))
         }
 
-        // Tryb nauki
-        btnLearn.setOnClickListener {
+        findViewById<Button>(R.id.btnLearn).setOnClickListener {
             startActivity(Intent(this, LearningActivity::class.java))
         }
 
-        // Ustawienia
-        btnSettings.setOnClickListener {
+        findViewById<Button>(R.id.btnSettings).setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
     }
