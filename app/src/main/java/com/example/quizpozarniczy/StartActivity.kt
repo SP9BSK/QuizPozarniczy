@@ -4,9 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.quizpozarniczy.data.LocalQuestionsRepository
 
 class StartActivity : AppCompatActivity() {
 
@@ -15,7 +13,7 @@ class StartActivity : AppCompatActivity() {
         setContentView(R.layout.activity_start)
 
         // 🔥 inicjalizacja lokalnych pytań
-        LocalQuestionsRepository.init(this)
+        LocalQuestionsRepository.init(this, loadDefaults = true)
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
@@ -24,12 +22,10 @@ class StartActivity : AppCompatActivity() {
             startActivity(Intent(this, JudgeActivity::class.java))
         }
 
-        // Tryb nauki 
+        // Tryb nauki
         findViewById<Button>(R.id.btnLearn).setOnClickListener {
-    startActivity(Intent(this, LearningActivity::class.java))
-       } 
-
-        
+            startActivity(Intent(this, LearningActivity::class.java))
+        }
 
         // Ustawienia
         findViewById<Button>(R.id.btnSettings).setOnClickListener {
