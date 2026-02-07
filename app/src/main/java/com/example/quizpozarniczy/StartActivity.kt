@@ -19,8 +19,9 @@ class StartActivity : AppCompatActivity() {
 
         // 🔥 inicjalizacja lokalnych pytań
         // W apce opiekun domyślnie wczytujemy pytania lokalne
-        val loadDefaults = applicationId.endsWith(".opiekun")
-        LocalQuestionsRepository.init(this, loadDefaults = loadDefaults)
+        val loadDefaults = BuildConfig.APPLICATION_ID.endsWith(".opiekun")
+         LocalQuestionsRepository.init(this, loadDefaults = loadDefaults)
+
 
         val btnJudge = findViewById<Button>(R.id.btnJudge)
         val btnLearn = findViewById<Button>(R.id.btnLearn)
