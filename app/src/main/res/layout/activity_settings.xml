@@ -24,7 +24,7 @@
     android:id="@+id/btnShareLearningMode"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Udostępnij tryb nauki"
+    android:text="@string/share_local_questions_label"
     android:layout_marginTop="16dp"/>
 
 
