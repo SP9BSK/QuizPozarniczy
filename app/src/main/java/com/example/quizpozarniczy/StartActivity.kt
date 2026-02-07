@@ -4,34 +4,29 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
 
 class StartActivity : AppCompatActivity() {
 
-    private val isOpiekun: Boolean
-        get() = applicationId.endsWith(".opiekun")
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Ładujemy layout w zależności od flavoru
         setContentView(R.layout.activity_start)
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         // 🔥 inicjalizacja lokalnych pytań
-        LocalQuestionsRepository.init(this, loadDefaults = isOpiekun)
+        // W apce opiekun domyślnie wczytujemy pytania lokalne
+        val loadDefaults = applicationId.endsWith(".opiekun")
+        LocalQuestionsRepository.init(this, loadDefaults = loadDefaults)
 
         val btnJudge = findViewById<Button>(R.id.btnJudge)
         val btnLearn = findViewById<Button>(R.id.btnLearn)
         val btnSettings = findViewById<Button>(R.id.btnSettings)
-        val txtFlavor = findViewById<TextView>(R.id.txtFlavor) // dodatkowy TextView pod przyciskami
 
-        // flavor-specific text
-        txtFlavor.text = if (isOpiekun) "Opiekun" else "Młodzież"
-
-        // Panel sędziego / A
-        btnJudge.text = if (isOpiekun) "PANEL SĘDZIEGO" else "A"
+        // Panel sędziego / A – już ustawione w XML
         btnJudge.setOnClickListener {
             startActivity(Intent(this, JudgeActivity::class.java))
         }
