@@ -16,8 +16,10 @@ import com.example.quizpozarniczy.util.QuizImporter
 class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_settings)
+
+    LocalQuestionsRepository.init(this)
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
