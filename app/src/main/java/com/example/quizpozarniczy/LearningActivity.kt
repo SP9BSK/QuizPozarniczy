@@ -20,7 +20,7 @@ class LearningActivity : AppCompatActivity() {
 
     private lateinit var learningMode: String
 
-    // 🔒 osobny zapis dla KAŻDEGO trybu
+    // 🔒 osobny zapis postępu DLA KAŻDEGO TRYBU
     private val prefsName by lazy {
         "${packageName}_learning_$learningMode"
     }
@@ -74,15 +74,12 @@ class LearningActivity : AppCompatActivity() {
 
         when (learningMode) {
             "GENERAL" -> {
-                // pytania ogólne (questionPart 1–21)
-                allQuestions.addAll(
-                    QuizRepository.getQuestions()
-                        .filter { it.part in 1..21 }
-                )
+                // ✅ pytania ogólne
+                allQuestions.addAll(QuizRepository.getQuestions())
             }
 
             "LOCAL" -> {
-                // pytania lokalne
+                // ✅ pytania lokalne
                 allQuestions.addAll(
                     LocalQuestionsRepository.toQuizQuestions(Int.MAX_VALUE)
                 )
