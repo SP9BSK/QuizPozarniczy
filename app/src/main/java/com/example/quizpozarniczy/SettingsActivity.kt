@@ -11,60 +11,38 @@ import com.example.quizpozarniczy.model.LocalQuestion
 import com.example.quizpozarniczy.model.Question
 import com.example.quizpozarniczy.util.QuizExporter
 import com.example.quizpozarniczy.util.QuizImporter
-import com.example.quizpozarniczy.BuildConfig // <-- dodany import
 
 class SettingsActivity : AppCompatActivity() {
-
-    private val isOpiekun: Boolean
-        get() = BuildConfig.APPLICATION_ID.endsWith(".opiekun")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        // 4 przyciski
-        val btnEditOrB = findViewById<Button>(R.id.btnEditLocalQuestions)
-        val btnAorA = findViewById<Button>(R.id.btnA)
-        val btnShareOrDownload = findViewById<Button>(R.id.btnShareLearningMode)
-        val btnRegulamin = findViewById<Button>(R.id.btnRegulamin)
-
-        if (isOpiekun) {
-            // Opiekun
-            btnEditOrB.text = "Edycja pytań lokalnych"
-            btnEditOrB.setOnClickListener {
-                startActivity(Intent(this, EditLocalQuestionsActivity::class.java))
-            }
-
-            btnAorA.text = "A"
-            btnAorA.setOnClickListener {
-                Toast.makeText(this, "Przycisk A (do implementacji)", Toast.LENGTH_SHORT).show()
-            }
-
-            btnShareOrDownload.text = "UDOSTĘPNIJ PYTANIA LOKALNE"
-            btnShareOrDownload.setOnClickListener {
-                exportLocalQuestions()
-            }
-
-        } else {
-            // Młodzież
-            btnEditOrB.text = "B"
-            btnEditOrB.setOnClickListener {
-                Toast.makeText(this, "Funkcja B (do implementacji)", Toast.LENGTH_SHORT).show()
-            }
-
-            btnAorA.text = "A"
-            btnAorA.setOnClickListener {
-                Toast.makeText(this, "Przycisk A (do implementacji)", Toast.LENGTH_SHORT).show()
-            }
-
-            btnShareOrDownload.text = "POBIERZ PYTANIA LOKALNE"
-            btnShareOrDownload.setOnClickListener {
-                importLocalQuestions()
-            }
+        // ---- PRZYCISK 1: EDYCJA / B ----
+        findViewById<Button?>(R.id.btnEditLocalQuestions)?.setOnClickListener {
+            startActivity(Intent(this, EditLocalQuestionsActivity::class.java))
         }
 
-        // Regulamin – tak samo dla wszystkich
-        btnRegulamin.setOnClickListener {
+        findViewById<Button?>(R.id.btnB)?.setOnClickListener {
+            Toast.makeText(this, "Przycisk B – do implementacji", Toast.LENGTH_SHORT).show()
+        }
+
+        // ---- PRZYCISK 2: A ----
+        findViewById<Button?>(R.id.btnA)?.setOnClickListener {
+            Toast.makeText(this, "Przycisk A – do implementacji", Toast.LENGTH_SHORT).show()
+        }
+
+        // ---- PRZYCISK 3: EXPORT / IMPORT ----
+        findViewById<Button?>(R.id.btnExport)?.setOnClickListener {
+            exportLocalQuestions()
+        }
+
+        findViewById<Button?>(R.id.btnImport)?.setOnClickListener {
+            importLocalQuestions()
+        }
+
+        // ---- REGULAMIN ----
+        findViewById<Button>(R.id.btnRegulamin).setOnClickListener {
             startActivity(Intent(this, RegulaminActivity::class.java))
         }
     }
@@ -75,12 +53,13 @@ class SettingsActivity : AppCompatActivity() {
 
         val uri: Uri = QuizExporter.createExportJson(this, generalQuestions, localQuestions) ?: return
 
-        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+        val intent = Intent(Intent.ACTION_SEND).apply {
             type = "application/json"
             putExtra(Intent.EXTRA_STREAM, uri)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
-        startActivity(Intent.createChooser(shareIntent, "Udostępnij pytania lokalne"))
+
+        startActivity(Intent.createChooser(intent, "Udostępnij pytania lokalne"))
     }
 
     private fun importLocalQuestions() {
@@ -96,14 +75,19 @@ class SettingsActivity : AppCompatActivity() {
 
         if (requestCode == 1001 && resultCode == RESULT_OK) {
             val uri = data?.data ?: return
-            contentResolver.openInputStream(uri)?.use { inputStream ->
-                val (_, localQuestions) = QuizImporter.importQuiz(this, inputStream)
-                if (localQuestions.isNotEmpty()) {
-                    LocalQuestionsRepository.questions.clear()
-                    LocalQuestionsRepository.questions.addAll(localQuestions)
-                    LocalQuestionsRepository.save(this)
-                }
-                Toast.makeText(this, "Zaimportowano ${localQuestions.size} pytań lokalnych", Toast.LENGTH_LONG).show()
+
+            contentResolver.openInputStream(uri)?.use {
+                val (_, localQuestions) = QuizImporter.importQuiz(this, it)
+
+                LocalQuestionsRepository.questions.clear()
+                LocalQuestionsRepository.questions.addAll(localQuestions)
+                LocalQuestionsRepository.save(this)
+
+                Toast.makeText(
+                    this,
+                    "Zaimportowano ${localQuestions.size} pytań lokalnych",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
