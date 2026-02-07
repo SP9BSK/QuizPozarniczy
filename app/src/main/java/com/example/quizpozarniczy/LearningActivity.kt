@@ -18,8 +18,13 @@ class LearningActivity : AppCompatActivity() {
     private lateinit var btnC: Button
     private lateinit var btnSaveExit: Button
 
-    // 🔒 osobne prefs dla każdej aplikacji
-    private val prefsName by lazy { "${packageName}_learning_mode" }
+    private lateinit var learningMode: String
+
+    // 🔒 osobny zapis dla KAŻDEGO trybu
+    private val prefsName by lazy {
+        "${packageName}_learning_$learningMode"
+    }
+
     private val keySolved = "solved_ids"
 
     private val allQuestions = mutableListOf<Question>()
@@ -29,6 +34,8 @@ class LearningActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_learning)
+
+        learningMode = intent.getStringExtra("LEARNING_MODE") ?: "GENERAL"
 
         txtProgress = findViewById(R.id.txtProgress)
         txtQuestion = findViewById(R.id.txtQuestion)
@@ -43,7 +50,7 @@ class LearningActivity : AppCompatActivity() {
         if (allQuestions.isEmpty()) {
             Toast.makeText(
                 this,
-                "Brak pytań w trybie nauki",
+                "Brak pytań w tym trybie",
                 Toast.LENGTH_LONG
             ).show()
             finish()
@@ -65,10 +72,22 @@ class LearningActivity : AppCompatActivity() {
     private fun loadAllQuestions() {
         allQuestions.clear()
 
-        allQuestions.addAll(QuizRepository.getQuestions())
-        allQuestions.addAll(
-            LocalQuestionsRepository.toQuizQuestions(Int.MAX_VALUE)
-        )
+        when (learningMode) {
+            "GENERAL" -> {
+                // pytania ogólne (questionPart 1–21)
+                allQuestions.addAll(
+                    QuizRepository.getQuestions()
+                        .filter { it.part in 1..21 }
+                )
+            }
+
+            "LOCAL" -> {
+                // pytania lokalne
+                allQuestions.addAll(
+                    LocalQuestionsRepository.toQuizQuestions(Int.MAX_VALUE)
+                )
+            }
+        }
 
         updateProgress()
     }
@@ -112,9 +131,7 @@ class LearningActivity : AppCompatActivity() {
         } else {
             AlertDialog.Builder(this)
                 .setTitle("❌ Zła odpowiedź")
-                .setMessage(
-                    "Poprawna odpowiedź:\n\n${q.answers[q.correctIndex]}"
-                )
+                .setMessage("Poprawna odpowiedź:\n\n${q.answers[q.correctIndex]}")
                 .setPositiveButton("Dalej") { _, _ -> nextQuestion() }
                 .setCancelable(false)
                 .show()
