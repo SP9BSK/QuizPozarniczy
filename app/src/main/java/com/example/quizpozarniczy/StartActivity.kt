@@ -6,6 +6,7 @@ import android.view.WindowManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
+import com.example.quizpozarniczy.BuildConfig
 
 class StartActivity : AppCompatActivity() {
 
