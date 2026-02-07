@@ -1,1 +1,107 @@
+package com.example.quizpozarniczy
 
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import android.widget.Button
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.example.quizpozarniczy.data.LocalQuestionsRepository
+import com.example.quizpozarniczy.model.LocalQuestion
+import com.example.quizpozarniczy.model.Question
+import com.example.quizpozarniczy.util.QuizExporter
+import com.example.quizpozarniczy.util.QuizImporter
+
+class SettingsActivity : AppCompatActivity() {
+
+    private val isOpiekun: Boolean
+        get() = applicationId.endsWith(".opiekun")
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_settings)
+
+        val btnPrimary = findViewById<Button>(R.id.btnPrimary)
+        val btnShareLearningMode = findViewById<Button>(R.id.btnShareLearningMode)
+        val btnRegulamin = findViewById<Button>(R.id.btnRegulamin)
+
+        // Flavor-specific text / behavior
+        if (isOpiekun) {
+            // Opiekun: edycja pytań lokalnych + udostępnianie
+            btnPrimary.text = "Edycja pytań lokalnych"
+            btnPrimary.setOnClickListener {
+                startActivity(Intent(this, EditLocalQuestionsActivity::class.java))
+            }
+
+            btnShareLearningMode.text = "UDOSTĘPNIJ PYTANIA LOKALNE"
+            btnShareLearningMode.setOnClickListener {
+                exportLocalQuestions()
+            }
+        } else {
+            // Młodzież: przycisk B + pobieranie pytań
+            btnPrimary.text = "B"
+            btnPrimary.setOnClickListener {
+                Toast.makeText(this, "Funkcja B (do implementacji)", Toast.LENGTH_SHORT).show()
+            }
+
+            btnShareLearningMode.text = "POBIERZ PYTANIA LOKALNE"
+            btnShareLearningMode.setOnClickListener {
+                importLocalQuestions()
+            }
+        }
+
+        // Regulamin (tak samo w obu)
+        btnRegulamin.setOnClickListener {
+            startActivity(Intent(this, RegulaminActivity::class.java))
+        }
+    }
+
+    // =========================
+    // EXPORT PYTAŃ – OPIEKUN
+    // =========================
+    private fun exportLocalQuestions() {
+        val generalQuestions: List<Question> = QuizRepository.getQuestions(localCount = 0)
+        val localQuestions: List<LocalQuestion> = LocalQuestionsRepository.questions
+
+        val uri: Uri = QuizExporter.createExportJson(this, generalQuestions, localQuestions) ?: return
+
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "application/json"
+            putExtra(Intent.EXTRA_STREAM, uri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        startActivity(Intent.createChooser(shareIntent, "Udostępnij pytania lokalne"))
+    }
+
+    // =========================
+    // IMPORT PYTAŃ – MŁODZIEŻ
+    // =========================
+    private fun importLocalQuestions() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            type = "application/json"
+            addCategory(Intent.CATEGORY_OPENABLE)
+        }
+        startActivityForResult(intent, 1001)
+    }
+
+    // =========================
+    // ODBIÓR IMPORTU
+    // =========================
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 1001 && resultCode == RESULT_OK) {
+            val uri = data?.data ?: return
+            contentResolver.openInputStream(uri)?.use { inputStream ->
+                val (_, localQuestions) = QuizImporter.importQuiz(this, inputStream)
+                if (localQuestions.isNotEmpty()) {
+                    LocalQuestionsRepository.questions.clear()
+                    LocalQuestionsRepository.questions.addAll(localQuestions)
+                    LocalQuestionsRepository.save(this)
+                }
+
+                Toast.makeText(this, "Zaimportowano ${localQuestions.size} pytań lokalnych", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+}
