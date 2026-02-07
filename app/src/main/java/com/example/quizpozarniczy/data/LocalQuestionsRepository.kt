@@ -22,9 +22,8 @@ object LocalQuestionsRepository {
         if (json != null) {
             val type = object : TypeToken<MutableList<LocalQuestion>>() {}.type
             questions.addAll(Gson().fromJson(json, type))
-        } else {
-            questions.addAll(DefaultLocalQuestions.questions)
         }
+        // ❗ BRAK ELSE → brak domyślnych pytań lokalnych
     }
 
     fun save(context: Context) {
@@ -34,10 +33,6 @@ object LocalQuestionsRepository {
             .apply()
     }
 
-    /**
-     * 🔥 TYLKO TĄ METODĄ lokalne pytania trafiają do quizu
-     * ❗ BEZ CUDZYSŁOWÓW
-     */
     fun toQuizQuestions(limit: Int): List<Question> {
         return questions
             .shuffled()
