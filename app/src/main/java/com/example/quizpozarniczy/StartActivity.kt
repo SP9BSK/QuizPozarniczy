@@ -16,24 +16,14 @@ class StartActivity : AppCompatActivity() {
         setContentView(R.layout.activity_start)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        // =========================
-        // 🔥 KLUCZOWA LINIA
-        // =========================
         val isOpiekun = BuildConfig.APPLICATION_ID.contains("opiekun")
 
-        // lokalne pytania:
-        // - opiekun → ładuje domyślne
-        // - młodzież → pusto, do importu
         LocalQuestionsRepository.init(
             context = this,
             loadDefaults = isOpiekun
         )
 
-        // =========================
-        // PRZYCISKI
-        // =========================
-
-        // A / Panel sędziego
+        // Panel sędziego
         findViewById<Button>(R.id.btnJudge).setOnClickListener {
             if (isOpiekun) {
                 startActivity(Intent(this, JudgeActivity::class.java))
@@ -46,9 +36,9 @@ class StartActivity : AppCompatActivity() {
             }
         }
 
-        // Tryb nauki
+        // 🔥 TRYB NAUKI → WYBÓR PYTAŃ
         findViewById<Button>(R.id.btnLearn).setOnClickListener {
-            startActivity(Intent(this, LearningActivity::class.java))
+            startActivity(Intent(this, LearningModeSelectActivity::class.java))
         }
 
         // Ustawienia
