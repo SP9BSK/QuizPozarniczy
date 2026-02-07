@@ -30,6 +30,19 @@ class EditLocalQuestionsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_local_questions)
 
+        // -------------------------------
+        // Zabezpieczenie: brak pytań
+        // -------------------------------
+        if (questions.isEmpty()) {
+            Toast.makeText(
+                this,
+                "Brak pytań lokalnych do edycji",
+                Toast.LENGTH_LONG
+            ).show()
+            finish()
+            return
+        }
+
         txtQuestion = findViewById(R.id.txtQuestion)
         etQuoted1 = findViewById(R.id.etQuoted1)
         etQuoted2 = findViewById(R.id.etQuoted2)
@@ -62,11 +75,11 @@ class EditLocalQuestionsActivity : AppCompatActivity() {
             }
         }
 
-       btnSave.setOnClickListener {
-    saveCurrent()
-    LocalQuestionsRepository.save(this)
-    finish()
-}
+        btnSave.setOnClickListener {
+            saveCurrent()
+            LocalQuestionsRepository.save(this)
+            finish()
+        }
     }
 
     private fun loadQuestion() {
@@ -74,7 +87,6 @@ class EditLocalQuestionsActivity : AppCompatActivity() {
 
         txtQuestion.text = q.fullQuestion()
 
-        // -------- FRAGMENTY W CUDZYSŁOWIE --------
         if (q.quotedValue1 != null) {
             etQuoted1.visibility = View.VISIBLE
             etQuoted1.setText(q.quotedValue1)
@@ -89,7 +101,6 @@ class EditLocalQuestionsActivity : AppCompatActivity() {
             etQuoted2.visibility = View.GONE
         }
 
-        // -------- ODPOWIEDZI --------
         etA.setText(q.answers[0])
         etB.setText(q.answers[1])
         etC.setText(q.answers[2])
