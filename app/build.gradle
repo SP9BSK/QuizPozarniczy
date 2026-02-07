@@ -18,7 +18,9 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'
+            ), 'proguard-rules.pro'
         }
         debug {
             applicationIdSuffix ".debug"
@@ -26,35 +28,33 @@ android {
         }
     }
 
+    // 🔥 KONIECZNIE
+    buildFeatures {
+        buildConfig true
+    }
+
     flavorDimensions "mode"
 
-productFlavors {
+    productFlavors {
 
-    full {
-        dimension "mode"
-        applicationIdSuffix ".opiekun"
-        resValue "string", "app_name", "Quiz Pożarniczy MDP – Opiekun"
+        full {
+            dimension "mode"
+            applicationIdSuffix ".opiekun"
+            resValue "string", "app_name",
+                    "Quiz Pożarniczy MDP – Opiekun"
+            resValue "string", "share_local_questions_label",
+                    "UDOSTĘPNIJ PYTANIA LOKALNE"
+        }
+
+        learning {
+            dimension "mode"
+            applicationIdSuffix ".mlodziez"
+            resValue "string", "app_name",
+                    "Quiz Pożarniczy MDP – Młodzież"
+            resValue "string", "share_local_questions_label",
+                    "POBIERZ PYTANIA LOKALNE"
+        }
     }
-
-    learning {
-        dimension "mode"
-        applicationIdSuffix ".mlodziez"
-        resValue "string", "app_name", "Quiz Pożarniczy MDP – Młodzież"
-    }
-    full {
-        dimension "mode"
-        applicationIdSuffix ".opiekun"
-        resValue "string", "share_local_questions_label", "UDOSTĘPNIJ PYTANIA LOKALNE"
-    }
-
-    learning {
-        dimension "mode"
-        applicationIdSuffix ".mlodziez"
-        resValue "string", "share_local_questions_label", "POBIERZ PYTANIA LOKALNE"
-    }
-}
-
-
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -70,5 +70,5 @@ dependencies {
     implementation "androidx.core:core-ktx:1.12.0"
     implementation "androidx.appcompat:appcompat:1.6.1"
     implementation "com.google.android.material:material:1.11.0"
-    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation "com.google.code.gson:gson:2.10.1"
 }
