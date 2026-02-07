@@ -15,7 +15,8 @@ import com.example.quizpozarniczy.util.QuizImporter
 class SettingsActivity : AppCompatActivity() {
 
     private val isOpiekun: Boolean
-        get() = applicationId.endsWith(".opiekun")
+    get() = BuildConfig.APPLICATION_ID.endsWith(".opiekun")
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
