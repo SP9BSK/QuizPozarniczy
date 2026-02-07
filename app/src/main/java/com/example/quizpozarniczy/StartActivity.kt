@@ -12,14 +12,14 @@ class StartActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Ładujemy layout w zależności od flavoru
+        // Ładujemy layout (jeden layout dla obu flavorów)
         setContentView(R.layout.activity_start)
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         // 🔥 inicjalizacja lokalnych pytań
-        // full = Opiekun → domyślnie wczytujemy pytania lokalne
-        val loadDefaults = BuildConfig.FLAVOR == "full"
+        // W apce opiekun domyślnie wczytujemy pytania lokalne
+        val loadDefaults = applicationId.endsWith(".opiekun")
         LocalQuestionsRepository.init(this, loadDefaults = loadDefaults)
 
         val btnJudge = findViewById<Button>(R.id.btnJudge)
