@@ -23,6 +23,10 @@
         <activity
             android:name=".LearningActivity"
             android:exported="false" />
+        
+      <activity
+      android:name=".LearningModeSelectActivity"
+      android:exported="false" />
 
         <!-- PANEL SĘDZIEGO -->
         <activity
