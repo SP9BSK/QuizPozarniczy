@@ -6,23 +6,21 @@ import android.view.WindowManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
-import com.example.quizpozarniczy.BuildConfig
+import com.example.quizpozarniczy.BuildConfig // <-- dodany import
 
 class StartActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Ładujemy layout (jeden layout dla obu flavorów)
+        // Ładujemy layout w zależności od flavoru
         setContentView(R.layout.activity_start)
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         // 🔥 inicjalizacja lokalnych pytań
-        // W apce opiekun domyślnie wczytujemy pytania lokalne
         val loadDefaults = BuildConfig.APPLICATION_ID.endsWith(".opiekun")
-         LocalQuestionsRepository.init(this, loadDefaults = loadDefaults)
-
+        LocalQuestionsRepository.init(this, loadDefaults = loadDefaults)
 
         val btnJudge = findViewById<Button>(R.id.btnJudge)
         val btnLearn = findViewById<Button>(R.id.btnLearn)
