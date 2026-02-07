@@ -11,6 +11,7 @@ import com.example.quizpozarniczy.model.LocalQuestion
 import com.example.quizpozarniczy.model.Question
 import com.example.quizpozarniczy.util.QuizExporter
 import com.example.quizpozarniczy.util.QuizImporter
+import com.example.quizpozarniczy.BuildConfig
 
 class SettingsActivity : AppCompatActivity() {
 
