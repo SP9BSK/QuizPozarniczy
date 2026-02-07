@@ -13,7 +13,11 @@ object LocalQuestionsRepository {
 
     val questions: MutableList<LocalQuestion> = mutableListOf()
 
-    fun init(context: Context) {
+    /**
+     * @param loadDefaults jeśli true, przy braku zapisanych pytań załaduj DefaultLocalQuestions
+     *                     (używane tylko w apce Opiekun)
+     */
+    fun init(context: Context, loadDefaults: Boolean) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val json = prefs.getString(KEY_QUESTIONS, null)
 
@@ -22,8 +26,10 @@ object LocalQuestionsRepository {
         if (json != null) {
             val type = object : TypeToken<MutableList<LocalQuestion>>() {}.type
             questions.addAll(Gson().fromJson(json, type))
+        } else if (loadDefaults) {
+            // TYLKO OPIEKUN
+            questions.addAll(DefaultLocalQuestions.questions)
         }
-        // ❗ BRAK ELSE → brak domyślnych pytań lokalnych
     }
 
     fun save(context: Context) {
@@ -33,6 +39,10 @@ object LocalQuestionsRepository {
             .apply()
     }
 
+    /**
+     * 🔥 TYLKO TĄ METODĄ lokalne pytania trafiają do quizu
+     * ❗ BEZ CUDZYSŁOWÓW
+     */
     fun toQuizQuestions(limit: Int): List<Question> {
         return questions
             .shuffled()
