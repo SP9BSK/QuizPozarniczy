@@ -1,33 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:padding="24dp"
+    android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <Button
         android:id="@+id/btnEditLocalQuestions"
-        android:text="EDYCJA PYTAŃ LOKALNYCH"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/btnA"
-        android:text="A"
-        android:layout_marginTop="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="EDYCJA PYTAŃ LOKALNYCH" />
 
     <Button
         android:id="@+id/btnExport"
-        android:text="UDOSTĘPNIJ PYTANIA LOKALNE"
-        android:layout_marginTop="12dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="@string/share_local_questions_label" />
+
+    <Button
+        android:id="@+id/btnImport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="POBIERZ PYTANIA LOKALNE" />
 
     <Button
         android:id="@+id/btnRegulamin"
-        android:text="REGULAMIN"
-        android:layout_marginTop="24dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="REGULAMIN" />
+
 </LinearLayout>
