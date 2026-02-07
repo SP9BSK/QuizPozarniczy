@@ -41,6 +41,17 @@ productFlavors {
         applicationIdSuffix ".mlodziez"
         resValue "string", "app_name", "Quiz Pożarniczy MDP – Młodzież"
     }
+    full {
+        dimension "mode"
+        applicationIdSuffix ".opiekun"
+        resValue "string", "share_local_questions_label", "UDOSTĘPNIJ PYTANIA LOKALNE"
+    }
+
+    learning {
+        dimension "mode"
+        applicationIdSuffix ".mlodziez"
+        resValue "string", "share_local_questions_label", "POBIERZ PYTANIA LOKALNE"
+    }
 }
 
 
