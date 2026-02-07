@@ -44,8 +44,7 @@ class SettingsActivity : AppCompatActivity() {
     // =========================
     private fun exportLocalQuestions() {
 
-        val localQuestions =
-            LocalQuestionsRepository.getAllLocalQuestions()
+        val localQuestions = LocalQuestionsRepository.questions
 
         if (localQuestions.isEmpty()) {
             Toast.makeText(
@@ -95,11 +94,19 @@ class SettingsActivity : AppCompatActivity() {
         if (requestCode == IMPORT_JSON_REQUEST && resultCode == Activity.RESULT_OK) {
             val uri = data?.data ?: return
 
-            val count = QuizImporter.import(this, uri)
+            val inputStream = contentResolver.openInputStream(uri) ?: return
+
+            val (_, localQuestions) =
+                QuizImporter.importQuiz(this, inputStream)
+
+            // ⬅️ NADPISUJEMY pytania lokalne
+            LocalQuestionsRepository.questions.clear()
+            LocalQuestionsRepository.questions.addAll(localQuestions)
+            LocalQuestionsRepository.save(this)
 
             Toast.makeText(
                 this,
-                "Zaimportowano pytań lokalnych: $count",
+                "Zaimportowano ${localQuestions.size} pytań lokalnych",
                 Toast.LENGTH_LONG
             ).show()
         }
