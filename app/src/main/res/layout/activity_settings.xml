@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- 1. EDYCJA / B -->
+    <Button
+        android:id="@+id/btnEditOrB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="EDYCJA / B" />
+
+    <!-- 2. A -->
+    <Button
+        android:id="@+id/btnA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="A"
+        android:layout_marginTop="16dp" />
+
+    <!-- 3. EXPORT / IMPORT -->
+    <Button
+        android:id="@+id/btnExportImport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="EXPORT / IMPORT"
+        android:layout_marginTop="16dp" />
+
+    <!-- 4. REGULAMIN -->
+    <Button
+        android:id="@+id/btnRegulamin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Regulamin"
+        android:layout_marginTop="24dp" />
+
+</LinearLayout>
