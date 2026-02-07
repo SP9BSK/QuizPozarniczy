@@ -11,33 +11,32 @@ import com.example.quizpozarniczy.model.LocalQuestion
 import com.example.quizpozarniczy.model.Question
 import com.example.quizpozarniczy.util.QuizExporter
 import com.example.quizpozarniczy.util.QuizImporter
-import com.example.quizpozarniczy.BuildConfig
+import com.example.quizpozarniczy.BuildConfig // <-- dodany import
 
 class SettingsActivity : AppCompatActivity() {
 
     private val isOpiekun: Boolean
-    get() = BuildConfig.APPLICATION_ID.endsWith(".opiekun")
-
+        get() = BuildConfig.APPLICATION_ID.endsWith(".opiekun")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val btnEditOrB = findViewById<Button>(R.id.btnEditOrB)
-        val btnA = findViewById<Button>(R.id.btnA)
-        val btnShareOrDownload = findViewById<Button>(R.id.btnShareOrDownload)
+        // 4 przyciski
+        val btnEditOrB = findViewById<Button>(R.id.btnEditLocalQuestions)
+        val btnAorA = findViewById<Button>(R.id.btnA)
+        val btnShareOrDownload = findViewById<Button>(R.id.btnShareLearningMode)
         val btnRegulamin = findViewById<Button>(R.id.btnRegulamin)
 
-        // Flavor-specific text / behavior
         if (isOpiekun) {
-            // 🔹 Opiekun
+            // Opiekun
             btnEditOrB.text = "Edycja pytań lokalnych"
             btnEditOrB.setOnClickListener {
                 startActivity(Intent(this, EditLocalQuestionsActivity::class.java))
             }
 
-            btnA.text = "A"
-            btnA.setOnClickListener {
+            btnAorA.text = "A"
+            btnAorA.setOnClickListener {
                 Toast.makeText(this, "Przycisk A (do implementacji)", Toast.LENGTH_SHORT).show()
             }
 
@@ -46,20 +45,15 @@ class SettingsActivity : AppCompatActivity() {
                 exportLocalQuestions()
             }
 
-            btnRegulamin.text = "Regulamin"
-            btnRegulamin.setOnClickListener {
-                startActivity(Intent(this, RegulaminActivity::class.java))
-            }
-
         } else {
-            // 🔹 Młodzież
+            // Młodzież
             btnEditOrB.text = "B"
             btnEditOrB.setOnClickListener {
                 Toast.makeText(this, "Funkcja B (do implementacji)", Toast.LENGTH_SHORT).show()
             }
 
-            btnA.text = "A"
-            btnA.setOnClickListener {
+            btnAorA.text = "A"
+            btnAorA.setOnClickListener {
                 Toast.makeText(this, "Przycisk A (do implementacji)", Toast.LENGTH_SHORT).show()
             }
 
@@ -67,17 +61,14 @@ class SettingsActivity : AppCompatActivity() {
             btnShareOrDownload.setOnClickListener {
                 importLocalQuestions()
             }
+        }
 
-            btnRegulamin.text = "Regulamin"
-            btnRegulamin.setOnClickListener {
-                startActivity(Intent(this, RegulaminActivity::class.java))
-            }
+        // Regulamin – tak samo dla wszystkich
+        btnRegulamin.setOnClickListener {
+            startActivity(Intent(this, RegulaminActivity::class.java))
         }
     }
 
-    // =========================
-    // EXPORT PYTAŃ – OPIEKUN
-    // =========================
     private fun exportLocalQuestions() {
         val generalQuestions: List<Question> = QuizRepository.getQuestions(localCount = 0)
         val localQuestions: List<LocalQuestion> = LocalQuestionsRepository.questions
@@ -92,9 +83,6 @@ class SettingsActivity : AppCompatActivity() {
         startActivity(Intent.createChooser(shareIntent, "Udostępnij pytania lokalne"))
     }
 
-    // =========================
-    // IMPORT PYTAŃ – MŁODZIEŻ
-    // =========================
     private fun importLocalQuestions() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             type = "application/json"
@@ -103,9 +91,6 @@ class SettingsActivity : AppCompatActivity() {
         startActivityForResult(intent, 1001)
     }
 
-    // =========================
-    // ODBIÓR IMPORTU
-    // =========================
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -118,7 +103,6 @@ class SettingsActivity : AppCompatActivity() {
                     LocalQuestionsRepository.questions.addAll(localQuestions)
                     LocalQuestionsRepository.save(this)
                 }
-
                 Toast.makeText(this, "Zaimportowano ${localQuestions.size} pytań lokalnych", Toast.LENGTH_LONG).show()
             }
         }
