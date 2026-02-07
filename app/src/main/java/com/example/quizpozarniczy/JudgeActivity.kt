@@ -31,10 +31,12 @@ class JudgeActivity : AppCompatActivity() {
         setupLiveValidation(etTime, 1, 30, "Czas (min)")
 
         btnStart.setOnClickListener {
-            val players = etPlayers.text.toString().toInt()
-            val questionsTotal = etQuestions.text.toString().toInt()
-            val localQuestions = etLocalQuestions.text.toString().toInt()
-            val timeSeconds = etTime.text.toString().toInt() * 60
+
+            // ✅ JEŚLI PUSTE → 1
+            val players = etPlayers.text.toString().toIntOrNull() ?: 1
+            val questionsTotal = etQuestions.text.toString().toIntOrNull() ?: 1
+            val localQuestions = etLocalQuestions.text.toString().toIntOrNull() ?: 1
+            val timeSeconds = (etTime.text.toString().toIntOrNull() ?: 1) * 60
 
             // ❗ JEDYNA POPRAWNA WALIDACJA
             if (localQuestions > questionsTotal) {
