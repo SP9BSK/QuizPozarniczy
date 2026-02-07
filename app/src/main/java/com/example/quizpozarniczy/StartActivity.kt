@@ -11,14 +11,23 @@ class StartActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_start)
 
+        setContentView(R.layout.activity_start)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        // ❗ NIE ładujemy domyślnych lokalnych pytań
-        // Opiekun ma je zapisane w SharedPreferences
-        LocalQuestionsRepository.init(this, loadDefaults = false)
+        // =========================
+        // 🔥 KLUCZOWA LINIA
+        // =========================
+        val isOpiekun = BuildConfig.APPLICATION_ID.contains("opiekun")
 
+        LocalQuestionsRepository.init(
+            context = this,
+            loadDefaults = isOpiekun
+        )
+
+        // =========================
+        // PRZYCISKI
+        // =========================
         findViewById<Button>(R.id.btnJudge).setOnClickListener {
             startActivity(Intent(this, JudgeActivity::class.java))
         }
