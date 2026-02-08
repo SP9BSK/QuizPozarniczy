@@ -53,7 +53,6 @@ class QuizActivity : AppCompatActivity() {
         setContentView(R.layout.activity_quiz)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        // ========== findViewById ==========
         txtQuestion = findViewById(R.id.txtQuestion)
         txtTimer = findViewById(R.id.txtTimer)
         txtQuestionCounter = findViewById(R.id.txtQuestionCounter)
@@ -63,13 +62,12 @@ class QuizActivity : AppCompatActivity() {
         btnBack = findViewById(R.id.btnBack)
         btnShowCorrect = findViewById(R.id.btnShowCorrect)
 
-        // ========== Parametry quizu ==========
         val questionsLimit = min(intent.getIntExtra("QUESTIONS", 5), MAX_QUESTIONS)
         val localQuestionsLimit = intent.getIntExtra("LOCAL_QUESTIONS", 1).coerceIn(1, 3)
         playersCount = min(intent.getIntExtra("PLAYERS", 1), MAX_PLAYERS)
         timePerPlayerSeconds = intent.getIntExtra("TIME_SECONDS", 60)
 
-        // ========== Upewnienie się, że lista zawodników ma odpowiedni rozmiar ==========
+        // Upewnij się, że lista zawodników ma odpowiedni rozmiar
         while (QuizSession.playerNames.size < playersCount) {
             QuizSession.playerNames.add("Zawodnik ${QuizSession.playerNames.size + 1}")
         }
@@ -79,28 +77,25 @@ class QuizActivity : AppCompatActivity() {
 
         scores = IntArray(playersCount)
 
-        // ========== Przygotowanie pytań ==========
         val localQuestions = LocalQuestionsRepository.toQuizQuestions(localQuestionsLimit)
         val normalQuestions =
             QuizRepository.getQuestions().shuffled().take(questionsLimit - localQuestions.size)
         questions = (localQuestions + normalQuestions).shuffled()
 
-        // ========== Kliknięcia odpowiedzi ==========
+        // Kliknięcia przycisków odpowiedzi
         btnA.setOnClickListener { answerSelected(0) }
         btnB.setOnClickListener { answerSelected(1) }
         btnC.setOnClickListener { answerSelected(2) }
 
-        // ========== Pokazywanie błędnych odpowiedzi ==========
+        // Pokaz błędnych odpowiedzi
         btnShowCorrect.setOnClickListener {
             wrongAnswerIndex = 0
             showWrongAnswer()
         }
 
-        // ========== Pokaż pierwsze pytanie ==========
         showQuestion()
     }
 
-    // ================= TIMER =================
     private fun startTimer() {
         timer?.cancel()
         timeLeftSeconds = timePerPlayerSeconds
@@ -117,7 +112,6 @@ class QuizActivity : AppCompatActivity() {
         }.start()
     }
 
-    // ================= QUIZ =================
     private fun showQuestion() {
         if (currentQuestionIndex == 0) {
             wrongAnswersCurrentPlayer.clear()
@@ -157,10 +151,8 @@ class QuizActivity : AppCompatActivity() {
         showQuestion()
     }
 
-    // ================= WYNIK GRACZA =================
     private fun showPlayerResult() {
         timer?.cancel()
-
         if (!resultSavedForPlayer) {
             val timeUsed = timePerPlayerSeconds - timeLeftSeconds
             playerResults.add(
@@ -199,7 +191,6 @@ class QuizActivity : AppCompatActivity() {
         }
     }
 
-    // ================= WYNIKI KOŃCOWE =================
     private fun showFinalResults() {
         val sorted = playerResults.sortedWith(
             compareByDescending<PlayerResult> { it.score }.thenBy { it.timeSeconds }
@@ -222,7 +213,52 @@ class QuizActivity : AppCompatActivity() {
         btnBack.setOnClickListener { finish() }
     }
 
-    // ================= POKAZ BŁĘDNYCH ODPOWIEDZI =================
     private fun showWrongAnswer() {
         btnShowCorrect.visibility = View.GONE
-        if (
+        if (wrongAnswerIndex >= wrongAnswersCurrentPlayer.size) {
+            showPlayerResult()
+            return
+        }
+
+        val w = wrongAnswersCurrentPlayer[wrongAnswerIndex]
+        txtQuestion.text =
+            "Pytanie ${wrongAnswerIndex + 1}/${wrongAnswersCurrentPlayer.size}\n\n${w.question}"
+
+        val buttons = listOf(btnA, btnB, btnC)
+        for ((i, btn) in buttons.withIndex()) {
+            btn.visibility = View.VISIBLE
+            btn.isEnabled = false
+            btn.text = w.answers[i]
+            when (i) {
+                w.correctIndex -> btn.setBackgroundColor(getColor(R.color.answer_correct))
+                w.chosenIndex -> btn.setBackgroundColor(getColor(R.color.answer_wrong))
+                else -> btn.setBackgroundColor(getColor(android.R.color.darker_gray))
+            }
+        }
+
+        btnBack.visibility = View.VISIBLE
+        btnBack.text = "Dalej"
+        btnBack.setOnClickListener {
+            wrongAnswerIndex++
+            resetButtons()
+            showWrongAnswer()
+        }
+    }
+
+    private fun formatTime(seconds: Int): String =
+        String.format("%02d:%02d", seconds / 60, seconds % 60)
+
+    private fun resetButtons() {
+        listOf(btnA, btnB, btnC).forEach {
+            it.setBackgroundResource(android.R.drawable.btn_default)
+            it.isEnabled = true
+            it.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setAnswersEnabled(enabled: Boolean) {
+        btnA.isEnabled = enabled
+        btnB.isEnabled = enabled
+        btnC.isEnabled = enabled
+    }
+}
