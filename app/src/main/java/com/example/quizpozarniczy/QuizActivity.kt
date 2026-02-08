@@ -39,6 +39,7 @@ class QuizActivity : AppCompatActivity() {
     private var resultSavedForPlayer = false
 
     private var timePerPlayerSeconds = 60
+    private var timeLeftSeconds = 0
     private var timer: CountDownTimer? = null
 
     private val toneGenerator = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
@@ -76,19 +77,15 @@ class QuizActivity : AppCompatActivity() {
 
         scores = IntArray(playersCount)
 
-        // 🔥 PYTANIA LOKALNE (BEZ CUDZYSŁOWÓW)
-val localQuestions = LocalQuestionsRepository
-    .toQuizQuestions(localQuestionsLimit)
+        val localQuestions =
+            LocalQuestionsRepository.toQuizQuestions(localQuestionsLimit)
 
-
-        // 🔥 PYTANIA OGÓLNE
         val normalQuestionsCount = questionsLimit - localQuestions.size
 
         val normalQuestions = QuizRepository.getQuestions()
             .shuffled()
             .take(normalQuestionsCount)
 
-        // 🔥 POŁĄCZENIE + LOSOWA KOLEJNOŚĆ
         questions = (localQuestions + normalQuestions).shuffled()
 
         btnA.setOnClickListener { answerSelected(0) }
@@ -108,30 +105,26 @@ val localQuestions = LocalQuestionsRepository
         timer?.cancel()
     }
 
+    // ================= TIMER =================
+
     private fun startTimer() {
         timer?.cancel()
+        timeLeftSeconds = timePerPlayerSeconds
 
         timer = object : CountDownTimer(timePerPlayerSeconds * 1000L, 1000) {
 
             override fun onTick(ms: Long) {
-                val totalSeconds = ms / 1000
-                val minutes = totalSeconds / 60
-                val seconds = totalSeconds % 60
+                timeLeftSeconds = (ms / 1000).toInt()
+                txtTimer.text = formatTime(timeLeftSeconds)
 
-                txtTimer.text =
-                    String.format("%02d:%02d", minutes, seconds)
-
-                if (totalSeconds <= 10) {
-                    txtTimer.setTextColor(
+                txtTimer.setTextColor(
+                    if (timeLeftSeconds <= 10)
                         getColor(android.R.color.holo_red_dark)
-                    )
-                } else {
-                    txtTimer.setTextColor(
+                    else
                         getColor(android.R.color.black)
-                    )
-                }
+                )
 
-                if (totalSeconds in 1..3) {
+                if (timeLeftSeconds in 1..3) {
                     toneGenerator.startTone(
                         ToneGenerator.TONE_PROP_BEEP,
                         150
@@ -140,20 +133,14 @@ val localQuestions = LocalQuestionsRepository
             }
 
             override fun onFinish() {
+                timeLeftSeconds = 0
                 txtTimer.text = "00:00"
-                txtTimer.setTextColor(
-                    getColor(android.R.color.holo_red_dark)
-                )
-
-                toneGenerator.startTone(
-                    ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD,
-                    2000
-                )
-
                 showPlayerResult()
             }
         }.start()
     }
+
+    // ================= QUIZ =================
 
     private fun showQuestion() {
         if (currentQuestionIndex == 0) {
@@ -194,10 +181,10 @@ val localQuestions = LocalQuestionsRepository
         } else {
             wrongAnswersCurrentPlayer.add(
                 WrongAnswer(
-                    question = q.text,
-                    answers = q.answers,
-                    chosenIndex = index,
-                    correctIndex = q.correctIndex
+                    q.text,
+                    q.answers,
+                    index,
+                    q.correctIndex
                 )
             )
         }
@@ -206,23 +193,30 @@ val localQuestions = LocalQuestionsRepository
         showQuestion()
     }
 
+    // ================= WYNIK ZAWODNIKA =================
+
     private fun showPlayerResult() {
         timer?.cancel()
 
         if (!resultSavedForPlayer) {
+            val usedTime = timePerPlayerSeconds - timeLeftSeconds
+
             playerResults.add(
                 PlayerResult(
-                    currentPlayer + 1,
-                    scores[currentPlayer],
-                    questions.size,
-                    wrongAnswersCurrentPlayer.toList()
+                    playerNumber = currentPlayer + 1,
+                    score = scores[currentPlayer],
+                    total = questions.size,
+                    timeSeconds = usedTime,
+                    wrongAnswers = wrongAnswersCurrentPlayer.toList()
                 )
             )
             resultSavedForPlayer = true
         }
 
         txtQuestion.text =
-            "Zawodnik ${currentPlayer + 1}\n\nWynik: ${scores[currentPlayer]}/${questions.size}"
+            "Zawodnik ${currentPlayer + 1}\n\n" +
+            "Wynik: ${scores[currentPlayer]}/${questions.size}\n" +
+            "Czas: ${formatTime(timePerPlayerSeconds - timeLeftSeconds)}"
 
         txtTimer.text = ""
 
@@ -242,7 +236,6 @@ val localQuestions = LocalQuestionsRepository
                 "Zobacz wyniki"
 
         btnBack.setOnClickListener {
-            btnShowCorrect.visibility = View.GONE
             currentPlayer++
             currentQuestionIndex = 0
             wrongAnswerIndex = 0
@@ -255,6 +248,8 @@ val localQuestions = LocalQuestionsRepository
             }
         }
     }
+
+    // ================= BŁĘDY =================
 
     private fun showWrongAnswer() {
         btnShowCorrect.visibility = View.GONE
@@ -277,21 +272,12 @@ val localQuestions = LocalQuestionsRepository
             btn.text = w.answers[i]
 
             when (i) {
-                w.correctIndex -> {
-                    btn.setBackgroundColor(
-                        getColor(R.color.answer_correct)
-                    )
-                }
-                w.chosenIndex -> {
-                    btn.setBackgroundColor(
-                        getColor(R.color.answer_wrong)
-                    )
-                }
-                else -> {
-                    btn.setBackgroundColor(
-                        getColor(android.R.color.darker_gray)
-                    )
-                }
+                w.correctIndex ->
+                    btn.setBackgroundColor(getColor(R.color.answer_correct))
+                w.chosenIndex ->
+                    btn.setBackgroundColor(getColor(R.color.answer_wrong))
+                else ->
+                    btn.setBackgroundColor(getColor(android.R.color.darker_gray))
             }
         }
 
@@ -304,6 +290,8 @@ val localQuestions = LocalQuestionsRepository
         }
     }
 
+    // ================= WYNIKI KOŃCOWE =================
+
     private fun showFinalResults() {
         btnShowCorrect.visibility = View.GONE
         btnA.visibility = View.GONE
@@ -311,9 +299,12 @@ val localQuestions = LocalQuestionsRepository
         btnC.visibility = View.GONE
 
         val sb = StringBuilder("Koniec quizu\n\n")
+
         playerResults.forEach {
             sb.append(
-                "Zawodnik ${it.playerNumber}: ${it.score}/${it.total}\n"
+                "Zawodnik ${it.playerNumber}: " +
+                "${it.score}/${it.total} | " +
+                "Czas: ${formatTime(it.timeSeconds)}\n"
             )
         }
 
@@ -325,14 +316,22 @@ val localQuestions = LocalQuestionsRepository
         btnBack.setOnClickListener { finish() }
     }
 
+    // ================= UTIL =================
+
+    private fun formatTime(seconds: Int): String {
+        val m = seconds / 60
+        val s = seconds % 60
+        return String.format("%02d:%02d", m, s)
+    }
+
     private fun resetButtons() {
         val def = android.R.drawable.btn_default
 
-        listOf(btnA, btnB, btnC).forEach { btn ->
-            btn.setBackgroundResource(def)
-            btn.setTextColor(getColor(android.R.color.black))
-            btn.visibility = View.VISIBLE
-            btn.isEnabled = true
+        listOf(btnA, btnB, btnC).forEach {
+            it.setBackgroundResource(def)
+            it.setTextColor(getColor(android.R.color.black))
+            it.visibility = View.VISIBLE
+            it.isEnabled = true
         }
     }
 
