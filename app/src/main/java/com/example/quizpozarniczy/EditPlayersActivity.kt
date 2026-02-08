@@ -1,11 +1,11 @@
 package com.example.quizpozarniczy
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import android.view.WindowManager
 
 class EditPlayersActivity : AppCompatActivity() {
 
@@ -13,12 +13,14 @@ class EditPlayersActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_players)
 
+        // Nie gasimy ekranu
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
         val container = findViewById<LinearLayout>(R.id.playersContainer)
         val btnSave = findViewById<Button>(R.id.btnSavePlayers)
 
         container.removeAllViews()
 
-        // Wczytaj aktualne nazwiska zawodników
         QuizSession.playerNames.forEachIndexed { index, name ->
             val et = EditText(this)
             et.hint = "Zawodnik ${index + 1}"
@@ -35,10 +37,8 @@ class EditPlayersActivity : AppCompatActivity() {
                 QuizSession.playerNames.add(text)
             }
 
-            // Po zapisaniu nazw od razu startujemy QuizActivity
-            val intent = Intent(this, QuizActivity::class.java)
-            startActivity(intent)
-            finish()
+            // Nie startujemy quizu automatycznie!
+            // Teraz użytkownik może nacisnąć przycisk Start Quiz w menu lub innym miejscu
         }
     }
 }
