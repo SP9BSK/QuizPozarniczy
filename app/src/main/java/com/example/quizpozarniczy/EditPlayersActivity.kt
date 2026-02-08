@@ -1,11 +1,11 @@
 package com.example.quizpozarniczy
 
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import android.view.WindowManager
 
 class EditPlayersActivity : AppCompatActivity() {
 
@@ -13,7 +13,7 @@ class EditPlayersActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_players)
 
-        // Nie gasimy ekranu
+        // Nie gasimy ekranu podczas edycji zawodników
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         val container = findViewById<LinearLayout>(R.id.playersContainer)
@@ -21,6 +21,7 @@ class EditPlayersActivity : AppCompatActivity() {
 
         container.removeAllViews()
 
+        // Tworzymy pola dla istniejących graczy
         QuizSession.playerNames.forEachIndexed { index, name ->
             val et = EditText(this)
             et.hint = "Zawodnik ${index + 1}"
@@ -30,6 +31,7 @@ class EditPlayersActivity : AppCompatActivity() {
         }
 
         btnSave.setOnClickListener {
+            // Zapisz wpisane nazwy do QuizSession
             QuizSession.playerNames.clear()
             for (i in 0 until container.childCount) {
                 val et = container.getChildAt(i) as EditText
@@ -37,8 +39,9 @@ class EditPlayersActivity : AppCompatActivity() {
                 QuizSession.playerNames.add(text)
             }
 
-            // Nie startujemy quizu automatycznie!
-            // Teraz użytkownik może nacisnąć przycisk Start Quiz w menu lub innym miejscu
+            // Ustaw wynik dla JudgeActivity i zamknij aktywność
+            setResult(RESULT_OK)
+            finish()
         }
     }
 }
