@@ -198,3 +198,97 @@ class QuizActivity : AppCompatActivity() {
         btnC.isEnabled = enabled
     }
 }
+private fun showQuestion() {
+    if (currentQuestionIndex == 0) {
+        wrongAnswersCurrentPlayer.clear()
+        resultSavedForPlayer = false
+        startTimer()
+    }
+
+    if (currentQuestionIndex >= questions.size) {
+        showPlayerResult()
+        return
+    }
+
+    val q = questions[currentQuestionIndex]
+
+    txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\n${q.text}"
+    btnA.text = q.answers[0]
+    btnB.text = q.answers[1]
+    btnC.text = q.answers[2]
+
+    resetButtons()
+    setAnswersEnabled(true)
+
+    btnShowCorrect.visibility = View.GONE
+    btnBack.visibility = View.GONE
+    txtQuestionCounter.text = "${currentQuestionIndex + 1} / ${questions.size}"
+}
+
+private fun answerSelected(index: Int) {
+    val q = questions[currentQuestionIndex]
+
+    if (index == q.correctIndex) {
+        scores[currentPlayer]++
+    } else {
+        wrongAnswersCurrentPlayer.add(
+            WrongAnswer(
+                question = q.text,
+                answers = q.answers,
+                chosenIndex = index,
+                correctIndex = q.correctIndex
+            )
+        )
+    }
+
+    currentQuestionIndex++
+    showQuestion()
+}
+
+private fun showPlayerResult() {
+    timer?.cancel()
+
+    if (!resultSavedForPlayer) {
+        val timeUsed = timePerPlayerSeconds - timeLeftSeconds
+        playerResults.add(
+            PlayerResult(
+                playerNumber = currentPlayer + 1,
+                score = scores[currentPlayer],
+                total = questions.size,
+                timeSeconds = timeUsed,
+                wrongAnswers = wrongAnswersCurrentPlayer.toList()
+            )
+        )
+        resultSavedForPlayer = true
+    }
+
+    txtQuestion.text =
+        "Zawodnik ${currentPlayer + 1}\n\nWynik: ${scores[currentPlayer]}/${questions.size}"
+    txtTimer.text = ""
+
+    btnA.visibility = View.GONE
+    btnB.visibility = View.GONE
+    btnC.visibility = View.GONE
+
+    btnShowCorrect.visibility =
+        if (wrongAnswersCurrentPlayer.isNotEmpty()) View.VISIBLE else View.GONE
+
+    btnBack.visibility = View.VISIBLE
+    btnBack.text =
+        if (currentPlayer + 1 < playersCount) "Następny zawodnik"
+        else "Zobacz wyniki"
+
+    btnBack.setOnClickListener {
+        currentPlayer++
+        currentQuestionIndex = 0
+        wrongAnswerIndex = 0
+        resultSavedForPlayer = false
+
+        if (currentPlayer < playersCount) {
+            showQuestion()
+        } else {
+            showFinalResults()
+        }
+    }
+}
+
