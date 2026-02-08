@@ -7,10 +7,17 @@ import android.text.TextWatcher
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class JudgeActivity : AppCompatActivity() {
+
+    companion object {
+        private const val REQUEST_EDIT_PLAYERS = 100
+    }
+
+    private lateinit var txtPlayers: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,9 +30,14 @@ class JudgeActivity : AppCompatActivity() {
         val etLocalQuestions = findViewById<EditText>(R.id.etLocalQuestions)
         val etTime = findViewById<EditText>(R.id.etTime)
 
+        txtPlayers = findViewById(R.id.txtPlayersDisplay)
+
         val btnStart = findViewById<Button>(R.id.btnStart)
         val btnEditPlayers = findViewById<Button>(R.id.btnEditPlayers)
         val btnShareQuiz = findViewById<Button>(R.id.btnShareQuiz)
+
+        // Pokazujemy domyślne listy graczy
+        updatePlayersDisplay()
 
         setupLiveValidation(etPlayers, 1, 10, "Zawodników")
         setupLiveValidation(etQuestions, 1, 30, "Pytań")
@@ -34,11 +46,11 @@ class JudgeActivity : AppCompatActivity() {
 
         btnEditPlayers.setOnClickListener {
             val players = etPlayers.text.toString().toIntOrNull() ?: 1
-            QuizSession.reset(players)
+            QuizSession.ensurePlayers(players)
 
-            startActivity(
-                Intent(this, EditPlayersActivity::class.java)
-            )
+            // Startujemy aktywność edycji zawodników
+            val intent = Intent(this, EditPlayersActivity::class.java)
+            startActivityForResult(intent, REQUEST_EDIT_PLAYERS)
         }
 
         btnShareQuiz.setOnClickListener {
@@ -46,7 +58,6 @@ class JudgeActivity : AppCompatActivity() {
         }
 
         btnStart.setOnClickListener {
-
             val players = etPlayers.text.toString().toIntOrNull() ?: 1
             val questionsTotal = etQuestions.text.toString().toIntOrNull() ?: 1
             val localQuestions = etLocalQuestions.text.toString().toIntOrNull() ?: 1
@@ -61,7 +72,7 @@ class JudgeActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            QuizSession.reset(players)
+            QuizSession.ensurePlayers(players)
 
             val intent = Intent(this, QuizActivity::class.java)
             intent.putExtra("PLAYERS", players)
@@ -71,6 +82,19 @@ class JudgeActivity : AppCompatActivity() {
 
             startActivity(intent)
         }
+    }
+
+    // Obsługa powrotu z EditPlayersActivity
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_EDIT_PLAYERS && resultCode == RESULT_OK) {
+            updatePlayersDisplay()
+        }
+    }
+
+    // Funkcja odświeżająca widok zawodników
+    private fun updatePlayersDisplay() {
+        txtPlayers.text = QuizSession.playerNames.joinToString("\n")
     }
 
     private fun setupLiveValidation(
