@@ -7,6 +7,7 @@ object QuizSession {
     val playerNames = mutableListOf<String>()
     val results = mutableListOf<PlayerResult>()
 
+    // Reset sesji i nadanie domyślnych nazw
     fun reset(players: Int) {
         totalPlayers = players
         currentPlayer = 1
@@ -16,5 +17,19 @@ object QuizSession {
         repeat(players) {
             playerNames.add("Zawodnik ${it + 1}")
         }
+    }
+
+    // ✅ Nowa funkcja: upewnij się, że lista graczy ma dokładnie "count" elementów
+    fun ensurePlayers(count: Int) {
+        // Dodaj brakujące nazwiska domyślne
+        while (playerNames.size < count) {
+            playerNames.add("Zawodnik ${playerNames.size + 1}")
+        }
+        // Jeśli jest więcej niż potrzebujemy, obetnij listę
+        if (playerNames.size > count) {
+            playerNames.subList(count, playerNames.size).clear()
+        }
+        // Zaktualizuj totalPlayers
+        totalPlayers = count
     }
 }
