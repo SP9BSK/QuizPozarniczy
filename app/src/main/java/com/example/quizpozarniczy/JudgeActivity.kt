@@ -13,50 +13,55 @@ import androidx.appcompat.app.AppCompatActivity
 
 class JudgeActivity : AppCompatActivity() {
 
-    companion object {
-        private const val REQUEST_EDIT_PLAYERS = 100
-    }
+    private lateinit var etPlayers: EditText
+    private lateinit var etQuestions: EditText
+    private lateinit var etLocalQuestions: EditText
+    private lateinit var etTime: EditText
 
-    private lateinit var txtPlayers: TextView
+    private lateinit var txtPlayersDisplay: TextView
+
+    private lateinit var btnStart: Button
+    private lateinit var btnEditPlayers: Button
+    private lateinit var btnShareQuiz: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_judge)
 
+        // Nie gaś ekranu
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        val etPlayers = findViewById<EditText>(R.id.etPlayers)
-        val etQuestions = findViewById<EditText>(R.id.etQuestions)
-        val etLocalQuestions = findViewById<EditText>(R.id.etLocalQuestions)
-        val etTime = findViewById<EditText>(R.id.etTime)
+        // Pobierz widoki
+        etPlayers = findViewById(R.id.etPlayers)
+        etQuestions = findViewById(R.id.etQuestions)
+        etLocalQuestions = findViewById(R.id.etLocalQuestions)
+        etTime = findViewById(R.id.etTime)
 
-        txtPlayers = findViewById(R.id.txtPlayersDisplay)
+        // TextView wyświetlający listę zawodników
+        txtPlayersDisplay = findViewById(R.id.txtPlayersDisplay)
 
-        val btnStart = findViewById<Button>(R.id.btnStart)
-        val btnEditPlayers = findViewById<Button>(R.id.btnEditPlayers)
-        val btnShareQuiz = findViewById<Button>(R.id.btnShareQuiz)
+        btnStart = findViewById(R.id.btnStart)
+        btnEditPlayers = findViewById(R.id.btnEditPlayers)
+        btnShareQuiz = findViewById(R.id.btnShareQuiz)
 
-        // Pokazujemy domyślne listy graczy
-        updatePlayersDisplay()
-
+        // Walidacja na żywo dla pól liczbowych
         setupLiveValidation(etPlayers, 1, 10, "Zawodników")
         setupLiveValidation(etQuestions, 1, 30, "Pytań")
         setupLiveValidation(etLocalQuestions, 1, 3, "Pytań lokalnych")
         setupLiveValidation(etTime, 1, 30, "Czas")
 
+        // Wyświetl aktualną listę zawodników
+        updatePlayersDisplay()
+
+        // Edycja zawodników
         btnEditPlayers.setOnClickListener {
-            val players = etPlayers.text.toString().toIntOrNull() ?: 1
-            QuizSession.ensurePlayers(players)
+            val playersCount = etPlayers.text.toString().toIntOrNull() ?: 1
+            QuizSession.reset(playersCount)
 
-            // Startujemy aktywność edycji zawodników
-            val intent = Intent(this, EditPlayersActivity::class.java)
-            startActivityForResult(intent, REQUEST_EDIT_PLAYERS)
+            startActivity(Intent(this, EditPlayersActivity::class.java))
         }
 
-        btnShareQuiz.setOnClickListener {
-            Toast.makeText(this, "Udostępnianie – wkrótce", Toast.LENGTH_SHORT).show()
-        }
-
+        // Start quizu
         btnStart.setOnClickListener {
             val players = etPlayers.text.toString().toIntOrNull() ?: 1
             val questionsTotal = etQuestions.text.toString().toIntOrNull() ?: 1
@@ -72,7 +77,7 @@ class JudgeActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            QuizSession.ensurePlayers(players)
+            QuizSession.reset(players)
 
             val intent = Intent(this, QuizActivity::class.java)
             intent.putExtra("PLAYERS", players)
@@ -82,27 +87,28 @@ class JudgeActivity : AppCompatActivity() {
 
             startActivity(intent)
         }
-    }
 
-    // Obsługa powrotu z EditPlayersActivity
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_EDIT_PLAYERS && resultCode == RESULT_OK) {
-            updatePlayersDisplay()
+        // Udostępnianie quizu (placeholder)
+        btnShareQuiz.setOnClickListener {
+            Toast.makeText(this, "Udostępnianie – wkrótce", Toast.LENGTH_SHORT).show()
         }
     }
 
-    // Funkcja odświeżająca widok zawodników
-    private fun updatePlayersDisplay() {
-        txtPlayers.text = QuizSession.playerNames.joinToString("\n")
+    override fun onResume() {
+        super.onResume()
+        // Odśwież listę zawodników po powrocie z EditPlayersActivity
+        updatePlayersDisplay()
     }
 
-    private fun setupLiveValidation(
-        et: EditText,
-        min: Int,
-        max: Int,
-        label: String
-    ) {
+    private fun updatePlayersDisplay() {
+        if (QuizSession.playerNames.isNotEmpty()) {
+            txtPlayersDisplay.text = "Zawodnicy: ${QuizSession.playerNames.joinToString(", ")}"
+        } else {
+            txtPlayersDisplay.text = "Brak zawodników"
+        }
+    }
+
+    private fun setupLiveValidation(et: EditText, min: Int, max: Int, label: String) {
         et.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s.isNullOrEmpty()) return
