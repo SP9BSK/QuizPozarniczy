@@ -161,50 +161,53 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun showPlayerResult() {
-        timer?.cancel()
+    timer?.cancel()
 
-        if (!resultSavedForPlayer) {
-            playerResults.add(
-                PlayerResult(
-    playerNumber = index + 1,
-    playerName = PlayerNames.names[index],
-    score = scores[index],
-    total = questions.size,
-    timeSeconds = times[index],
-    wrongAnswers = wrongAnswers[index]
-)
+    if (!resultSavedForPlayer) {
+        val timeUsed = timePerPlayerSeconds - timeLeftSeconds
+
+        playerResults.add(
+            PlayerResult(
+                playerNumber = currentPlayer + 1,
+                playerName = PlayerNames.names[currentPlayer],
+                score = scores[currentPlayer],
+                total = questions.size,
+                timeSeconds = timeUsed,
+                wrongAnswers = wrongAnswersCurrentPlayer.toList()
             )
-            resultSavedForPlayer = true
-        }
-
-        txtQuestion.text =
-            "${PlayerNames.names[currentPlayer]}\n\nWynik: ${scores[currentPlayer]}/${questions.size}"
-        txtTimer.text = ""
-
-        btnA.visibility = View.GONE
-        btnB.visibility = View.GONE
-        btnC.visibility = View.GONE
-
-        btnShowCorrect.visibility =
-            if (wrongAnswersCurrentPlayer.isNotEmpty()) View.VISIBLE else View.GONE
-
-        btnBack.visibility = View.VISIBLE
-        btnBack.text =
-            if (currentPlayer + 1 < playersCount)
-                "Następny zawodnik"
-            else
-                "Zobacz wyniki"
-
-        btnBack.setOnClickListener {
-            currentPlayer++
-            currentQuestionIndex = 0
-            wrongAnswerIndex = 0
-            resultSavedForPlayer = false
-
-            if (currentPlayer < playersCount) showQuestion()
-            else showFinalResults()
-        }
+        )
+        resultSavedForPlayer = true
     }
+
+    txtQuestion.text =
+        "${PlayerNames.names[currentPlayer]}\n\nWynik: ${scores[currentPlayer]}/${questions.size}"
+    txtTimer.text = ""
+
+    btnA.visibility = View.GONE
+    btnB.visibility = View.GONE
+    btnC.visibility = View.GONE
+
+    btnShowCorrect.visibility =
+        if (wrongAnswersCurrentPlayer.isNotEmpty()) View.VISIBLE else View.GONE
+
+    btnBack.visibility = View.VISIBLE
+    btnBack.text =
+        if (currentPlayer + 1 < playersCount)
+            "Następny zawodnik"
+        else
+            "Zobacz wyniki"
+
+    btnBack.setOnClickListener {
+        currentPlayer++
+        currentQuestionIndex = 0
+        wrongAnswerIndex = 0
+        resultSavedForPlayer = false
+
+        if (currentPlayer < playersCount) showQuestion()
+        else showFinalResults()
+    }
+}
+
 
     // ================= WYNIKI KOŃCOWE =================
 
