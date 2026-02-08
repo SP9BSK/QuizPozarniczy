@@ -1,5 +1,6 @@
 package com.example.quizpozarniczy
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -17,6 +18,7 @@ class EditPlayersActivity : AppCompatActivity() {
 
         container.removeAllViews()
 
+        // Wczytaj aktualne nazwiska zawodników
         QuizSession.playerNames.forEachIndexed { index, name ->
             val et = EditText(this)
             et.hint = "Zawodnik ${index + 1}"
@@ -27,14 +29,15 @@ class EditPlayersActivity : AppCompatActivity() {
 
         btnSave.setOnClickListener {
             QuizSession.playerNames.clear()
-
             for (i in 0 until container.childCount) {
                 val et = container.getChildAt(i) as EditText
-                val text = et.text.toString().ifBlank {
-                    "Zawodnik ${i + 1}"
-                }
+                val text = et.text.toString().ifBlank { "Zawodnik ${i + 1}" }
                 QuizSession.playerNames.add(text)
             }
+
+            // Po zapisaniu nazw od razu startujemy QuizActivity
+            val intent = Intent(this, QuizActivity::class.java)
+            startActivity(intent)
             finish()
         }
     }
