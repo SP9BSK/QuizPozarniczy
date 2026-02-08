@@ -166,12 +166,13 @@ class QuizActivity : AppCompatActivity() {
         if (!resultSavedForPlayer) {
             playerResults.add(
                 PlayerResult(
-                    playerName = PlayerNames.names[currentPlayer],
-                    score = scores[currentPlayer],
-                    total = questions.size,
-                    timeSeconds = timePerPlayerSeconds - timeLeftSeconds,
-                    wrongAnswers = wrongAnswersCurrentPlayer.toList()
-                )
+    playerNumber = index + 1,
+    playerName = PlayerNames.names[index],
+    score = scores[index],
+    total = questions.size,
+    timeSeconds = times[index],
+    wrongAnswers = wrongAnswers[index]
+)
             )
             resultSavedForPlayer = true
         }
