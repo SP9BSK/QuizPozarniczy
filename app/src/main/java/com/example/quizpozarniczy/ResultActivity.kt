@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import java.util.concurrent.TimeUnit
 
 class ResultActivity : AppCompatActivity() {
 
@@ -15,9 +16,12 @@ class ResultActivity : AppCompatActivity() {
         val score = intent.getIntExtra("SCORE", 0)
         val total = intent.getIntExtra("TOTAL", 0)
         val resultsText = intent.getStringExtra("RESULTS") ?: ""
+        val timeMillis = intent.getLongExtra("TIME_MILLIS", 0L)
+
+        val timeFormatted = formatTime(timeMillis)
 
         findViewById<TextView>(R.id.txtResult).text =
-            "Wynik: $score / $total"
+            "Wynik: $score / $total\nCzas: $timeFormatted"
 
         val btnBack = findViewById<Button>(R.id.btnBackToJudge)
         val btnShowCorrect = findViewById<Button>(R.id.btnShowCorrect)
@@ -46,5 +50,11 @@ class ResultActivity : AppCompatActivity() {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
         finish()
+    }
+
+    private fun formatTime(ms: Long): String {
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(ms)
+        val seconds = TimeUnit.MILLISECONDS.toSeconds(ms) % 60
+        return String.format("%02d:%02d", minutes, seconds)
     }
 }
