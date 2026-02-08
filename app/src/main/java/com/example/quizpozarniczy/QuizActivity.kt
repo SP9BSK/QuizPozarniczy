@@ -95,27 +95,6 @@ class QuizActivity : AppCompatActivity() {
         timer?.cancel()
     }
 
-    // ================= TIMER =================
-
-    private fun startTimer() {
-        timer?.cancel()
-        timeLeftSeconds = timePerPlayerSeconds
-
-        timer = object : CountDownTimer(timePerPlayerSeconds * 1000L, 1000L) {
-            override fun onTick(millisUntilFinished: Long) {
-                timeLeftSeconds = (millisUntilFinished / 1000).toInt()
-                txtTimer.text = formatTime(timeLeftSeconds)
-            }
-
-            override fun onFinish() {
-                toneGenerator.startTone(
-                    ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 300
-                )
-                showPlayerResult()
-            }
-        }.start()
-    }
-
     // ================= QUIZ =================
 
     private fun showQuestion() {
@@ -131,8 +110,11 @@ class QuizActivity : AppCompatActivity() {
         }
 
         val q = questions[currentQuestionIndex]
+        val playerName =
+            QuizSession.playerNames.getOrNull(currentPlayer)
+                ?: "Zawodnik ${currentPlayer + 1}"
 
-        txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\n${q.text}"
+        txtQuestion.text = "$playerName\n\n${q.text}"
         txtQuestionCounter.text =
             "${currentQuestionIndex + 1} / ${questions.size}"
 
@@ -166,9 +148,14 @@ class QuizActivity : AppCompatActivity() {
         timer?.cancel()
 
         if (!resultSavedForPlayer) {
+            val playerName =
+                QuizSession.playerNames.getOrNull(currentPlayer)
+                    ?: "Zawodnik ${currentPlayer + 1}"
+
             playerResults.add(
                 PlayerResult(
                     playerNumber = currentPlayer + 1,
+                    playerName = playerName,
                     score = scores[currentPlayer],
                     total = questions.size,
                     timeSeconds = timePerPlayerSeconds - timeLeftSeconds,
@@ -178,8 +165,13 @@ class QuizActivity : AppCompatActivity() {
             resultSavedForPlayer = true
         }
 
+        val playerName =
+            QuizSession.playerNames.getOrNull(currentPlayer)
+                ?: "Zawodnik ${currentPlayer + 1}"
+
         txtQuestion.text =
-            "Zawodnik ${currentPlayer + 1}\n\nWynik: ${scores[currentPlayer]}/${questions.size}"
+            "$playerName\n\nWynik: ${scores[currentPlayer]}/${questions.size}"
+
         txtTimer.text = ""
 
         btnA.visibility = View.GONE
@@ -218,8 +210,7 @@ class QuizActivity : AppCompatActivity() {
         val sb = StringBuilder("WYNIKI KOŃCOWE\n\n")
         for ((i, r) in sorted.withIndex()) {
             sb.append(
-                "${i + 1}. Zawodnik ${r.playerNumber}: " +
-                "${r.score}/${r.total} | ${formatTime(r.timeSeconds)}\n"
+                "${i + 1}. ${r.playerName}: ${r.score}/${r.total} | ${formatTime(r.timeSeconds)}\n"
             )
         }
 
@@ -227,7 +218,6 @@ class QuizActivity : AppCompatActivity() {
         txtTimer.text = ""
         txtQuestionCounter.text = ""
 
-        // ❗ TU JEST KLUCZOWA POPRAWKA ❗
         btnA.visibility = View.GONE
         btnB.visibility = View.GONE
         btnC.visibility = View.GONE
@@ -238,48 +228,26 @@ class QuizActivity : AppCompatActivity() {
         btnBack.setOnClickListener { finish() }
     }
 
-    // ================= BŁĘDY =================
-
-    private fun showWrongAnswer() {
-        btnShowCorrect.visibility = View.GONE
-
-        if (wrongAnswerIndex >= wrongAnswersCurrentPlayer.size) {
-            showPlayerResult()
-            return
-        }
-
-        val w = wrongAnswersCurrentPlayer[wrongAnswerIndex]
-
-        txtQuestion.text =
-            "Pytanie ${wrongAnswerIndex + 1}/${wrongAnswersCurrentPlayer.size}\n\n${w.question}"
-
-        val buttons = listOf(btnA, btnB, btnC)
-
-        for ((i, btn) in buttons.withIndex()) {
-            btn.visibility = View.VISIBLE
-            btn.isEnabled = false
-            btn.text = w.answers[i]
-
-            when (i) {
-                w.correctIndex ->
-                    btn.setBackgroundColor(getColor(R.color.answer_correct))
-                w.chosenIndex ->
-                    btn.setBackgroundColor(getColor(R.color.answer_wrong))
-                else ->
-                    btn.setBackgroundColor(getColor(android.R.color.darker_gray))
-            }
-        }
-
-        btnBack.visibility = View.VISIBLE
-        btnBack.text = "Dalej"
-        btnBack.setOnClickListener {
-            wrongAnswerIndex++
-            resetButtons()
-            showWrongAnswer()
-        }
-    }
-
     // ================= UTIL =================
+
+    private fun startTimer() {
+        timer?.cancel()
+        timeLeftSeconds = timePerPlayerSeconds
+
+        timer = object : CountDownTimer(timePerPlayerSeconds * 1000L, 1000L) {
+            override fun onTick(millisUntilFinished: Long) {
+                timeLeftSeconds = (millisUntilFinished / 1000).toInt()
+                txtTimer.text = formatTime(timeLeftSeconds)
+            }
+
+            override fun onFinish() {
+                toneGenerator.startTone(
+                    ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 300
+                )
+                showPlayerResult()
+            }
+        }.start()
+    }
 
     private fun formatTime(seconds: Int): String =
         String.format("%02d:%02d", seconds / 60, seconds % 60)
