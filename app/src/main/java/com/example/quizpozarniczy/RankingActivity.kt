@@ -1,4 +1,4 @@
- package com.example.quizpozarniczy
+package com.example.quizpozarniczy
 
 import android.os.Bundle
 import android.widget.TextView
@@ -12,14 +12,13 @@ class RankingActivity : AppCompatActivity() {
 
         val txtRanking = findViewById<TextView>(R.id.txtRanking)
 
-        // Sortowanie: punkty malejąco, jeśli punkty równe → czas rosnąco
         val sorted = QuizSession.results.sortedWith(
             compareByDescending<PlayerResult> { it.score }
                 .thenBy { it.timeSeconds }
         )
 
         val text = sorted.joinToString("\n") {
-            "Zawodnik ${it.playerNumber}: ${it.score} pkt, czas: ${formatTime(it.timeSeconds)}"
+            "${it.playerName}: ${it.score} pkt, czas: ${formatTime(it.timeSeconds)}"
         }
 
         txtRanking.text = text
