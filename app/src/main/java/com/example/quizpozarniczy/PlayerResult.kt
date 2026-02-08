@@ -1,4 +1,4 @@
-package com.example.quizpozarniczy.model
+package com.example.quizpozarniczy
 
 import com.example.quizpozarniczy.model.WrongAnswer
 
