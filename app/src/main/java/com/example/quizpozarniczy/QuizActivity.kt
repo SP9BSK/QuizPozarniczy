@@ -72,7 +72,8 @@ class QuizActivity : AppCompatActivity() {
             LocalQuestionsRepository.toQuizQuestions(localQuestionsLimit)
 
         val normalQuestions =
-            QuizRepository.getQuestions().shuffled()
+            QuizRepository.getQuestions()
+                .shuffled()
                 .take(questionsLimit - localQuestions.size)
 
         questions = (localQuestions + normalQuestions).shuffled()
@@ -107,8 +108,9 @@ class QuizActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                timeLeftSeconds = 0
-                toneGenerator.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 300)
+                toneGenerator.startTone(
+                    ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 300
+                )
                 showPlayerResult()
             }
         }.start()
@@ -131,6 +133,9 @@ class QuizActivity : AppCompatActivity() {
         val q = questions[currentQuestionIndex]
 
         txtQuestion.text = "Zawodnik ${currentPlayer + 1}\n\n${q.text}"
+        txtQuestionCounter.text =
+            "${currentQuestionIndex + 1} / ${questions.size}"
+
         btnA.text = q.answers[0]
         btnB.text = q.answers[1]
         btnC.text = q.answers[2]
@@ -138,9 +143,8 @@ class QuizActivity : AppCompatActivity() {
         resetButtons()
         setAnswersEnabled(true)
 
-        btnShowCorrect.visibility = View.GONE
         btnBack.visibility = View.GONE
-        txtQuestionCounter.text = "${currentQuestionIndex + 1} / ${questions.size}"
+        btnShowCorrect.visibility = View.GONE
     }
 
     private fun answerSelected(index: Int) {
@@ -187,8 +191,10 @@ class QuizActivity : AppCompatActivity() {
 
         btnBack.visibility = View.VISIBLE
         btnBack.text =
-            if (currentPlayer + 1 < playersCount) "Następny zawodnik"
-            else "Zobacz wyniki"
+            if (currentPlayer + 1 < playersCount)
+                "Następny zawodnik"
+            else
+                "Zobacz wyniki"
 
         btnBack.setOnClickListener {
             currentPlayer++
@@ -201,7 +207,7 @@ class QuizActivity : AppCompatActivity() {
         }
     }
 
-    // ================= WYNIKI =================
+    // ================= WYNIKI KOŃCOWE =================
 
     private fun showFinalResults() {
         val sorted = playerResults.sortedWith(
@@ -209,16 +215,26 @@ class QuizActivity : AppCompatActivity() {
                 .thenBy { it.timeSeconds }
         )
 
-        val sb = StringBuilder("Wyniki końcowe\n\n")
+        val sb = StringBuilder("WYNIKI KOŃCOWE\n\n")
         for ((i, r) in sorted.withIndex()) {
-            sb.append("${i + 1}. Zawodnik ${r.playerNumber}: ${r.score}/${r.total} | ${formatTime(r.timeSeconds)}\n")
+            sb.append(
+                "${i + 1}. Zawodnik ${r.playerNumber}: " +
+                "${r.score}/${r.total} | ${formatTime(r.timeSeconds)}\n"
+            )
         }
 
         txtQuestion.text = sb.toString()
         txtTimer.text = ""
+        txtQuestionCounter.text = ""
 
-        btnBack.text = "Powrót"
+        // ❗ TU JEST KLUCZOWA POPRAWKA ❗
+        btnA.visibility = View.GONE
+        btnB.visibility = View.GONE
+        btnC.visibility = View.GONE
+        btnShowCorrect.visibility = View.GONE
+
         btnBack.visibility = View.VISIBLE
+        btnBack.text = "POWRÓT DO PANELU SĘDZIEGO"
         btnBack.setOnClickListener { finish() }
     }
 
@@ -245,9 +261,12 @@ class QuizActivity : AppCompatActivity() {
             btn.text = w.answers[i]
 
             when (i) {
-                w.correctIndex -> btn.setBackgroundColor(getColor(R.color.answer_correct))
-                w.chosenIndex -> btn.setBackgroundColor(getColor(R.color.answer_wrong))
-                else -> btn.setBackgroundColor(getColor(android.R.color.darker_gray))
+                w.correctIndex ->
+                    btn.setBackgroundColor(getColor(R.color.answer_correct))
+                w.chosenIndex ->
+                    btn.setBackgroundColor(getColor(R.color.answer_wrong))
+                else ->
+                    btn.setBackgroundColor(getColor(android.R.color.darker_gray))
             }
         }
 
