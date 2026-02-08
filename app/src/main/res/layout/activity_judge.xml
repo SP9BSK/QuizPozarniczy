@@ -118,4 +118,20 @@
         android:textSize="18sp"
         android:layout_marginTop="16dp" />
 
+    <Button
+    android:id="@+id/btnShareQuiz"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="UDOSTĘPNIJ QUIZ"
+    android:textSize="16sp"
+    android:layout_marginTop="8dp" />
+
+    <Button
+    android:id="@+id/btnEditPlayers"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="EDYTUJ ZAWODNIKÓW"
+    android:textSize="16sp"
+    android:layout_marginTop="12dp" />
+
 </LinearLayout>
