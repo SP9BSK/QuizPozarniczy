@@ -65,6 +65,7 @@ class QuizActivity : AppCompatActivity() {
         val questionsLimit = min(intent.getIntExtra("QUESTIONS", 5), MAX_QUESTIONS)
         val localQuestionsLimit = intent.getIntExtra("LOCAL_QUESTIONS", 1).coerceIn(1, 3)
         playersCount = min(intent.getIntExtra("PLAYERS", 1), MAX_PLAYERS)
+        PlayerNames.ensureSize(playersCount)
         timePerPlayerSeconds = intent.getIntExtra("TIME_SECONDS", 60)
 
         scores = IntArray(playersCount)
