@@ -31,7 +31,6 @@ class QuizActivity : AppCompatActivity() {
     private var playersCount = 1
 
     private lateinit var scores: IntArray
-    private val playerResults = mutableListOf<PlayerResult>()
     private val wrongAnswersCurrentPlayer = mutableListOf<WrongAnswer>()
 
     private var wrongAnswerIndex = 0
@@ -65,8 +64,9 @@ class QuizActivity : AppCompatActivity() {
         val questionsLimit = min(intent.getIntExtra("QUESTIONS", 5), MAX_QUESTIONS)
         val localQuestionsLimit = intent.getIntExtra("LOCAL_QUESTIONS", 1).coerceIn(1, 3)
         playersCount = min(intent.getIntExtra("PLAYERS", 1), MAX_PLAYERS)
-        PlayerNames.ensureSize(playersCount)
         timePerPlayerSeconds = intent.getIntExtra("TIME_SECONDS", 60)
+
+        QuizSession.ensurePlayers(playersCount)
 
         scores = IntArray(playersCount)
 
@@ -130,7 +130,7 @@ class QuizActivity : AppCompatActivity() {
         val q = questions[currentQuestionIndex]
 
         txtQuestion.text =
-            "${PlayerNames.names[currentPlayer]}\n\n${q.text}"
+            "${QuizSession.playerNames[currentPlayer]}\n\n${q.text}"
         txtQuestionCounter.text =
             "${currentQuestionIndex + 1} / ${questions.size}"
 
@@ -161,58 +161,57 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun showPlayerResult() {
-    timer?.cancel()
+        timer?.cancel()
 
-    if (!resultSavedForPlayer) {
-        val timeUsed = timePerPlayerSeconds - timeLeftSeconds
+        if (!resultSavedForPlayer) {
+            val timeUsed = timePerPlayerSeconds - timeLeftSeconds
 
-        playerResults.add(
-            PlayerResult(
-                playerNumber = currentPlayer + 1,
-                playerName = PlayerNames.names[currentPlayer],
-                score = scores[currentPlayer],
-                total = questions.size,
-                timeSeconds = timeUsed,
-                wrongAnswers = wrongAnswersCurrentPlayer.toList()
+            QuizSession.results.add(
+                PlayerResult(
+                    playerNumber = currentPlayer + 1,
+                    playerName = QuizSession.playerNames[currentPlayer],
+                    score = scores[currentPlayer],
+                    total = questions.size,
+                    timeSeconds = timeUsed,
+                    wrongAnswers = wrongAnswersCurrentPlayer.toList()
+                )
             )
-        )
-        resultSavedForPlayer = true
+            resultSavedForPlayer = true
+        }
+
+        txtQuestion.text =
+            "${QuizSession.playerNames[currentPlayer]}\n\nWynik: ${scores[currentPlayer]}/${questions.size}"
+        txtTimer.text = ""
+
+        btnA.visibility = View.GONE
+        btnB.visibility = View.GONE
+        btnC.visibility = View.GONE
+
+        btnShowCorrect.visibility =
+            if (wrongAnswersCurrentPlayer.isNotEmpty()) View.VISIBLE else View.GONE
+
+        btnBack.visibility = View.VISIBLE
+        btnBack.text =
+            if (currentPlayer + 1 < playersCount)
+                "Następny zawodnik"
+            else
+                "Zobacz wyniki"
+
+        btnBack.setOnClickListener {
+            currentPlayer++
+            currentQuestionIndex = 0
+            wrongAnswerIndex = 0
+            resultSavedForPlayer = false
+
+            if (currentPlayer < playersCount) showQuestion()
+            else showFinalResults()
+        }
     }
-
-    txtQuestion.text =
-        "${PlayerNames.names[currentPlayer]}\n\nWynik: ${scores[currentPlayer]}/${questions.size}"
-    txtTimer.text = ""
-
-    btnA.visibility = View.GONE
-    btnB.visibility = View.GONE
-    btnC.visibility = View.GONE
-
-    btnShowCorrect.visibility =
-        if (wrongAnswersCurrentPlayer.isNotEmpty()) View.VISIBLE else View.GONE
-
-    btnBack.visibility = View.VISIBLE
-    btnBack.text =
-        if (currentPlayer + 1 < playersCount)
-            "Następny zawodnik"
-        else
-            "Zobacz wyniki"
-
-    btnBack.setOnClickListener {
-        currentPlayer++
-        currentQuestionIndex = 0
-        wrongAnswerIndex = 0
-        resultSavedForPlayer = false
-
-        if (currentPlayer < playersCount) showQuestion()
-        else showFinalResults()
-    }
-}
-
 
     // ================= WYNIKI KOŃCOWE =================
 
     private fun showFinalResults() {
-        val sorted = playerResults.sortedWith(
+        val sorted = QuizSession.results.sortedWith(
             compareByDescending<PlayerResult> { it.score }
                 .thenBy { it.timeSeconds }
         )
