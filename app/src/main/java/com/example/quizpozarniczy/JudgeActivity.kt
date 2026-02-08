@@ -16,37 +16,52 @@ class JudgeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_judge)
 
-        // 🔒 ekran zawsze włączony
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         val etPlayers = findViewById<EditText>(R.id.etPlayers)
         val etQuestions = findViewById<EditText>(R.id.etQuestions)
         val etLocalQuestions = findViewById<EditText>(R.id.etLocalQuestions)
         val etTime = findViewById<EditText>(R.id.etTime)
+
         val btnStart = findViewById<Button>(R.id.btnStart)
+        val btnEditPlayers = findViewById<Button>(R.id.btnEditPlayers)
+        val btnShareQuiz = findViewById<Button>(R.id.btnShareQuiz)
 
         setupLiveValidation(etPlayers, 1, 10, "Zawodników")
-        setupLiveValidation(etQuestions, 1, 30, "Pytań ogółem")
+        setupLiveValidation(etQuestions, 1, 30, "Pytań")
         setupLiveValidation(etLocalQuestions, 1, 3, "Pytań lokalnych")
-        setupLiveValidation(etTime, 1, 30, "Czas (min)")
+        setupLiveValidation(etTime, 1, 30, "Czas")
+
+        btnEditPlayers.setOnClickListener {
+            val players = etPlayers.text.toString().toIntOrNull() ?: 1
+            QuizSession.reset(players)
+
+            startActivity(
+                Intent(this, EditPlayersActivity::class.java)
+            )
+        }
+
+        btnShareQuiz.setOnClickListener {
+            Toast.makeText(this, "Udostępnianie – wkrótce", Toast.LENGTH_SHORT).show()
+        }
 
         btnStart.setOnClickListener {
 
-            // ✅ JEŚLI PUSTE → 1
             val players = etPlayers.text.toString().toIntOrNull() ?: 1
             val questionsTotal = etQuestions.text.toString().toIntOrNull() ?: 1
             val localQuestions = etLocalQuestions.text.toString().toIntOrNull() ?: 1
             val timeSeconds = (etTime.text.toString().toIntOrNull() ?: 1) * 60
 
-            // ❗ JEDYNA POPRAWNA WALIDACJA
             if (localQuestions > questionsTotal) {
                 Toast.makeText(
                     this,
-                    "Pytania lokalne nie mogą być większe niż liczba pytań ogółem",
+                    "Pytania lokalne nie mogą być większe niż ogółem",
                     Toast.LENGTH_LONG
                 ).show()
                 return@setOnClickListener
             }
+
+            QuizSession.reset(players)
 
             val intent = Intent(this, QuizActivity::class.java)
             intent.putExtra("PLAYERS", players)
@@ -67,29 +82,13 @@ class JudgeActivity : AppCompatActivity() {
         et.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s.isNullOrEmpty()) return
-
-                val value = s.toString().toIntOrNull() ?: return
+                val v = s.toString().toIntOrNull() ?: return
 
                 when {
-                    value < min -> {
-                        Toast.makeText(
-                            this@JudgeActivity,
-                            "$label min $min",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        et.setText(min.toString())
-                        et.setSelection(et.text.length)
-                    }
-                    value > max -> {
-                        Toast.makeText(
-                            this@JudgeActivity,
-                            "$label max $max",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        et.setText(max.toString())
-                        et.setSelection(et.text.length)
-                    }
+                    v < min -> et.setText(min.toString())
+                    v > max -> et.setText(max.toString())
                 }
+                et.setSelection(et.text.length)
             }
 
             override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
