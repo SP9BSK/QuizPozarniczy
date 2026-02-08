@@ -104,34 +104,36 @@ class QuizActivity : AppCompatActivity() {
     // ================= WYNIKI KOŃCOWE =================
 
     private fun showFinalResults() {
-        btnShowCorrect.visibility = View.GONE
-        btnA.visibility = View.GONE
-        btnB.visibility = View.GONE
-        btnC.visibility = View.GONE
+    btnShowCorrect.visibility = View.GONE
+    btnA.visibility = View.GONE
+    btnB.visibility = View.GONE
+    btnC.visibility = View.GONE
 
-        val sb = StringBuilder("Koniec quizu\n\n")
+    val sb = StringBuilder("Koniec quizu\n\n")
 
-        val sorted = playerResults.sortedWith(
-            compareByDescending<PlayerResult> { it.score }
-                .thenBy { it.timeSeconds }
+    // sort: punkty ↓, czas ↑
+    val sorted = playerResults.sortedWith(
+        compareByDescending<PlayerResult> { it.score }
+            .thenBy { it.timeSeconds }
+    )
+
+    // numer miejsca = index + 1
+    for ((index, result) in sorted.withIndex()) {
+        sb.append(
+            "${index + 1}. Zawodnik ${result.playerNumber}: " +
+            "${result.score}/${result.total} | " +
+            "Czas: ${formatTime(result.timeSeconds)}\n"
         )
-
-        // Wyświetlanie wyników w formie "numer miejsca. Zawodnik X: punkty | czas"
-        for ((position, result) in sorted.withIndex()) {
-            sb.append(
-                "${position + 1}. Zawodnik ${result.playerNumber}: " +
-                "${result.score}/${result.total} | " +
-                "Czas: ${formatTime(result.timeSeconds)}\n"
-            )
-        }
-
-        txtQuestion.text = sb.toString()
-        txtTimer.text = ""
-
-        btnBack.text = "Powrót do panelu sędziego"
-        btnBack.visibility = View.VISIBLE
-        btnBack.setOnClickListener { finish() }
     }
+
+    txtQuestion.text = sb.toString()
+    txtTimer.text = ""
+
+    btnBack.text = "Powrót do panelu sędziego"
+    btnBack.visibility = View.VISIBLE
+    btnBack.setOnClickListener { finish() }
+}
+
 
     // ================= BŁĘDY =================
 
