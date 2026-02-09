@@ -1,26 +1,43 @@
 package com.example.quizpozarniczy.bluetooth
 
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.content.Context
-import com.example.quizpozarniczy.model.LocalQuestion
-import com.example.quizpozarniczy.util.QuizExporter
 import kotlin.concurrent.thread
 
 class BtClient(
     private val context: Context,
-    private val sessionId: String,
+    private val qrData: String,
     private val onReceived: (String) -> Unit
 ) {
 
     private var running = true
 
     fun start() {
-        // Uruchamiamy w tle symulację pobierania pytań
         thread {
-            // Symulacja połączenia po sesji Bluetooth
-            Thread.sleep(1000) // symulacja opóźnienia
-            val questions = BtServer.getQuestionsForSession(sessionId)
-            val json = QuizExporter.localQuestionsToJson(questions)
-            if (running) onReceived(json)
+            try {
+                val (sessionId, deviceName) = qrData.split("|")
+                val adapter = BluetoothAdapter.getDefaultAdapter()
+
+                val device: BluetoothDevice = adapter.bondedDevices
+                    .first { it.name == deviceName }
+
+                val socket = device.createRfcommSocketToServiceRecord(
+                    BtProtocol.APP_UUID
+                )
+
+                adapter.cancelDiscovery()
+                socket.connect()
+
+                val input = socket.inputStream
+                val json = input.readBytes().toString(Charsets.UTF_8)
+
+                if (running) onReceived(json)
+
+                socket.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
