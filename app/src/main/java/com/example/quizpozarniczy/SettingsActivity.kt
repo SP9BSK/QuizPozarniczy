@@ -1,9 +1,12 @@
 package com.example.quizpozarniczy
 
+import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
@@ -11,6 +14,8 @@ import com.example.quizpozarniczy.model.LocalQuestion
 import com.example.quizpozarniczy.model.Question
 import com.example.quizpozarniczy.util.QuizExporter
 import com.example.quizpozarniczy.util.QuizImporter
+import com.google.zxing.BarcodeFormat
+import com.journeyapps.barcodescanner.BarcodeEncoder
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -20,6 +25,9 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+
+        // Nie gasimy ekranu
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         val btnEditOrB = findViewById<Button>(R.id.btnEditOrB)
         val btnA = findViewById<Button>(R.id.btnA)
@@ -42,14 +50,15 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         // =========================
-        // 2. A (na razie puste)
+        // 2. A – Udostępnij QR
         // =========================
+        btnA.text = "UDOSTĘPNIJ PYTANIA LOKALNE (QR)"
         btnA.setOnClickListener {
-            Toast.makeText(this, "A – do implementacji", Toast.LENGTH_SHORT).show()
+            shareLocalQuestionsAsQR()
         }
 
         // =========================
-        // 3. EXPORT / IMPORT
+        // 3. EXPORT / IMPORT – klasyczne JSON
         // =========================
         if (isOpiekun) {
             btnExportImport.text = "UDOSTĘPNIJ PYTANIA LOKALNE"
@@ -128,6 +137,40 @@ class SettingsActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             }
+        }
+    }
+
+    // =========================
+    // UDOSTĘPNIJ PYTANIA LOKALNE – QR
+    // =========================
+    private fun shareLocalQuestionsAsQR() {
+        val questions = LocalQuestionsRepository.questions
+        if (questions.isEmpty()) {
+            Toast.makeText(this, "Brak pytań lokalnych", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        // Zamiana pytań na JSON
+        val json = QuizExporter.questionsToJson(questions)
+
+        try {
+            val size = 800
+            val qrBitmap = BarcodeEncoder().encodeBitmap(
+                json,
+                BarcodeFormat.QR_CODE,
+                size,
+                size
+            )
+
+            // Pokaż QR w Dialogu
+            val dialog = Dialog(this)
+            val imageView = ImageView(this)
+            imageView.setImageBitmap(qrBitmap)
+            dialog.setContentView(imageView)
+            dialog.setTitle("Kod QR – pytania lokalne")
+            dialog.show()
+        } catch (e: Exception) {
+            Toast.makeText(this, "Błąd przy generowaniu QR: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
 }
