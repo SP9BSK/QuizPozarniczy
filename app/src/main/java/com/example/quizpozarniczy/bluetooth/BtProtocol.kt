@@ -1,5 +1,8 @@
 package com.example.quizpozarniczy.bluetooth
 
+import java.util.UUID
+
 object BtProtocol {
-    const val UUID_STRING = "a60f35f0-b93a-11de-8a39-08002009c666" // stałe UUID dla BT
+    val APP_UUID: UUID =
+        UUID.fromString("a60f35f0-b93a-11de-8a39-08002009c666")
 }
