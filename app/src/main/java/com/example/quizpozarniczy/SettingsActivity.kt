@@ -1,36 +1,20 @@
 package com.example.quizpozarniczy
 
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.quizpozarniczy.bluetooth.BtClient
-import com.example.quizpozarniczy.bluetooth.BtServer
 import com.example.quizpozarniczy.data.DefaultLocalQuestions
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
 import com.example.quizpozarniczy.util.QuizExporter
 import com.example.quizpozarniczy.util.QuizImporter
-import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanOptions
 
 class SettingsActivity : AppCompatActivity() {
 
     private val isOpiekun: Boolean
         get() = BuildConfig.APPLICATION_ID.contains("opiekun")
-
-    private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
-        if (result.contents == null) {
-            Toast.makeText(this, "Skanowanie anulowane", Toast.LENGTH_SHORT).show()
-        } else {
-            connectToOpiekun(result.contents)
-        }
-    }
-
-    private var btClient: BtClient? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +27,7 @@ class SettingsActivity : AppCompatActivity() {
         val btnExportImport = findViewById<Button>(R.id.btnExportImport)
         val btnRegulamin = findViewById<Button>(R.id.btnRegulamin)
 
-        // 🔹 Inicjalizacja
+        // 🔹 Inicjalizacja pytań lokalnych
         if (isOpiekun) {
             LocalQuestionsRepository.questions.clear()
             LocalQuestionsRepository.questions.addAll(DefaultLocalQuestions.questions)
@@ -64,14 +48,10 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        // 2️⃣ A – QR Bluetooth
-        btnA.text =
-            if (isOpiekun) "UDOSTĘPNIJ PYTANIA LOKALNE (QR)"
-            else "POBIERZ PYTANIA LOKALNE (QR)"
-
+        // 2️⃣ A – tymczasowo nieaktywne
+        btnA.text = "A – do późniejszego wykorzystania"
         btnA.setOnClickListener {
-            if (isOpiekun) showQrForBluetooth()
-            else scanLocalQuestionsQR()
+            Toast.makeText(this, "Funkcja A będzie dostępna w późniejszej wersji", Toast.LENGTH_SHORT).show()
         }
 
         // 3️⃣ EXPORT / IMPORT
@@ -106,6 +86,9 @@ class SettingsActivity : AppCompatActivity() {
         startActivity(Intent.createChooser(intent, "Udostępnij pytania lokalne"))
     }
 
+    // =========================
+    // IMPORT – JSON
+    // =========================
     private fun importLocalQuestions() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             type = "application/json"
@@ -114,53 +97,23 @@ class SettingsActivity : AppCompatActivity() {
         startActivityForResult(intent, 1001)
     }
 
-    // =========================
-    // OPIEKUN – QR
-    // =========================
-    private fun showQrForBluetooth() {
-        val qrData = BtServer.startServer(this, DefaultLocalQuestions.questions)
-        val dialog = Dialog(this)
-        val imageView = ImageView(this)
-        imageView.setImageBitmap(BtServer.generateQrForSession(qrData))
-        dialog.setContentView(imageView)
-        dialog.show()
-    }
-
-    // =========================
-    // MŁODZIEŻ – QR SCAN
-    // =========================
-    private fun scanLocalQuestionsQR() {
-        val options = ScanOptions().apply {
-            setPrompt("Zeskanuj kod QR z opiekuna")
-            setBeepEnabled(true)
-            setOrientationLocked(true)
-        }
-        barcodeLauncher.launch(options)
-    }
-
-    // =========================
-    // MŁODZIEŻ – BT CONNECT
-    // =========================
-    private fun connectToOpiekun(qrData: String) {
-        btClient = BtClient(this, qrData) { json ->
-            val (_, localQuestions) = QuizImporter.importQuizFromString(json)
-            LocalQuestionsRepository.questions.clear()
-            LocalQuestionsRepository.questions.addAll(localQuestions)
-            LocalQuestionsRepository.save(this)
-
-            runOnUiThread {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1001 && resultCode == RESULT_OK) {
+            val uri = data?.data ?: return
+            contentResolver.openInputStream(uri)?.use { inputStream ->
+                val (_, localQuestions) = QuizImporter.importQuiz(this, inputStream)
+                if (localQuestions.isNotEmpty()) {
+                    LocalQuestionsRepository.questions.clear()
+                    LocalQuestionsRepository.questions.addAll(localQuestions)
+                    LocalQuestionsRepository.save(this)
+                }
                 Toast.makeText(
                     this,
-                    "Pobrano ${localQuestions.size} pytań lokalnych",
+                    "Zaimportowano ${localQuestions.size} pytań lokalnych",
                     Toast.LENGTH_LONG
                 ).show()
             }
         }
-        btClient?.start()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        btClient?.stop()
     }
 }
