@@ -13,27 +13,25 @@ import com.example.quizpozarniczy.util.QuizExporter
 import com.example.quizpozarniczy.util.QuizImporter
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
-import com.journeyapps.barcodescanner.ScanOptions
 import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 
 class SettingsActivity : AppCompatActivity() {
 
     private val isOpiekun: Boolean
         get() = BuildConfig.APPLICATION_ID.contains("opiekun")
 
-    // Skaner QR
+    // Skaner QR dla młodzieży
     private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
         if (result.contents == null) {
             Toast.makeText(this, "Skanowanie anulowane", Toast.LENGTH_SHORT).show()
         } else {
-            // Import pytań z zeskanowanego JSON-a
             val (_, localQuestions) = QuizImporter.importQuizFromString(result.contents)
             if (localQuestions.isNotEmpty()) {
                 LocalQuestionsRepository.questions.clear()
                 LocalQuestionsRepository.questions.addAll(localQuestions)
                 LocalQuestionsRepository.save(this)
             }
-
             Toast.makeText(
                 this,
                 "Zaimportowano ${localQuestions.size} pytań lokalnych",
@@ -166,7 +164,6 @@ class SettingsActivity : AppCompatActivity() {
     // =========================
     private fun shareLocalQuestionsAsQR() {
         val localQuestions = LocalQuestionsRepository.questions
-
         if (localQuestions.isEmpty()) {
             Toast.makeText(this, "Brak pytań lokalnych", Toast.LENGTH_LONG).show()
             return
