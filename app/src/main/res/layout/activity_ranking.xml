@@ -12,48 +12,17 @@
         android:textSize="22sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="12dp" />
 
-    <!-- NAGŁÓWKI -->
-    <TableLayout
+    <TextView
+        android:id="@+id/txtRanking"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:stretchColumns="*">
-
-        <TableRow>
-            <TextView
-                android:text="M."
-                android:padding="8dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:text="Zawodnik"
-                android:padding="8dp"
-                android:textStyle="bold"
-                android:typeface="monospace"
-                android:width="180dp" />
-
-            <TextView
-                android:text="Pkt"
-                android:padding="8dp"
-                android:textStyle="bold"
-                android:gravity="center" />
-
-            <TextView
-                android:text="Czas"
-                android:padding="8dp"
-                android:textStyle="bold"
-                android:gravity="center" />
-        </TableRow>
-    </TableLayout>
-
-    <!-- TABELA WYNIKÓW -->
-    <TableLayout
-        android:id="@+id/tableRanking"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:stretchColumns="*"
-        android:layout_marginTop="8dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textSize="16sp"
+        android:typeface="monospace"
+        android:padding="8dp"
+        android:textIsSelectable="true" />
 
     <Button
         android:id="@+id/btnBackToJudge"
@@ -61,6 +30,6 @@
         android:layout_height="wrap_content"
         android:text="POWRÓT DO PANELU SĘDZIEGO"
         android:textSize="16sp"
-        android:layout_marginTop="24dp" />
+        android:layout_marginTop="16dp" />
 
 </LinearLayout>
