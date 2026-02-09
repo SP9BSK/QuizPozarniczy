@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- 🔵 Bluetooth – WYMAGANE -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <!-- 🔵 Android 12+ -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+
+    <!-- 🔵 Bezpiecznie (niektóre telefony) -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
@@ -9,7 +20,6 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round">
 
-        <!-- START -->
         <activity
             android:name=".StartActivity"
             android:exported="true">
@@ -19,46 +29,15 @@
             </intent-filter>
         </activity>
 
-        <!-- TRYB NAUKI -->
-        <activity
-            android:name=".LearningActivity"
-            android:exported="false" />
+        <activity android:name=".LearningActivity" android:exported="false" />
+        <activity android:name=".LearningModeSelectActivity" android:exported="false" />
+        <activity android:name=".JudgeActivity" android:exported="false" />
+        <activity android:name=".QuizActivity" android:exported="false" />
+        <activity android:name=".EditPlayersActivity" android:exported="false" />
+        <activity android:name=".SettingsActivity" android:exported="false" />
+        <activity android:name=".EditLocalQuestionsActivity" android:exported="false" />
+        <activity android:name=".RegulaminActivity" android:exported="false" />
 
-        <activity
-            android:name=".LearningModeSelectActivity"
-            android:exported="false" />
-
-        <!-- PANEL SĘDZIEGO -->
-        <activity
-            android:name=".JudgeActivity"
-            android:exported="false" />
-
-        <!-- QUIZ -->
-        <activity
-            android:name=".QuizActivity"
-            android:exported="false" />
-
-        <!-- ✏️ EDYCJA ZAWODNIKÓW -->
-        <activity
-            android:name=".EditPlayersActivity"
-            android:exported="false" />
-
-        <!-- USTAWIENIA -->
-        <activity
-            android:name=".SettingsActivity"
-            android:exported="false" />
-
-        <!-- EDYCJA PYTAŃ -->
-        <activity
-            android:name=".EditLocalQuestionsActivity"
-            android:exported="false" />
-
-        <!-- REGULAMIN -->
-        <activity
-            android:name=".RegulaminActivity"
-            android:exported="false" />
-
-        <!-- FILE PROVIDER -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
