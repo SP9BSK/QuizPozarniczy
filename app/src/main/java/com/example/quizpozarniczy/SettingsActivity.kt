@@ -46,7 +46,7 @@ class SettingsActivity : AppCompatActivity() {
         val btnExportImport = findViewById<Button>(R.id.btnExportImport)
         val btnRegulamin = findViewById<Button>(R.id.btnRegulamin)
 
-        // 🔹 Inicjalizacja pytań lokalnych
+        // 🔹 Inicjalizacja pytań lokalnych dla opiekuna
         if (isOpiekun) {
             LocalQuestionsRepository.questions.clear()
             LocalQuestionsRepository.questions.addAll(DefaultLocalQuestions.questions)
@@ -89,11 +89,11 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     // =========================
-    // EXPORT – JSON
+    // EXPORT – JSON (z DefaultLocalQuestions)
     // =========================
     private fun exportLocalQuestions() {
         val generalQuestions = QuizRepository.getQuestions(localCount = 0)
-        val localQuestions = LocalQuestionsRepository.questions
+        val localQuestions = DefaultLocalQuestions.questions // 🔹 zmiana
 
         if (localQuestions.isEmpty()) {
             Toast.makeText(this, "Brak pytań lokalnych do eksportu", Toast.LENGTH_LONG).show()
@@ -142,10 +142,10 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     // =========================
-    // OPIEKUN – QR do Bluetooth
+    // OPIEKUN – QR do Bluetooth (z DefaultLocalQuestions)
     // =========================
     private fun showQrForBluetooth() {
-        val sessionId = BtServer.startServer(this, LocalQuestionsRepository.questions)
+        val sessionId = BtServer.startServer(this, DefaultLocalQuestions.questions) // 🔹 zmiana
         val dialog = Dialog(this)
         val imageView = ImageView(this)
         val bitmap = BtServer.generateQrForSession(sessionId)
