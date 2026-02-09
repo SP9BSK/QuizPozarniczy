@@ -10,8 +10,6 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
-import com.example.quizpozarniczy.model.LocalQuestion
-import com.example.quizpozarniczy.model.Question
 import com.example.quizpozarniczy.util.QuizExporter
 import com.example.quizpozarniczy.util.QuizImporter
 import com.google.zxing.BarcodeFormat
@@ -26,7 +24,7 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        // Nie gasimy ekranu
+        // 🔥 nie gasimy ekranu w całej aplikacji
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         val btnEditOrB = findViewById<Button>(R.id.btnEditOrB)
@@ -50,7 +48,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         // =========================
-        // 2. A – Udostępnij QR
+        // 2. A – QR (TYLKO LOKALNE)
         // =========================
         btnA.text = "UDOSTĘPNIJ PYTANIA LOKALNE (QR)"
         btnA.setOnClickListener {
@@ -58,7 +56,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         // =========================
-        // 3. EXPORT / IMPORT – klasyczne JSON
+        // 3. EXPORT / IMPORT – JSON
         // =========================
         if (isOpiekun) {
             btnExportImport.text = "UDOSTĘPNIJ PYTANIA LOKALNE"
@@ -77,14 +75,11 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     // =========================
-    // EXPORT – OPIEKUN
+    // EXPORT – OPIEKUN (PLIK)
     // =========================
     private fun exportLocalQuestions() {
-        val generalQuestions: List<Question> =
-            QuizRepository.getQuestions(localCount = 0)
-
-        val localQuestions: List<LocalQuestion> =
-            LocalQuestionsRepository.questions
+        val generalQuestions = QuizRepository.getQuestions(localCount = 0)
+        val localQuestions = LocalQuestionsRepository.questions
 
         if (localQuestions.isEmpty()) {
             Toast.makeText(this, "Brak pytań lokalnych do eksportu", Toast.LENGTH_LONG).show()
@@ -141,36 +136,35 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     // =========================
-    // UDOSTĘPNIJ PYTANIA LOKALNE – QR
+    // QR – TYLKO PYTANIA LOKALNE
     // =========================
     private fun shareLocalQuestionsAsQR() {
-        val questions = LocalQuestionsRepository.questions
-        if (questions.isEmpty()) {
+        val localQuestions = LocalQuestionsRepository.questions
+
+        if (localQuestions.isEmpty()) {
             Toast.makeText(this, "Brak pytań lokalnych", Toast.LENGTH_LONG).show()
             return
         }
 
-        // Zamiana pytań na JSON
-        val json = QuizExporter.questionsToJson(questions)
+        val json = QuizExporter.localQuestionsToJson(localQuestions)
 
         try {
             val size = 800
-            val qrBitmap = BarcodeEncoder().encodeBitmap(
+            val bitmap = BarcodeEncoder().encodeBitmap(
                 json,
                 BarcodeFormat.QR_CODE,
                 size,
                 size
             )
 
-            // Pokaż QR w Dialogu
             val dialog = Dialog(this)
             val imageView = ImageView(this)
-            imageView.setImageBitmap(qrBitmap)
+            imageView.setImageBitmap(bitmap)
             dialog.setContentView(imageView)
             dialog.setTitle("Kod QR – pytania lokalne")
             dialog.show()
         } catch (e: Exception) {
-            Toast.makeText(this, "Błąd przy generowaniu QR: ${e.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Błąd QR: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
 }
