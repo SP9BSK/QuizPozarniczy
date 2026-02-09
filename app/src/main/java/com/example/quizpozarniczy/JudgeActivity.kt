@@ -72,3 +72,50 @@ class JudgeActivity : AppCompatActivity() {
         btnShareQuiz.setOnClickListener {
             shareSinglePlayerQuiz()
         }
+    }
+
+    private fun setupLiveValidation(et: EditText, min: Int, max: Int) {
+        et.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val v = s?.toString()?.toIntOrNull() ?: return
+                when {
+                    v < min -> et.setText(min.toString())
+                    v > max -> et.setText(max.toString())
+                }
+                et.setSelection(et.text.length)
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
+            override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
+        })
+    }
+
+    private fun shareSinglePlayerQuiz() {
+        val playerName = QuizSession.playerNames.firstOrNull() ?: "Zawodnik 1"
+
+        val mainQuestions = QuizRepository.getQuestions()
+        val localCount = findViewById<EditText>(R.id.etLocalQuestions).text.toString().toIntOrNull() ?: 1
+        val localQuestions = LocalQuestionsRepository.questions.take(localCount)
+
+        val timeSeconds = (findViewById<EditText>(R.id.etTime).text.toString().toIntOrNull() ?: 1) * 60
+
+        val uri = QuizExporter.createSinglePlayerQuizJson(
+            context = this,
+            playerName = playerName,
+            generalQuestions = mainQuestions,
+            localQuestions = localQuestions,
+            timeSeconds = timeSeconds
+        )
+
+        if (uri != null) {
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "application/json"
+                putExtra(Intent.EXTRA_STREAM, uri)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            startActivity(Intent.createChooser(intent, "Udostępnij quiz"))
+        } else {
+            Toast.makeText(this, "Błąd podczas tworzenia pliku quizu", Toast.LENGTH_LONG).show()
+        }
+    }
+}
