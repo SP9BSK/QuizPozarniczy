@@ -14,7 +14,11 @@ class RankingActivity : AppCompatActivity() {
         val txtRanking = findViewById<TextView>(R.id.txtRanking)
         txtRanking.typeface = Typeface.MONOSPACE
 
-        val results = ResultStore.getResultsSorted()
+        // Sortujemy wyniki z QuizSession
+        val results = QuizSession.results.sortedWith(
+            compareByDescending<PlayerResult> { it.score }
+                .thenBy { it.timeSeconds }
+        )
 
         val sb = StringBuilder()
         sb.append(
@@ -31,12 +35,18 @@ class RankingActivity : AppCompatActivity() {
                     "%-4d %-15s %6d %8s\n",
                     index + 1,
                     result.playerName.take(15),
-                    result.points,
-                    result.timeFormatted
+                    result.score,
+                    formatTime(result.timeSeconds)
                 )
             )
         }
 
         txtRanking.text = sb.toString()
+    }
+
+    private fun formatTime(seconds: Int): String {
+        val min = seconds / 60
+        val sec = seconds % 60
+        return String.format("%02d:%02d", min, sec)
     }
 }
