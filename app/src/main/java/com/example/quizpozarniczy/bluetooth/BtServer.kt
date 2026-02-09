@@ -1,35 +1,64 @@
 package com.example.quizpozarniczy.bluetooth
 
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothServerSocket
+import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Color
 import com.example.quizpozarniczy.model.LocalQuestion
+import com.example.quizpozarniczy.util.QuizExporter
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
+import kotlin.concurrent.thread
 
 object BtServer {
 
-    private var sessionId: String? = null
+    private var serverSocket: BluetoothServerSocket? = null
+    private var running = false
     private var questions: List<LocalQuestion> = emptyList()
+    private var sessionId: String = ""
 
     fun startServer(context: Context, localQuestions: List<LocalQuestion>): String {
-        // Generujemy losowy identyfikator sesji
+        val adapter = BluetoothAdapter.getDefaultAdapter()
+        require(adapter != null && adapter.isEnabled) { "Bluetooth wyłączony" }
+
         sessionId = System.currentTimeMillis().toString()
         questions = localQuestions
-        // Tutaj powinien być kod uruchamiający actual BluetoothServerSocket
-        return sessionId!!
+        running = true
+
+        serverSocket = adapter.listenUsingRfcommWithServiceRecord(
+            "QuizPozarniczy",
+            BtProtocol.APP_UUID
+        )
+
+        thread {
+            try {
+                val socket = serverSocket!!.accept()
+                sendQuestions(socket)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        return "${sessionId}|${adapter.name}"
     }
 
-    fun generateQrForSession(sessionId: String): Bitmap {
+    private fun sendQuestions(socket: BluetoothSocket) {
+        socket.use {
+            val json = QuizExporter.localQuestionsToJson(questions)
+            val out = it.outputStream
+            out.write(json.toByteArray(Charsets.UTF_8))
+            out.flush()
+        }
+    }
+
+    fun generateQrForSession(data: String): Bitmap {
         val encoder = BarcodeEncoder()
-        return encoder.encodeBitmap(sessionId, BarcodeFormat.QR_CODE, 800, 800)
+        return encoder.encodeBitmap(data, BarcodeFormat.QR_CODE, 800, 800)
     }
 
     fun stopServer() {
-        // Tutaj zatrzymujemy serwer Bluetooth jeśli był uruchomiony
-    }
-
-    fun getQuestionsForSession(sessionId: String): List<LocalQuestion> {
-        return if (sessionId == this.sessionId) questions else emptyList()
+        running = false
+        serverSocket?.close()
     }
 }
