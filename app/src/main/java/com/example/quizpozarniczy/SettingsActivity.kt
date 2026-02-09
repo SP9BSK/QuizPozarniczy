@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.bluetooth.BtClient
 import com.example.quizpozarniczy.bluetooth.BtServer
+import com.example.quizpozarniczy.data.DefaultLocalQuestions
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
 import com.example.quizpozarniczy.util.QuizExporter
 import com.example.quizpozarniczy.util.QuizImporter
@@ -44,6 +45,14 @@ class SettingsActivity : AppCompatActivity() {
         val btnA = findViewById<Button>(R.id.btnA)
         val btnExportImport = findViewById<Button>(R.id.btnExportImport)
         val btnRegulamin = findViewById<Button>(R.id.btnRegulamin)
+
+        // 🔹 Inicjalizacja pytań lokalnych
+        if (isOpiekun) {
+            LocalQuestionsRepository.questions.clear()
+            LocalQuestionsRepository.questions.addAll(DefaultLocalQuestions.questions)
+        } else {
+            LocalQuestionsRepository.questions.clear()
+        }
 
         // 1️⃣ EDYCJA / B
         if (isOpiekun) {
@@ -84,7 +93,7 @@ class SettingsActivity : AppCompatActivity() {
     // =========================
     private fun exportLocalQuestions() {
         val generalQuestions = QuizRepository.getQuestions(localCount = 0)
-        val localQuestions = DefaultLocalQuestions.questions
+        val localQuestions = LocalQuestionsRepository.questions
 
         if (localQuestions.isEmpty()) {
             Toast.makeText(this, "Brak pytań lokalnych do eksportu", Toast.LENGTH_LONG).show()
@@ -136,7 +145,7 @@ class SettingsActivity : AppCompatActivity() {
     // OPIEKUN – QR do Bluetooth
     // =========================
     private fun showQrForBluetooth() {
-        val sessionId = BtServer.startServer(this, DefaultLocalQuestions.questions) // uruchamia BtServer
+        val sessionId = BtServer.startServer(this, LocalQuestionsRepository.questions)
         val dialog = Dialog(this)
         val imageView = ImageView(this)
         val bitmap = BtServer.generateQrForSession(sessionId)
@@ -163,7 +172,6 @@ class SettingsActivity : AppCompatActivity() {
     // =========================
     private fun connectToOpiekun(sessionId: String) {
         btClient = BtClient(this, sessionId) { jsonQuestions ->
-            // Po otrzymaniu pytań zapisujemy lokalnie
             val (_, localQuestions) = QuizImporter.importQuizFromString(jsonQuestions)
             if (localQuestions.isNotEmpty()) {
                 LocalQuestionsRepository.questions.clear()
