@@ -1,38 +1,35 @@
 package com.example.quizpozarniczy.bluetooth
 
-import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothServerSocket
-import android.bluetooth.BluetoothSocket
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Color
 import com.example.quizpozarniczy.model.LocalQuestion
-import com.example.quizpozarniczy.util.QuizExporter
-import java.io.OutputStream
-import java.util.*
+import com.google.zxing.BarcodeFormat
+import com.journeyapps.barcodescanner.BarcodeEncoder
 
-class BtServer(private val localQuestions: List<LocalQuestion>) : Thread() {
+object BtServer {
 
-    companion object {
-        val SERVICE_UUID: UUID = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66")
-        fun getDeviceName(): String = BluetoothAdapter.getDefaultAdapter().name ?: "QuizMDP_Opiekun"
+    private var sessionId: String? = null
+    private var questions: List<LocalQuestion> = emptyList()
+
+    fun startServer(context: Context, localQuestions: List<LocalQuestion>): String {
+        // Generujemy losowy identyfikator sesji
+        sessionId = System.currentTimeMillis().toString()
+        questions = localQuestions
+        // Tutaj powinien być kod uruchamiający actual BluetoothServerSocket
+        return sessionId!!
     }
 
-    private val adapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+    fun generateQrForSession(sessionId: String): Bitmap {
+        val encoder = BarcodeEncoder()
+        return encoder.encodeBitmap(sessionId, BarcodeFormat.QR_CODE, 800, 800)
+    }
 
-    override fun run() {
-        try {
-            val serverSocket: BluetoothServerSocket =
-                adapter.listenUsingRfcommWithServiceRecord("QuizMDP", SERVICE_UUID)
+    fun stopServer() {
+        // Tutaj zatrzymujemy serwer Bluetooth jeśli był uruchomiony
+    }
 
-            val socket: BluetoothSocket = serverSocket.accept()
-            val outStream: OutputStream = socket.outputStream
-
-            val json = QuizExporter.localQuestionsToJson(localQuestions)
-            outStream.write(json.toByteArray())
-            outStream.flush()
-            outStream.close()
-            socket.close()
-            serverSocket.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+    fun getQuestionsForSession(sessionId: String): List<LocalQuestion> {
+        return if (sessionId == this.sessionId) questions else emptyList()
     }
 }
