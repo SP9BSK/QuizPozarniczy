@@ -34,22 +34,47 @@ object QuizExporter {
         val questions: List<ExportQuestion>
     )
 
-    /**
-     * =========================
-     * 1️⃣ EKSPORT DO PLIKU (JAK BYŁO – NIE RUSZAMY)
-     * =========================
-     */
+    // =====================================================
+    // 1️⃣ EKSPORT DO PLIKU (OGÓLNE + LOKALNE) – BEZ ZMIAN
+    // =====================================================
     fun createExportJson(
         context: Context,
         generalQuestions: List<Question>,
         localQuestions: List<LocalQuestion>
     ): Uri? {
         return try {
-            val exportPackage = buildExportPackage(generalQuestions, localQuestions)
+            val exportList = mutableListOf<ExportQuestion>()
+
+            generalQuestions.forEach { q ->
+                exportList.add(
+                    ExportQuestion(
+                        type = "general",
+                        text = q.text,
+                        answers = q.answers,
+                        correctIndex = q.correctIndex
+                    )
+                )
+            }
+
+            localQuestions.forEach { lq ->
+                exportList.add(
+                    ExportQuestion(
+                        type = "local",
+                        id = lq.id,
+                        prefix = lq.prefix,
+                        quotedValue1 = lq.quotedValue1,
+                        middle = lq.middle,
+                        quotedValue2 = lq.quotedValue2,
+                        suffix = lq.suffix,
+                        answers = lq.answers,
+                        correctIndex = lq.correctIndex
+                    )
+                )
+            }
 
             val file = File(context.cacheDir, "QuizMDP.json")
             FileWriter(file).use { writer ->
-                gson.toJson(exportPackage, writer)
+                gson.toJson(ExportPackage(exportList), writer)
             }
 
             FileProvider.getUriForFile(
@@ -63,58 +88,24 @@ object QuizExporter {
         }
     }
 
-    /**
-     * =========================
-     * 2️⃣ NOWE – JSON JAKO STRING (DO QR)
-     * =========================
-     */
-    fun questionsToJson(
-        generalQuestions: List<Question>,
-        localQuestions: List<LocalQuestion>
-    ): String {
-        val exportPackage = buildExportPackage(generalQuestions, localQuestions)
-        return gson.toJson(exportPackage)
-    }
-
-    /**
-     * =========================
-     * 3️⃣ WSPÓLNA LOGIKA (JEDNO ŹRÓDŁO PRAWDY)
-     * =========================
-     */
-    private fun buildExportPackage(
-        generalQuestions: List<Question>,
-        localQuestions: List<LocalQuestion>
-    ): ExportPackage {
-
-        val exportList = mutableListOf<ExportQuestion>()
-
-        generalQuestions.forEach { q ->
-            exportList.add(
-                ExportQuestion(
-                    type = "general",
-                    text = q.text,
-                    answers = q.answers,
-                    correctIndex = q.correctIndex
-                )
+    // =====================================================
+    // 2️⃣ NOWE – TYLKO PYTANIA LOKALNE (DO QR)
+    // =====================================================
+    fun localQuestionsToJson(localQuestions: List<LocalQuestion>): String {
+        val exportList = localQuestions.map { lq ->
+            ExportQuestion(
+                type = "local",
+                id = lq.id,
+                prefix = lq.prefix,
+                quotedValue1 = lq.quotedValue1,
+                middle = lq.middle,
+                quotedValue2 = lq.quotedValue2,
+                suffix = lq.suffix,
+                answers = lq.answers,
+                correctIndex = lq.correctIndex
             )
         }
 
-        localQuestions.forEach { lq ->
-            exportList.add(
-                ExportQuestion(
-                    type = "local",
-                    id = lq.id,
-                    prefix = lq.prefix,
-                    quotedValue1 = lq.quotedValue1,
-                    middle = lq.middle,
-                    quotedValue2 = lq.quotedValue2,
-                    suffix = lq.suffix,
-                    answers = lq.answers,
-                    correctIndex = lq.correctIndex
-                )
-            )
-        }
-
-        return ExportPackage(questions = exportList)
+        return gson.toJson(ExportPackage(exportList))
     }
 }
