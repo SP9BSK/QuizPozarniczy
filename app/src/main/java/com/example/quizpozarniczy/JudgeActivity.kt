@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.quizpozarniczy.util.QuizExporter
 
 class JudgeActivity : AppCompatActivity() {
 
@@ -32,17 +33,15 @@ class JudgeActivity : AppCompatActivity() {
         setupLiveValidation(etLocalQuestions, 1, 3)
         setupLiveValidation(etTime, 1, 30)
 
-        // ✏️ EDYCJA ZAWODNIKÓW – TU reset jest OK
+        // ✏️ Edycja zawodników
         btnEditPlayers.setOnClickListener {
             val players = etPlayers.text.toString().toIntOrNull() ?: 1
             QuizSession.reset(players)
-
             startActivity(Intent(this, EditPlayersActivity::class.java))
         }
 
-        // ▶ START QUIZU – ❗ NIE RESETUJEMY ZAWODNIKÓW
+        // ▶ Start quizu – nie resetujemy zawodników
         btnStart.setOnClickListener {
-
             val players = etPlayers.text.toString().toIntOrNull() ?: 1
             val questions = etQuestions.text.toString().toIntOrNull() ?: 1
             val local = etLocalQuestions.text.toString().toIntOrNull() ?: 1
@@ -57,7 +56,6 @@ class JudgeActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // 🔧 TYLKO upewniamy się, że liczba się zgadza
             QuizSession.ensurePlayers(players)
 
             val intent = Intent(this, QuizActivity::class.java)
@@ -65,12 +63,12 @@ class JudgeActivity : AppCompatActivity() {
             intent.putExtra("QUESTIONS", questions)
             intent.putExtra("LOCAL_QUESTIONS", local)
             intent.putExtra("TIME_SECONDS", timeSeconds)
-
             startActivity(intent)
         }
 
+        // 🔹 Udostępnij quiz dla 1 zawodnika
         btnShareQuiz.setOnClickListener {
-            Toast.makeText(this, "Udostępnianie – wkrótce", Toast.LENGTH_SHORT).show()
+            shareSinglePlayerQuiz()
         }
     }
 
@@ -84,8 +82,38 @@ class JudgeActivity : AppCompatActivity() {
                 }
                 et.setSelection(et.text.length)
             }
+
             override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
             override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
         })
+    }
+
+    private fun shareSinglePlayerQuiz() {
+        val playerName = QuizSession.playerNames.firstOrNull() ?: "Zawodnik 1"
+
+        val mainQuestions = QuizRepository.getQuestions()
+        val localCount = findViewById<EditText>(R.id.etLocalQuestions).text.toString().toIntOrNull() ?: 1
+        val localQuestions = LocalQuestionsRepository.questions.take(localCount)
+
+        val timeSeconds = (findViewById<EditText>(R.id.etTime).text.toString().toIntOrNull() ?: 1) * 60
+
+        val uri = QuizExporter.createSinglePlayerQuizJson(
+            context = this,
+            playerName = playerName,
+            generalQuestions = mainQuestions,
+            localQuestions = localQuestions,
+            timeSeconds = timeSeconds
+        )
+
+        if (uri != null) {
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "application/json"
+                putExtra(Intent.EXTRA_STREAM, uri)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            startActivity(Intent.createChooser(intent, "Udostępnij quiz"))
+        } else {
+            Toast.makeText(this, "Błąd podczas tworzenia pliku quizu", Toast.LENGTH_LONG).show()
+        }
     }
 }
