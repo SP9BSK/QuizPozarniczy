@@ -84,7 +84,7 @@ class SettingsActivity : AppCompatActivity() {
     // =========================
     private fun exportLocalQuestions() {
         val generalQuestions = QuizRepository.getQuestions(localCount = 0)
-        val localQuestions = LocalQuestionsRepository.questions
+        val localQuestions = DefaultLocalQuestions.questions
 
         if (localQuestions.isEmpty()) {
             Toast.makeText(this, "Brak pytań lokalnych do eksportu", Toast.LENGTH_LONG).show()
@@ -136,7 +136,7 @@ class SettingsActivity : AppCompatActivity() {
     // OPIEKUN – QR do Bluetooth
     // =========================
     private fun showQrForBluetooth() {
-        val sessionId = BtServer.startServer(this, LocalQuestionsRepository.questions) // uruchamia BtServer
+        val sessionId = BtServer.startServer(this, DefaultLocalQuestions.questions) // uruchamia BtServer
         val dialog = Dialog(this)
         val imageView = ImageView(this)
         val bitmap = BtServer.generateQrForSession(sessionId)
