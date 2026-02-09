@@ -54,8 +54,11 @@ class StartActivity : AppCompatActivity() {
             contentResolver.openInputStream(uri)?.use { inputStream ->
                 val quiz = QuizImporter.importSinglePlayerQuiz(inputStream)
                 if (quiz != null) {
-                    QuizSession.playerNames = listOf(quiz.playerName)
-                    QuizSession.questions = quiz.questions.toMutableList()
+                    QuizSession.playerNames.clear()
+                    QuizSession.playerNames.add(quiz.playerName)
+                    QuizSession.questions.clear()
+                    QuizSession.questions.addAll(quiz.questions)
+
                     val intent = Intent(this, QuizActivity::class.java)
                     intent.putExtra("TIME_SECONDS", quiz.timeSeconds)
                     startActivity(intent)
