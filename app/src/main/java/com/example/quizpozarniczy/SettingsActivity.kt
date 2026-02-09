@@ -24,7 +24,7 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        // 🔥 nie gasimy ekranu w całej aplikacji
+        // 🔥 nie gasimy ekranu
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         val btnEditOrB = findViewById<Button>(R.id.btnEditOrB)
@@ -48,15 +48,24 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         // =========================
-        // 2. A – QR (TYLKO LOKALNE)
+        // 2. A – QR (FLAVORS 🔥)
         // =========================
-        btnA.text = "UDOSTĘPNIJ PYTANIA LOKALNE (QR)"
+        btnA.text = getString(R.string.share_local_questions_label)
+
         btnA.setOnClickListener {
-            shareLocalQuestionsAsQR()
+            if (isOpiekun) {
+                shareLocalQuestionsAsQR()
+            } else {
+                Toast.makeText(
+                    this,
+                    "Skanowanie QR – do zrobienia",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         // =========================
-        // 3. EXPORT / IMPORT – JSON
+        // 3. EXPORT / IMPORT – PLIK JSON
         // =========================
         if (isOpiekun) {
             btnExportImport.text = "UDOSTĘPNIJ PYTANIA LOKALNE"
@@ -75,14 +84,14 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     // =========================
-    // EXPORT – OPIEKUN (PLIK)
+    // EXPORT – PLIK
     // =========================
     private fun exportLocalQuestions() {
         val generalQuestions = QuizRepository.getQuestions(localCount = 0)
         val localQuestions = LocalQuestionsRepository.questions
 
         if (localQuestions.isEmpty()) {
-            Toast.makeText(this, "Brak pytań lokalnych do eksportu", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Brak pytań lokalnych", Toast.LENGTH_LONG).show()
             return
         }
 
@@ -102,7 +111,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     // =========================
-    // IMPORT – MŁODZIEŻ
+    // IMPORT – PLIK
     // =========================
     private fun importLocalQuestions() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
@@ -118,7 +127,8 @@ class SettingsActivity : AppCompatActivity() {
         if (requestCode == 1001 && resultCode == RESULT_OK) {
             val uri = data?.data ?: return
             contentResolver.openInputStream(uri)?.use { inputStream ->
-                val (_, localQuestions) = QuizImporter.importQuiz(this, inputStream)
+                val (_, localQuestions) =
+                    QuizImporter.importQuiz(this, inputStream)
 
                 if (localQuestions.isNotEmpty()) {
                     LocalQuestionsRepository.questions.clear()
@@ -136,7 +146,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     // =========================
-    // QR – TYLKO PYTANIA LOKALNE
+    // QR – OPIEKUN
     // =========================
     private fun shareLocalQuestionsAsQR() {
         val localQuestions = LocalQuestionsRepository.questions
@@ -149,12 +159,11 @@ class SettingsActivity : AppCompatActivity() {
         val json = QuizExporter.localQuestionsToJson(localQuestions)
 
         try {
-            val size = 800
             val bitmap = BarcodeEncoder().encodeBitmap(
                 json,
                 BarcodeFormat.QR_CODE,
-                size,
-                size
+                800,
+                800
             )
 
             val dialog = Dialog(this)
@@ -163,8 +172,13 @@ class SettingsActivity : AppCompatActivity() {
             dialog.setContentView(imageView)
             dialog.setTitle("Kod QR – pytania lokalne")
             dialog.show()
+
         } catch (e: Exception) {
-            Toast.makeText(this, "Błąd QR: ${e.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                this,
+                "Błąd QR: ${e.message}",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 }
