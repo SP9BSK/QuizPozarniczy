@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.quizpozarniczy.model.LocalQuestion
 import com.example.quizpozarniczy.model.Question
 import com.google.gson.Gson
-import com.google.gson.annotations.SerializedName
+import java.io.InputStream
 import java.io.InputStreamReader
 
 object QuizImporter {
@@ -29,12 +29,37 @@ object QuizImporter {
     )
 
     /**
-     * Wczytuje JSON i zwraca listę pytań ogólnych i lokalnych
+     * =========================
+     * Wczytuje JSON z InputStream (plik)
+     * =========================
      */
-    fun importQuiz(context: Context, inputStream: java.io.InputStream): Pair<List<Question>, List<LocalQuestion>> {
+    fun importQuiz(context: Context, inputStream: InputStream): Pair<List<Question>, List<LocalQuestion>> {
         val reader = InputStreamReader(inputStream)
         val importPackage = gson.fromJson(reader, ImportPackage::class.java)
+        return parseImportPackage(importPackage)
+    }
 
+    /**
+     * =========================
+     * Nowe – import z JSON-a w formie String (QR)
+     * =========================
+     */
+    fun importQuizFromString(json: String): Pair<List<Question>, List<LocalQuestion>> {
+        return try {
+            val importPackage = gson.fromJson(json, ImportPackage::class.java)
+            parseImportPackage(importPackage)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Pair(emptyList(), emptyList())
+        }
+    }
+
+    /**
+     * =========================
+     * Wspólna logika parsowania
+     * =========================
+     */
+    private fun parseImportPackage(importPackage: ImportPackage): Pair<List<Question>, List<LocalQuestion>> {
         val generalQuestions = mutableListOf<Question>()
         val localQuestions = mutableListOf<LocalQuestion>()
 
