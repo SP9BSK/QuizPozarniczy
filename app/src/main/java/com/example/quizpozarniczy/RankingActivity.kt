@@ -1,8 +1,8 @@
 package com.example.quizpozarniczy
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
+import android.widget.TableLayout
+import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -12,32 +12,30 @@ class RankingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ranking)
 
-        val txtRanking = findViewById<TextView>(R.id.txtRanking)
-        val btnBack = findViewById<Button>(R.id.btnBackToJudge)
+        val table = findViewById<TableLayout>(R.id.tableRanking)
 
-        // 📊 SORTOWANIE WYNIKÓW
         val sorted = QuizSession.results.sortedWith(
             compareByDescending<PlayerResult> { it.score }
                 .thenBy { it.timeSeconds }
         )
 
-        txtRanking.text = sorted.joinToString("\n") {
-            "${it.playerName}: ${it.score} pkt, czas: ${formatTime(it.timeSeconds)}"
-        }
+        sorted.forEachIndexed { index, result ->
+            val row = TableRow(this)
 
-        // 🔁 POWRÓT + RESET SESJI
-        btnBack.setOnClickListener {
+            row.addView(cell("${index + 1}."))
+            row.addView(cell(result.playerName))
+            row.addView(cell("${result.score}"))
+            row.addView(cell(formatTime(result.timeSeconds)))
 
-            QuizSession.resetAll()   // 🔥 NAJWAŻNIEJSZA LINIA
-
-            val intent = Intent(this, JudgeActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or
-                           Intent.FLAG_ACTIVITY_NEW_TASK
-
-            startActivity(intent)
-            finish()
+            table.addView(row)
         }
     }
+
+    private fun cell(text: String): TextView =
+        TextView(this).apply {
+            this.text = text
+            setPadding(4, 4, 4, 4)
+        }
 
     private fun formatTime(seconds: Int): String {
         val min = seconds / 60
