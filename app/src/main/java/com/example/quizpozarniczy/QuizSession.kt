@@ -32,4 +32,11 @@ object QuizSession {
         // Zaktualizuj totalPlayers
         totalPlayers = count
     }
+    fun resetAll() {
+    totalPlayers = 1
+    currentPlayer = 1
+    playerNames.clear()
+    results.clear()
+}
+
 }
