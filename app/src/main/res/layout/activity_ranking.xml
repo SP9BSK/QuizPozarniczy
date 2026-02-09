@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
-    <TextView
-        android:id="@+id/txtRanking"
-        android:padding="24dp"
-        android:textSize="20sp"
+    <TableLayout
+        android:id="@+id/tableRanking"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:stretchColumns="1">
+
+        <!-- NAGŁÓWEK -->
+        <TableRow>
+
+            <TextView
+                android:text="M."
+                android:textStyle="bold"
+                android:padding="4dp" />
+
+            <TextView
+                android:text="Zawodnik"
+                android:textStyle="bold"
+                android:padding="4dp" />
+
+            <TextView
+                android:text="Pkt"
+                android:textStyle="bold"
+                android:padding="4dp" />
+
+            <TextView
+                android:text="Czas"
+                android:textStyle="bold"
+                android:padding="4dp" />
+        </TableRow>
+
+    </TableLayout>
 </ScrollView>
