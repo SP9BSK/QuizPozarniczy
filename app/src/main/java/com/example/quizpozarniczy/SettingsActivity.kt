@@ -2,7 +2,6 @@ package com.example.quizpozarniczy
 
 import android.app.Dialog
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Button
@@ -13,6 +12,7 @@ import com.example.quizpozarniczy.data.LocalQuestionsRepository
 import com.example.quizpozarniczy.util.QuizExporter
 import com.example.quizpozarniczy.util.QuizImporter
 import com.google.zxing.BarcodeFormat
+import com.google.zxing.integration.android.IntentIntegrator
 import com.journeyapps.barcodescanner.BarcodeEncoder
 
 class SettingsActivity : AppCompatActivity() {
@@ -51,16 +51,11 @@ class SettingsActivity : AppCompatActivity() {
         // 2. A – QR (FLAVORS 🔥)
         // =========================
         btnA.text = getString(R.string.share_local_questions_label)
-
         btnA.setOnClickListener {
             if (isOpiekun) {
                 shareLocalQuestionsAsQR()
             } else {
-                Toast.makeText(
-                    this,
-                    "Skanowanie QR – do zrobienia",
-                    Toast.LENGTH_SHORT
-                ).show()
+                scanLocalQuestionsQR()
             }
         }
 
@@ -95,11 +90,7 @@ class SettingsActivity : AppCompatActivity() {
             return
         }
 
-        val uri: Uri = QuizExporter.createExportJson(
-            this,
-            generalQuestions,
-            localQuestions
-        ) ?: return
+        val uri = QuizExporter.createExportJson(this, generalQuestions, localQuestions) ?: return
 
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "application/json"
@@ -121,36 +112,11 @@ class SettingsActivity : AppCompatActivity() {
         startActivityForResult(intent, 1001)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 1001 && resultCode == RESULT_OK) {
-            val uri = data?.data ?: return
-            contentResolver.openInputStream(uri)?.use { inputStream ->
-                val (_, localQuestions) =
-                    QuizImporter.importQuiz(this, inputStream)
-
-                if (localQuestions.isNotEmpty()) {
-                    LocalQuestionsRepository.questions.clear()
-                    LocalQuestionsRepository.questions.addAll(localQuestions)
-                    LocalQuestionsRepository.save(this)
-                }
-
-                Toast.makeText(
-                    this,
-                    "Zaimportowano ${localQuestions.size} pytań lokalnych",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-    }
-
     // =========================
     // QR – OPIEKUN
     // =========================
     private fun shareLocalQuestionsAsQR() {
         val localQuestions = LocalQuestionsRepository.questions
-
         if (localQuestions.isEmpty()) {
             Toast.makeText(this, "Brak pytań lokalnych", Toast.LENGTH_LONG).show()
             return
@@ -159,12 +125,7 @@ class SettingsActivity : AppCompatActivity() {
         val json = QuizExporter.localQuestionsToJson(localQuestions)
 
         try {
-            val bitmap = BarcodeEncoder().encodeBitmap(
-                json,
-                BarcodeFormat.QR_CODE,
-                800,
-                800
-            )
+            val bitmap = BarcodeEncoder().encodeBitmap(json, BarcodeFormat.QR_CODE, 800, 800)
 
             val dialog = Dialog(this)
             val imageView = ImageView(this)
@@ -174,11 +135,59 @@ class SettingsActivity : AppCompatActivity() {
             dialog.show()
 
         } catch (e: Exception) {
-            Toast.makeText(
-                this,
-                "Błąd QR: ${e.message}",
-                Toast.LENGTH_LONG
-            ).show()
+            Toast.makeText(this, "Błąd QR: ${e.message}", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    // =========================
+    // SKANUJ QR – MŁODZIEŻ
+    // =========================
+    private fun scanLocalQuestionsQR() {
+        IntentIntegrator(this).apply {
+            setOrientationLocked(true)
+            setPrompt("Zeskanuj kod QR pytań lokalnych")
+            setBeepEnabled(true)
+            initiateScan()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // =========================
+        // IMPORT PLIKU JSON
+        // =========================
+        if (requestCode == 1001 && resultCode == RESULT_OK) {
+            val uri = data?.data ?: return
+            contentResolver.openInputStream(uri)?.use { inputStream ->
+                val (_, localQuestions) = QuizImporter.importQuiz(this, inputStream)
+
+                if (localQuestions.isNotEmpty()) {
+                    LocalQuestionsRepository.questions.clear()
+                    LocalQuestionsRepository.questions.addAll(localQuestions)
+                    LocalQuestionsRepository.save(this)
+                }
+
+                Toast.makeText(this, "Zaimportowano ${localQuestions.size} pytań lokalnych", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        // =========================
+        // ODCZYT QR
+        // =========================
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        result?.contents?.let { json ->
+            try {
+                val (_, localQuestions) = QuizImporter.importQuizFromString(json)
+                if (localQuestions.isNotEmpty()) {
+                    LocalQuestionsRepository.questions.clear()
+                    LocalQuestionsRepository.questions.addAll(localQuestions)
+                    LocalQuestionsRepository.save(this)
+                }
+                Toast.makeText(this, "Zaimportowano ${localQuestions.size} pytań lokalnych", Toast.LENGTH_LONG).show()
+            } catch (e: Exception) {
+                Toast.makeText(this, "Błąd przy imporcie QR: ${e.message}", Toast.LENGTH_LONG).show()
+            }
         }
     }
 }
