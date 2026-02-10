@@ -37,6 +37,8 @@ class QuizActivity : AppCompatActivity() {
     private var timeLeftSeconds = 0
     private var timer: CountDownTimer? = null
     private val toneGenerator = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
+    private lateinit var currentQuestions: List<Question>
+    private var answeredQuestions = 0
 
     companion object {
         private const val MAX_PLAYERS = 10
@@ -71,16 +73,104 @@ class QuizActivity : AppCompatActivity() {
         val localQuestions = LocalQuestionsRepository.toQuizQuestions(localQuestionsLimit)
         val normalQuestions = QuizRepository.getQuestions()
 
-        questions = localQuestions + normalQuestions
+        currentQuestions = (localQuestions + normalQuestions)
+    .shuffled()
+    .take(questionsLimit)
+
+answeredQuestions = 0
+timeLeftSeconds = timePerPlayerSeconds
+startTimer()
+showQuestion()
 
         // Start quizu dla pierwszego gracza
         showQuestion()
     }
 
     private fun showQuestion() {
-        // Placeholder – implementacja pokazywania pytań
-        txtQuestion.text = "${QuizSession.playerNames[currentPlayer]}\n\nWynik: ${scores[currentPlayer]}/${questions.size}"
+
+    if (answeredQuestions >= currentQuestions.size) {
+        finishPlayer()
+        return
     }
 
+    val q = currentQuestions[answeredQuestions]
+
+    txtQuestion.text = q.text
+    txtQuestionCounter.text =
+        "Pytanie ${answeredQuestions + 1} / ${currentQuestions.size}"
+
+    btnA.text = q.answers[0]
+    btnB.text = q.answers[1]
+    btnC.text = q.answers[2]
+
+    btnA.setOnClickListener { answer(0) }
+    btnB.setOnClickListener { answer(1) }
+    btnC.setOnClickListener { answer(2) }
+}
+
+private fun answer(index: Int) {
+    val q = currentQuestions[answeredQuestions]
+
+    if (index == q.correctIndex) {
+        scores[currentPlayer]++
+        toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP)
+    } else {
+        wrongAnswersCurrentPlayer.add(
+            WrongAnswer(
+                question = q.text,
+                answers = q.answers,
+                chosenIndex = index,
+                correctIndex = q.correctIndex
+            )
+        )
+    }
+
+    answeredQuestions++
+    showQuestion()
+}
+
+private fun finishPlayer() {
+    timer?.cancel()
+
+    QuizSession.results.add(
+        PlayerResult(
+            playerNumber = currentPlayer + 1,
+            playerName = QuizSession.playerNames[currentPlayer],
+            score = scores[currentPlayer],
+            total = currentQuestions.size,
+            timeSeconds = timePerPlayerSeconds - timeLeftSeconds,
+            wrongAnswers = wrongAnswersCurrentPlayer.toList()
+        )
+    )
+
+    wrongAnswersCurrentPlayer.clear()
+    answeredQuestions = 0
+    timeLeftSeconds = timePerPlayerSeconds
+
+    currentPlayer++
+
+    if (currentPlayer >= playersCount) {
+        startActivity(Intent(this, ResultActivity::class.java))
+        finish()
+    } else {
+        startTimer()
+        showQuestion()
+    }
+}
+
+
     private fun formatTime(seconds: Int): String = String.format("%02d:%02d", seconds / 60, seconds % 60)
+}
+private fun startTimer() {
+    timer?.cancel()
+    timer = object : CountDownTimer(timeLeftSeconds * 1000L, 1000L) {
+        override fun onTick(millisUntilFinished: Long) {
+            timeLeftSeconds = (millisUntilFinished / 1000).toInt()
+            txtTimer.text = formatTime(timeLeftSeconds)
+        }
+
+        override fun onFinish() {
+            finishPlayer()
+        }
+    }.start()
 }
