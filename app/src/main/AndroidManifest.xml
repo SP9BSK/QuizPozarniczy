@@ -58,6 +58,9 @@
             android:name=".RegulaminActivity"
             android:exported="false" />
 
+        <activity android:name=".WrongAnswersActivity" />
+
+
         <!-- FILE PROVIDER -->
         <provider
             android:name="androidx.core.content.FileProvider"
