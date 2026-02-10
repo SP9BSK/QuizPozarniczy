@@ -1,60 +1,48 @@
-fun createSinglePlayerQuizJson(
-    context: Context,
-    playerName: String,
-    generalQuestions: List<Question>,
-    localQuestions: List<LocalQuestion>,
-    timeSeconds: Int
-): Uri? {
-    return try {
-        val exportList = mutableListOf<ExportQuestion>()
+package com.example.quizpozarniczy.util
 
-        generalQuestions.forEach { q ->
-            exportList.add(
-                ExportQuestion(
-                    type = "general",
-                    text = q.text,
-                    answers = q.answers,
-                    correctIndex = q.correctIndex
-                )
+import android.content.Context
+import android.net.Uri
+import androidx.core.content.FileProvider
+import com.example.quizpozarniczy.model.Question
+import com.google.gson.Gson
+import java.io.File
+import java.io.FileWriter
+
+object QuizExporter {
+
+    private val gson = Gson()
+
+    fun createSinglePlayerQuizJson(
+        context: Context,
+        playerName: String,
+        questions: List<Question>,
+        timeSeconds: Int
+    ): Uri? {
+        return try {
+
+            val data = mapOf(
+                "metadata" to mapOf(
+                    "playerName" to playerName,
+                    "timeSeconds" to timeSeconds
+                ),
+                "questions" to questions
             )
-        }
 
-        localQuestions.forEach { lq ->
-            exportList.add(
-                ExportQuestion(
-                    type = "local",
-                    id = lq.id,
-                    prefix = lq.prefix,
-                    quotedValue1 = lq.quotedValue1,
-                    middle = lq.middle,
-                    quotedValue2 = lq.quotedValue2,
-                    suffix = lq.suffix,
-                    answers = lq.answers,
-                    correctIndex = lq.correctIndex
-                )
+            val file = File(context.cacheDir, "QuizSinglePlayer.json")
+
+            FileWriter(file).use { writer ->
+                gson.toJson(data, writer)
+            }
+
+            FileProvider.getUriForFile(
+                context,
+                "${context.packageName}.fileprovider",
+                file
             )
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
         }
-
-        val metadata = mapOf(
-            "playerName" to playerName,
-            "timeSeconds" to timeSeconds
-        )
-
-        val file = File(context.cacheDir, "QuizSinglePlayer.json")
-        FileWriter(file).use { writer ->
-            gson.toJson(mapOf(
-                "metadata" to metadata,
-                "questions" to exportList
-            ), writer)
-        }
-
-        FileProvider.getUriForFile(
-            context,
-            "${context.packageName}.fileprovider",
-            file
-        )
-    } catch (e: Exception) {
-        e.printStackTrace()
-        null
     }
 }
