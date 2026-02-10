@@ -19,7 +19,7 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var txtQuestion: TextView
     private lateinit var txtTimer: TextView
     private lateinit var txtQuestionCounter: TextView
-    private lateinit var txtPlayerName: TextView // nowy TextView dla zawodnika
+    private lateinit var txtPlayerName: TextView
     private lateinit var btnA: Button
     private lateinit var btnB: Button
     private lateinit var btnC: Button
@@ -51,20 +51,23 @@ class QuizActivity : AppCompatActivity() {
         txtQuestion = findViewById(R.id.txtQuestion)
         txtTimer = findViewById(R.id.txtTimer)
         txtQuestionCounter = findViewById(R.id.txtQuestionCounter)
-        txtPlayerName = findViewById(R.id.txtPlayerName) // nowy TextView w layout
+        txtPlayerName = findViewById(R.id.txtPlayerName)
         btnA = findViewById(R.id.btnA)
         btnB = findViewById(R.id.btnB)
         btnC = findViewById(R.id.btnC)
 
-        val questionsLimit = min(intent.getIntExtra("QUESTIONS", 5), MAX_QUESTIONS)
-        timePerPlayerSeconds = intent.getIntExtra("TIME_SECONDS", 60)
+        val questionsLimit =
+            min(intent.getIntExtra("QUESTIONS", 5), MAX_QUESTIONS)
+        timePerPlayerSeconds =
+            intent.getIntExtra("TIME_SECONDS", 60)
 
         playersCount = QuizSession.playerNames.size
         scores = IntArray(playersCount)
 
-        // Pobieramy wszystkie lokalne pytania (nie tylko 1–3)
-        val localQuestions = LocalQuestionsRepository.toQuizQuestions(MAX_QUESTIONS)
-        val normalQuestions = QuizRepository.getQuestions()
+        val localQuestions =
+            LocalQuestionsRepository.toQuizQuestions(MAX_QUESTIONS)
+        val normalQuestions =
+            QuizRepository.getQuestions()
 
         currentQuestions = (localQuestions + normalQuestions)
             .shuffled()
@@ -73,8 +76,14 @@ class QuizActivity : AppCompatActivity() {
         answeredQuestions = 0
         timeLeftSeconds = timePerPlayerSeconds
 
+        showPlayerName()
         startTimer()
         showQuestion()
+    }
+
+    private fun showPlayerName() {
+        txtPlayerName.text =
+            "Zawodnik ${currentPlayer + 1}: ${QuizSession.playerNames[currentPlayer]}"
     }
 
     private fun showQuestion() {
@@ -83,13 +92,11 @@ class QuizActivity : AppCompatActivity() {
             return
         }
 
-        // Wyświetlamy nazwę aktualnego zawodnika
-        txtPlayerName.text = "Zawodnik ${currentPlayer + 1}: ${QuizSession.playerNames[currentPlayer]}"
-
         val q = currentQuestions[answeredQuestions]
 
         txtQuestion.text = q.text
-        txtQuestionCounter.text = "Pytanie ${answeredQuestions + 1} / ${currentQuestions.size}"
+        txtQuestionCounter.text =
+            "Pytanie ${answeredQuestions + 1} / ${currentQuestions.size}"
 
         btnA.text = q.answers[0]
         btnB.text = q.answers[1]
@@ -135,21 +142,17 @@ class QuizActivity : AppCompatActivity() {
             )
         )
 
+        val resultIndex = QuizSession.results.size - 1
+
         wrongAnswersCurrentPlayer.clear()
         answeredQuestions = 0
         timeLeftSeconds = timePerPlayerSeconds
         currentPlayer++
 
-        if (currentPlayer >= playersCount) {
-            // TODO: zamiast od razu ResultActivity, potem pokaż PlayerResultActivity z przyciskami
-            val i = Intent(this, PlayerResultActivity::class.java)
-           i.putExtra("PLAYER_INDEX", QuizSession.results.size - 1)
-           startActivity(i)
-            finish()
-        } else {
-            startTimer()
-            showQuestion()
-        }
+        val i = Intent(this, PlayerResultActivity::class.java)
+        i.putExtra("PLAYER_INDEX", resultIndex)
+        startActivity(i)
+        finish()
     }
 
     private fun startTimer() {
