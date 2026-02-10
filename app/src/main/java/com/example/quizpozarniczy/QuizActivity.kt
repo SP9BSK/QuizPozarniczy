@@ -142,7 +142,9 @@ class QuizActivity : AppCompatActivity() {
 
         if (currentPlayer >= playersCount) {
             // TODO: zamiast od razu ResultActivity, potem pokaż PlayerResultActivity z przyciskami
-            startActivity(Intent(this, ResultActivity::class.java))
+            val i = Intent(this, PlayerResultActivity::class.java)
+           i.putExtra("PLAYER_INDEX", QuizSession.results.size - 1)
+           startActivity(i)
             finish()
         } else {
             startTimer()
