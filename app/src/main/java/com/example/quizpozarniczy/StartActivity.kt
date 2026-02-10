@@ -10,31 +10,42 @@ import com.example.quizpozarniczy.util.QuizImporter
 
 class StartActivity : AppCompatActivity() {
 
+    private val isOpiekun: Boolean
+        get() = BuildConfig.APPLICATION_ID.contains("opiekun")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
 
-        val isOpiekun = BuildConfig.APPLICATION_ID.contains("opiekun")
-
+        // 🔹 inicjalizacja repozytorium
         LocalQuestionsRepository.init(
             context = this,
             loadDefaults = isOpiekun
         )
 
+        // 🔹 PRZYCISK A / PANEL SĘDZIEGO
         findViewById<Button>(R.id.btnJudge).setOnClickListener {
             if (isOpiekun) {
-                startActivity(Intent(this, JudgeActivity::class.java))
+                startActivity(
+                    Intent(this, JudgeActivity::class.java)
+                )
             } else {
                 importSinglePlayerQuiz()
             }
         }
 
+        // 🔹 TRYB NAUKI
         findViewById<Button>(R.id.btnLearn).setOnClickListener {
-            startActivity(Intent(this, LearningModeSelectActivity::class.java))
+            startActivity(
+                Intent(this, LearningModeSelectActivity::class.java)
+            )
         }
 
+        // 🔹 USTAWIENIA
         findViewById<Button>(R.id.btnSettings).setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
+            startActivity(
+                Intent(this, SettingsActivity::class.java)
+            )
         }
     }
 
@@ -56,11 +67,12 @@ class StartActivity : AppCompatActivity() {
                 val quiz = QuizImporter.importSinglePlayerQuiz(inputStream)
 
                 if (quiz != null) {
-                    QuizSession.reset(1)
+                    // ❗ NIE MA setQuestions – pracujemy na liście
                     QuizSession.playerNames.clear()
                     QuizSession.playerNames.add(quiz.playerName)
 
-                    QuizSession.setQuestions(quiz.questions)
+                    QuizSession.questions.clear()
+                    QuizSession.questions.addAll(quiz.questions)
 
                     val intent = Intent(this, QuizActivity::class.java)
                     intent.putExtra("TIME_SECONDS", quiz.timeSeconds)
