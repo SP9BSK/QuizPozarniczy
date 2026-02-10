@@ -1,35 +1,45 @@
+package com.example.quizpozarniczy.util
+
+import com.example.quizpozarniczy.model.Question
+import com.google.gson.Gson
+import java.io.InputStream
+import java.io.InputStreamReader
+
 data class SinglePlayerQuiz(
     val playerName: String,
     val timeSeconds: Int,
     val questions: List<Question>
 )
 
-fun importSinglePlayerQuiz(inputStream: InputStream): SinglePlayerQuiz? {
-    return try {
-        val reader = InputStreamReader(inputStream)
-        val jsonObj = gson.fromJson(reader, Map::class.java)
+object QuizImporter {
 
-        val metadata = jsonObj["metadata"] as Map<*, *>
-        val playerName = metadata["playerName"] as String
-        val timeSeconds = (metadata["timeSeconds"] as Double).toInt()
+    private val gson = Gson()
 
-        val questionList = jsonObj["questions"] as List<Map<String, Any>>
-        val questions = mutableListOf<Question>()
-        questionList.forEach { q ->
-            if (q["type"] == "general") {
-                questions.add(
-                    Question(
-                        text = q["text"] as String,
-                        answers = (q["answers"] as List<String>),
-                        correctIndex = (q["correctIndex"] as Double).toInt()
-                    )
-                )
-            }
+    fun importSinglePlayerQuiz(inputStream: InputStream): SinglePlayerQuiz? {
+        return try {
+
+            val reader = InputStreamReader(inputStream)
+            val root = gson.fromJson(reader, Map::class.java)
+
+            val metadata = root["metadata"] as Map<*, *>
+            val playerName = metadata["playerName"] as String
+            val timeSeconds = (metadata["timeSeconds"] as Double).toInt()
+
+            val questionsJson = root["questions"]
+            val questions = gson.fromJson(
+                gson.toJson(questionsJson),
+                Array<Question>::class.java
+            ).toList()
+
+            SinglePlayerQuiz(
+                playerName = playerName,
+                timeSeconds = timeSeconds,
+                questions = questions
+            )
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
         }
-
-        SinglePlayerQuiz(playerName, timeSeconds, questions)
-    } catch (e: Exception) {
-        e.printStackTrace()
-        null
     }
 }
