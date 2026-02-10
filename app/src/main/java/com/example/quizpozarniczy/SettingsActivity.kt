@@ -52,14 +52,47 @@ class SettingsActivity : AppCompatActivity() {
             Toast.makeText(this, "Funkcja A będzie dostępna w późniejszej wersji", Toast.LENGTH_SHORT).show()
         }
 
-        // 3️⃣ EXPORT / IMPORT – tymczasowo wyłączone, żeby build był stabilny
-        btnExportImport.setOnClickListener {
-            Toast.makeText(this, "Eksport / import – wkrótce", Toast.LENGTH_SHORT).show()
+       // 3️⃣ EXPORT / IMPORT
+        if (isOpiekun) {
+            btnExportImport.text = "UDOSTĘPNIJ PYTANIA LOKALNE"
+            btnExportImport.setOnClickListener { exportLocalQuestions() }
+        } else {
+            btnExportImport.text = "POBIERZ PYTANIA LOKALNE"
+            btnExportImport.setOnClickListener { importLocalQuestions() }
         }
+
 
         // 4️⃣ REGULAMIN
         btnRegulamin.setOnClickListener {
             startActivity(Intent(this, RegulaminActivity::class.java))
         }
+        // =========================
+    // EXPORT – JSON
+    // =========================
+    private fun exportLocalQuestions() {
+        val generalQuestions = QuizRepository.getQuestions(localCount = 0)
+        val localQuestions = DefaultLocalQuestions.questions
+
+        val uri = QuizExporter.createExportJson(this, generalQuestions, localQuestions) ?: return
+
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "application/json"
+            putExtra(Intent.EXTRA_STREAM, uri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        startActivity(Intent.createChooser(intent, "Udostępnij pytania lokalne"))
+    }
+
+    // =========================
+    // IMPORT – JSON
+    // =========================
+    private fun importLocalQuestions() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            type = "application/json"
+            addCategory(Intent.CATEGORY_OPENABLE)
+        }
+        startActivityForResult(intent, 1001)
+    }
+
     }
 }
