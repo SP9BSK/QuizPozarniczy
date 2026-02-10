@@ -1,13 +1,16 @@
 package com.example.quizpozarniczy
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.quizpozarniczy.data.DefaultLocalQuestions
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
+import com.example.quizpozarniczy.model.LocalQuestion
+import com.example.quizpozarniczy.model.Question
+import com.example.quizpozarniczy.util.QuizExporter
+import com.example.quizpozarniczy.util.QuizImporter
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -18,22 +21,14 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-
         val btnEditOrB = findViewById<Button>(R.id.btnEditOrB)
         val btnA = findViewById<Button>(R.id.btnA)
         val btnExportImport = findViewById<Button>(R.id.btnExportImport)
         val btnRegulamin = findViewById<Button>(R.id.btnRegulamin)
 
-        // 🔹 Inicjalizacja pytań lokalnych
-        if (isOpiekun) {
-            LocalQuestionsRepository.questions.clear()
-            LocalQuestionsRepository.questions.addAll(DefaultLocalQuestions.questions)
-        } else {
-            LocalQuestionsRepository.questions.clear()
-        }
-
-        // 1️⃣ EDYCJA / B
+        // =========================
+        // 1. EDYCJA / B
+        // =========================
         if (isOpiekun) {
             btnEditOrB.text = "EDYCJA PYTAŃ LOKALNYCH"
             btnEditOrB.setOnClickListener {
@@ -46,13 +41,16 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        // 2️⃣ A – tymczasowo nieaktywne
-        btnA.text = "A – do późniejszego wykorzystania"
+        // =========================
+        // 2. A (na razie puste)
+        // =========================
         btnA.setOnClickListener {
-            Toast.makeText(this, "Funkcja A będzie dostępna w późniejszej wersji", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "A – do implementacji", Toast.LENGTH_SHORT).show()
         }
 
-       // 3️⃣ EXPORT / IMPORT
+        // =========================
+        // 3. EXPORT / IMPORT
+        // =========================
         if (isOpiekun) {
             btnExportImport.text = "UDOSTĘPNIJ PYTANIA LOKALNE"
             btnExportImport.setOnClickListener { exportLocalQuestions() }
@@ -61,30 +59,46 @@ class SettingsActivity : AppCompatActivity() {
             btnExportImport.setOnClickListener { importLocalQuestions() }
         }
 
-
-        // 4️⃣ REGULAMIN
+        // =========================
+        // 4. REGULAMIN
+        // =========================
         btnRegulamin.setOnClickListener {
             startActivity(Intent(this, RegulaminActivity::class.java))
         }
-        // =========================
-    // EXPORT – JSON
+    }
+
+    // =========================
+    // EXPORT – OPIEKUN
     // =========================
     private fun exportLocalQuestions() {
-        val generalQuestions = QuizRepository.getQuestions(localCount = 0)
-        val localQuestions = DefaultLocalQuestions.questions
+        val generalQuestions: List<Question> =
+            QuizRepository.getQuestions(localCount = 0)
 
-        val uri = QuizExporter.createExportJson(this, generalQuestions, localQuestions) ?: return
+        val localQuestions: List<LocalQuestion> =
+            LocalQuestionsRepository.questions
+
+        if (localQuestions.isEmpty()) {
+            Toast.makeText(this, "Brak pytań lokalnych do eksportu", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        val uri: Uri = QuizExporter.createExportJson(
+            this,
+            generalQuestions,
+            localQuestions
+        ) ?: return
 
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "application/json"
             putExtra(Intent.EXTRA_STREAM, uri)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
+
         startActivity(Intent.createChooser(intent, "Udostępnij pytania lokalne"))
     }
 
     // =========================
-    // IMPORT – JSON
+    // IMPORT – MŁODZIEŻ
     // =========================
     private fun importLocalQuestions() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
@@ -94,5 +108,26 @@ class SettingsActivity : AppCompatActivity() {
         startActivityForResult(intent, 1001)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 1001 && resultCode == RESULT_OK) {
+            val uri = data?.data ?: return
+            contentResolver.openInputStream(uri)?.use { inputStream ->
+                val (_, localQuestions) = QuizImporter.importQuiz(this, inputStream)
+
+                if (localQuestions.isNotEmpty()) {
+                    LocalQuestionsRepository.questions.clear()
+                    LocalQuestionsRepository.questions.addAll(localQuestions)
+                    LocalQuestionsRepository.save(this)
+                }
+
+                Toast.makeText(
+                    this,
+                    "Zaimportowano ${localQuestions.size} pytań lokalnych",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
     }
 }
