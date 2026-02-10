@@ -9,9 +9,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.quizpozarniczy.data.LocalQuestionsRepository
 import com.example.quizpozarniczy.util.QuizExporter
-import com.example.quizpozarniczy.util.QuizRepository
+import com.example.quizpozarniczy.QuizRepository   // ✅ WŁAŚCIWY IMPORT
 
 class JudgeActivity : AppCompatActivity() {
 
@@ -93,17 +92,19 @@ class JudgeActivity : AppCompatActivity() {
     private fun shareSinglePlayerQuiz() {
         val playerName = QuizSession.playerNames.firstOrNull() ?: "Zawodnik 1"
 
-        val mainQuestions = QuizRepository.getQuestions()
-        val localCount = findViewById<EditText>(R.id.etLocalQuestions).text.toString().toIntOrNull() ?: 1
-        val localQuestions = LocalQuestionsRepository.questions.take(localCount)
+        val localCount =
+            findViewById<EditText>(R.id.etLocalQuestions).text.toString().toIntOrNull() ?: 1
 
-        val timeSeconds = (findViewById<EditText>(R.id.etTime).text.toString().toIntOrNull() ?: 1) * 60
+        // ✅ Dokładnie te same pytania, które quiz by wylosował
+        val questions = QuizRepository.getQuestions(localCount)
+
+        val timeSeconds =
+            (findViewById<EditText>(R.id.etTime).text.toString().toIntOrNull() ?: 1) * 60
 
         val uri = QuizExporter.createSinglePlayerQuizJson(
             context = this,
             playerName = playerName,
-            generalQuestions = mainQuestions,
-            localQuestions = localQuestions,
+            questions = questions,
             timeSeconds = timeSeconds
         )
 
