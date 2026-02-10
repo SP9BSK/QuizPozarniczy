@@ -25,7 +25,7 @@ class SettingsActivity : AppCompatActivity() {
         val btnExportImport = findViewById<Button>(R.id.btnExportImport)
         val btnRegulamin = findViewById<Button>(R.id.btnRegulamin)
 
-        // 🔹 Inicjalizacja pytań lokalnych (jak było wcześniej)
+        // 🔹 Inicjalizacja pytań lokalnych
         if (isOpiekun) {
             LocalQuestionsRepository.questions.clear()
             LocalQuestionsRepository.questions.addAll(DefaultLocalQuestions.questions)
@@ -37,51 +37,29 @@ class SettingsActivity : AppCompatActivity() {
         if (isOpiekun) {
             btnEditOrB.text = "EDYCJA PYTAŃ LOKALNYCH"
             btnEditOrB.setOnClickListener {
-                startActivity(
-                    Intent(this, EditLocalQuestionsActivity::class.java)
-                )
+                startActivity(Intent(this, EditLocalQuestionsActivity::class.java))
             }
         } else {
             btnEditOrB.text = "B"
             btnEditOrB.setOnClickListener {
-                Toast.makeText(
-                    this,
-                    "Funkcja B (do implementacji)",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, "Funkcja B (do implementacji)", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // 2️⃣ A – celowo NIEPODPINANE (żeby nie rozjechać projektu)
-        btnA.text = "A"
+        // 2️⃣ A – tymczasowo nieaktywne
+        btnA.text = "A – do późniejszego wykorzystania"
         btnA.setOnClickListener {
-            Toast.makeText(
-                this,
-                "Funkcja A będzie dostępna w późniejszej wersji",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(this, "Funkcja A będzie dostępna w późniejszej wersji", Toast.LENGTH_SHORT).show()
         }
 
-        // 3️⃣ EXPORT / IMPORT – WYŁĄCZONE TECHNICZNIE (tymczasowo)
-        if (isOpiekun) {
-            btnExportImport.text = "UDOSTĘPNIJ PYTANIA LOKALNE"
-        } else {
-            btnExportImport.text = "POBIERZ PYTANIA LOKALNE"
-        }
-
+        // 3️⃣ EXPORT / IMPORT – tymczasowo wyłączone, żeby build był stabilny
         btnExportImport.setOnClickListener {
-            Toast.makeText(
-                this,
-                "Funkcja tymczasowo wyłączona (stabilizacja builda)",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(this, "Eksport / import – wkrótce", Toast.LENGTH_SHORT).show()
         }
 
         // 4️⃣ REGULAMIN
         btnRegulamin.setOnClickListener {
-            startActivity(
-                Intent(this, RegulaminActivity::class.java)
-            )
+            startActivity(Intent(this, RegulaminActivity::class.java))
         }
     }
 }
