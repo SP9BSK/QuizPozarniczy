@@ -47,14 +47,13 @@ class StartActivity : AppCompatActivity() {
         }
 
         // Tryb nauki
-       findViewById<Button>(R.id.btnLearn).setOnClickListener {
-    startActivity(Intent(this, LearningModeSelectActivity::class.java))
-}
+        findViewById<Button>(R.id.btnLearn).setOnClickListener {
+            startActivity(Intent(this, LearningModeSelectActivity::class.java))
+        }
 
         // Ustawienia
         findViewById<Button>(R.id.btnSettings).setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
     }
-
-)
+}
