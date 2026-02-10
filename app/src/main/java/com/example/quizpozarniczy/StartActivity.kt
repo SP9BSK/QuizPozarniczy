@@ -56,5 +56,5 @@ class StartActivity : AppCompatActivity() {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
     }
-}
+
 )
