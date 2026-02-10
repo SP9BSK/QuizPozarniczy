@@ -9,8 +9,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.quizpozarniczy.util.QuizExporter
-import com.example.quizpozarniczy.QuizRepository   // ✅ WŁAŚCIWY IMPORT
 
 class JudgeActivity : AppCompatActivity() {
 
@@ -34,14 +32,14 @@ class JudgeActivity : AppCompatActivity() {
         setupLiveValidation(etLocalQuestions, 1, 3)
         setupLiveValidation(etTime, 1, 30)
 
-        // ✏️ Edycja zawodników
+        // ✏️ EDYCJA ZAWODNIKÓW – TU reset jest OK
         btnEditPlayers.setOnClickListener {
             val players = etPlayers.text.toString().toIntOrNull() ?: 1
             QuizSession.reset(players)
             startActivity(Intent(this, EditPlayersActivity::class.java))
         }
 
-        // ▶ Start quizu – nie resetujemy zawodników
+        // ▶ START QUIZU – ❗ NIE RESETUJEMY ZAWODNIKÓW
         btnStart.setOnClickListener {
             val players = etPlayers.text.toString().toIntOrNull() ?: 1
             val questions = etQuestions.text.toString().toIntOrNull() ?: 1
@@ -67,9 +65,9 @@ class JudgeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // 🔹 Udostępnij quiz dla 1 zawodnika
+        // Udostępnianie quizu – na razie placeholder
         btnShareQuiz.setOnClickListener {
-            shareSinglePlayerQuiz()
+            Toast.makeText(this, "Udostępnianie – wkrótce", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -83,40 +81,8 @@ class JudgeActivity : AppCompatActivity() {
                 }
                 et.setSelection(et.text.length)
             }
-
             override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
             override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
         })
-    }
-
-    private fun shareSinglePlayerQuiz() {
-        val playerName = QuizSession.playerNames.firstOrNull() ?: "Zawodnik 1"
-
-        val localCount =
-            findViewById<EditText>(R.id.etLocalQuestions).text.toString().toIntOrNull() ?: 1
-
-        // ✅ Dokładnie te same pytania, które quiz by wylosował
-        val questions = QuizRepository.getQuestions(localCount)
-
-        val timeSeconds =
-            (findViewById<EditText>(R.id.etTime).text.toString().toIntOrNull() ?: 1) * 60
-
-        val uri = QuizExporter.createSinglePlayerQuizJson(
-            context = this,
-            playerName = playerName,
-            questions = questions,
-            timeSeconds = timeSeconds
-        )
-
-        if (uri != null) {
-            val intent = Intent(Intent.ACTION_SEND).apply {
-                type = "application/json"
-                putExtra(Intent.EXTRA_STREAM, uri)
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
-            startActivity(Intent.createChooser(intent, "Udostępnij quiz"))
-        } else {
-            Toast.makeText(this, "Błąd podczas tworzenia pliku quizu", Toast.LENGTH_LONG).show()
-        }
     }
 }
