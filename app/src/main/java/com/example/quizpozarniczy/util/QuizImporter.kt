@@ -1,41 +1,37 @@
 package com.example.quizpozarniczy.util
 
+import android.content.Context
+import com.example.quizpozarniczy.model.LocalQuestion
 import com.example.quizpozarniczy.model.Question
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.io.InputStream
 import java.io.InputStreamReader
-
-data class SinglePlayerQuiz(
-    val playerName: String,
-    val timeSeconds: Int,
-    val questions: List<Question>
-)
 
 object QuizImporter {
 
     private val gson = Gson()
 
-    fun importSinglePlayerQuiz(inputStream: InputStream): SinglePlayerQuiz? {
+    fun importQuiz(
+        context: Context,
+        inputStream: InputStream
+    ): Pair<List<Question>, List<LocalQuestion>>? {
         return try {
 
             val reader = InputStreamReader(inputStream)
-            val root = gson.fromJson(reader, Map::class.java)
+            val root: Map<String, Any> =
+                gson.fromJson(reader, object : TypeToken<Map<String, Any>>() {}.type)
 
-            val metadata = root["metadata"] as Map<*, *>
-            val playerName = metadata["playerName"] as String
-            val timeSeconds = (metadata["timeSeconds"] as Double).toInt()
+            val generalJson = gson.toJson(root["generalQuestions"])
+            val localJson = gson.toJson(root["localQuestions"])
 
-            val questionsJson = root["questions"]
-            val questions = gson.fromJson(
-                gson.toJson(questionsJson),
-                Array<Question>::class.java
-            ).toList()
+            val generalQuestions: List<Question> =
+                gson.fromJson(generalJson, object : TypeToken<List<Question>>() {}.type)
 
-            SinglePlayerQuiz(
-                playerName = playerName,
-                timeSeconds = timeSeconds,
-                questions = questions
-            )
+            val localQuestions: List<LocalQuestion> =
+                gson.fromJson(localJson, object : TypeToken<List<LocalQuestion>>() {}.type)
+
+            Pair(generalQuestions, localQuestions)
 
         } catch (e: Exception) {
             e.printStackTrace()
