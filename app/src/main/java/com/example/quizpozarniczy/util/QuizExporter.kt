@@ -3,6 +3,7 @@ package com.example.quizpozarniczy.util
 import android.content.Context
 import android.net.Uri
 import androidx.core.content.FileProvider
+import com.example.quizpozarniczy.model.LocalQuestion
 import com.example.quizpozarniczy.model.Question
 import com.google.gson.Gson
 import java.io.File
@@ -12,23 +13,19 @@ object QuizExporter {
 
     private val gson = Gson()
 
-    fun createSinglePlayerQuizJson(
+    fun createExportJson(
         context: Context,
-        playerName: String,
-        questions: List<Question>,
-        timeSeconds: Int
+        generalQuestions: List<Question>,
+        localQuestions: List<LocalQuestion>
     ): Uri? {
         return try {
 
             val data = mapOf(
-                "metadata" to mapOf(
-                    "playerName" to playerName,
-                    "timeSeconds" to timeSeconds
-                ),
-                "questions" to questions
+                "generalQuestions" to generalQuestions,
+                "localQuestions" to localQuestions
             )
 
-            val file = File(context.cacheDir, "QuizSinglePlayer.json")
+            val file = File(context.cacheDir, "LocalQuestionsExport.json")
 
             FileWriter(file).use { writer ->
                 gson.toJson(data, writer)
