@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
 import com.example.quizpozarniczy.util.QuizImporter
-import com.example.quizpozarniczy.util.QuizRepository
 
 class StartActivity : AppCompatActivity() {
 
@@ -22,7 +21,6 @@ class StartActivity : AppCompatActivity() {
             loadDefaults = isOpiekun
         )
 
-        // 🔹 SĘDZIA / POBIERZ QUIZ
         findViewById<Button>(R.id.btnJudge).setOnClickListener {
             if (isOpiekun) {
                 startActivity(Intent(this, JudgeActivity::class.java))
@@ -58,12 +56,11 @@ class StartActivity : AppCompatActivity() {
                 val quiz = QuizImporter.importSinglePlayerQuiz(inputStream)
 
                 if (quiz != null) {
-                    // ✅ 1 zawodnik
+                    QuizSession.reset(1)
                     QuizSession.playerNames.clear()
                     QuizSession.playerNames.add(quiz.playerName)
 
-                    // ✅ pytania trafiają do repozytorium
-                    QuizRepository.setImportedQuestions(quiz.questions)
+                    QuizSession.setQuestions(quiz.questions)
 
                     val intent = Intent(this, QuizActivity::class.java)
                     intent.putExtra("TIME_SECONDS", quiz.timeSeconds)
