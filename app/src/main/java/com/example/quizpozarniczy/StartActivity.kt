@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
 import com.example.quizpozarniczy.util.QuizImporter
+import com.example.quizpozarniczy.util.QuizRepository
 
 class StartActivity : AppCompatActivity() {
 
@@ -21,7 +22,7 @@ class StartActivity : AppCompatActivity() {
             loadDefaults = isOpiekun
         )
 
-        // 🔹 Przyciski
+        // 🔹 SĘDZIA / POBIERZ QUIZ
         findViewById<Button>(R.id.btnJudge).setOnClickListener {
             if (isOpiekun) {
                 startActivity(Intent(this, JudgeActivity::class.java))
@@ -49,21 +50,30 @@ class StartActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         if (requestCode == 1001 && resultCode == RESULT_OK) {
             val uri = data?.data ?: return
+
             contentResolver.openInputStream(uri)?.use { inputStream ->
                 val quiz = QuizImporter.importSinglePlayerQuiz(inputStream)
+
                 if (quiz != null) {
+                    // ✅ 1 zawodnik
                     QuizSession.playerNames.clear()
                     QuizSession.playerNames.add(quiz.playerName)
-                    QuizSession.questions.clear()
-                    QuizSession.questions.addAll(quiz.questions)
+
+                    // ✅ pytania trafiają do repozytorium
+                    QuizRepository.setImportedQuestions(quiz.questions)
 
                     val intent = Intent(this, QuizActivity::class.java)
                     intent.putExtra("TIME_SECONDS", quiz.timeSeconds)
                     startActivity(intent)
                 } else {
-                    Toast.makeText(this, "Nie udało się wczytać quizu", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this,
+                        "Nie udało się wczytać quizu",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }
