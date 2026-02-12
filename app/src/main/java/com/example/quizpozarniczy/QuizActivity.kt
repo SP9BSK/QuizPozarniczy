@@ -1,8 +1,6 @@
 package com.example.quizpozarniczy
 
 import android.content.Intent
-import android.media.AudioManager
-import android.media.ToneGenerator
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.WindowManager
@@ -35,8 +33,6 @@ class QuizActivity : AppCompatActivity() {
     private var timePerPlayerSeconds = 60
     private var timeLeftSeconds = 0
     private var timer: CountDownTimer? = null
-
-    private val toneGenerator = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
 
     companion object {
         private const val MAX_QUESTIONS = 30
@@ -82,6 +78,11 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun showPlayerName() {
+        if (currentPlayer !in QuizSession.playerNames.indices) {
+            finish()
+            return
+        }
+
         txtPlayerName.text =
             "Zawodnik ${currentPlayer + 1}: ${QuizSession.playerNames[currentPlayer]}"
     }
@@ -112,7 +113,7 @@ class QuizActivity : AppCompatActivity() {
 
         if (index == q.correctIndex) {
             scores[currentPlayer]++
-            toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP)
+            // 🔕 USUNIĘTY DŹWIĘK
         } else {
             wrongAnswersCurrentPlayer.add(
                 WrongAnswer(
@@ -152,7 +153,9 @@ class QuizActivity : AppCompatActivity() {
         val i = Intent(this, PlayerResultActivity::class.java)
         i.putExtra("PLAYER_INDEX", resultIndex)
         startActivity(i)
-        finish()
+
+        // ❗ USUNIĘTE finish()
+        // nie zamykamy QuizActivity
     }
 
     private fun startTimer() {
