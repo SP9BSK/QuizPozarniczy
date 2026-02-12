@@ -29,7 +29,16 @@ class PlayerResultActivity : AppCompatActivity() {
         btnShowAnswers = findViewById(R.id.btnShowAnswers)
         btnNext = findViewById(R.id.btnNext)
 
+        if (QuizSession.results.isEmpty()) {
+            finish()
+            return
+        }
+
         currentIndex = intent.getIntExtra("PLAYER_INDEX", 0)
+
+        if (currentIndex !in QuizSession.results.indices) {
+            currentIndex = 0
+        }
 
         val result = QuizSession.results[currentIndex]
 
@@ -39,7 +48,7 @@ class PlayerResultActivity : AppCompatActivity() {
         txtTime.text =
             "Czas: ${formatTime(result.timeSeconds)}"
 
-        // 🔹 Pokaż dobre odpowiedzi – tylko jeśli są błędy
+        // 🔹 Pokaż dobre odpowiedzi
         btnShowAnswers.isEnabled = result.hasWrongAnswers
         btnShowAnswers.setOnClickListener {
             val i = Intent(this, WrongAnswersActivity::class.java)
@@ -49,18 +58,24 @@ class PlayerResultActivity : AppCompatActivity() {
 
         // 🔹 Następny zawodnik / Wyniki końcowe
         if (currentIndex < QuizSession.results.size - 1) {
+
             btnNext.text = "Następny zawodnik"
+
             btnNext.setOnClickListener {
                 val i = Intent(this, PlayerResultActivity::class.java)
                 i.putExtra("PLAYER_INDEX", currentIndex + 1)
                 startActivity(i)
                 finish()
             }
+
         } else {
+
             btnNext.text = "Pokaż wyniki końcowe"
+
             btnNext.setOnClickListener {
-                startActivity(Intent(this, ResultActivity::class.java))
-                finish()
+                val i = Intent(this, ResultActivity::class.java)
+                startActivity(i)
+                finishAffinity()   // zamyka cały quiz stack
             }
         }
     }
