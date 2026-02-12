@@ -38,6 +38,16 @@
             android:name=".QuizActivity"
             android:exported="false" />
 
+        <!-- WYNIK ZAWODNIKA -->
+        <activity
+            android:name=".PlayerResultActivity"
+            android:exported="false" />
+
+        <!-- BŁĘDNE ODPOWIEDZI -->
+        <activity
+            android:name=".WrongAnswersActivity"
+            android:exported="false" />
+
         <!-- ✏️ EDYCJA ZAWODNIKÓW -->
         <activity
             android:name=".EditPlayersActivity"
@@ -57,9 +67,6 @@
         <activity
             android:name=".RegulaminActivity"
             android:exported="false" />
-
-        <activity android:name=".WrongAnswersActivity" />
-
 
         <!-- FILE PROVIDER -->
         <provider
