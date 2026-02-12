@@ -57,13 +57,12 @@ class PlayerResultActivity : AppCompatActivity() {
         }
 
         // 🔹 Następny zawodnik / Wyniki końcowe
-        if (currentIndex < QuizSession.results.size - 1) {
+        if (currentIndex < QuizSession.totalPlayers - 1) {
 
             btnNext.text = "Następny zawodnik"
 
             btnNext.setOnClickListener {
-                val i = Intent(this, PlayerResultActivity::class.java)
-                i.putExtra("PLAYER_INDEX", currentIndex + 1)
+                val i = Intent(this, QuizActivity::class.java)
                 startActivity(i)
                 finish()
             }
@@ -75,7 +74,7 @@ class PlayerResultActivity : AppCompatActivity() {
             btnNext.setOnClickListener {
                 val i = Intent(this, ResultActivity::class.java)
                 startActivity(i)
-                finishAffinity()   // zamyka cały quiz stack
+                finishAffinity()
             }
         }
     }
