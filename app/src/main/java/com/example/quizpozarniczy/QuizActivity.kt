@@ -31,6 +31,7 @@ class QuizActivity : AppCompatActivity() {
     private var timer: CountDownTimer? = null
 
     private val toneGenerator = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
+    private val wrongAnswersCurrentPlayer = mutableListOf<WrongAnswer>()
 
     companion object {
         private const val MAX_PLAYERS = 10
@@ -146,15 +147,27 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun answerSelected(index: Int) {
-        if (!btnA.isEnabled) return
+    if (!btnA.isEnabled) return
 
-        if (index == questions[currentQuestionIndex].correctIndex) {
-            score++
-        }
+    val currentQ = questions[currentQuestionIndex]
 
-        currentQuestionIndex++
-        showQuestion()
+    if (index == currentQ.correctIndex) {
+        score++
+    } else {
+        wrongAnswersCurrentPlayer.add(
+            WrongAnswer(
+                question = currentQ.text,
+                answers = currentQ.answers,
+                chosenIndex = index,
+                correctIndex = currentQ.correctIndex
+            )
+        )
     }
+
+    currentQuestionIndex++
+    showQuestion()
+}
+
 
     // ================= ZAKOŃCZENIE ZAWODNIKA =================
     private fun finishPlayer() {
@@ -167,15 +180,17 @@ class QuizActivity : AppCompatActivity() {
             ?: "Zawodnik ${QuizSession.currentPlayer}"
 
         QuizSession.results.add(
-            PlayerResult(
-                playerNumber = QuizSession.currentPlayer,
-                playerName = playerName,
-                score = score,
-                total = questions.size,
-                timeSeconds = timePerPlayerSeconds,
-                wrongAnswers = questions.size - score
-            )
-        )
+    PlayerResult(
+        playerNumber = QuizSession.currentPlayer,
+        playerName = playerName,
+        score = score,
+        total = questions.size,
+        timeSeconds = timePerPlayerSeconds,
+        wrongAnswers = wrongAnswersCurrentPlayer.toList()  // ✅ lista WrongAnswer
+    )
+)
+wrongAnswersCurrentPlayer.clear()
+
 
         txtQuestion.text =
             "$playerName\n\nWynik: $score/${questions.size}"
