@@ -53,12 +53,31 @@ class QuizActivity : AppCompatActivity() {
         btnC = findViewById(R.id.btnC)
 
         val questionsLimit =
-            min(intent.getIntExtra("QUESTIONS", 5), MAX_QUESTIONS)
-        timePerPlayerSeconds =
-            intent.getIntExtra("TIME_SECONDS", 60)
+    min(intent.getIntExtra("QUESTIONS", 5), MAX_QUESTIONS)
 
-        playersCount = QuizSession.playerNames.size
-        scores = IntArray(playersCount)
+timePerPlayerSeconds =
+    intent.getIntExtra("TIME_SECONDS", 60)
+
+playersCount = QuizSession.playerNames.size
+scores = IntArray(playersCount)
+
+// 🔥 LOSOWANIE TYLKO RAZ
+if (QuizSession.questions.isEmpty()) {
+
+    val localQuestions =
+        LocalQuestionsRepository.toQuizQuestions(MAX_QUESTIONS)
+
+    val normalQuestions =
+        QuizRepository.getQuestions()
+
+    QuizSession.questions = (localQuestions + normalQuestions)
+        .shuffled()
+        .take(questionsLimit)
+        .toMutableList()
+}
+
+currentQuestions = QuizSession.questions
+
 
         val localQuestions =
             LocalQuestionsRepository.toQuizQuestions(MAX_QUESTIONS)
