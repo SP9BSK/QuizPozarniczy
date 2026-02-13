@@ -4,12 +4,12 @@ import android.content.Intent
 import android.media.AudioManager
 import android.media.ToneGenerator
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.quizpozarniczy.model.PlayerResult
 import com.example.quizpozarniczy.model.Question
 import com.example.quizpozarniczy.model.WrongAnswer
 import kotlin.math.min
@@ -29,9 +29,7 @@ class QuizActivity : AppCompatActivity() {
     private var score = 0
     private var timePerPlayerSeconds = 60
     private var playersCount = 1
-    private var timer: CountDownTimer? = null
     private val wrongAnswersCurrentPlayer = mutableListOf<WrongAnswer>()
-    private val toneGenerator = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
 
     companion object {
         private const val MAX_PLAYERS = 10
@@ -58,21 +56,24 @@ class QuizActivity : AppCompatActivity() {
         val questionsLimit = min(intent.getIntExtra("QUESTIONS", 5), MAX_QUESTIONS)
         timePerPlayerSeconds = min(intent.getIntExtra("TIME_SECONDS", 60), MAX_TIME_SECONDS)
 
-        QuizSession.currentPlayer = 1
-        QuizSession.results.clear()
-        QuizSession.totalPlayers = playersCount
-        QuizSession.ensurePlayers(playersCount)
+        // Reset sesji tylko przy pierwszym wejściu
+        if (QuizSession.results.isEmpty()) {
+            QuizSession.currentPlayer = 1
+            QuizSession.totalPlayers = playersCount
+            QuizSession.ensurePlayers(playersCount)
+        }
 
-        // ===== Pytania =====
-        val allQuestions = QuizRepository.getQuestions()
-        questions = allQuestions.shuffled().take(min(questionsLimit, allQuestions.size))
+        // ===== Pytania (JEDEN zestaw dla wszystkich) =====
+        if (questions.isEmpty()) {
+            val allQuestions = QuizRepository.getQuestions()
+            questions = allQuestions.shuffled().take(min(questionsLimit, allQuestions.size))
+        }
 
-        // ===== Listener-y odpowiedzi =====
+        // ===== Odpowiedzi =====
         btnA.setOnClickListener { answerSelected(0) }
         btnB.setOnClickListener { answerSelected(1) }
         btnC.setOnClickListener { answerSelected(2) }
 
-        // ===== Panel wyników zawodnika =====
         btnShowAnswers.setOnClickListener {
             val intent = Intent(this, PlayerResultActivity::class.java)
             intent.putExtra("PLAYER_INDEX", QuizSession.currentPlayer - 1)
@@ -99,13 +100,11 @@ class QuizActivity : AppCompatActivity() {
         btnB.text = q.answers[1]
         btnC.text = q.answers[2]
 
-        // Pokazujemy tylko przyciski odpowiedzi w trakcie quizu
         btnA.visibility = View.VISIBLE
         btnB.visibility = View.VISIBLE
         btnC.visibility = View.VISIBLE
         txtTimer.visibility = View.VISIBLE
 
-        // Ukrywamy panel wyników
         btnShowAnswers.visibility = View.GONE
         btnNext.visibility = View.GONE
     }
@@ -126,18 +125,14 @@ class QuizActivity : AppCompatActivity() {
             score++
         }
 
-        // Przechodzimy od razu do następnego pytania
         currentQuestionIndex++
-        if (currentQuestionIndex < questions.size) {
-            showQuestion()
-        } else {
-            finishPlayer()
-        }
+        showQuestion()
     }
 
     private fun finishPlayer() {
-        // Zapis wyników zawodnika
-        val playerName = QuizSession.playerNames.getOrNull(QuizSession.currentPlayer - 1)
+
+        val playerName = QuizSession.playerNames
+            .getOrNull(QuizSession.currentPlayer - 1)
             ?: "Zawodnik ${QuizSession.currentPlayer}"
 
         QuizSession.results.add(
@@ -150,10 +145,11 @@ class QuizActivity : AppCompatActivity() {
                 wrongAnswers = wrongAnswersCurrentPlayer.toList()
             )
         )
+
         wrongAnswersCurrentPlayer.clear()
 
-        // Pokazujemy panel wyników zawodnika
         txtQuestion.text = "$playerName\n\nWynik: $score/${questions.size}"
+
         btnA.visibility = View.GONE
         btnB.visibility = View.GONE
         btnC.visibility = View.GONE
@@ -161,9 +157,15 @@ class QuizActivity : AppCompatActivity() {
 
         btnShowAnswers.visibility = View.VISIBLE
         btnNext.visibility = View.VISIBLE
-        btnShowAnswers.isEnabled = QuizSession.results.last().hasWrongAnswers
+
+        btnShowAnswers.isEnabled =
+            QuizSession.results.last().wrongAnswers.isNotEmpty()
+
         btnNext.text =
-            if (QuizSession.currentPlayer < playersCount) "Następny zawodnik" else "Pokaż wyniki końcowe"
+            if (QuizSession.currentPlayer < playersCount)
+                "Następny zawodnik"
+            else
+                "Pokaż wyniki końcowe"
     }
 
     private fun goToNextPlayerOrFinish() {
