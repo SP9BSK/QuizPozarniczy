@@ -63,6 +63,7 @@ class JudgeActivity : AppCompatActivity() {
             QuizSession.currentPlayer = 1
 
             val intent = Intent(this, QuizActivity::class.java)
+            intent.putExtra("PLAYERS", players)          // ✅ TO DODANE
             intent.putExtra("QUESTIONS", questions)
             intent.putExtra("LOCAL_QUESTIONS", local)
             intent.putExtra("TIME_SECONDS", timeSeconds)
