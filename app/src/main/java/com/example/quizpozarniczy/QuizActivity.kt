@@ -168,7 +168,8 @@ currentQuestions = QuizSession.questions
         wrongAnswersCurrentPlayer.clear()
         answeredQuestions = 0
         timeLeftSeconds = timePerPlayerSeconds
-        currentPlayer++
+        QuizSession.currentPlayer++
+
 
         val i = Intent(this, PlayerResultActivity::class.java)
         i.putExtra("PLAYER_INDEX", resultIndex)
