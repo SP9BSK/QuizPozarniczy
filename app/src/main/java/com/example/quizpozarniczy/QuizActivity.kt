@@ -48,8 +48,9 @@ class QuizActivity : AppCompatActivity() {
         btnA = findViewById(R.id.btnA)
         btnB = findViewById(R.id.btnB)
         btnC = findViewById(R.id.btnC)
-        btnShowAnswers = findViewById(R.id.btnShowAnswers)
-        btnNext = findViewById(R.id.btnNext)
+        btnShowAnswers = findViewById(R.id.btnShowCorrect)
+        btnNext = findViewById(R.id.btnBack)
+
 
         // ===== Dane wejściowe =====
         playersCount = min(intent.getIntExtra("PLAYERS", 1), MAX_PLAYERS)
