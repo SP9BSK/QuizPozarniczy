@@ -11,9 +11,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.model.Question
-import kotlin.math.min
 import com.example.quizpozarniczy.model.WrongAnswer
-
+import kotlin.math.min
 
 class QuizActivity : AppCompatActivity() {
 
@@ -54,9 +53,7 @@ class QuizActivity : AppCompatActivity() {
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        QuizSession.currentPlayer = 1
-        QuizSession.results.clear()
-
+        // ===== Odczyt parametrów =====
         var questionsLimit = intent.getIntExtra("QUESTIONS", 5)
         questionsLimit = min(questionsLimit, MAX_QUESTIONS)
 
@@ -68,6 +65,13 @@ class QuizActivity : AppCompatActivity() {
         playersFromIntent = min(playersFromIntent, MAX_PLAYERS)
         playersCount = playersFromIntent
 
+        // ===== Ustawienie sesji =====
+        QuizSession.currentPlayer = 1
+        QuizSession.results.clear()
+        QuizSession.totalPlayers = playersCount
+        QuizSession.ensurePlayers(playersCount)
+
+        // ===== Losowanie pytań (TYLKO RAZ) =====
         val allQuestions = QuizRepository.getQuestions()
         questions = allQuestions.shuffled()
             .take(min(questionsLimit, allQuestions.size))
@@ -121,7 +125,6 @@ class QuizActivity : AppCompatActivity() {
 
         if (currentQuestionIndex == 0) {
             startTimer()
-            score = 0
         }
 
         if (currentQuestionIndex >= questions.size) {
@@ -134,7 +137,10 @@ class QuizActivity : AppCompatActivity() {
             .getOrNull(QuizSession.currentPlayer - 1)
             ?: "Zawodnik ${QuizSession.currentPlayer}"
 
-        txtQuestion.text = "$playerName\n\n${q.text}"
+        txtQuestion.text =
+            "$playerName\n" +
+            "Pytanie ${currentQuestionIndex + 1}/${questions.size}\n\n" +
+            q.text
 
         btnA.text = q.answers[0]
         btnB.text = q.answers[1]
@@ -146,30 +152,49 @@ class QuizActivity : AppCompatActivity() {
         btnBack.visibility = View.GONE
 
         setAnswersEnabled(true)
+        resetButtonColors()
     }
 
     private fun answerSelected(index: Int) {
-    if (!btnA.isEnabled) return
+        if (!btnA.isEnabled) return
 
-    val currentQ = questions[currentQuestionIndex]
+        setAnswersEnabled(false)
 
-    if (index == currentQ.correctIndex) {
-        score++
-    } else {
-        wrongAnswersCurrentPlayer.add(
-            WrongAnswer(
-                question = currentQ.text,
-                answers = currentQ.answers,
-                chosenIndex = index,
-                correctIndex = currentQ.correctIndex
+        val currentQ = questions[currentQuestionIndex]
+        val buttons = listOf(btnA, btnB, btnC)
+
+        if (index == currentQ.correctIndex) {
+            score++
+            buttons[index].setBackgroundColor(getColor(android.R.color.holo_green_light))
+        } else {
+            wrongAnswersCurrentPlayer.add(
+                WrongAnswer(
+                    question = currentQ.text,
+                    answers = currentQ.answers,
+                    chosenIndex = index,
+                    correctIndex = currentQ.correctIndex
+                )
             )
-        )
+
+            buttons[index].setBackgroundColor(getColor(android.R.color.holo_red_light))
+            buttons[currentQ.correctIndex]
+                .setBackgroundColor(getColor(android.R.color.holo_green_light))
+        }
+
+        btnBack.visibility = View.VISIBLE
+        btnBack.text = "Dalej"
+
+        btnBack.setOnClickListener {
+            currentQuestionIndex++
+            showQuestion()
+        }
     }
 
-    currentQuestionIndex++
-    showQuestion()
-}
-
+    private fun resetButtonColors() {
+        btnA.setBackgroundColor(getColor(android.R.color.background_light))
+        btnB.setBackgroundColor(getColor(android.R.color.background_light))
+        btnC.setBackgroundColor(getColor(android.R.color.background_light))
+    }
 
     // ================= ZAKOŃCZENIE ZAWODNIKA =================
     private fun finishPlayer() {
@@ -182,21 +207,19 @@ class QuizActivity : AppCompatActivity() {
             ?: "Zawodnik ${QuizSession.currentPlayer}"
 
         QuizSession.results.add(
-    PlayerResult(
-        playerNumber = QuizSession.currentPlayer,
-        playerName = playerName,
-        score = score,
-        total = questions.size,
-        timeSeconds = timePerPlayerSeconds,
-        wrongAnswers = wrongAnswersCurrentPlayer.toList()  // ✅ lista WrongAnswer
-    )
-)
-wrongAnswersCurrentPlayer.clear()
+            PlayerResult(
+                playerNumber = QuizSession.currentPlayer,
+                playerName = playerName,
+                score = score,
+                total = questions.size,
+                timeSeconds = timePerPlayerSeconds,
+                wrongAnswers = wrongAnswersCurrentPlayer.toList()
+            )
+        )
 
+        wrongAnswersCurrentPlayer.clear()
 
-        txtQuestion.text =
-            "$playerName\n\nWynik: $score/${questions.size}"
-
+        txtQuestion.text = "$playerName\n\nWynik: $score/${questions.size}"
         txtTimer.text = ""
 
         btnA.visibility = View.GONE
@@ -211,10 +234,10 @@ wrongAnswersCurrentPlayer.clear()
                 "Zobacz wyniki"
 
         btnBack.setOnClickListener {
-
             if (QuizSession.currentPlayer < playersCount) {
                 QuizSession.currentPlayer++
                 currentQuestionIndex = 0
+                score = 0
                 showQuestion()
             } else {
                 showFinalResults()
