@@ -22,7 +22,8 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var btnB: Button
     private lateinit var btnC: Button
 
-    private var currentPlayer = 0
+   private val currentPlayer: Int
+    get() = QuizSession.currentPlayer - 1
     private var playersCount = 1
     private lateinit var scores: IntArray
 
