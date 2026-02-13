@@ -109,26 +109,27 @@ class QuizActivity : AppCompatActivity() {
         btnNext.visibility = View.GONE
     }
 
-    private fun answerSelected(index: Int) {
+   private fun answerSelected(index: Int) {
 
-        val currentQ = questions[currentQuestionIndex]
+    val currentQ = questions[currentQuestionIndex]
 
-        if (index == currentQ.correctIndex) {
-            score++
-        } else {
-            wrongAnswersCurrentPlayer.add(
-                WrongAnswer(
-                    question = currentQ.text,
-                    answers = currentQ.answers,
-                    chosenIndex = index,
-                    correctIndex = currentQ.correctIndex
-                )
+    if (index == currentQ.correctIndex) {
+        score++
+    } else {
+        wrongAnswersCurrentPlayer.add(
+            WrongAnswer(
+                question = currentQ.text,
+                answers = currentQ.answers,
+                chosenIndex = index,
+                correctIndex = currentQ.correctIndex
             )
-        }
-
-        currentQuestionIndex++
-        showQuestion()
+        )
     }
+
+    currentQuestionIndex++
+    showQuestion()
+}
+
 
     // ================= TIMER =================
 
@@ -153,41 +154,29 @@ class QuizActivity : AppCompatActivity() {
 
     private fun finishPlayer() {
 
-        timer?.cancel()
+    timer?.cancel()
 
-        val playerName = QuizSession.playerNames
-            .getOrNull(QuizSession.currentPlayer - 1)
-            ?: "Zawodnik ${QuizSession.currentPlayer}"
+    val playerName = QuizSession.playerNames
+        .getOrNull(QuizSession.currentPlayer - 1)
+        ?: "Zawodnik ${QuizSession.currentPlayer}"
 
-        QuizSession.results.add(
-            PlayerResult(
-                playerNumber = QuizSession.currentPlayer,
-                playerName = playerName,
-                score = score,
-                total = questions.size,
-                timeSeconds = timePerPlayerSeconds,
-                wrongAnswers = wrongAnswersCurrentPlayer.toList()
-            )
+    QuizSession.results.add(
+        PlayerResult(
+            playerNumber = QuizSession.currentPlayer,
+            playerName = playerName,
+            score = score,
+            total = questions.size,
+            timeSeconds = timePerPlayerSeconds,
+            wrongAnswers = wrongAnswersCurrentPlayer.toList()
         )
+    )
 
-        txtQuestion.text =
-            "$playerName\n\nWynik: $score/${questions.size}"
+    val intent = Intent(this, PlayerResultActivity::class.java)
+    intent.putExtra("PLAYER_INDEX", QuizSession.currentPlayer - 1)
+    startActivity(intent)
+    finish()
+}
 
-        txtTimer.text = ""
-
-        btnA.visibility = View.GONE
-        btnB.visibility = View.GONE
-        btnC.visibility = View.GONE
-
-        btnShowAnswers.visibility = View.VISIBLE
-        btnNext.visibility = View.VISIBLE
-
-        btnNext.text =
-            if (QuizSession.currentPlayer < playersCount)
-                "Następny zawodnik"
-            else
-                "Pokaż wyniki"
-    }
 
     private fun goToNextPlayerOrFinish() {
 
