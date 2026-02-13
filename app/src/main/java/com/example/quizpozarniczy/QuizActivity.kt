@@ -22,10 +22,8 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var btnB: Button
     private lateinit var btnC: Button
 
-   private val currentPlayer: Int
-    get() = QuizSession.currentPlayer - 1
-    private var playersCount = 1
-    private lateinit var scores: IntArray
+    private val currentPlayer: Int
+        get() = QuizSession.currentPlayer - 1
 
     private lateinit var currentQuestions: List<Question>
     private var answeredQuestions = 0
@@ -54,40 +52,36 @@ class QuizActivity : AppCompatActivity() {
         btnC = findViewById(R.id.btnC)
 
         val questionsLimit =
-    min(intent.getIntExtra("QUESTIONS", 5), MAX_QUESTIONS)
+            min(intent.getIntExtra("QUESTIONS", 5), MAX_QUESTIONS)
 
-timePerPlayerSeconds =
-    intent.getIntExtra("TIME_SECONDS", 60)
+        val localLimit =
+            intent.getIntExtra("LOCAL_QUESTIONS", 0)
 
-playersCount = QuizSession.playerNames.size
-scores = IntArray(playersCount)
+        timePerPlayerSeconds =
+            intent.getIntExtra("TIME_SECONDS", 60)
 
-// 🔥 LOSOWANIE TYLKO RAZ
-if (QuizSession.questions.isEmpty()) {
+        // 🔥 LOSOWANIE TYLKO RAZ (dla całego turnieju)
+        if (QuizSession.questions.isEmpty()) {
 
-    val localQuestions =
-        LocalQuestionsRepository.toQuizQuestions(MAX_QUESTIONS)
+            val localQuestions =
+                LocalQuestionsRepository
+                    .toQuizQuestions(MAX_QUESTIONS)
+                    .shuffled()
+                    .take(localLimit)
 
-    val normalQuestions =
-        QuizRepository.getQuestions()
+            val normalQuestions =
+                QuizRepository
+                    .getQuestions()
+                    .shuffled()
+                    .take(questionsLimit - localLimit)
 
-    QuizSession.questions = (localQuestions + normalQuestions)
-        .shuffled()
-        .take(questionsLimit)
-        .toMutableList()
-}
+            QuizSession.questions =
+                (localQuestions + normalQuestions)
+                    .shuffled()
+                    .toMutableList()
+        }
 
-currentQuestions = QuizSession.questions
-
-
-        val localQuestions =
-            LocalQuestionsRepository.toQuizQuestions(MAX_QUESTIONS)
-        val normalQuestions =
-            QuizRepository.getQuestions()
-
-        currentQuestions = (localQuestions + normalQuestions)
-            .shuffled()
-            .take(questionsLimit)
+        currentQuestions = QuizSession.questions
 
         answeredQuestions = 0
         timeLeftSeconds = timePerPlayerSeconds
@@ -131,10 +125,7 @@ currentQuestions = QuizSession.questions
     private fun answer(index: Int) {
         val q = currentQuestions[answeredQuestions]
 
-        if (index == q.correctIndex) {
-            scores[currentPlayer]++
-            // 🔕 USUNIĘTY DŹWIĘK
-        } else {
+        if (index != q.correctIndex) {
             wrongAnswersCurrentPlayer.add(
                 WrongAnswer(
                     question = q.text,
@@ -152,31 +143,29 @@ currentQuestions = QuizSession.questions
     private fun finishPlayer() {
         timer?.cancel()
 
+        val correctAnswers =
+            currentQuestions.size - wrongAnswersCurrentPlayer.size
+
         QuizSession.results.add(
             PlayerResult(
                 playerNumber = currentPlayer + 1,
                 playerName = QuizSession.playerNames[currentPlayer],
-                score = scores[currentPlayer],
+                score = correctAnswers,
                 total = currentQuestions.size,
                 timeSeconds = timePerPlayerSeconds - timeLeftSeconds,
                 wrongAnswers = wrongAnswersCurrentPlayer.toList()
             )
         )
 
-        val resultIndex = QuizSession.results.size - 1
-
         wrongAnswersCurrentPlayer.clear()
-        answeredQuestions = 0
-        timeLeftSeconds = timePerPlayerSeconds
+
         QuizSession.currentPlayer++
 
-
         val i = Intent(this, PlayerResultActivity::class.java)
-        i.putExtra("PLAYER_INDEX", resultIndex)
+        i.putExtra("PLAYER_INDEX", QuizSession.results.size - 1)
         startActivity(i)
 
-        // ❗ USUNIĘTE finish()
-        // nie zamykamy QuizActivity
+        finish()
     }
 
     private fun startTimer() {
