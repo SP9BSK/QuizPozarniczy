@@ -12,6 +12,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.model.Question
 import kotlin.math.min
+import com.example.quizpozarniczy.model.WrongAnswer
+
 
 class QuizActivity : AppCompatActivity() {
 
