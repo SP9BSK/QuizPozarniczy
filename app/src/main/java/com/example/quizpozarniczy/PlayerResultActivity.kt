@@ -62,10 +62,12 @@ class PlayerResultActivity : AppCompatActivity() {
             btnNext.text = "Następny zawodnik"
 
             btnNext.setOnClickListener {
-                val i = Intent(this, QuizActivity::class.java)
-                startActivity(i)
-                finish()
-            }
+    QuizSession.currentPlayer++
+    val i = Intent(this, QuizActivity::class.java)
+    startActivity(i)
+    finish()
+}
+
 
         } else {
 
