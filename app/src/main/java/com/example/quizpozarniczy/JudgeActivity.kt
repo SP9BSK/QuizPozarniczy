@@ -29,21 +29,22 @@ class JudgeActivity : AppCompatActivity() {
 
         setupLiveValidation(etPlayers, 1, 10)
         setupLiveValidation(etQuestions, 1, 30)
-        setupLiveValidation(etLocalQuestions, 1, 3)
+        setupLiveValidation(etLocalQuestions, 0, 3)
         setupLiveValidation(etTime, 1, 30)
 
-        // ✏️ EDYCJA ZAWODNIKÓW – TU reset jest OK
+        // ✏️ EDYCJA ZAWODNIKÓW
         btnEditPlayers.setOnClickListener {
             val players = etPlayers.text.toString().toIntOrNull() ?: 1
             QuizSession.reset(players)
             startActivity(Intent(this, EditPlayersActivity::class.java))
         }
 
-        // ▶ START QUIZU – ❗ NIE RESETUJEMY ZAWODNIKÓW
+        // ▶ START QUIZU
         btnStart.setOnClickListener {
+
             val players = etPlayers.text.toString().toIntOrNull() ?: 1
             val questions = etQuestions.text.toString().toIntOrNull() ?: 1
-            val local = etLocalQuestions.text.toString().toIntOrNull() ?: 1
+            val local = etLocalQuestions.text.toString().toIntOrNull() ?: 0
             val timeSeconds = (etTime.text.toString().toIntOrNull() ?: 1) * 60
 
             if (local > questions) {
@@ -55,17 +56,20 @@ class JudgeActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            // 🔥 PEŁNY RESET TURNIEJU
+            QuizSession.resetAll()
+            QuizSession.totalPlayers = players
             QuizSession.ensurePlayers(players)
+            QuizSession.currentPlayer = 1
 
             val intent = Intent(this, QuizActivity::class.java)
-            intent.putExtra("PLAYERS", players)
             intent.putExtra("QUESTIONS", questions)
             intent.putExtra("LOCAL_QUESTIONS", local)
             intent.putExtra("TIME_SECONDS", timeSeconds)
+
             startActivity(intent)
         }
 
-        // Udostępnianie quizu – na razie placeholder
         btnShareQuiz.setOnClickListener {
             Toast.makeText(this, "Udostępnianie – wkrótce", Toast.LENGTH_SHORT).show()
         }
