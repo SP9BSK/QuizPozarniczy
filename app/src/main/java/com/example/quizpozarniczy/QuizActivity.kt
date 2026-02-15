@@ -91,19 +91,30 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun startTimer() {
-        timer?.cancel()
+    timer?.cancel()
 
-        timer = object : CountDownTimer((timePerPlayerSeconds * 1000).toLong(), 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                val seconds = millisUntilFinished / 1000
-                txtTimer.text = "Czas: $seconds s"
-            }
+    timer = object : CountDownTimer(
+        (timePerPlayerSeconds * 1000L),
+        1000
+    ) {
 
-            override fun onFinish() {
-                finishPlayer()
-            }
-        }.start()
-    }
+        override fun onTick(millisUntilFinished: Long) {
+
+            val totalSeconds = millisUntilFinished / 1000
+            val minutes = totalSeconds / 60
+            val seconds = totalSeconds % 60
+
+            txtTimer.text =
+                String.format("Czas: %02d:%02d", minutes, seconds)
+        }
+
+        override fun onFinish() {
+            finishPlayer()
+        }
+
+    }.start()
+}
+
 
     private fun showQuestion() {
         if (currentQuestionIndex >= questions.size) {
@@ -144,7 +155,10 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun finishPlayer() {
-        timer?.cancel()
+    timer?.cancel()
+
+    // 🔴 zabezpieczenie przed podwójnym dodaniem wyniku
+    if (QuizSession.results.size < QuizSession.currentPlayer) {
 
         val playerName = QuizSession.playerNames
             .getOrNull(QuizSession.currentPlayer - 1)
@@ -160,23 +174,35 @@ class QuizActivity : AppCompatActivity() {
                 wrongAnswers = wrongAnswersCurrentPlayer.toList()
             )
         )
-
-        txtQuestion.text = "$playerName\n\nWynik: $score/${questions.size}"
-
-        btnA.visibility = View.GONE
-        btnB.visibility = View.GONE
-        btnC.visibility = View.GONE
-        txtTimer.visibility = View.GONE
-
-        btnShowAnswers.visibility = View.VISIBLE
-        btnNext.visibility = View.VISIBLE
-
-        btnNext.text =
-            if (QuizSession.currentPlayer < playersCount)
-                "Następny zawodnik"
-            else
-                "Pokaż wyniki końcowe"
     }
+
+    val playerName = QuizSession.playerNames
+        .getOrNull(QuizSession.currentPlayer - 1)
+        ?: "Zawodnik ${QuizSession.currentPlayer}"
+
+    // ✅ Wyświetlenie wyniku
+    txtQuestion.text = "$playerName\n\nWynik: $score/${questions.size}"
+
+    // ✅ Ukrycie odpowiedzi i timera
+    btnA.visibility = View.GONE
+    btnB.visibility = View.GONE
+    btnC.visibility = View.GONE
+    txtTimer.visibility = View.GONE
+
+    // ✅ Pokazanie przycisków
+    btnShowAnswers.visibility = View.VISIBLE
+    btnNext.visibility = View.VISIBLE
+
+    // Przycisk pokaż odpowiedzi aktywny tylko gdy są błędy
+    btnShowAnswers.isEnabled =
+        QuizSession.results.last().wrongAnswers.isNotEmpty()
+
+    btnNext.text =
+        if (QuizSession.currentPlayer < playersCount)
+            "Następny zawodnik"
+        else
+            "Pokaż wyniki końcowe"
+}
 
     private fun goToNextPlayerOrFinish() {
         if (QuizSession.currentPlayer < playersCount) {
