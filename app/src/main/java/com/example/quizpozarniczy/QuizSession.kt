@@ -10,7 +10,8 @@ object QuizSession {
     val results = mutableListOf<PlayerResult>()
 
     // ✅ DODANE: lista pytań dla quizu
-    var questions = mutableListOf<Question>()
+    var questions: List<Question> = emptyList()
+
 
     // Reset sesji i nadanie domyślnych nazw
     fun reset(players: Int) {
