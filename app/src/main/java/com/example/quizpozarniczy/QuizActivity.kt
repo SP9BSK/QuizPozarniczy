@@ -63,7 +63,11 @@ class QuizActivity : AppCompatActivity() {
 
             val allQuestions = QuizRepository.getQuestions()
             QuizSession.questions =
-                allQuestions.shuffled().take(min(questionsLimit, allQuestions.size))
+    allQuestions
+        .shuffled()
+        .take(min(questionsLimit, allQuestions.size))
+        .toMutableList()
+
         }
 
         questions = QuizSession.questions
