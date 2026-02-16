@@ -157,51 +157,29 @@ class QuizActivity : AppCompatActivity() {
     private fun finishPlayer() {
     timer?.cancel()
 
-    // 🔴 zabezpieczenie przed podwójnym dodaniem wyniku
+    val playerName = QuizSession.playerNames
+        .getOrNull(QuizSession.currentPlayer - 1)
+        ?: "Zawodnik ${QuizSession.currentPlayer}"
+
     if (QuizSession.results.size < QuizSession.currentPlayer) {
-
-        val playerName = QuizSession.playerNames
-            .getOrNull(QuizSession.currentPlayer - 1)
-            ?: "Zawodnik ${QuizSession.currentPlayer}"
-
         QuizSession.results.add(
             PlayerResult(
                 playerNumber = QuizSession.currentPlayer,
                 playerName = playerName,
                 score = score,
                 total = questions.size,
-                timeSeconds = timePerPlayerSeconds,
+                timeSeconds = calculateElapsedTime(), // <- tu będzie poprawka
                 wrongAnswers = wrongAnswersCurrentPlayer.toList()
             )
         )
     }
 
-    val playerName = QuizSession.playerNames
-        .getOrNull(QuizSession.currentPlayer - 1)
-        ?: "Zawodnik ${QuizSession.currentPlayer}"
+    val intent = Intent(this, PlayerResultActivity::class.java)
+    intent.putExtra("PLAYER_INDEX", QuizSession.currentPlayer - 1)
+    startActivity(intent)
+    finish()
+}
 
-    // ✅ Wyświetlenie wyniku
-    txtQuestion.text = "$playerName\n\nWynik: $score/${questions.size}"
-
-    // ✅ Ukrycie odpowiedzi i timera
-    btnA.visibility = View.GONE
-    btnB.visibility = View.GONE
-    btnC.visibility = View.GONE
-    txtTimer.visibility = View.GONE
-
-    // ✅ Pokazanie przycisków
-    btnShowAnswers.visibility = View.VISIBLE
-    btnNext.visibility = View.VISIBLE
-
-    // Przycisk pokaż odpowiedzi aktywny tylko gdy są błędy
-    btnShowAnswers.isEnabled =
-        QuizSession.results.last().wrongAnswers.isNotEmpty()
-
-    btnNext.text =
-        if (QuizSession.currentPlayer < playersCount)
-            "Następny zawodnik"
-        else
-            "Pokaż wyniki końcowe"
 }
 
     private fun goToNextPlayerOrFinish() {
@@ -214,4 +192,4 @@ class QuizActivity : AppCompatActivity() {
             finish()
         }
     }
-}
+
