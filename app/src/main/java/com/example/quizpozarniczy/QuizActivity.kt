@@ -29,6 +29,8 @@ class QuizActivity : AppCompatActivity() {
     private var timePerPlayerSeconds = 60
     private var playersCount = 1
     private val wrongAnswersCurrentPlayer = mutableListOf<WrongAnswer>()
+    private var timeLeftMillis: Long = 0
+
 
     private var timer: CountDownTimer? = null
 
@@ -93,12 +95,13 @@ class QuizActivity : AppCompatActivity() {
     private fun startTimer() {
     timer?.cancel()
 
-    timer = object : CountDownTimer(
-        (timePerPlayerSeconds * 1000L),
-        1000
-    ) {
+    val totalMillis = timePerPlayerSeconds * 1000L
+
+    timer = object : CountDownTimer(totalMillis, 1000) {
 
         override fun onTick(millisUntilFinished: Long) {
+
+            timeLeftMillis = millisUntilFinished
 
             val totalSeconds = millisUntilFinished / 1000
             val minutes = totalSeconds / 60
@@ -109,13 +112,18 @@ class QuizActivity : AppCompatActivity() {
         }
 
         override fun onFinish() {
+            timeLeftMillis = 0
             finishPlayer()
         }
 
     }.start()
 }
 
-
+private fun calculateElapsedTime(): Int {
+    val totalMillis = timePerPlayerSeconds * 1000L
+    val usedMillis = totalMillis - timeLeftMillis
+    return (usedMillis / 1000).toInt()
+}
     private fun showQuestion() {
         if (currentQuestionIndex >= questions.size) {
             finishPlayer()
