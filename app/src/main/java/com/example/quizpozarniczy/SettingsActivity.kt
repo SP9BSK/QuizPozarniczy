@@ -57,7 +57,7 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun exportLocalQuestions() {
         val generalQuestions: List<Question> =
-            QuizRepository.getQuestions(localCount = 0)
+            QuizRepository.getQuestions(totalLimit, localCount)
 
         val localQuestions: List<LocalQuestion> =
             LocalQuestionsRepository.questions
