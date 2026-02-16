@@ -135,11 +135,7 @@ private fun updateTopBar(minutes: Long, seconds: Long) {
     btnB.text = q.answers[1]
     btnC.text = q.answers[2]
 
-    // Odśwież górny pasek (żeby pytanie zmieniło się od razu)
-    val totalSeconds = timeLeftMillis / 1000
-    val minutes = totalSeconds / 60
-    val seconds = totalSeconds % 60
-    updateTopBar(minutes, seconds)
+   
 }
 
     private fun answerSelected(index: Int) {
