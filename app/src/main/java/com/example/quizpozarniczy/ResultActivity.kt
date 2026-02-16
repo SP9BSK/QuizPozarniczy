@@ -56,16 +56,16 @@ class ResultActivity : AppCompatActivity() {
 
         // DANE
         sorted.forEachIndexed { index, r ->
-            sb.append(
-                String.format(
-                    "%-3d %-15s %5d %6s\n",
-                    index + 1,
-                    r.playerName.take(15),
-                    r.score,
-                    formatTime(r.timeSeconds)
-                )
-            )
-        }
+    sb.append(
+        String.format(
+            "%-3d %-15s %7s %6s\n",
+            index + 1,
+            r.playerName.take(15),
+            "${r.score}/${r.total}",
+            formatTime(r.timeSeconds)
+        )
+    )
+}
 
         txtRanking.text = sb.toString()
 
