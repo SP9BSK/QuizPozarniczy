@@ -29,42 +29,46 @@ object QuizRepository {
     /**
      * @param localCount ile pytań lokalnych dodać (1–3)
      */
-    fun getQuestions(localCount: Int = 0): List<Question> {
+    fun getQuestions(totalLimit: Int, localCount: Int): List<Question> {
 
-        val baseQuestions =
-            questionsPart1 +
-            questionsPart2 +
-            questionsPart3 +
-            questionsPart4 +
-            questionsPart5 +
-            questionsPart6 +
-            questionsPart7 +
-            questionsPart8 +
-            questionsPart9 +
-            questionsPart10 +
-            questionsPart11 +
-            questionsPart12 +
-            questionsPart13 +
-            questionsPart14 +
-            questionsPart15 +
-            questionsPart16 +
-            questionsPart17 +
-            questionsPart18 +
-            questionsPart19 +
-            questionsPart20 +
-            questionsPart21
+    val baseQuestions =
+        questionsPart1 +
+        questionsPart2 +
+        questionsPart3 +
+        questionsPart4 +
+        questionsPart5 +
+        questionsPart6 +
+        questionsPart7 +
+        questionsPart8 +
+        questionsPart9 +
+        questionsPart10 +
+        questionsPart11 +
+        questionsPart12 +
+        questionsPart13 +
+        questionsPart14 +
+        questionsPart15 +
+        questionsPart16 +
+        questionsPart17 +
+        questionsPart18 +
+        questionsPart19 +
+        questionsPart20 +
+        questionsPart21
 
-        val localQuestions = DefaultLocalQuestions.questions
-            .shuffled()
-            .take(localCount)
-            .map { local ->
-                Question(
-                    text = local.fullQuestionNoQuotes(), // 🔥 BEZ CUDZYSŁOWÓW
-                    answers = local.answers,
-                    correctIndex = local.correctIndex
-                )
-            }
+    val selectedLocal = DefaultLocalQuestions.questions
+        .shuffled()
+        .take(localCount)
+        .map { local ->
+            Question(
+                text = local.fullQuestionNoQuotes(),
+                answers = local.answers,
+                correctIndex = local.correctIndex
+            )
+        }
 
-        return (baseQuestions + localQuestions).shuffled()
-    }
+    val selectedGeneral = baseQuestions
+        .shuffled()
+        .take(totalLimit - localCount)
+
+    return (selectedLocal + selectedGeneral).shuffled()
+}
 }
