@@ -58,16 +58,18 @@ class QuizActivity : AppCompatActivity() {
 
         // Reset tylko przy pierwszym zawodniku
         if (QuizSession.currentPlayer == 1 && QuizSession.results.isEmpty()) {
-            QuizSession.totalPlayers = playersCount
-            QuizSession.ensurePlayers(playersCount)
+    QuizSession.totalPlayers = playersCount
+    QuizSession.ensurePlayers(playersCount)
 
-            val allQuestions = QuizRepository.getQuestions()
-            QuizSession.questions =
-                allQuestions
-                    .shuffled()
-                    .take(min(questionsLimit, allQuestions.size))
-                    .toMutableList()
-        }
+    val localLimit = intent.getIntExtra("LOCAL_QUESTIONS", 0)
+
+    val allQuestions = QuizRepository.getQuestions(localLimit)
+
+    QuizSession.questions =
+        allQuestions
+            .take(min(questionsLimit, allQuestions.size))
+            .toMutableList()
+}
 
         questions = QuizSession.questions
 
