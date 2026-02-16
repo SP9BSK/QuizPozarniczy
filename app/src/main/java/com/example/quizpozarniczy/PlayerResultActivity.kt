@@ -74,10 +74,10 @@ class PlayerResultActivity : AppCompatActivity() {
             btnNext.text = "Pokaż wyniki końcowe"
 
             btnNext.setOnClickListener {
-                val i = Intent(this, ResultActivity::class.java)
-                startActivity(i)
-                finishAffinity()
-            }
+    val i = Intent(this, ResultActivity::class.java)
+    startActivity(i)
+    finish()
+}
         }
     }
 
