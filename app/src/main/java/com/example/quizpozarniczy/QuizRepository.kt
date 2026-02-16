@@ -26,38 +26,89 @@ import com.example.quizpozarniczy.model.Question
 
 object QuizRepository {
 
-    /**
-     * @param localCount ile pytań lokalnych dodać (1–3)
-     */
+    // ===============================
+    // 🔥 WERSJA DO QUIZU TURNIEJOWEGO
+    // ===============================
     fun getQuestions(totalLimit: Int, localCount: Int): List<Question> {
 
-    val baseQuestions =
-        questionsPart1 +
-        questionsPart2 +
-        questionsPart3 +
-        questionsPart4 +
-        questionsPart5 +
-        questionsPart6 +
-        questionsPart7 +
-        questionsPart8 +
-        questionsPart9 +
-        questionsPart10 +
-        questionsPart11 +
-        questionsPart12 +
-        questionsPart13 +
-        questionsPart14 +
-        questionsPart15 +
-        questionsPart16 +
-        questionsPart17 +
-        questionsPart18 +
-        questionsPart19 +
-        questionsPart20 +
-        questionsPart21
+        val baseQuestions =
+            questionsPart1 +
+            questionsPart2 +
+            questionsPart3 +
+            questionsPart4 +
+            questionsPart5 +
+            questionsPart6 +
+            questionsPart7 +
+            questionsPart8 +
+            questionsPart9 +
+            questionsPart10 +
+            questionsPart11 +
+            questionsPart12 +
+            questionsPart13 +
+            questionsPart14 +
+            questionsPart15 +
+            questionsPart16 +
+            questionsPart17 +
+            questionsPart18 +
+            questionsPart19 +
+            questionsPart20 +
+            questionsPart21
 
-    val selectedLocal = DefaultLocalQuestions.questions
-        .shuffled()
-        .take(localCount)
-        .map { local ->
+        // 🔒 Zabezpieczenie przed głupimi wartościami
+        val safeLocalCount = localCount
+            .coerceAtLeast(0)
+            .coerceAtMost(DefaultLocalQuestions.questions.size)
+
+        val safeGeneralLimit = (totalLimit - safeLocalCount)
+            .coerceAtLeast(0)
+
+        val selectedLocal = DefaultLocalQuestions.questions
+            .shuffled()
+            .take(safeLocalCount)
+            .map { local ->
+                Question(
+                    text = local.fullQuestionNoQuotes(),
+                    answers = local.answers,
+                    correctIndex = local.correctIndex
+                )
+            }
+
+        val selectedGeneral = baseQuestions
+            .shuffled()
+            .take(safeGeneralLimit)
+
+        return (selectedLocal + selectedGeneral).shuffled()
+    }
+
+    // ===============================
+    // 📘 WERSJA DO TRYBU NAUKI
+    // ===============================
+    fun getQuestions(): List<Question> {
+
+        val baseQuestions =
+            questionsPart1 +
+            questionsPart2 +
+            questionsPart3 +
+            questionsPart4 +
+            questionsPart5 +
+            questionsPart6 +
+            questionsPart7 +
+            questionsPart8 +
+            questionsPart9 +
+            questionsPart10 +
+            questionsPart11 +
+            questionsPart12 +
+            questionsPart13 +
+            questionsPart14 +
+            questionsPart15 +
+            questionsPart16 +
+            questionsPart17 +
+            questionsPart18 +
+            questionsPart19 +
+            questionsPart20 +
+            questionsPart21
+
+        val localQuestions = DefaultLocalQuestions.questions.map { local ->
             Question(
                 text = local.fullQuestionNoQuotes(),
                 answers = local.answers,
@@ -65,10 +116,6 @@ object QuizRepository {
             )
         }
 
-    val selectedGeneral = baseQuestions
-        .shuffled()
-        .take(totalLimit - localCount)
-
-    return (selectedLocal + selectedGeneral).shuffled()
-}
+        return (baseQuestions + localQuestions).shuffled()
+    }
 }
