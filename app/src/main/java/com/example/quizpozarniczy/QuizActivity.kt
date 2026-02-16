@@ -78,32 +78,41 @@ class QuizActivity : AppCompatActivity() {
     }
 
     // ===== TIMER =====
-    private fun startTimer() {
-        timer?.cancel()
+   private fun startTimer() {
+    timer?.cancel()
 
-        val totalMillis = timePerPlayerSeconds * 1000L
+    val totalMillis = timePerPlayerSeconds * 1000L
 
-        timer = object : CountDownTimer(totalMillis, 1000) {
+    timer = object : CountDownTimer(totalMillis, 1000) {
 
-            override fun onTick(millisUntilFinished: Long) {
-                timeLeftMillis = millisUntilFinished
+        override fun onTick(millisUntilFinished: Long) {
+            timeLeftMillis = millisUntilFinished
 
-                val totalSeconds = millisUntilFinished / 1000
-                val minutes = totalSeconds / 60
-                val seconds = totalSeconds % 60
+            val totalSeconds = millisUntilFinished / 1000
+            val minutes = totalSeconds / 60
+            val seconds = totalSeconds % 60
 
-                txtTimer.text =
-                    String.format("Czas: %02d:%02d", minutes, seconds)
-            }
+            updateTopBar(minutes, seconds)
+        }
 
-            override fun onFinish() {
-                timeLeftMillis = 0
-                finishPlayer()
-            }
+        override fun onFinish() {
+            timeLeftMillis = 0
+            finishPlayer()
+        }
 
-        }.start()
-    }
+    }.start()
+}
 
+private fun updateTopBar(minutes: Long, seconds: Long) {
+    txtTimer.text = String.format(
+        "Czas: %02d:%02d  |  Pytanie %d/%d",
+        minutes,
+        seconds,
+        currentQuestionIndex + 1,
+        questions.size
+    )
+}
+   
     private fun calculateElapsedTime(): Int {
         val totalMillis = timePerPlayerSeconds * 1000L
         val usedMillis = totalMillis - timeLeftMillis
@@ -112,20 +121,26 @@ class QuizActivity : AppCompatActivity() {
 
     // ===== PYTANIA =====
     private fun showQuestion() {
-        if (currentQuestionIndex >= questions.size) {
-            finishPlayer()
-            return
-        }
-
-        val q = questions[currentQuestionIndex]
-
-        txtQuestion.text =
-            "Pytanie ${currentQuestionIndex + 1}/${questions.size}\n\n${q.text}"
-
-        btnA.text = q.answers[0]
-        btnB.text = q.answers[1]
-        btnC.text = q.answers[2]
+    if (currentQuestionIndex >= questions.size) {
+        finishPlayer()
+        return
     }
+
+    val q = questions[currentQuestionIndex]
+
+    // TYLKO TREŚĆ PYTANIA (bez licznika)
+    txtQuestion.text = q.text
+
+    btnA.text = q.answers[0]
+    btnB.text = q.answers[1]
+    btnC.text = q.answers[2]
+
+    // Odśwież górny pasek (żeby pytanie zmieniło się od razu)
+    val totalSeconds = timeLeftMillis / 1000
+    val minutes = totalSeconds / 60
+    val seconds = totalSeconds % 60
+    updateTopBar(minutes, seconds)
+}
 
     private fun answerSelected(index: Int) {
         val currentQ = questions[currentQuestionIndex]
