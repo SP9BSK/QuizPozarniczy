@@ -29,7 +29,7 @@ class JudgeActivity : AppCompatActivity() {
 
         setupLiveValidation(etPlayers, 1, 10)
         setupLiveValidation(etQuestions, 1, 30)
-        setupLiveValidation(etLocalQuestions, 0, 3)
+        setupLiveValidation(etLocalQuestions, 1, 3)
         setupLiveValidation(etTime, 1, 30)
 
         // ✏️ EDYCJA ZAWODNIKÓW
