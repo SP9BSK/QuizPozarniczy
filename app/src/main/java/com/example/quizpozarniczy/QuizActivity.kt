@@ -19,8 +19,6 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var btnA: Button
     private lateinit var btnB: Button
     private lateinit var btnC: Button
-    private lateinit var btnShowAnswers: Button
-    private lateinit var btnNext: Button
 
     private lateinit var questions: List<Question>
 
@@ -28,11 +26,11 @@ class QuizActivity : AppCompatActivity() {
     private var score = 0
     private var timePerPlayerSeconds = 60
     private var playersCount = 1
-    private val wrongAnswersCurrentPlayer = mutableListOf<WrongAnswer>()
+
     private var timeLeftMillis: Long = 0
-
-
     private var timer: CountDownTimer? = null
+
+    private val wrongAnswersCurrentPlayer = mutableListOf<WrongAnswer>()
 
     companion object {
         private const val MAX_PLAYERS = 10
@@ -51,25 +49,22 @@ class QuizActivity : AppCompatActivity() {
         btnA = findViewById(R.id.btnA)
         btnB = findViewById(R.id.btnB)
         btnC = findViewById(R.id.btnC)
-        btnShowAnswers = findViewById(R.id.btnShowCorrect)
-        btnNext = findViewById(R.id.btnBack)
 
         playersCount = min(intent.getIntExtra("PLAYERS", 1), MAX_PLAYERS)
         val questionsLimit = min(intent.getIntExtra("QUESTIONS", 5), MAX_QUESTIONS)
         timePerPlayerSeconds = min(intent.getIntExtra("TIME_SECONDS", 60), MAX_TIME_SECONDS)
 
-        // ===== RESET TYLKO PRZY PIERWSZYM WEJŚCIU =====
+        // Reset tylko przy pierwszym zawodniku
         if (QuizSession.currentPlayer == 1 && QuizSession.results.isEmpty()) {
             QuizSession.totalPlayers = playersCount
             QuizSession.ensurePlayers(playersCount)
 
             val allQuestions = QuizRepository.getQuestions()
             QuizSession.questions =
-    allQuestions
-        .shuffled()
-        .take(min(questionsLimit, allQuestions.size))
-        .toMutableList()
-
+                allQuestions
+                    .shuffled()
+                    .take(min(questionsLimit, allQuestions.size))
+                    .toMutableList()
         }
 
         questions = QuizSession.questions
@@ -78,52 +73,44 @@ class QuizActivity : AppCompatActivity() {
         btnB.setOnClickListener { answerSelected(1) }
         btnC.setOnClickListener { answerSelected(2) }
 
-        btnShowAnswers.setOnClickListener {
-            val intent = Intent(this, PlayerResultActivity::class.java)
-            intent.putExtra("PLAYER_INDEX", QuizSession.currentPlayer - 1)
-            startActivity(intent)
-        }
-
-        btnNext.setOnClickListener {
-            goToNextPlayerOrFinish()
-        }
-
         startTimer()
         showQuestion()
     }
 
+    // ===== TIMER =====
     private fun startTimer() {
-    timer?.cancel()
+        timer?.cancel()
 
-    val totalMillis = timePerPlayerSeconds * 1000L
+        val totalMillis = timePerPlayerSeconds * 1000L
 
-    timer = object : CountDownTimer(totalMillis, 1000) {
+        timer = object : CountDownTimer(totalMillis, 1000) {
 
-        override fun onTick(millisUntilFinished: Long) {
+            override fun onTick(millisUntilFinished: Long) {
+                timeLeftMillis = millisUntilFinished
 
-            timeLeftMillis = millisUntilFinished
+                val totalSeconds = millisUntilFinished / 1000
+                val minutes = totalSeconds / 60
+                val seconds = totalSeconds % 60
 
-            val totalSeconds = millisUntilFinished / 1000
-            val minutes = totalSeconds / 60
-            val seconds = totalSeconds % 60
+                txtTimer.text =
+                    String.format("Czas: %02d:%02d", minutes, seconds)
+            }
 
-            txtTimer.text =
-                String.format("Czas: %02d:%02d", minutes, seconds)
-        }
+            override fun onFinish() {
+                timeLeftMillis = 0
+                finishPlayer()
+            }
 
-        override fun onFinish() {
-            timeLeftMillis = 0
-            finishPlayer()
-        }
+        }.start()
+    }
 
-    }.start()
-}
+    private fun calculateElapsedTime(): Int {
+        val totalMillis = timePerPlayerSeconds * 1000L
+        val usedMillis = totalMillis - timeLeftMillis
+        return (usedMillis / 1000).toInt()
+    }
 
-private fun calculateElapsedTime(): Int {
-    val totalMillis = timePerPlayerSeconds * 1000L
-    val usedMillis = totalMillis - timeLeftMillis
-    return (usedMillis / 1000).toInt()
-}
+    // ===== PYTANIA =====
     private fun showQuestion() {
         if (currentQuestionIndex >= questions.size) {
             finishPlayer()
@@ -132,14 +119,12 @@ private fun calculateElapsedTime(): Int {
 
         val q = questions[currentQuestionIndex]
 
-        txtQuestion.text = "Pytanie ${currentQuestionIndex + 1}/${questions.size}\n\n${q.text}"
+        txtQuestion.text =
+            "Pytanie ${currentQuestionIndex + 1}/${questions.size}\n\n${q.text}"
 
         btnA.text = q.answers[0]
         btnB.text = q.answers[1]
         btnC.text = q.answers[2]
-
-        btnShowAnswers.visibility = View.GONE
-        btnNext.visibility = View.GONE
     }
 
     private fun answerSelected(index: Int) {
@@ -162,42 +147,30 @@ private fun calculateElapsedTime(): Int {
         showQuestion()
     }
 
+    // ===== KONIEC ZAWODNIKA =====
     private fun finishPlayer() {
-    timer?.cancel()
+        timer?.cancel()
 
-    val playerName = QuizSession.playerNames
-        .getOrNull(QuizSession.currentPlayer - 1)
-        ?: "Zawodnik ${QuizSession.currentPlayer}"
+        val playerName = QuizSession.playerNames
+            .getOrNull(QuizSession.currentPlayer - 1)
+            ?: "Zawodnik ${QuizSession.currentPlayer}"
 
-    if (QuizSession.results.size < QuizSession.currentPlayer) {
-        QuizSession.results.add(
-            PlayerResult(
-                playerNumber = QuizSession.currentPlayer,
-                playerName = playerName,
-                score = score,
-                total = questions.size,
-                timeSeconds = calculateElapsedTime(), // <- tu będzie poprawka
-                wrongAnswers = wrongAnswersCurrentPlayer.toList()
+        if (QuizSession.results.size < QuizSession.currentPlayer) {
+            QuizSession.results.add(
+                PlayerResult(
+                    playerNumber = QuizSession.currentPlayer,
+                    playerName = playerName,
+                    score = score,
+                    total = questions.size,
+                    timeSeconds = calculateElapsedTime(),
+                    wrongAnswers = wrongAnswersCurrentPlayer.toList()
+                )
             )
-        )
-    }
-
-    val intent = Intent(this, PlayerResultActivity::class.java)
-    intent.putExtra("PLAYER_INDEX", QuizSession.currentPlayer - 1)
-    startActivity(intent)
-    finish()
-}
-
-}
-
-    private fun goToNextPlayerOrFinish() {
-        if (QuizSession.currentPlayer < playersCount) {
-            QuizSession.currentPlayer++
-            startActivity(Intent(this, QuizActivity::class.java))
-            finish()
-        } else {
-            startActivity(Intent(this, ResultActivity::class.java))
-            finish()
         }
-    }
 
+        val intent = Intent(this, PlayerResultActivity::class.java)
+        intent.putExtra("PLAYER_INDEX", QuizSession.currentPlayer - 1)
+        startActivity(intent)
+        finish()
+    }
+}
