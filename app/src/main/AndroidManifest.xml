@@ -43,6 +43,11 @@
             android:name=".PlayerResultActivity"
             android:exported="false" />
 
+        <!-- WYNIKI KOŃCOWE -->
+        <activity
+            android:name=".ResultActivity"
+            android:exported="false" />  
+
         <!-- BŁĘDNE ODPOWIEDZI -->
         <activity
             android:name=".WrongAnswersActivity"
