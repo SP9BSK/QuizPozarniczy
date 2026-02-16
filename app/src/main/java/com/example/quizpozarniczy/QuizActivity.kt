@@ -61,9 +61,12 @@ class QuizActivity : AppCompatActivity() {
     QuizSession.totalPlayers = playersCount
     QuizSession.ensurePlayers(playersCount)
 
-    val localLimit = intent.getIntExtra("LOCAL_QUESTIONS", 0)
+   val localLimit = intent.getIntExtra("LOCAL_QUESTIONS", 0)
 
-    val allQuestions = QuizRepository.getQuestions(localLimit)
+val allQuestions = QuizRepository.getQuestions(
+    totalLimit = questionsLimit,
+    localCount = localLimit
+)
 
     QuizSession.questions =
         allQuestions
