@@ -35,6 +35,8 @@ class LearningActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_learning)
 
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
         learningMode = intent.getStringExtra("LEARNING_MODE") ?: "GENERAL"
 
         txtProgress = findViewById(R.id.txtProgress)
