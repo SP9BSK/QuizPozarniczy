@@ -11,6 +11,7 @@ import com.example.quizpozarniczy.model.LocalQuestion
 import com.example.quizpozarniczy.model.Question
 import com.example.quizpozarniczy.util.QuizExporter
 import com.example.quizpozarniczy.util.QuizImporter
+import android.view.WindowManager
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -20,6 +21,8 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+
+         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         val btnEditOrB = findViewById<Button>(R.id.btnEditOrB)
         val btnA = findViewById<Button>(R.id.btnA)
