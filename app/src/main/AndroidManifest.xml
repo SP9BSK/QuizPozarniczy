@@ -46,7 +46,7 @@
         <!-- WYNIKI KOŃCOWE -->
         <activity
             android:name=".ResultActivity"
-            android:exported="false" />  
+            android:exported="false" />
 
         <!-- BŁĘDNE ODPOWIEDZI -->
         <activity
@@ -61,6 +61,11 @@
         <!-- USTAWIENIA -->
         <activity
             android:name=".SettingsActivity"
+            android:exported="false" />
+
+        <!-- 📘 INSTRUKCJA -->
+        <activity
+            android:name=".InstructionActivity"
             android:exported="false" />
 
         <!-- EDYCJA PYTAŃ -->
