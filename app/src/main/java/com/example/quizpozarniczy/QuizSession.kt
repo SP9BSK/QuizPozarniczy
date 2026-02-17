@@ -40,10 +40,8 @@ object QuizSession {
     }
 
     fun resetAll() {
-        totalPlayers = 1
-        currentPlayer = 1
-        playerNames.clear()
-        results.clear()
-        questions.clear()
-    }
+    currentPlayer = 1
+    results.clear()
+    questions.clear()
+}
 }
