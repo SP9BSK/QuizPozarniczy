@@ -22,13 +22,14 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         val btnEditOrB = findViewById<Button>(R.id.btnEditOrB)
         val btnA = findViewById<Button>(R.id.btnA)
         val btnExportImport = findViewById<Button>(R.id.btnExportImport)
         val btnRegulamin = findViewById<Button>(R.id.btnRegulamin)
 
+        // 🔹 Przycisk EDYCJA / B
         if (isOpiekun) {
             btnEditOrB.text = "EDYCJA PYTAŃ LOKALNYCH"
             btnEditOrB.setOnClickListener {
@@ -41,10 +42,13 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
+        // 🔹 Przycisk A → INSTRUKCJA
+        btnA.text = "INSTRUKCJA"
         btnA.setOnClickListener {
-            Toast.makeText(this, "A – do implementacji", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, InstructionActivity::class.java))
         }
 
+        // 🔹 Eksport / Import
         if (isOpiekun) {
             btnExportImport.text = "UDOSTĘPNIJ PYTANIA LOKALNE"
             btnExportImport.setOnClickListener { exportLocalQuestions() }
@@ -53,6 +57,7 @@ class SettingsActivity : AppCompatActivity() {
             btnExportImport.setOnClickListener { importLocalQuestions() }
         }
 
+        // 🔹 Regulamin
         btnRegulamin.setOnClickListener {
             startActivity(Intent(this, RegulaminActivity::class.java))
         }
