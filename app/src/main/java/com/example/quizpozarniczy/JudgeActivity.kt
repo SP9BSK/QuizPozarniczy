@@ -60,10 +60,9 @@ class JudgeActivity : AppCompatActivity() {
             }
 
             // 🔥 PEŁNY RESET TURNIEJU
-            QuizSession.resetAll()
-            QuizSession.totalPlayers = players
             QuizSession.ensurePlayers(players)
-            QuizSession.currentPlayer = 1
+            QuizSession.totalPlayers = players
+            QuizSession.resetAll()
 
             val intent = Intent(this, QuizActivity::class.java)
             intent.putExtra("PLAYERS", players)          // ✅ TO DODANE
