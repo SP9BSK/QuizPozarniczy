@@ -33,11 +33,14 @@ class JudgeActivity : AppCompatActivity() {
         setupLiveValidation(etTime, 1, 30)
 
         // ✏️ EDYCJA ZAWODNIKÓW
-        btnEditPlayers.setOnClickListener {
-            val players = etPlayers.text.toString().toIntOrNull() ?: 1
-            QuizSession.reset(players)
-            startActivity(Intent(this, EditPlayersActivity::class.java))
-        }
+       btnEditPlayers.setOnClickListener {
+               val players = etPlayers.text.toString().toIntOrNull() ?: 1
+
+                       QuizSession.ensurePlayers(players)
+                       QuizSession.totalPlayers = players
+
+    startActivity(Intent(this, EditPlayersActivity::class.java))
+}
 
         // ▶ START QUIZU
         btnStart.setOnClickListener {
