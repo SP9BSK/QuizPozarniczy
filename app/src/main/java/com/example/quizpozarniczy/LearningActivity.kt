@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
 import com.example.quizpozarniczy.model.Question
+import android.view.WindowManager
 
 class LearningActivity : AppCompatActivity() {
 
