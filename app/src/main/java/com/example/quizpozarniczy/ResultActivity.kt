@@ -25,6 +25,7 @@ class ResultActivity : AppCompatActivity() {
         if (QuizSession.results.isEmpty()) {
             txtRanking.text = "Brak wyników do wyświetlenia."
             btnBack.setOnClickListener {
+                QuizSession.resetTournament() // pełny reset zawodników i wyników
                 val intent = Intent(this, JudgeActivity::class.java)
                 intent.flags =
                     Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -56,28 +57,25 @@ class ResultActivity : AppCompatActivity() {
 
         // DANE
         sorted.forEachIndexed { index, r ->
-    sb.append(
-        String.format(
-            "%-3d %-15s %7s %6s\n",
-            index + 1,
-            r.playerName.take(15),
-            "${r.score}/${r.total}",
-            formatTime(r.timeSeconds)
-        )
-    )
-}
+            sb.append(
+                String.format(
+                    "%-3d %-15s %7s %6s\n",
+                    index + 1,
+                    r.playerName.take(15),
+                    "${r.score}/${r.total}",
+                    formatTime(r.timeSeconds)
+                )
+            )
+        }
 
         txtRanking.text = sb.toString()
 
         btnBack.setOnClickListener {
-
-            // 🔥 Czyścimy dopiero tutaj — po obejrzeniu rankingu
-            QuizSession.resetAll()
-
+            // 🔹 Pełny reset turnieju (czyści też nazwy zawodników)
+            QuizSession.resetTournament()
             val intent = Intent(this, JudgeActivity::class.java)
             intent.flags =
                 Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-
             startActivity(intent)
             finish()
         }
