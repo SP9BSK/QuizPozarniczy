@@ -33,14 +33,12 @@ class JudgeActivity : AppCompatActivity() {
         setupLiveValidation(etTime, 1, 30)
 
         // ✏️ EDYCJA ZAWODNIKÓW
-       btnEditPlayers.setOnClickListener {
-               val players = etPlayers.text.toString().toIntOrNull() ?: 1
-
-                       QuizSession.ensurePlayers(players)
-                       QuizSession.totalPlayers = players
-
-    startActivity(Intent(this, EditPlayersActivity::class.java))
-}
+        btnEditPlayers.setOnClickListener {
+            val players = etPlayers.text.toString().toIntOrNull() ?: 1
+            QuizSession.ensurePlayers(players)
+            QuizSession.totalPlayers = players
+            startActivity(Intent(this, EditPlayersActivity::class.java))
+        }
 
         // ▶ START QUIZU
         btnStart.setOnClickListener {
@@ -59,13 +57,13 @@ class JudgeActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // 🔥 PEŁNY RESET TURNIEJU
+            // 🔹 RESET PRZED STARTEM QUIZU (zachowuje nazwy zawodników)
             QuizSession.ensurePlayers(players)
             QuizSession.totalPlayers = players
-            QuizSession.resetAll()
+            QuizSession.resetAll() // usuwa tylko wyniki i pytania, imiona pozostają
 
             val intent = Intent(this, QuizActivity::class.java)
-            intent.putExtra("PLAYERS", players)          // ✅ TO DODANE
+            intent.putExtra("PLAYERS", players)
             intent.putExtra("QUESTIONS", questions)
             intent.putExtra("LOCAL_QUESTIONS", local)
             intent.putExtra("TIME_SECONDS", timeSeconds)
