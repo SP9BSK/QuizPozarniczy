@@ -6,6 +6,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
 import com.example.quizpozarniczy.model.LocalQuestion
+import android.view.WindowManager
 
 class EditLocalQuestionsActivity : AppCompatActivity() {
 
