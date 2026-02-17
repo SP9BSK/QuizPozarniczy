@@ -9,12 +9,10 @@ object QuizSession {
     val playerNames = mutableListOf<String>()
     val results = mutableListOf<PlayerResult>()
 
-    // ✅ DODANE: lista pytań dla quizu
+    // ✅ Lista pytań dla quizu
     var questions: MutableList<Question> = mutableListOf()
 
-
-
-    // Reset sesji i nadanie domyślnych nazw
+    // 🔹 Reset sesji i nadanie domyślnych nazw (do inicjalizacji zawodników)
     fun reset(players: Int) {
         totalPlayers = players
         currentPlayer = 1
@@ -28,7 +26,8 @@ object QuizSession {
         questions.clear()
     }
 
-    // Upewnij się, że lista graczy ma dokładnie "count" elementów
+    // 🔹 Upewnij się, że lista graczy ma dokładnie "count" elementów
+    // ❗ Zachowuje już wpisane imiona
     fun ensurePlayers(count: Int) {
         while (playerNames.size < count) {
             playerNames.add("Zawodnik ${playerNames.size + 1}")
@@ -39,11 +38,24 @@ object QuizSession {
         totalPlayers = count
     }
 
+    // 🔹 Reset startowy quizu (przed rozpoczęciem) – nie kasuje imion
     fun resetAll() {
-    totalPlayers = 1
-    currentPlayer = 1
-    playerNames.clear()
-    results.clear()
-    questions.clear()
-}
+        currentPlayer = 1
+        results.clear()
+        questions.clear()
+    }
+
+    // 🔹 Pełny reset turnieju – kasuje wszystko, w tym imiona zawodników
+    fun resetTournament() {
+        totalPlayers = 1
+        currentPlayer = 1
+        playerNames.clear()
+        results.clear()
+        questions.clear()
+    }
+
+    // 🔹 Pobranie nazwy aktualnego zawodnika (bez ryzyka crasha)
+    fun getCurrentPlayerName(): String {
+        return playerNames.getOrNull(currentPlayer - 1) ?: "Zawodnik $currentPlayer"
+    }
 }
