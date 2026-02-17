@@ -11,6 +11,8 @@ class LearningModeSelectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_learning_mode_select)
 
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
         findViewById<Button>(R.id.btnGeneral).setOnClickListener {
             startLearning("GENERAL")
         }
