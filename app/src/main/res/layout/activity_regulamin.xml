@@ -2,58 +2,95 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#FAFAFA">
 
-    <TextView
-        android:id="@+id/tvRegulamin"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textIsSelectable="true"
-        android:lineSpacingExtra="4dp"
-        android:text="
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvRegulaminTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="REGULAMIN APLIKACJI"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#1E88E5"
+            android:paddingBottom="12dp"/>
+
+        <TextView
+            android:id="@+id/tvRegulamin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#212121"
+            android:lineSpacingExtra="4dp"
+            android:textIsSelectable="true"
+            android:scrollbars="vertical"
+            android:text="
+
 REGULAMIN APLIKACJI „Quiz Pożarniczy MDP”
 
 §1. Postanowienia ogólne
 Niniejszy regulamin określa zasady korzystania z darmowej aplikacji mobilnej „Quiz Pożarniczy MDP” przeznaczonej na urządzenia z systemem Android.
 
 Autorem aplikacji jest Michał Pałka, opiekun Młodzieżowej Drużyny Pożarniczej Maków Podhalański.
-Kontakt: ratownik_xl@wp.pl
+Kontakt do autora: ratownik_xl@wp.pl
 
 Właścicielem aplikacji jest:
 Ochotnicza Straż Pożarna Maków Podhalański
 ul. Kościuszki 2, 34-220 Maków Podhalański
 
 §2. Cel i przeznaczenie
-Aplikacja ma charakter edukacyjny i służy do nauki wiedzy pożarniczej, w szczególności w MDP, OSP, harcerstwie oraz szkołach.
+Aplikacja ma charakter edukacyjny i służy do nauki wiedzy pożarniczej, w szczególności w MDP, OSP, harcerstwie oraz szkołach.  
+Aplikacja składa się z dwóch części: **apki dla Opiekuna** oraz **apki dla Młodzieży**.
 
-§3. Zasady korzystania
-Aplikacja jest darmowa.
+Baza pytań w aplikacji powstała na podstawie materiałów ogólnodostępnych w internecie oraz wiedzy autora.  
+Jeżeli zdarzy się, że pytanie ma błędną odpowiedź zaznaczoną jako prawidłową, można to zgłaszać do autora aplikacji pod adresem: ratownik_xl@wp.pl
+
+§3. Zbieranie danych statystycznych
+Aplikacja w celach statystycznych anonimowo zbiera następujące dane:
+- województwo
+- powiat
+- nazwa jednostki (opcjonalna)
+- typ użytkownika (Opiekun lub Młodzież)
+
+Dane te są zbierane wyłącznie do analiz statystycznych i nie pozwalają na identyfikację konkretnej osoby.  
+Nie są zbierane żadne dane osobowe (imię, nazwisko, e-mail itp.).
+
+§4. Zasady korzystania
+Aplikacja jest darmowa.  
 Zabrania się wykorzystywania aplikacji w sposób sprzeczny z prawem lub dobrym imieniem OSP.
 
-§4. Rozpowszechnianie
+§5. Rozpowszechnianie
 Aplikację można rozpowszechniać nieodpłatnie i bez czerpania korzyści majątkowych.
 
-§5. Wsparcie MDP
-Możliwe jest dobrowolne wsparcie MDP Maków Podhalański:
-BS Jordanów
-82 8799 0001 0010 0100 1124 0001
+§6. Wsparcie MDP
+Możliwe jest dobrowolne wsparcie MDP Maków Podhalański:  
+BS Jordanów  
+82 8799 0001 0010 0100 1124 0001  
 Tytuł: Wsparcie MDP Maków Podhalański – Quiz Pożarniczy
 
-§6. Odpowiedzialność
-Aplikacja ma charakter pomocniczy i nie jest oficjalnym materiałem szkoleniowym PSP.
+§7. Odpowiedzialność
+Aplikacja ma charakter pomocniczy i nie jest oficjalnym materiałem szkoleniowym OSP.
 
 --------------------------------------------------
 
 POLITYKA PRYWATNOŚCI
 
-Aplikacja nie zbiera, nie przetwarza ani nie przechowuje danych osobowych.
-Nie wymaga rejestracji ani logowania.
-Nie zawiera reklam ani systemów analitycznych.
+Aplikacja zbiera anonimowe dane statystyczne, zgodnie z §3 powyżej.  
+Nie przetwarza danych osobowych ani nie wymaga logowania.  
+Nie zawiera reklam.
 
-Administrator:
-OSP Maków Podhalański
-Kontakt: ratownik_xl@wp.pl
-        " />
+Administrator:  
+OSP Maków Podhalański  
+Kontakt do autora aplikacji: ratownik_xl@wp.pl
+" />
+
+    </LinearLayout>
 
 </ScrollView>
+            
+            
