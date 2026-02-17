@@ -20,6 +20,7 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var btnA: Button
     private lateinit var btnB: Button
     private lateinit var btnC: Button
+    private lateinit var txtPlayerName: TextView
 
     private lateinit var questions: List<Question>
 
@@ -48,6 +49,7 @@ class QuizActivity : AppCompatActivity() {
         txtQuestion = findViewById(R.id.txtQuestion)
         txtTimer = findViewById(R.id.txtTimer)
         txtQuestionCounter = findViewById(R.id.txtQuestionCounter)
+        txtPlayerName = findViewById(R.id.txtPlayerName)
         btnA = findViewById(R.id.btnA)
         btnB = findViewById(R.id.btnB)
         btnC = findViewById(R.id.btnC)
@@ -55,6 +57,12 @@ class QuizActivity : AppCompatActivity() {
         playersCount = min(intent.getIntExtra("PLAYERS", 1), MAX_PLAYERS)
         val questionsLimit = min(intent.getIntExtra("QUESTIONS", 5), MAX_QUESTIONS)
         timePerPlayerSeconds = min(intent.getIntExtra("TIME_SECONDS", 60), MAX_TIME_SECONDS)
+
+        val playerName = QuizSession.playerNames
+    .getOrNull(QuizSession.currentPlayer - 1)
+    ?: "Zawodnik ${QuizSession.currentPlayer}"
+
+txtPlayerName.text = playerName
 
         // Reset tylko przy pierwszym zawodniku
         if (QuizSession.currentPlayer == 1 && QuizSession.results.isEmpty()) {
