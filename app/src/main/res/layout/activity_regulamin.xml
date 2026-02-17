@@ -2,95 +2,160 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="#FAFAFA">
+    android:background="#FAFAFA"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!-- Tytuł regulaminu -->
         <TextView
             android:id="@+id/tvRegulaminTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="REGULAMIN APLIKACJI"
+            android:text="REGULAMIN APLIKACJI „Quiz Pożarniczy MDP”"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#1E88E5"
-            android:paddingBottom="12dp"/>
+            android:paddingBottom="16dp"/>
 
+        <!-- §1. Postanowienia ogólne -->
         <TextView
-            android:id="@+id/tvRegulamin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textColor="#212121"
+            android:textStyle="bold"
+            android:text="§1. Postanowienia ogólne"
+            android:paddingTop="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#212121"
+            android:text="Niniejszy regulamin określa zasady korzystania z darmowej aplikacji mobilnej „Quiz Pożarniczy MDP” przeznaczonej na urządzenia z systemem Android.\n\nAutorem aplikacji jest Michał Pałka, opiekun Młodzieżowej Drużyny Pożarniczej Maków Podhalański.\nKontakt do autora: ratownik_xl@wp.pl\n\nWłaścicielem aplikacji jest:\nOchotnicza Straż Pożarna Maków Podhalański\nul. Kościuszki 2, 34-220 Maków Podhalański"
+            android:lineSpacingExtra="4dp"/>
+
+        <!-- §2. Cel i przeznaczenie -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#212121"
+            android:textStyle="bold"
+            android:text="§2. Cel i przeznaczenie"
+            android:paddingTop="12dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#212121"
+            android:text="Aplikacja ma charakter edukacyjny i służy do nauki wiedzy pożarniczej, w szczególności w MDP, OSP, harcerstwie oraz szkołach.\n\nAplikacja składa się z dwóch części: apki dla Opiekuna oraz apki dla Młodzieży.\n\nBaza pytań powstała na podstawie materiałów ogólnodostępnych w internecie oraz wiedzy autora. Jeżeli zdarzy się, że pytanie ma błędną odpowiedź zaznaczoną jako prawidłową, można to zgłaszać do autora aplikacji pod adresem: ratownik_xl@wp.pl"
+            android:lineSpacingExtra="4dp"/>
+
+        <!-- §3. Zbieranie danych statystycznych -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#212121"
+            android:textStyle="bold"
+            android:text="§3. Zbieranie danych statystycznych"
+            android:paddingTop="12dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#212121"
+            android:text="Aplikacja w celach statystycznych anonimowo zbiera następujące dane:\n- województwo\n- powiat\n- nazwa jednostki (opcjonalna)\n- typ użytkownika (Opiekun lub Młodzież)\n\nDane te są zbierane wyłącznie do analiz statystycznych i nie pozwalają na identyfikację konkretnej osoby. Nie są zbierane żadne dane osobowe (imię, nazwisko, e-mail itp.)"
+            android:lineSpacingExtra="4dp"/>
+
+        <!-- §4. Zasady korzystania -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#212121"
+            android:textStyle="bold"
+            android:text="§4. Zasady korzystania"
+            android:paddingTop="12dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#212121"
+            android:text="Aplikacja jest darmowa.\nZabrania się wykorzystywania aplikacji w sposób sprzeczny z prawem lub dobrym imieniem OSP."
+            android:lineSpacingExtra="4dp"/>
+
+        <!-- §5. Rozpowszechnianie -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#212121"
+            android:textStyle="bold"
+            android:text="§5. Rozpowszechnianie"
+            android:paddingTop="12dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#212121"
+            android:text="Aplikację można rozpowszechniać nieodpłatnie i bez czerpania korzyści majątkowych."
+            android:lineSpacingExtra="4dp"/>
+
+        <!-- §6. Wsparcie MDP -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#212121"
+            android:textStyle="bold"
+            android:text="§6. Wsparcie MDP"
+            android:paddingTop="12dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#212121"
+            android:text="Możliwe jest dobrowolne wsparcie MDP Maków Podhalański:\nBS Jordanów\n82 8799 0001 0010 0100 1124 0001\nTytuł: Wsparcie MDP Maków Podhalański – Quiz Pożarniczy"
+            android:lineSpacingExtra="4dp"/>
+
+        <!-- §7. Odpowiedzialność -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#212121"
+            android:textStyle="bold"
+            android:text="§7. Odpowiedzialność"
+            android:paddingTop="12dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#212121"
+            android:text="Aplikacja ma charakter pomocniczy i nie jest oficjalnym materiałem szkoleniowym OSP."
+            android:lineSpacingExtra="4dp"/>
+
+        <!-- Polityka prywatności -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#1E88E5"
+            android:textStyle="bold"
+            android:text="\nPOLITYKA PRYWATNOŚCI"
+            android:paddingTop="16dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#212121"
+            android:text="Aplikacja zbiera anonimowe dane statystyczne, zgodnie z §3 powyżej.\nNie przetwarza danych osobowych ani nie wymaga logowania.\nNie zawiera reklam.\n\nAdministrator:\nOSP Maków Podhalański\nKontakt do autora aplikacji: ratownik_xl@wp.pl"
             android:lineSpacingExtra="4dp"
-            android:textIsSelectable="true"
-            android:scrollbars="vertical"
-            android:text="
-
-REGULAMIN APLIKACJI „Quiz Pożarniczy MDP”
-
-§1. Postanowienia ogólne
-Niniejszy regulamin określa zasady korzystania z darmowej aplikacji mobilnej „Quiz Pożarniczy MDP” przeznaczonej na urządzenia z systemem Android.
-
-Autorem aplikacji jest Michał Pałka, opiekun Młodzieżowej Drużyny Pożarniczej Maków Podhalański.
-Kontakt do autora: ratownik_xl@wp.pl
-
-Właścicielem aplikacji jest:
-Ochotnicza Straż Pożarna Maków Podhalański
-ul. Kościuszki 2, 34-220 Maków Podhalański
-
-§2. Cel i przeznaczenie
-Aplikacja ma charakter edukacyjny i służy do nauki wiedzy pożarniczej, w szczególności w MDP, OSP, harcerstwie oraz szkołach.  
-Aplikacja składa się z dwóch części: **apki dla Opiekuna** oraz **apki dla Młodzieży**.
-
-Baza pytań w aplikacji powstała na podstawie materiałów ogólnodostępnych w internecie oraz wiedzy autora.  
-Jeżeli zdarzy się, że pytanie ma błędną odpowiedź zaznaczoną jako prawidłową, można to zgłaszać do autora aplikacji pod adresem: ratownik_xl@wp.pl
-
-§3. Zbieranie danych statystycznych
-Aplikacja w celach statystycznych anonimowo zbiera następujące dane:
-- województwo
-- powiat
-- nazwa jednostki (opcjonalna)
-- typ użytkownika (Opiekun lub Młodzież)
-
-Dane te są zbierane wyłącznie do analiz statystycznych i nie pozwalają na identyfikację konkretnej osoby.  
-Nie są zbierane żadne dane osobowe (imię, nazwisko, e-mail itp.).
-
-§4. Zasady korzystania
-Aplikacja jest darmowa.  
-Zabrania się wykorzystywania aplikacji w sposób sprzeczny z prawem lub dobrym imieniem OSP.
-
-§5. Rozpowszechnianie
-Aplikację można rozpowszechniać nieodpłatnie i bez czerpania korzyści majątkowych.
-
-§6. Wsparcie MDP
-Możliwe jest dobrowolne wsparcie MDP Maków Podhalański:  
-BS Jordanów  
-82 8799 0001 0010 0100 1124 0001  
-Tytuł: Wsparcie MDP Maków Podhalański – Quiz Pożarniczy
-
-§7. Odpowiedzialność
-Aplikacja ma charakter pomocniczy i nie jest oficjalnym materiałem szkoleniowym OSP.
-
---------------------------------------------------
-
-POLITYKA PRYWATNOŚCI
-
-Aplikacja zbiera anonimowe dane statystyczne, zgodnie z §3 powyżej.  
-Nie przetwarza danych osobowych ani nie wymaga logowania.  
-Nie zawiera reklam.
-
-Administrator:  
-OSP Maków Podhalański  
-Kontakt do autora aplikacji: ratownik_xl@wp.pl
-" />
-
+            android:paddingBottom="16dp"/>
     </LinearLayout>
-
 </ScrollView>
-            
-            
