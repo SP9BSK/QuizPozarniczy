@@ -28,18 +28,21 @@
         android:id="@+id/btnA"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAllCaps="false"
         android:layout_marginBottom="8dp"/>
 
     <Button
         android:id="@+id/btnB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAllCaps="false"
         android:layout_marginBottom="8dp"/>
 
     <Button
         android:id="@+id/btnC"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAllCaps="false"
         android:layout_marginBottom="24dp"/>
 
     <!-- ZAPIS I WYJŚCIE -->
