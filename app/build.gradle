@@ -1,6 +1,7 @@
 plugins {
     id "com.android.application"
     id "org.jetbrains.kotlin.android"
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -74,5 +75,8 @@ dependencies {
     // ZXing – generowanie kodów QR
    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
    implementation 'com.google.zxing:core:3.5.2'
+
+    implementation platform('com.google.firebase:firebase-bom:32.7.0')
+    implementation 'com.google.firebase:firebase-firestore-ktx'
 
 }
