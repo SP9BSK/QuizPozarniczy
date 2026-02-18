@@ -1,7 +1,7 @@
 plugins {
     id "com.android.application"
     id "org.jetbrains.kotlin.android"
-    id 'com.google.gms.google-services'
+    id "com.google.gms.google-services"
 }
 
 android {
@@ -9,7 +9,6 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.quizpozarniczy"
         minSdk 21
         targetSdk 34
         versionCode 1
@@ -28,7 +27,6 @@ android {
         }
     }
 
-    // 🔥 KONIECZNIE
     buildFeatures {
         buildConfig true
     }
@@ -39,7 +37,8 @@ android {
 
         full {
             dimension "mode"
-            applicationIdSuffix ".opiekun"
+            applicationId "com.example.quizpozarniczy.opiekun"
+
             resValue "string", "app_name",
                     "Quiz Pożarniczy MDP – Opiekun"
             resValue "string", "share_local_questions_label",
@@ -48,7 +47,8 @@ android {
 
         learning {
             dimension "mode"
-            applicationIdSuffix ".mlodziez"
+            applicationId "com.example.quizpozarniczy.mlodziez"
+
             resValue "string", "app_name",
                     "Quiz Pożarniczy MDP – Młodzież"
             resValue "string", "share_local_questions_label",
@@ -71,11 +71,10 @@ dependencies {
     implementation "androidx.appcompat:appcompat:1.6.1"
     implementation "com.google.android.material:material:1.11.0"
     implementation "com.google.code.gson:gson:2.10.1"
-    // ZXing – generowanie kodów QR
-   implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
-   implementation 'com.google.zxing:core:3.5.2'
+
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+    implementation 'com.google.zxing:core:3.5.2'
 
     implementation platform('com.google.firebase:firebase-bom:32.7.0')
     implementation 'com.google.firebase:firebase-firestore-ktx'
-
 }
