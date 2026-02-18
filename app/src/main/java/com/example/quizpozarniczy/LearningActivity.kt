@@ -7,28 +7,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.quizpozarniczy.data.LocalQuestionsRepository
-import com.example.quizpozarniczy.data.QuestionsPart1
-import com.example.quizpozarniczy.data.QuestionsPart2
-import com.example.quizpozarniczy.data.QuestionsPart3
-import com.example.quizpozarniczy.data.QuestionsPart4
-import com.example.quizpozarniczy.data.QuestionsPart5
-import com.example.quizpozarniczy.data.QuestionsPart6
-import com.example.quizpozarniczy.data.QuestionsPart7
-import com.example.quizpozarniczy.data.QuestionsPart8
-import com.example.quizpozarniczy.data.QuestionsPart9
-import com.example.quizpozarniczy.data.QuestionsPart10
-import com.example.quizpozarniczy.data.QuestionsPart11
-import com.example.quizpozarniczy.data.QuestionsPart12
-import com.example.quizpozarniczy.data.QuestionsPart13
-import com.example.quizpozarniczy.data.QuestionsPart14
-import com.example.quizpozarniczy.data.QuestionsPart15
-import com.example.quizpozarniczy.data.QuestionsPart16
-import com.example.quizpozarniczy.data.QuestionsPart17
-import com.example.quizpozarniczy.data.QuestionsPart18
-import com.example.quizpozarniczy.data.QuestionsPart19
-import com.example.quizpozarniczy.data.QuestionsPart20
-import com.example.quizpozarniczy.data.QuestionsPart21
+import com.example.quizpozarniczy.data.*
 import com.example.quizpozarniczy.model.Question
 
 class LearningActivity : AppCompatActivity() {
@@ -96,28 +75,29 @@ class LearningActivity : AppCompatActivity() {
         allQuestions.clear()
 
         when (learningMode) {
+
             "GENERAL" -> {
-                allQuestions.addAll(QuestionsPart1.get())
-                allQuestions.addAll(QuestionsPart2.get())
-                allQuestions.addAll(QuestionsPart3.get())
-                allQuestions.addAll(QuestionsPart4.get())
-                allQuestions.addAll(QuestionsPart5.get())
-                allQuestions.addAll(QuestionsPart6.get())
-                allQuestions.addAll(QuestionsPart7.get())
-                allQuestions.addAll(QuestionsPart8.get())
-                allQuestions.addAll(QuestionsPart9.get())
-                allQuestions.addAll(QuestionsPart10.get())
-                allQuestions.addAll(QuestionsPart11.get())
-                allQuestions.addAll(QuestionsPart12.get())
-                allQuestions.addAll(QuestionsPart13.get())
-                allQuestions.addAll(QuestionsPart14.get())
-                allQuestions.addAll(QuestionsPart15.get())
-                allQuestions.addAll(QuestionsPart16.get())
-                allQuestions.addAll(QuestionsPart17.get())
-                allQuestions.addAll(QuestionsPart18.get())
-                allQuestions.addAll(QuestionsPart19.get())
-                allQuestions.addAll(QuestionsPart20.get())
-                allQuestions.addAll(QuestionsPart21.get())
+                allQuestions.addAll(questionsPart1)
+                allQuestions.addAll(questionsPart2)
+                allQuestions.addAll(questionsPart3)
+                allQuestions.addAll(questionsPart4)
+                allQuestions.addAll(questionsPart5)
+                allQuestions.addAll(questionsPart6)
+                allQuestions.addAll(questionsPart7)
+                allQuestions.addAll(questionsPart8)
+                allQuestions.addAll(questionsPart9)
+                allQuestions.addAll(questionsPart10)
+                allQuestions.addAll(questionsPart11)
+                allQuestions.addAll(questionsPart12)
+                allQuestions.addAll(questionsPart13)
+                allQuestions.addAll(questionsPart14)
+                allQuestions.addAll(questionsPart15)
+                allQuestions.addAll(questionsPart16)
+                allQuestions.addAll(questionsPart17)
+                allQuestions.addAll(questionsPart18)
+                allQuestions.addAll(questionsPart19)
+                allQuestions.addAll(questionsPart20)
+                allQuestions.addAll(questionsPart21)
             }
 
             "LOCAL" -> {
@@ -153,10 +133,12 @@ class LearningActivity : AppCompatActivity() {
 
         currentQuestion = remaining.random()
 
-        txtQuestion.text = currentQuestion!!.text
-        btnA.text = currentQuestion!!.answers[0]
-        btnB.text = currentQuestion!!.answers[1]
-        btnC.text = currentQuestion!!.answers[2]
+        currentQuestion?.let { q ->
+            txtQuestion.text = q.text
+            btnA.text = q.answers[0]
+            btnB.text = q.answers[1]
+            btnC.text = q.answers[2]
+        }
     }
 
     private fun checkAnswer(selectedIndex: Int) {
