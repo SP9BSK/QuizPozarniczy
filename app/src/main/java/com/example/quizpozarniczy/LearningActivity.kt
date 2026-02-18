@@ -78,7 +78,27 @@ class LearningActivity : AppCompatActivity() {
         when (learningMode) {
             "GENERAL" -> {
                 // ✅ pytania ogólne
-                allQuestions.addAll(QuizRepository.getQuestions())
+                allQuestions.addAll(QuestionsPart1.get())
+            allQuestions.addAll(QuestionsPart2.get())
+            allQuestions.addAll(QuestionsPart3.get())
+            allQuestions.addAll(QuestionsPart4.get())
+            allQuestions.addAll(QuestionsPart5.get())
+            allQuestions.addAll(QuestionsPart6.get())
+            allQuestions.addAll(QuestionsPart7.get())
+            allQuestions.addAll(QuestionsPart8.get())
+            allQuestions.addAll(QuestionsPart9.get())
+            allQuestions.addAll(QuestionsPart10.get())
+            allQuestions.addAll(QuestionsPart11.get())
+            allQuestions.addAll(QuestionsPart12.get())
+            allQuestions.addAll(QuestionsPart13.get())
+            allQuestions.addAll(QuestionsPart14.get())
+            allQuestions.addAll(QuestionsPart15.get())
+            allQuestions.addAll(QuestionsPart16.get())
+            allQuestions.addAll(QuestionsPart17.get())
+            allQuestions.addAll(QuestionsPart18.get())
+            allQuestions.addAll(QuestionsPart19.get())
+            allQuestions.addAll(QuestionsPart20.get())
+            allQuestions.addAll(QuestionsPart21.get())
             }
 
             "LOCAL" -> {
