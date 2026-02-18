@@ -17,11 +17,11 @@ class FirstLaunchActivity : AppCompatActivity() {
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
 
         // Jeśli już zapisane → przejdź dalej
-        if (prefs.getBoolean("dane_zapisane", false)) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-            return
-        }
+if (prefs.getBoolean("dane_zapisane", false)) {
+    startActivity(Intent(this, StartActivity::class.java))
+    finish()
+    return
+}
 
         setContentView(R.layout.activity_first_launch)
 
@@ -49,14 +49,14 @@ class FirstLaunchActivity : AppCompatActivity() {
             )
 
             db.collection("statystyki")
-                .add(data)
-                .addOnSuccessListener {
+    .add(data)
+    .addOnSuccessListener {
 
-                    prefs.edit().putBoolean("dane_zapisane", true).apply()
+        prefs.edit().putBoolean("dane_zapisane", true).apply()
 
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
-                }
+        startActivity(Intent(this, StartActivity::class.java))
+        finish()
+    }
         }
     }
 }
