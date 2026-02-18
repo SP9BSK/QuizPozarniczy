@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "567421207281",
+    "project_id": "quiz-pozarniczy-mdp",
+    "storage_bucket": "quiz-pozarniczy-mdp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567421207281:android:6d3e9705a24fb1f8885f50",
+        "android_client_info": {
+          "package_name": "com.example.quizpozarniczy.mlodziez"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf9nd15-LwzZkFz-gii_rs8KvbFmLv8mY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567421207281:android:efc8051683f1bf98885f50",
+        "android_client_info": {
+          "package_name": "com.example.quizpozarniczy.opiekun"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf9nd15-LwzZkFz-gii_rs8KvbFmLv8mY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
