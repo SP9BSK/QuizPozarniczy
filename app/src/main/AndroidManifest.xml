@@ -9,15 +9,20 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round">
 
-        <!-- START -->
+        <!-- 🔥 PIERWSZE URUCHOMIENIE -->
         <activity
-            android:name=".StartActivity"
+            android:name=".FirstLaunchActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- START (po pierwszym uruchomieniu) -->
+        <activity
+            android:name=".StartActivity"
+            android:exported="false" />
 
         <!-- TRYB NAUKI -->
         <activity
