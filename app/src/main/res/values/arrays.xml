@@ -124,6 +124,8 @@
     <item>Zielona Góra (miasto na prawach powiatu)</item>
 </string-array>
 
+
+
 <string-array name="powiaty_lodzkie">
     <item>Powiat bełchatowski</item>
     <item>Powiat brzeziński</item>
@@ -152,32 +154,30 @@
     <item>Skierniewice (miasto na prawach powiatu)</item>
 </string-array>
 
-<string-array name="powiaty_lodzkie">
-    <item>Powiat bełchatowski</item>
-    <item>Powiat brzeziński</item>
-    <item>Powiat kutnowski</item>
-    <item>Powiat łaski</item>
-    <item>Powiat łęczycki</item>
-    <item>Powiat łowicki</item>
-    <item>Powiat łódzki wschodni</item>
-    <item>Powiat opoczyński</item>
-    <item>Powiat pabianicki</item>
-    <item>Powiat pajęczański</item>
-    <item>Powiat piotrkowski</item>
-    <item>Powiat poddębicki</item>
-    <item>Powiat radomszczański</item>
-    <item>Powiat rawski</item>
-    <item>Powiat sieradzki</item>
-    <item>Powiat skierniewicki</item>
-    <item>Powiat tomaszowski</item>
-    <item>Powiat wieluński</item>
-    <item>Powiat wieruszowski</item>
-    <item>Powiat zduńskowolski</item>
-    <item>Powiat zgierski</item>
+    <string-array name="powiaty_malopolskie">
+    <item>Powiat bocheński</item>
+    <item>Powiat brzeski</item>
+    <item>Powiat chrzanowski</item>
+    <item>Powiat dąbrowski</item>
+    <item>Powiat gorlicki</item>
+    <item>Powiat krakowski</item>
+    <item>Powiat limanowski</item>
+    <item>Powiat miechowski</item>
+    <item>Powiat myślenicki</item>
+    <item>Powiat nowosądecki</item>
+    <item>Powiat nowotarski</item>
+    <item>Powiat olkuski</item>
+    <item>Powiat oświęcimski</item>
+    <item>Powiat proszowicki</item>
+    <item>Powiat suski</item>
+    <item>Powiat tarnowski</item>
+    <item>Powiat tatrzański</item>
+    <item>Powiat wadowicki</item>
+    <item>Powiat wielicki</item>
 
-    <item>Łódź (miasto na prawach powiatu)</item>
-    <item>Piotrków Trybunalski (miasto na prawach powiatu)</item>
-    <item>Skierniewice (miasto na prawach powiatu)</item>
+    <item>Kraków (miasto na prawach powiatu)</item>
+    <item>Tarnów (miasto na prawach powiatu)</item>
+    <item>Nowy Sącz (miasto na prawach powiatu)</item>
 </string-array>
 
     <string-array name="powiaty_mazowieckie">
@@ -315,29 +315,7 @@
     <item>Słupsk (miasto na prawach powiatu)</item>
 </string-array>
 
-    <string-array name="powiaty_pomorskie">
-    <item>Powiat bytowski</item>
-    <item>Powiat chojnicki</item>
-    <item>Powiat człuchowski</item>
-    <item>Powiat gdański</item>
-    <item>Powiat kartuski</item>
-    <item>Powiat kościerski</item>
-    <item>Powiat kwidzyński</item>
-    <item>Powiat lęborski</item>
-    <item>Powiat malborski</item>
-    <item>Powiat nowodworski</item>
-    <item>Powiat pucki</item>
-    <item>Powiat słupski</item>
-    <item>Powiat starogardzki</item>
-    <item>Powiat sztumski</item>
-    <item>Powiat tczewski</item>
-    <item>Powiat wejherowski</item>
-
-    <item>Gdańsk (miasto na prawach powiatu)</item>
-    <item>Gdynia (miasto na prawach powiatu)</item>
-    <item>Sopot (miasto na prawach powiatu)</item>
-    <item>Słupsk (miasto na prawach powiatu)</item>
-</string-array>
+    
 
     <string-array name="powiaty_slaskie">
     <item>Powiat będziński</item>
@@ -377,6 +355,24 @@
     <item>Tychy (miasto na prawach powiatu)</item>
     <item>Zabrze (miasto na prawach powiatu)</item>
     <item>Żory (miasto na prawach powiatu)</item>
+</string-array>
+
+    <string-array name="powiaty_swietokrzyskie">
+    <item>Powiat buski</item>
+    <item>Powiat jędrzejowski</item>
+    <item>Powiat kazimierski</item>
+    <item>Powiat kielecki</item>
+    <item>Powiat konecki</item>
+    <item>Powiat opatowski</item>
+    <item>Powiat ostrowiecki</item>
+    <item>Powiat pińczowski</item>
+    <item>Powiat sandomierski</item>
+    <item>Powiat skarżyski</item>
+    <item>Powiat starachowicki</item>
+    <item>Powiat staszowski</item>
+    <item>Powiat włoszczowski</item>
+
+    <item>Kielce (miasto na prawach powiatu)</item>
 </string-array>
 
     <string-array name="powiaty_warminsko_mazurskie">
