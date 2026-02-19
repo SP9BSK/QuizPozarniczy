@@ -37,17 +37,17 @@ Ustaw:
 • Liczbę zawodników (1–10)
 • Liczbę pytań (1–30)
 • Liczbę pytań lokalnych (1–3)
-• Czas odpowiedzi (1–30 sek.)
+• Czas odpowiedzi (1–30 min.)
 
 ▶ START QUIZU – rozpoczyna quiz  
-✏ EDYTUJ ZAWODNIKÓW – zmiana danych  
+✏ EDYTUJ ZAWODNIKÓW – tutaj można zmienić nazwy zawodników np. na imiona  
 🚫 UDOSTĘPNIJ QUIZ – funkcja w przygotowaniu  
 
 ━━━━━━━━━━━━━━━━━━
 
 2️⃣ TRYB NAUKI
 
-Do wyboru:
+Do wyboru są 2 tryby:
 • Pytania ogólne  
 • Pytania lokalne  
 
@@ -61,8 +61,8 @@ Do wyboru:
 
 3️⃣ USTAWIENIA
 
-✏ EDYCJA PYTAŃ LOKALNYCH – tworzenie i edycja  
-📤 UDOSTĘPNIJ PYTANIA LOKALNE – eksport (zalecany Bluetooth)  
+✏ EDYCJA PYTAŃ LOKALNYCH – tutaj należy edytować pytania lokalne pod kontem własnej jednostki. Należy to zrobić przed udostępnieniem pytań lokalnych młodzieży. 
+📤 UDOSTĘPNIJ PYTANIA LOKALNE – za pomocą tej funkcji wysyłamy pytania lokalne do młodzieży,  (zalecany Bluetooth)  
 ⚠ WhatsApp nie pozwala poprawnie zaimportować pytań w wersji Młodzież  
 📜 REGULAMIN – zasady korzystania
         """.trimIndent()
@@ -84,7 +84,7 @@ Do wyboru:
 
 2️⃣ TRYB NAUKI
 
-Dostępne:
+Do wyboru są 2 tryby:
 • Pytania ogólne  
 • Pytania lokalne (po imporcie od Opiekuna)
 
@@ -98,7 +98,7 @@ Dostępne:
 
 3️⃣ USTAWIENIA
 
-📥 POBIERZ PYTANIA LOKALNE – import od Opiekuna  
+📥 POBIERZ PYTANIA LOKALNE – po zapisaniu pytań lokalnych na urządzeniu należy wskazać odpowiedni plik. 
 ⚠ Zalecany transfer przez Bluetooth  
 🔘 B – funkcja w przygotowaniu  
 📜 REGULAMIN – zasady korzystania
