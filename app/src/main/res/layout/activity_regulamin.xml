@@ -154,7 +154,7 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textColor="#212121"
-            android:text="Aplikacja zbiera anonimowe dane statystyczne, zgodnie z §3 powyżej.\nNie przetwarza danych osobowych ani nie wymaga logowania.\nNie zawiera reklam.\n\nAdministrator:\nOSP Maków Podhalański\nKontakt do autora aplikacji: ratownik_xl@wp.pl"\nMaków Podhalański 2026
+            android:text="Aplikacja zbiera anonimowe dane statystyczne, zgodnie z §3 powyżej.\nNie przetwarza danych osobowych ani nie wymaga logowania.\nNie zawiera reklam.\n\nAdministrator:\nOSP Maków Podhalański\nKontakt do autora aplikacji: ratownik_xl@wp.pl\nMaków Podhalański 2026"
             android:lineSpacingExtra="4dp"
             android:paddingBottom="16dp"/>
     </LinearLayout>
