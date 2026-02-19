@@ -1,33 +1,86 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="24dp"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editWojewodztwo"
-        android:hint="Województwo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <EditText
-        android:id="@+id/editPowiat"
-        android:hint="Powiat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <EditText
-        android:id="@+id/editJednostka"
-        android:hint="Nazwa jednostki (opcjonalnie)"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/buttonZapisz"
-        android:text="Zapisz"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"/>
+        android:padding="24dp"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <TextView
+            android:text="Quiz Pożarniczy MDP"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tvMode"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="Podaj swoje województwo"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Spinner
+            android:id="@+id/spinnerWoj"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="oraz powiat"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Spinner
+            android:id="@+id/spinnerPow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="Jednostka (opcjonalnie)"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/editJednostka"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Np. OSP Kalisz"/>
+
+        <CheckBox
+            android:id="@+id/checkRegulamin"
+            android:text="Zapoznałem się z regulaminem aplikacji"
+            android:layout_marginTop="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btnRegulamin"
+            android:text="REGULAMIN"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btnZapisz"
+            android:text="ZAPISZ"
+            android:enabled="false"
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</ScrollView>
