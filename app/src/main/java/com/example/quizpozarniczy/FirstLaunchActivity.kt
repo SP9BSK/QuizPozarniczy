@@ -2,8 +2,7 @@ package com.example.quizpozarniczy
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
@@ -15,50 +14,72 @@ class FirstLaunchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_first_launch)
 
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
 
-        // Jeśli już zapisane → przejdź dalej
-if (prefs.getBoolean("dane_zapisane", false)) {
-    startActivity(Intent(this, StartActivity::class.java))
-    finish()
-    return
-}
+        if (prefs.getBoolean("dane_zapisane", false)) {
+            startActivity(Intent(this, StartActivity::class.java))
+            finish()
+            return
+        }
 
-        setContentView(R.layout.activity_first_launch)
-
-        val editWoj = findViewById<EditText>(R.id.editWojewodztwo)
-        val editPow = findViewById<EditText>(R.id.editPowiat)
+        val tvMode = findViewById<TextView>(R.id.tvMode)
+        val spinnerWoj = findViewById<Spinner>(R.id.spinnerWoj)
+        val spinnerPow = findViewById<Spinner>(R.id.spinnerPow)
         val editJed = findViewById<EditText>(R.id.editJednostka)
-        val btn = findViewById<Button>(R.id.buttonZapisz)
+        val checkReg = findViewById<CheckBox>(R.id.checkRegulamin)
+        val btnReg = findViewById<Button>(R.id.btnRegulamin)
+        val btnZapisz = findViewById<Button>(R.id.btnZapisz)
 
-        btn.setOnClickListener {
+        tvMode.text = if (BuildConfig.FLAVOR == "full") "Opiekun" else "Młodzież"
 
-            val woj = editWoj.text.toString().trim()
-            val pow = editPow.text.toString().trim()
-            val jed = editJed.text.toString().trim()
+        val wojewodztwa = resources.getStringArray(R.array.wojewodztwa)
+        spinnerWoj.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, wojewodztwa)
 
-            if (woj.isEmpty() || pow.isEmpty()) {
-                return@setOnClickListener
+        spinnerWoj.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
+                val powiatyId = resources.getIdentifier(
+                    "powiaty_${wojewodztwa[position]}",
+                    "array",
+                    packageName
+                )
+                if (powiatyId != 0) {
+                    val powiaty = resources.getStringArray(powiatyId)
+                    spinnerPow.adapter = ArrayAdapter(this@FirstLaunchActivity, android.R.layout.simple_spinner_dropdown_item, powiaty)
+                }
             }
 
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
+        checkReg.setOnCheckedChangeListener { _, isChecked ->
+            btnZapisz.isEnabled = isChecked
+        }
+
+        btnReg.setOnClickListener {
+            startActivity(Intent(this, RegulaminActivity::class.java))
+        }
+
+        btnZapisz.setOnClickListener {
+
             val data = hashMapOf(
-                "wojewodztwo" to woj,
-                "powiat" to pow,
-                "jednostka" to jed,
-                "typ" to BuildConfig.FLAVOR, // opiekun / mlodziez
+                "wojewodztwo" to spinnerWoj.selectedItem.toString(),
+                "powiat" to spinnerPow.selectedItem.toString(),
+                "jednostka" to editJed.text.toString(),
+                "typ" to BuildConfig.FLAVOR,
                 "timestamp" to FieldValue.serverTimestamp()
             )
 
             db.collection("statystyki")
-    .add(data)
-    .addOnSuccessListener {
+                .add(data)
+                .addOnSuccessListener {
 
-        prefs.edit().putBoolean("dane_zapisane", true).apply()
+                    prefs.edit().putBoolean("dane_zapisane", true).apply()
 
-        startActivity(Intent(this, StartActivity::class.java))
-        finish()
-    }
+                    startActivity(Intent(this, StartActivity::class.java))
+                    finish()
+                }
         }
     }
 }
