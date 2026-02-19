@@ -58,7 +58,7 @@
             android:id="@+id/editJednostka"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Np. OSP Kalisz"/>
+            android:hint="Np. OSP Maków Podhalański"/>
 
         <CheckBox
             android:id="@+id/checkRegulamin"
