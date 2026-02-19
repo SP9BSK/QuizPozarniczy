@@ -1,0 +1,22 @@
+<resources>
+
+    <string-array name="wojewodztwa">
+        <item>dolnoslaskie</item>
+        <item>kujawsko_pomorskie</item>
+        <item>lubelskie</item>
+        <item>lubuskie</item>
+        <item>lodzkie</item>
+        <item>malopolskie</item>
+        <item>mazowieckie</item>
+        <item>opolskie</item>
+        <item>podkarpackie</item>
+        <item>podlaskie</item>
+        <item>pomorskie</item>
+        <item>slaskie</item>
+        <item>swietokrzyskie</item>
+        <item>warm_insko_mazurskie</item>
+        <item>wielkopolskie</item>
+        <item>zachodniopomorskie</item>
+    </string-array>
+
+</resources>
