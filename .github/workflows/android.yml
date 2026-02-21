@@ -22,6 +22,9 @@ jobs:
         with:
           gradle-version: 8.2
 
+      - name: Nadaj uprawnienia do uruchamiania gradlew
+        run: chmod +x ./gradlew
+
       - name: Signing report + Build debug APK
         run: |
           ./gradlew signingReport
