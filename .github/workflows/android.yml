@@ -23,20 +23,17 @@ jobs:
           unzip gradle-8.2-bin.zip
           echo "$PWD/gradle-8.2/bin" >> $GITHUB_PATH
 
-      - name: Show Gradle projects
-        run: gradle projects
-
       - name: Signing report (app module)
         run: gradle :app:signingReport
 
-      - name: Build debug APK (app module)
-        run: gradle :app:assembleDebug
+      - name: Build fullDebug APK
+        run: gradle :app:assembleFullDebug
 
       - name: List generated APK
-        run: ls app/build/outputs/apk/debug/
+        run: ls app/build/outputs/apk/full/debug/
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: QuizPozarniczy-APK
-          path: app/build/outputs/apk/debug/*.apk
+          path: app/build/outputs/apk/full/debug/*.apk
