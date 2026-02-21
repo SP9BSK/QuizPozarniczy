@@ -3,36 +3,33 @@ name: Build APK
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
-
-      - name: Install Gradle 8.2
-        run: |
-          wget https://services.gradle.org/distributions/gradle-8.2-bin.zip
-          unzip gradle-8.2-bin.zip
-          echo "$PWD/gradle-8.2/bin" >> $GITHUB_PATH
-
-     - name: Signing report (fullDebug)
-        run: gradle :app:signingReport --console=plain
+          cache: gradle
 
       - name: Build fullDebug APK
-        run: gradle :app:assembleFullDebug
+        run: ./gradlew :app:assembleFullDebug --stacktrace
 
-      - name: List generated APK
-        run: ls app/build/outputs/apk/full/debug/
+      - name: Show generated APK
+        run: ls -R app/build/outputs/apk/
 
-      - name: Upload APK
+      - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: QuizPozarniczy-APK
