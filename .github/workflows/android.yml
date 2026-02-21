@@ -23,7 +23,9 @@ jobs:
           gradle-version: 8.2
 
       - name: Build debug APKs
-        run: gradle assembleDebug
+        run: |
+  ./gradlew signingReport
+  ./gradlew assembleDebug
 
       - name: Upload APKs
         uses: actions/upload-artifact@v4
