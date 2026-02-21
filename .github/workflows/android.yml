@@ -17,18 +17,18 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Set up Gradle
-        uses: gradle/gradle-build-action@v3
+      - name: Set up Gradle 8.2
+        uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: 8.2
 
-      - name: Nadaj uprawnienia do uruchamiania gradlew
+      - name: Make gradlew executable
         run: chmod +x ./gradlew
 
       - name: Signing report + Build debug APK
         run: |
-          ./gradlew signingReport
-          ./gradlew assembleDebug
+          ./gradlew signingReport --no-daemon
+          ./gradlew assembleDebug --no-daemon
 
       - name: Upload APKs
         uses: actions/upload-artifact@v4
