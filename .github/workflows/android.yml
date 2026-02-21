@@ -22,10 +22,10 @@ jobs:
         with:
           gradle-version: 8.2
 
-      - name: Build debug APKs
+      - name: Signing report + Build debug APK
         run: |
-  ./gradlew signingReport
-  ./gradlew assembleDebug
+          ./gradlew signingReport
+          ./gradlew assembleDebug
 
       - name: Upload APKs
         uses: actions/upload-artifact@v4
