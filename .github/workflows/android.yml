@@ -3,21 +3,13 @@ name: Build APK
 on:
   push:
     branches: [ "main" ]
-  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Clear Gradle cache
-        run: rm -rf ~/.gradle
-
-      - name: Make gradlew executable
-        run: chmod +x gradlew
+      - uses: actions/checkout@v4
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -25,14 +17,18 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Build fullDebug APK
-        run: ./gradlew :app:assembleFullDebug --no-daemon --stacktrace
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v3
+        with:
+          gradle-version: 8.2
 
-      - name: Show APK location
-        run: ls -R app/build/outputs/apk/
+      - name: Signing report + Build debug APK
+        run: |
+          ./gradlew signingReport
+          ./gradlew assembleDebug
 
-      - name: Upload APK
+      - name: Upload APKs
         uses: actions/upload-artifact@v4
         with:
-          name: QuizPozarniczy-APK
-          path: app/build/outputs/apk/**/*.apk
+          name: QuizPozarniczy-APKs
+          path: app/build/outputs/apk/
