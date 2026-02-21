@@ -22,13 +22,10 @@ jobs:
         with:
           gradle-version: 8.2
 
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-
       - name: Signing report + Build debug APK
         run: |
-          ./gradlew signingReport --no-daemon
-          ./gradlew assembleDebug --no-daemon
+          gradle signingReport --no-daemon
+          gradle assembleDebug --no-daemon
 
       - name: Upload APKs
         uses: actions/upload-artifact@v4
