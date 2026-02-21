@@ -22,11 +22,6 @@ jobs:
         with:
           gradle-version: 8.2
 
-      - name: Print SHA-1 fingerprint
-        run: |
-          keytool -list -v -keystore ~/.android/debug.keystore -storepass android -keypass android
-
-
       - name: Signing report + Build debug APK
         run: |
           gradle signingReport --no-daemon
