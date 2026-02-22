@@ -39,10 +39,9 @@ jobs:
         run: |
           keytool -list -v -keystore ~/.android/debug.keystore -storepass android -keypass android
 
-     - name: Decode google-services.json
-  run: |
-    echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" | base64 --decode > app/google-services.json
-
+      - name: Decode google-services.json
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" | base64 --decode > app/google-services.json
 
       - name: Signing report + Build debug APK
         run: |
@@ -52,5 +51,5 @@ jobs:
       - name: Upload APKs
         uses: actions/upload-artifact@v4
         with:
-          name: QuizPozarniczy-APKs
-          path: app/build/outputs/apk/
+          name: APKs
+          path: app/build/outputs/apk
