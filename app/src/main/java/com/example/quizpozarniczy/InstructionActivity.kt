@@ -41,7 +41,7 @@ Ustaw:
 
 ▶ START QUIZU – rozpoczyna quiz  
 ✏ EDYTUJ ZAWODNIKÓW – tutaj można zmienić nazwy zawodników np. na imiona  
-🚫 UDOSTĘPNIJ QUIZ – funkcja w przygotowaniu  
+🚫 UDOSTĘPNIJ QUIZ – funkcja w przygotowaniu!!
 
 ━━━━━━━━━━━━━━━━━━
 
