@@ -33,7 +33,7 @@ class InstructionActivity : AppCompatActivity() {
 
 1️⃣ PANEL SĘDZIEGO
 
-Ustaw: 
+Ustaw:
 • Liczbę zawodników (1–10)
 • Liczbę pytań (1–30)
 • Liczbę pytań lokalnych (1–3)
