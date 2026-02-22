@@ -1,0 +1,12 @@
+# Firebase config
+google-services.json
+
+# Android build
+/app/build/
+/app/release/
+/app/debug/
+/local.properties
+
+# Keystore
+*.keystore
+*.jks
