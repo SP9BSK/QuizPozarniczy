@@ -55,4 +55,14 @@ object LocalQuestionsRepository {
                 )
             }
     }
+    fun getAllQuestions(): List<Question> {
+    return questions.map { local ->
+        Question(
+            text = local.fullQuestionNoQuotes(),
+            answers = local.answers.toList(),
+            correctIndex = local.correctIndex
+        )
+    }
+}
+
 }
