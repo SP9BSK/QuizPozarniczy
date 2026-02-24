@@ -5,6 +5,7 @@ import com.example.quizpozarniczy.model.Question
 val questionsPart16 = listOf(
 
     Question(
+        id = 386,
         text = "Władzą Głównego Związku Straży Pożarnych RP była:",
         answers = listOf(
             "Rada Naczelna",
@@ -15,6 +16,7 @@ val questionsPart16 = listOf(
     ),
 
     Question(
+        id = 387,
         text = "W 1924 r. w ramach Głównego Związku Straży Pożarnych RP działało już:",
         answers = listOf(
             "15 harcerskich drużyn",
@@ -25,16 +27,14 @@ val questionsPart16 = listOf(
     ),
 
     Question(
+        id = 388,
         text = "Liczba żeńskich drużyn pożarniczych w 1939 r. wynosiła:",
-        answers = listOf(
-            "913",
-            "1027",
-            "1250"
-        ),
+        answers = listOf("913", "1027", "1250"),
         correctIndex = 1
     ),
 
     Question(
+        id = 389,
         text = "Kto był w 1909 r. autorem podręcznika pt. \"Walka z pożarami dla użytku miast, mniejszych gmin, dworów, wsi i osad\"?",
         answers = listOf(
             "Józef Tuliszkowski",
@@ -45,6 +45,7 @@ val questionsPart16 = listOf(
     ),
 
     Question(
+        id = 390,
         text = "Warszawska Straż Ogniowa w końcu lipca 1944 r. liczyła:",
         answers = listOf(
             "680 strażaków",
@@ -55,6 +56,7 @@ val questionsPart16 = listOf(
     ),
 
     Question(
+        id = 391,
         text = "W Ministerstwie Ziem Odzyskanych powołano organ pożarniczy w postaci:",
         answers = listOf(
             "Głównego Inspektoratu Pożarnictwa",
@@ -65,6 +67,7 @@ val questionsPart16 = listOf(
     ),
 
     Question(
+        id = 392,
         text = "Minister administracji publicznej 30.11.1945 r. powołał:",
         answers = listOf(
             "Przymusowy Związek Straży Pożarnej",
@@ -75,76 +78,7 @@ val questionsPart16 = listOf(
     ),
 
     Question(
-        text = "Na którym terenie w 1945 r. najlepiej wśród autochtonów rozwijały się OSP?",
-        answers = listOf(
-            "Na Dolnym Śląsku",
-            "Na Ziemi Opolskiej",
-            "Na Warmii i Mazurach"
-        ),
-        correctIndex = 1
-    ),
-
-    Question(
-        text = "Pojemność zbiornika na wodę w pojeździe pożarniczym 010M wynosi:",
-        answers = listOf(
-            "4000 dm3",
-            "2000 dm3",
-            "5000 dm3"
-        ),
-        correctIndex = 0
-    ),
-
-    Question(
-        text = "Pojazd Ratowniczo-Gaśniczy 010M posiada:",
-        answers = listOf(
-            "Autopompę jednozakresową",
-            "Autopompę dwuzakresową",
-            "Motopompę"
-        ),
-        correctIndex = 0
-    ),
-
-    Question(
-        text = "Podczas zjazdu, przechodzenia po linie lub przechodzenia węzła należy stosować zasadę:",
-        answers = listOf(
-            "Jednego punktu wpięcia ratownika w linę",
-            "Dwóch punktów wpięcia ratownika w linę",
-            "Trzech punktów wpięcia ratownika w linę"
-        ),
-        correctIndex = 1
-    ),
-
-    Question(
-        text = "Hydropult to:",
-        answers = listOf(
-            "Urządzenie samoczynnie składające się z pompy i zbiornika wodno-powietrznego",
-            "Podręczny sprzęt gaśniczy z własnym zbiornikiem",
-            "Podręczny sprzęt gaśniczy do gaszenia pożarów w zarodku, bez własnego zbiornika"
-        ),
-        correctIndex = 2
-    ),
-
-    Question(
-        text = "Czas nurkowania liczy się:",
-        answers = listOf(
-            "Od zanurzenia do momentu ponownego zrównania ciśnienia z atmosferycznym",
-            "Od początku do końca ćwiczeń lub akcji",
-            "Od maksymalnej głębokości do wynurzenia"
-        ),
-        correctIndex = 0
-    ),
-
-    Question(
-        text = "Geometryczna wysokość tłoczenia to:",
-        answers = listOf(
-            "Rzeczywista pionowa odległość między osią nasady a najwyższym punktem rzutu wody",
-            "Suma geometrycznej wysokości tłoczenia",
-            "Suma geometrycznej wysokości ssania"
-        ),
-        correctIndex = 0
-    ),
-
-    Question(
+        id = 393,
         text = "Generatory aerozolu gaszącego przeznaczone są do gaszenia pożarów klas:",
         answers = listOf(
             "A i B",
@@ -155,16 +89,14 @@ val questionsPart16 = listOf(
     ),
 
     Question(
+        id = 394,
         text = "W którym roku w Niemczech utworzono Wszechniemiecki Związek Straży Pożarnej?",
-        answers = listOf(
-            "1853",
-            "1863",
-            "1873"
-        ),
+        answers = listOf("1853", "1863", "1873"),
         correctIndex = 0
     ),
 
     Question(
+        id = 395,
         text = "Pierwsze \"porządki ogniowe\" w Europie wydano dla miast:",
         answers = listOf(
             "Augsburg i Paryż",
@@ -175,6 +107,7 @@ val questionsPart16 = listOf(
     ),
 
     Question(
+        id = 396,
         text = "W 1853 r. pruskie władze wydały ordynację tworzącą podstawy prawne do:",
         answers = listOf(
             "Regulacji zakresu działania straży zawodowych",
@@ -185,6 +118,7 @@ val questionsPart16 = listOf(
     ),
 
     Question(
+        id = 397,
         text = "Kto należał do głównych organizatorów zjazdu strażackiego w Warszawie we wrześniu 1916 r.?",
         answers = listOf(
             "Dr Alfred Zagórski, inż. Edward Wagner, Klemens Matusiak",
@@ -195,16 +129,14 @@ val questionsPart16 = listOf(
     ),
 
     Question(
+        id = 398,
         text = "Od którego roku datuje się powstanie pierwszych harcerskich drużyn pożarniczych?",
-        answers = listOf(
-            "1916",
-            "1919",
-            "1921"
-        ),
+        answers = listOf("1916", "1919", "1921"),
         correctIndex = 0
     ),
 
     Question(
+        id = 399,
         text = "2 lipca 1931 r. powstała:",
         answers = listOf(
             "Wojskowa straż pożarna",
@@ -215,6 +147,7 @@ val questionsPart16 = listOf(
     ),
 
     Question(
+        id = 400,
         text = "Które partie toczyły walkę o wpływy w OSP?",
         answers = listOf(
             "Narodowa Demokracja i sanacja (BBWR)",
@@ -225,6 +158,7 @@ val questionsPart16 = listOf(
     ),
 
     Question(
+        id = 401,
         text = "Łącznie pod wpływami OSP w latach osiemdziesiątych znajdowało się około:",
         answers = listOf(
             "1 900 000 osób",
@@ -235,6 +169,7 @@ val questionsPart16 = listOf(
     ),
 
     Question(
+        id = 402,
         text = "W latach 1964-1975 w żeńskich drużynach pożarniczych uczestniczyło:",
         answers = listOf(
             "130 tys. kobiet",
@@ -245,6 +180,7 @@ val questionsPart16 = listOf(
     ),
 
     Question(
+        id = 403,
         text = "Zasadniczą reorganizację OSP przeprowadzono w okresie:",
         answers = listOf(
             "1944-1947",
@@ -255,6 +191,7 @@ val questionsPart16 = listOf(
     ),
 
     Question(
+        id = 404,
         text = "Temperatura, do której należy podgrzać drewno, aby je zapalić, to:",
         answers = listOf(
             "Temperatura zapłonu",
@@ -263,5 +200,4 @@ val questionsPart16 = listOf(
         ),
         correctIndex = 1
     )
-
 )
