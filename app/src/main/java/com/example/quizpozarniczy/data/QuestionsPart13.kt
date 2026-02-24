@@ -5,6 +5,7 @@ import com.example.quizpozarniczy.model.Question
 val questionsPart13 = listOf(
 
     Question(
+        id = 326,
         text = "Podstawowym mechanizmem gaśniczym proszku jest działanie:",
         answers = listOf(
             "Chłodzące",
@@ -15,6 +16,7 @@ val questionsPart13 = listOf(
     ),
 
     Question(
+        id = 327,
         text = "Okładziny sufitów oraz sufity podwieszane w budynkach, z wyjątkiem mieszkań, należy wykonywać z:",
         answers = listOf(
             "Materiałów nierozprzestrzeniających ognia",
@@ -25,6 +27,7 @@ val questionsPart13 = listOf(
     ),
 
     Question(
+        id = 328,
         text = "Co to jest wstrząs pourazowy?",
         answers = listOf(
             "Uderzenie po upadku",
@@ -35,6 +38,7 @@ val questionsPart13 = listOf(
     ),
 
     Question(
+        id = 329,
         text = "Obowiązującą jednostką gęstości obciążenia ogniowego jest:",
         answers = listOf(
             "J/m²",
@@ -45,6 +49,7 @@ val questionsPart13 = listOf(
     ),
 
     Question(
+        id = 330,
         text = "W którym roku w Polsce rozpoczęto produkcję motopomp?",
         answers = listOf(
             "1933",
@@ -55,6 +60,7 @@ val questionsPart13 = listOf(
     ),
 
     Question(
+        id = 331,
         text = "W instalację odgromową podstawową muszą być wyposażone:",
         answers = listOf(
             "Budynki w zwartej zabudowie o wysokości powyżej 20 m i powierzchni ponad 250 m²",
@@ -65,6 +71,7 @@ val questionsPart13 = listOf(
     ),
 
     Question(
+        id = 332,
         text = "Co oznacza skrót WSKR?",
         answers = listOf(
             "Wojewódzkie Stanowisko Koordynacji Ratownictwa",
@@ -75,36 +82,7 @@ val questionsPart13 = listOf(
     ),
 
     Question(
-        text = "Co uzyskujemy w konfuzorze?",
-        answers = listOf(
-            "Zmniejszenie prędkości przepływu",
-            "Zwiększenie prędkości przepływu",
-            "Zmniejszenie wydatku"
-        ),
-        correctIndex = 1
-    ),
-
-    Question(
-        text = "Substancją palną wydzielającą podczas spalania dym niebieskawy jest:",
-        answers = listOf(
-            "Drewno",
-            "Magnez",
-            "Siarka"
-        ),
-        correctIndex = 1
-    ),
-
-    Question(
-        text = "Na terenie którego województwa zorganizowano w 1945 r. pierwszy „Tydzień Obrony Przeciwpożarowej”?",
-        answers = listOf(
-            "Warszawskiego",
-            "Krakowskiego",
-            "Lubuskiego"
-        ),
-        correctIndex = 2
-    ),
-
-    Question(
+        id = 333,
         text = "Płukanie uszkodzonej skóry wodą przez 20–30 minut stosujemy w przypadku:",
         answers = listOf(
             "Wyłącznie oparzeń termicznych",
@@ -115,6 +93,7 @@ val questionsPart13 = listOf(
     ),
 
     Question(
+        id = 334,
         text = "Hydrant wewnętrzny 52 posiada wydajność nominalną:",
         answers = listOf(
             "2,5 dm³/s",
@@ -125,6 +104,7 @@ val questionsPart13 = listOf(
     ),
 
     Question(
+        id = 335,
         text = "Compakt to:",
         answers = listOf(
             "Nazwa pompy do ratownictwa chemiczno–ekologicznego",
@@ -135,6 +115,7 @@ val questionsPart13 = listOf(
     ),
 
     Question(
+        id = 336,
         text = "Piana gaśnicza o liczbie spienienia Ls = 40 jest pianą:",
         answers = listOf(
             "Lekką",
@@ -145,6 +126,7 @@ val questionsPart13 = listOf(
     ),
 
     Question(
+        id = 337,
         text = "Budynki zaliczone do kategorii zagrożenia ludzi ZL III to:",
         answers = listOf(
             "Budynki mieszkalne",
@@ -155,6 +137,7 @@ val questionsPart13 = listOf(
     ),
 
     Question(
+        id = 338,
         text = "Obowiązujące rozporządzenie w sprawie warunków technicznych, jakim powinny odpowiadać budynki i ich usytuowanie, wydał:",
         answers = listOf(
             "Minister Gospodarki Przestrzennej i Budownictwa",
@@ -165,6 +148,7 @@ val questionsPart13 = listOf(
     ),
 
     Question(
+        id = 339,
         text = "Sekcja wysokiego ciśnienia w autopompie samochodu gaśniczego podaje wodę pod ciśnieniem:",
         answers = listOf(
             "100 bar",
@@ -175,6 +159,7 @@ val questionsPart13 = listOf(
     ),
 
     Question(
+        id = 340,
         text = "Gdzie należy stosować oświetlenie ewakuacyjne?",
         answers = listOf(
             "Na wszystkich drogach ewakuacyjnych",
@@ -185,6 +170,7 @@ val questionsPart13 = listOf(
     ),
 
     Question(
+        id = 341,
         text = "Starosta kieruje działaniami w celu zapobieżenia skutkom klęski żywiołowej przy pomocy:",
         answers = listOf(
             "Zespołu do spraw ochrony przeciwpożarowej i ratownictwa",
@@ -195,6 +181,7 @@ val questionsPart13 = listOf(
     ),
 
     Question(
+        id = 342,
         text = "Toporek strażacki ma masę:",
         answers = listOf(
             "1,25 kg",
@@ -205,6 +192,7 @@ val questionsPart13 = listOf(
     ),
 
     Question(
+        id = 343,
         text = "Elementy nierozprzestrzeniające ognia to elementy wykonane z materiałów:",
         answers = listOf(
             "Trudno zapalnych",
@@ -215,6 +203,7 @@ val questionsPart13 = listOf(
     ),
 
     Question(
+        id = 344,
         text = "Odległość między ścianami zewnętrznymi budynków może być zmniejszona o 50%, jeżeli zastosowano:",
         answers = listOf(
             "Urządzenia oddymiające",
@@ -223,5 +212,4 @@ val questionsPart13 = listOf(
         ),
         correctIndex = 2
     )
-
 )
