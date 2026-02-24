@@ -5,6 +5,7 @@ import com.example.quizpozarniczy.model.Question
 val questionsPart8 = listOf(
 
     Question(
+        id = 234,
         text = "Niebezpieczeństwo związane z zakażeniem wirusem HIV występuje przede wszystkim przy:",
         answers = listOf(
             "obfitych wymiotach",
@@ -15,6 +16,7 @@ val questionsPart8 = listOf(
     ),
 
     Question(
+        id = 235,
         text = "Transport poszkodowanego z urazem jamy brzusznej odbywa się:",
         answers = listOf(
             "w pozycji bezpiecznej",
@@ -25,6 +27,7 @@ val questionsPart8 = listOf(
     ),
 
     Question(
+        id = 236,
         text = "Przy poparzeniach chemicznych oka substancjami stałymi gwałtownie reagującymi z wodą należy:",
         answers = listOf(
             "przykryć gałkę oczną jałowym opatrunkiem",
@@ -35,6 +38,7 @@ val questionsPart8 = listOf(
     ),
 
     Question(
+        id = 237,
         text = "Udar słoneczny to:",
         answers = listOf(
             "przegrzanie organizmu pod wpływem promieni słonecznych",
@@ -45,6 +49,7 @@ val questionsPart8 = listOf(
     ),
 
     Question(
+        id = 238,
         text = "Nominalna wydajność hydrantu wewnętrznego o średnicy 25 mm wynosi:",
         answers = listOf(
             "1 l/s",
@@ -55,6 +60,7 @@ val questionsPart8 = listOf(
     ),
 
     Question(
+        id = 239,
         text = "Zapas powietrza w butli o pojemności 11 litrów i ciśnieniu 200 bar wynosi:",
         answers = listOf(
             "220 litrów",
@@ -65,6 +71,7 @@ val questionsPart8 = listOf(
     ),
 
     Question(
+        id = 240,
         text = "W obecności poszkodowanego nieprzytomnego:",
         answers = listOf(
             "nie wolno wypowiadać negatywnej oceny jego stanu",
@@ -75,26 +82,7 @@ val questionsPart8 = listOf(
     ),
 
     Question(
-        text = "Poddawanie butli z gazami palnymi bezpośredniemu działaniu ognia jest:",
-        answers = listOf(
-            "zabronione w obiektach niezagrożonych wybuchem",
-            "dozwolone przy zachowaniu zasad BHP",
-            "zabronione"
-        ),
-        correctIndex = 2
-    ),
-
-    Question(
-        text = "Odporność ogniowa elementu budowlanego mierzona jest:",
-        answers = listOf(
-            "w stopniach Celsjusza",
-            "w kg/m³",
-            "w minutach"
-        ),
-        correctIndex = 2
-    ),
-
-    Question(
+        id = 241,
         text = "Lekka woda to:",
         answers = listOf(
             "wypełniacz poduszek niskociśnieniowych",
@@ -105,6 +93,7 @@ val questionsPart8 = listOf(
     ),
 
     Question(
+        id = 242,
         text = "Minimalna odległość od lasu elementów stacji paliw powinna wynosić:",
         answers = listOf(
             "20 m",
@@ -115,6 +104,7 @@ val questionsPart8 = listOf(
     ),
 
     Question(
+        id = 243,
         text = "Gaz propan–butan jest:",
         answers = listOf(
             "cięższy od powietrza",
@@ -125,6 +115,7 @@ val questionsPart8 = listOf(
     ),
 
     Question(
+        id = 244,
         text = "Ubranie ognioochronne typu ciężkiego chroni przed temperaturą:",
         answers = listOf(
             "900 °C",
@@ -135,6 +126,7 @@ val questionsPart8 = listOf(
     ),
 
     Question(
+        id = 245,
         text = "Rolka zjazdowa to:",
         answers = listOf(
             "urządzenie do transportu sprzętu technicznego",
@@ -145,6 +137,7 @@ val questionsPart8 = listOf(
     ),
 
     Question(
+        id = 246,
         text = "Gęstość gazu propan–butan jest:",
         answers = listOf(
             "większa od gęstości powietrza",
@@ -155,6 +148,7 @@ val questionsPart8 = listOf(
     ),
 
     Question(
+        id = 247,
         text = "Substancja palna wydzielająca niebieskawy dym podczas spalania to:",
         answers = listOf(
             "drewno",
@@ -165,6 +159,7 @@ val questionsPart8 = listOf(
     ),
 
     Question(
+        id = 248,
         text = "Pierwsze przepisy przeciwpożarowe w Polsce powstały:",
         answers = listOf(
             "w XIII wieku w Krakowie",
@@ -175,6 +170,7 @@ val questionsPart8 = listOf(
     ),
 
     Question(
+        id = 249,
         text = "Chlor jest gazem o barwie:",
         answers = listOf(
             "niebiesko-żółtej",
@@ -185,6 +181,7 @@ val questionsPart8 = listOf(
     ),
 
     Question(
+        id = 250,
         text = "Symbol „Z” na tablicach sieci wodociągowej oznacza:",
         answers = listOf(
             "zasuwę lub zawór na podłączeniu do odbiorcy",
@@ -195,6 +192,7 @@ val questionsPart8 = listOf(
     ),
 
     Question(
+        id = 251,
         text = "Najbardziej podatny na rozwój pożaru jest drzewostan:",
         answers = listOf(
             "iglasty",
@@ -205,13 +203,13 @@ val questionsPart8 = listOf(
     ),
 
     Question(
+        id = 252,
         text = "W latach 1916–1918 najwięcej strażaków walczyło o niepodległość w:",
         answers = listOf(
             "Legionach Polskich",
             "Polskiej Organizacji Wojskowej",
-            "Polskich Siłach Zbrojnych"
+            "Polskich Sił Zbrojnych"
         ),
         correctIndex = 0
     )
-
 )
