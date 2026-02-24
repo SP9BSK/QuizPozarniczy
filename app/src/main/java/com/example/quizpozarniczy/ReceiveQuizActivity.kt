@@ -36,11 +36,20 @@ class ReceiveQuizActivity : AppCompatActivity() {
         }
     }
 
-    private fun startQrScan() {
-        // Tu wywołujesz skaner QR (ZXing lub MLKit)
-        // Po zeskanowaniu wywołujesz:
-        // onQrScanned(resultText)
+    private val qrLauncher =
+    registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val data = result.data?.getStringExtra("QR_DATA")
+            if (data != null) {
+                onQrScanned(data)
+            }
+        }
     }
+
+private fun startQrScan() {
+    qrLauncher.launch(Intent(this, QrScannerActivity::class.java))
+}
+
 
     private fun onQrScanned(text: String) {
         val json = JSONObject(text)
