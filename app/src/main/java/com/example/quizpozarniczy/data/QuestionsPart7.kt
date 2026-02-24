@@ -5,6 +5,7 @@ import com.example.quizpozarniczy.model.Question
 val questionsPart7 = listOf(
 
     Question(
+        id = 214,
         text = "Obowiązująca ustawa o ochronie przeciwpożarowej została uchwalona:",
         answers = listOf(
             "3 lipca 1980 r.",
@@ -15,6 +16,7 @@ val questionsPart7 = listOf(
     ),
 
     Question(
+        id = 215,
         text = "Co najmniej dwa wyjścia ewakuacyjne należy projektować z pomieszczeń, w których będzie przebywać jednocześnie ponad:",
         answers = listOf(
             "20 osób",
@@ -25,6 +27,7 @@ val questionsPart7 = listOf(
     ),
 
     Question(
+        id = 216,
         text = "Biblioteki zalicza się do kategorii zagrożenia ludzi ZL:",
         answers = listOf(
             "ZL III",
@@ -35,6 +38,7 @@ val questionsPart7 = listOf(
     ),
 
     Question(
+        id = 217,
         text = "Liczba spienienia to:",
         answers = listOf(
             "stosunek ilości piany do ilości środka pianotwórczego, z którego ta piana została wytworzona",
@@ -45,6 +49,7 @@ val questionsPart7 = listOf(
     ),
 
     Question(
+        id = 218,
         text = "Szerokość poziomych dróg ewakuacyjnych w budynku nie może być mniejsza niż:",
         answers = listOf(
             "0,6 m",
@@ -55,6 +60,7 @@ val questionsPart7 = listOf(
     ),
 
     Question(
+        id = 219,
         text = "Wysokość lokalnego obniżenia na drodze ewakuacyjnej w budynku nie może być mniejsza niż:",
         answers = listOf(
             "1,8 m",
@@ -65,6 +71,7 @@ val questionsPart7 = listOf(
     ),
 
     Question(
+        id = 220,
         text = "W jakim przypadku w budynku zaliczonym do ZL III należy stosować klatki schodowe obudowane i zamykane drzwiami?",
         answers = listOf(
             "w budynkach niskich",
@@ -75,76 +82,7 @@ val questionsPart7 = listOf(
     ),
 
     Question(
-        text = "Dojście ewakuacyjne to:",
-        answers = listOf(
-            "długość drogi ewakuacyjnej od wyjścia z pomieszczenia na tę drogę do wyjścia do innej strefy pożarowej lub na zewnątrz budynku, mierzoną wzdłuż osi drogi ewakuacyjnej",
-            "odległość od najdalszego miejsca w pomieszczeniu do wyjścia na drogę ewakuacyjną",
-            "odległość od najdalszego miejsca w pomieszczeniu do wyjścia na zewnątrz budynku"
-        ),
-        correctIndex = 0
-    ),
-
-    Question(
-        text = "Stosowanie łatwo zapalnych wykładzin podłogowych jest zabronione:",
-        answers = listOf(
-            "w pomieszczeniach, w których może przebywać więcej niż 50 osób",
-            "w pomieszczeniach okratowanych",
-            "w budynkach zaliczonych do ZL III"
-        ),
-        correctIndex = 0
-    ),
-
-    Question(
-        text = "Dopuszczalna długość dojść ewakuacyjnych przy jednym dojściu w strefie pożarowej zagrożonej wybuchem wynosi:",
-        answers = listOf(
-            "15 m",
-            "10 m",
-            "25 m"
-        ),
-        correctIndex = 1
-    ),
-
-    Question(
-        text = "Stosując w jednej strefie pożarowej stałe urządzenia wodne gaśnicze strefę tę można powiększyć o:",
-        answers = listOf(
-            "50 %",
-            "25 %",
-            "100 %"
-        ),
-        correctIndex = 2
-    ),
-
-    Question(
-        text = "Ściany oddzielające pomieszczenie zagrożone wybuchem od innych pomieszczeń powinny być odporne na parcie o wartości:",
-        answers = listOf(
-            "25 kPa",
-            "15 kPa",
-            "35 kPa"
-        ),
-        correctIndex = 1
-    ),
-
-    Question(
-        text = "Podaj sposób reanimacji prowadzonej przez 1 ratownika:",
-        answers = listOf(
-            "15 na 2",
-            "10 na 2",
-            "30 na 2"
-        ),
-        correctIndex = 2
-    ),
-
-    Question(
-        text = "Co to jest „Pyran”?",
-        answers = listOf(
-            "środek ognioochronny",
-            "szkło zbrojone",
-            "szkło ognioodporne"
-        ),
-        correctIndex = 2
-    ),
-
-    Question(
+        id = 221,
         text = "Kto powołuje Komendanta Głównego Państwowej Straży Pożarnej?",
         answers = listOf(
             "Prezydent RP na wniosek Ministra Spraw Wewnętrznych i Administracji",
@@ -155,6 +93,7 @@ val questionsPart7 = listOf(
     ),
 
     Question(
+        id = 222,
         text = "Do jakiej klasy niebezpieczeństwa pożarowego zaliczamy benzynę?",
         answers = listOf(
             "II",
@@ -165,6 +104,7 @@ val questionsPart7 = listOf(
     ),
 
     Question(
+        id = 223,
         text = "Po jakim czasie najpóźniej ratownik ma rozpocząć czynności masażu serca i sztucznego oddychania od momentu zatrzymania się powyższych czynności?",
         answers = listOf(
             "natychmiast",
@@ -175,6 +115,7 @@ val questionsPart7 = listOf(
     ),
 
     Question(
+        id = 224,
         text = "W 2002 r. pismo ZOSP RP „Strażak” obchodziło jubileusz:",
         answers = listOf(
             "120-lecie",
@@ -185,6 +126,7 @@ val questionsPart7 = listOf(
     ),
 
     Question(
+        id = 225,
         text = "Acetylen posiada wzór chemiczny:",
         answers = listOf(
             "CH₄",
@@ -195,6 +137,7 @@ val questionsPart7 = listOf(
     ),
 
     Question(
+        id = 226,
         text = "Związek OSP został powołany w roku:",
         answers = listOf(
             "1958",
@@ -205,6 +148,7 @@ val questionsPart7 = listOf(
     ),
 
     Question(
+        id = 227,
         text = "W jakiej odległości od skraju toru kolejowego lub drogi publicznej jest zabronione pozostawianie chrustu i gałęzi?",
         answers = listOf(
             "25 m",
@@ -215,6 +159,7 @@ val questionsPart7 = listOf(
     ),
 
     Question(
+        id = 228,
         text = "Pasy przeciwpożarowe w lasach należy utrzymywać w stanie zapewniającym ich użyteczność:",
         answers = listOf(
             "tylko wiosną i jesienią",
@@ -225,6 +170,7 @@ val questionsPart7 = listOf(
     ),
 
     Question(
+        id = 229,
         text = "Ustawianie stert i stogów w stosunku do budynków wykonanych z materiałów palnych jest dozwolone w odległości co najmniej:",
         answers = listOf(
             "20 m",
@@ -235,6 +181,7 @@ val questionsPart7 = listOf(
     ),
 
     Question(
+        id = 230,
         text = "Nad pomieszczeniem zagrożonym wybuchem należy stosować:",
         answers = listOf(
             "betonowy dach ciężki",
@@ -245,6 +192,7 @@ val questionsPart7 = listOf(
     ),
 
     Question(
+        id = 231,
         text = "Pomieszczenie zagrożone wybuchem w budynkach wielokondygnacyjnych należy sytuować na:",
         answers = listOf(
             "najwyższej kondygnacji budynku",
@@ -255,6 +203,7 @@ val questionsPart7 = listOf(
     ),
 
     Question(
+        id = 232,
         text = "Co oznacza pojęcie „resuscytacja oddechowo-krążeniowa”?",
         answers = listOf(
             "odsysanie śluzu z górnych dróg oddechowych",
@@ -263,5 +212,4 @@ val questionsPart7 = listOf(
         ),
         correctIndex = 2
     )
-
 )
