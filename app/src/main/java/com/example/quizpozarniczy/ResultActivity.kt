@@ -13,6 +13,8 @@ class ResultActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ranking)
+        val isOpiekun = BuildConfig.APPLICATION_ID.contains("opiekun")
+
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
@@ -26,7 +28,12 @@ class ResultActivity : AppCompatActivity() {
             txtRanking.text = "Brak wyników do wyświetlenia."
             btnBack.setOnClickListener {
                 QuizSession.resetTournament() // pełny reset zawodników i wyników
-                val intent = Intent(this, JudgeActivity::class.java)
+                val intent = if (isOpiekun) {
+                Intent(this, JudgeActivity::class.java)
+                } else {
+                 Intent(this, StartActivity::class.java)
+               }
+
                 intent.flags =
                     Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
@@ -73,7 +80,12 @@ class ResultActivity : AppCompatActivity() {
         btnBack.setOnClickListener {
             // 🔹 Pełny reset turnieju (czyści też nazwy zawodników)
             QuizSession.resetTournament()
-            val intent = Intent(this, JudgeActivity::class.java)
+            val intent = if (isOpiekun) {
+            Intent(this, JudgeActivity::class.java)
+            } else {
+             Intent(this, StartActivity::class.java)
+            }
+
             intent.flags =
                 Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
