@@ -5,12 +5,14 @@ import com.example.quizpozarniczy.model.Question
 val questionsPart9 = listOf(
 
     Question(
+        id = 254,
         text = "Pojazd ratowniczo–gaśniczy 014R posiada układ jezdno-napędowy:",
         answers = listOf("4x2", "4x4", "6x6"),
         correctIndex = 1
     ),
 
     Question(
+        id = 255,
         text = "Jaka powinna być odległość hydrantu zewnętrznego od krawędzi drogi lub ulicy?",
         answers = listOf(
             "Nie powinna przekraczać 2 m",
@@ -21,6 +23,7 @@ val questionsPart9 = listOf(
     ),
 
     Question(
+        id = 256,
         text = "Pirometrem nazywamy:",
         answers = listOf(
             "Urządzenie służące do wykrywania substancji toksycznych",
@@ -31,6 +34,7 @@ val questionsPart9 = listOf(
     ),
 
     Question(
+        id = 257,
         text = "Samochód gaśniczy GBA 2,5/16 typ 005 posiada:",
         answers = listOf(
             "Zbiornik na wodę o pojemności 1600 l i działko o wydajności 2500 l/min",
@@ -41,6 +45,7 @@ val questionsPart9 = listOf(
     ),
 
     Question(
+        id = 258,
         text = "W skład sprzętu podnoszącego i rozpierającego wchodzą takie urządzenia jak:",
         answers = listOf(
             "Siłowniki hydrauliczne, sprzęt pneumatyczny, podnośniki siłowe",
@@ -51,18 +56,21 @@ val questionsPart9 = listOf(
     ),
 
     Question(
+        id = 259,
         text = "W jakiej najmniejszej odległości od okna w mieszkaniu można ustawić kuchenkę gazową?",
         answers = listOf("0,5 m", "1 m", "1,2 m"),
         correctIndex = 0
     ),
 
     Question(
+        id = 260,
         text = "Klasa odporności pożarowej podziemnej części budynku nie może być niższa niż:",
         answers = listOf("C", "D", "E"),
         correctIndex = 0
     ),
 
     Question(
+        id = 261,
         text = "Amfibia to:",
         answers = listOf(
             "Kołowy lub gąsienicowy pojazd mechaniczny przystosowany do poruszania się na lądzie i na wodzie",
@@ -73,6 +81,7 @@ val questionsPart9 = listOf(
     ),
 
     Question(
+        id = 262,
         text = "Acetylen może być składowany w piwnicach:",
         answers = listOf(
             "Tak, jeżeli w piwnicy występuje wentylacja mechaniczna",
@@ -83,6 +92,7 @@ val questionsPart9 = listOf(
     ),
 
     Question(
+        id = 263,
         text = "Jaki czynnik roboczy powoduje działanie nożyc i rozpieraczy firmy LUKAS?",
         answers = listOf(
             "Powietrze",
@@ -93,6 +103,7 @@ val questionsPart9 = listOf(
     ),
 
     Question(
+        id = 264,
         text = "Czy członkowie OSP mogą wykonywać czynności kontrolno–rozpoznawcze?",
         answers = listOf(
             "Tak, za zgodą komendanta wojewódzkiego PSP",
@@ -103,6 +114,7 @@ val questionsPart9 = listOf(
     ),
 
     Question(
+        id = 265,
         text = "O zamiarze i terminie przeprowadzenia czynności kontrolno–rozpoznawczych zawiadamia się kontrolowanego:",
         answers = listOf(
             "7 dni przed rozpoczęciem kontroli",
@@ -113,6 +125,7 @@ val questionsPart9 = listOf(
     ),
 
     Question(
+        id = 266,
         text = "Książkę obiektu budowlanego powinny posiadać:",
         answers = listOf(
             "Tylko obiekty tymczasowe",
@@ -123,6 +136,7 @@ val questionsPart9 = listOf(
     ),
 
     Question(
+        id = 267,
         text = "Który z obiektów wymaga uzgodnienia projektu budowlanego z rzeczoznawcą ds. zabezpieczeń ppoż.?",
         answers = listOf(
             "Plac składowy lub wiata o powierzchni 800 m²",
@@ -133,6 +147,7 @@ val questionsPart9 = listOf(
     ),
 
     Question(
+        id = 268,
         text = "Po haśle „Do akcji gotuj” przy zasilaniu z hydrantu kierowca:",
         answers = listOf(
             "Pomaga w budowie linii głównej",
@@ -143,18 +158,21 @@ val questionsPart9 = listOf(
     ),
 
     Question(
+        id = 269,
         text = "Co oznacza znak gestowy „prawa ręka podniesiona w górę”?",
         answers = listOf("Uwaga", "Woda stój", "Woda na przód"),
         correctIndex = 0
     ),
 
     Question(
+        id = 270,
         text = "Jakie ciśnienie nominalne powinno występować w hydrancie zewnętrznym?",
         answers = listOf("0,1 MPa", "0,05 MPa", "0,25 MPa"),
         correctIndex = 0
     ),
 
     Question(
+        id = 271,
         text = "W jakim czasie rota II powinna zbudować linię zasilającą dla GBA 2,5/16?",
         answers = listOf(
             "Około 29 sekund",
@@ -165,12 +183,14 @@ val questionsPart9 = listOf(
     ),
 
     Question(
+        id = 272,
         text = "Masaż zewnętrzny serca u dorosłego polega na uciśnięciu mostka na głębokość:",
         answers = listOf("4–5 cm", "1–2 cm", "3–7 cm"),
         correctIndex = 0
     ),
 
     Question(
+        id = 273,
         text = "Jaki czynnik decyduje o stopniu zagrożenia pożarowego lasu?",
         answers = listOf(
             "Wilgotność mchów i porostów",
@@ -178,16 +198,5 @@ val questionsPart9 = listOf(
             "Wilgotność ściółki i powietrza"
         ),
         correctIndex = 2
-    ),
-
-    Question(
-        text = "Centralnym organem administracji państwowej w sprawach ochrony przeciwpożarowej jest:",
-        answers = listOf(
-            "Prezes Rady Ministrów",
-            "Minister Spraw Wewnętrznych i Administracji",
-            "Prezydent RP"
-        ),
-        correctIndex = 1
     )
-
 )
