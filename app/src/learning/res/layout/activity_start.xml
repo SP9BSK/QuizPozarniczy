@@ -36,7 +36,7 @@
 
         <Button
             android:id="@+id/btnJudge"
-            android:text="A"
+            android:text="POBIERZ QUIZ"
             android:textSize="18sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
