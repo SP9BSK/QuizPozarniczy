@@ -5,6 +5,7 @@ import com.example.quizpozarniczy.model.Question
 val questionsPart5 = listOf(
 
     Question(
+        id = 178,
         text = "Ochotnicze Straże Pożarne są:",
         answers = listOf(
             "stowarzyszeniami",
@@ -15,6 +16,7 @@ val questionsPart5 = listOf(
     ),
 
     Question(
+        id = 179,
         text = "Co ile lat w OSP odbywają się zebrania sprawozdawczo-wyborcze (zebrania statutowe)?",
         answers = listOf(
             "2 lata",
@@ -25,6 +27,7 @@ val questionsPart5 = listOf(
     ),
 
     Question(
+        id = 180,
         text = "Szerokość wyjścia ewakuacyjnego nie może być mniejsza niż:",
         answers = listOf(
             "0,8 m",
@@ -35,6 +38,7 @@ val questionsPart5 = listOf(
     ),
 
     Question(
+        id = 181,
         text = "Jaki jest najwyższy stopień aspirancki?",
         answers = listOf(
             "aspirant sztabowy",
@@ -45,6 +49,7 @@ val questionsPart5 = listOf(
     ),
 
     Question(
+        id = 182,
         text = "Jaki rodzaj drzewostanu jest najbardziej podatny na rozwój pożaru?",
         answers = listOf(
             "iglasty",
@@ -55,6 +60,7 @@ val questionsPart5 = listOf(
     ),
 
     Question(
+        id = 183,
         text = "Środkiem uodporniającym drewno na działanie ognia jest:",
         answers = listOf(
             "pyran",
@@ -65,6 +71,7 @@ val questionsPart5 = listOf(
     ),
 
     Question(
+        id = 184,
         text = "Symbol SH-10 oznacza:",
         answers = listOf(
             "samochód specjalny holowniczy o mocy 100 KM",
@@ -75,6 +82,7 @@ val questionsPart5 = listOf(
     ),
 
     Question(
+        id = 185,
         text = "Wycofanym środkiem gaśniczym z uwagi na ochronę środowiska jest:",
         answers = listOf(
             "azot",
@@ -85,6 +93,7 @@ val questionsPart5 = listOf(
     ),
 
     Question(
+        id = 186,
         text = "Eksplozymetr to:",
         answers = listOf(
             "urządzenie pomiaru siły eksplozji",
@@ -95,6 +104,7 @@ val questionsPart5 = listOf(
     ),
 
     Question(
+        id = 187,
         text = "Czy wolno napełniać gazem butle o masie 11 kg na stacjach gazu płynnego?",
         answers = listOf(
             "nie",
@@ -105,6 +115,7 @@ val questionsPart5 = listOf(
     ),
 
     Question(
+        id = 188,
         text = "Pojemność zbiornika wodnego w samochodzie GCBA 5/24 wynosi:",
         answers = listOf(
             "2400 l",
@@ -115,6 +126,7 @@ val questionsPart5 = listOf(
     ),
 
     Question(
+        id = 189,
         text = "Do wytwarzania i podawania piany średniej służy:",
         answers = listOf(
             "wytwornica pianowa",
@@ -125,6 +137,7 @@ val questionsPart5 = listOf(
     ),
 
     Question(
+        id = 190,
         text = "Tryskacze służą do:",
         answers = listOf(
             "szybkiego uruchomienia samochodu gaśniczego",
@@ -135,6 +148,7 @@ val questionsPart5 = listOf(
     ),
 
     Question(
+        id = 191,
         text = "Jaka jest średnica nominalna hydrantów zewnętrznych podziemnych?",
         answers = listOf(
             "80, 100",
@@ -145,6 +159,7 @@ val questionsPart5 = listOf(
     ),
 
     Question(
+        id = 192,
         text = "Zaczadzenie następuje wskutek działania:",
         answers = listOf(
             "CO",
@@ -155,6 +170,7 @@ val questionsPart5 = listOf(
     ),
 
     Question(
+        id = 193,
         text = "W przeciwpożarowe wyłączniki prądu muszą być wyposażone obiekty:",
         answers = listOf(
             "o powierzchni użytkowej ponad 1000 m²",
@@ -163,5 +179,4 @@ val questionsPart5 = listOf(
         ),
         correctIndex = 1
     )
-
 )
