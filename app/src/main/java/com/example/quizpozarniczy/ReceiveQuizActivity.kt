@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
 import org.json.JSONObject
+import androidx.activity.result.contract.ActivityResultContracts
+
 
 class ReceiveQuizActivity : AppCompatActivity() {
 
