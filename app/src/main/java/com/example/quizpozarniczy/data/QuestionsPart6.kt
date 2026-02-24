@@ -5,6 +5,7 @@ import com.example.quizpozarniczy.model.Question
 val questionsPart6 = listOf(
 
     Question(
+        id = 194,
         text = "W jednostkach PSP jako podstawowy system zabezpieczenia dróg oddechowych stosuje się:",
         answers = listOf(
             "aparaty tlenowe",
@@ -15,6 +16,7 @@ val questionsPart6 = listOf(
     ),
 
     Question(
+        id = 195,
         text = "Flame Control to środek:",
         answers = listOf(
             "gaśniczy",
@@ -25,6 +27,7 @@ val questionsPart6 = listOf(
     ),
 
     Question(
+        id = 196,
         text = "Prawo do wyznaczania w lesie miejsca na palenie ogniska ma:",
         answers = listOf(
             "właściciel lub zarządca lasu",
@@ -35,6 +38,7 @@ val questionsPart6 = listOf(
     ),
 
     Question(
+        id = 197,
         text = "Do gazów gaśniczych można zaliczyć:",
         answers = listOf(
             "azot",
@@ -45,6 +49,7 @@ val questionsPart6 = listOf(
     ),
 
     Question(
+        id = 198,
         text = "Pianą można gasić pożary klasy:",
         answers = listOf(
             "klasy A i B",
@@ -55,6 +60,7 @@ val questionsPart6 = listOf(
     ),
 
     Question(
+        id = 199,
         text = "Pożary metali lekkich zaliczają się do klasy pożarów:",
         answers = listOf(
             "A",
@@ -65,6 +71,7 @@ val questionsPart6 = listOf(
     ),
 
     Question(
+        id = 200,
         text = "Po haśle „Do akcji gotuj” przy zasilaniu samochodu z hydrantu, kierowca:",
         answers = listOf(
             "pomaga w budowie linii głównej",
@@ -75,6 +82,7 @@ val questionsPart6 = listOf(
     ),
 
     Question(
+        id = 201,
         text = "Czego nie wolno gasić wodą?",
         answers = listOf(
             "drewna",
@@ -85,6 +93,7 @@ val questionsPart6 = listOf(
     ),
 
     Question(
+        id = 202,
         text = "Jaki narząd jest najbardziej wrażliwy na niedotlenienie?",
         answers = listOf(
             "serce",
@@ -95,6 +104,7 @@ val questionsPart6 = listOf(
     ),
 
     Question(
+        id = 203,
         text = "W mięśniu czwórgłowym uda znajduje się wbity pręt metalowy. Pierwsza pomoc polega na:",
         answers = listOf(
             "szybkim usunięciu przedmiotu",
@@ -105,6 +115,7 @@ val questionsPart6 = listOf(
     ),
 
     Question(
+        id = 204,
         text = "Wstrząs jest to:",
         answers = listOf(
             "stan niedotlenienia mózgu",
@@ -115,6 +126,7 @@ val questionsPart6 = listOf(
     ),
 
     Question(
+        id = 205,
         text = "Krew tętniczą wypływającą z rany poznamy po:",
         answers = listOf(
             "ciemnobrunatnej barwie",
@@ -125,6 +137,7 @@ val questionsPart6 = listOf(
     ),
 
     Question(
+        id = 206,
         text = "Co oznacza znak gestowy „Prawa ręka podniesiona w górę”?",
         answers = listOf(
             "woda stój",
@@ -135,6 +148,7 @@ val questionsPart6 = listOf(
     ),
 
     Question(
+        id = 207,
         text = "Mostek przejazdowy służy do:",
         answers = listOf(
             "umożliwienia przejazdu samochodu przez rzekę",
@@ -145,6 +159,7 @@ val questionsPart6 = listOf(
     ),
 
     Question(
+        id = 208,
         text = "Dym biało-żółty wydziela się podczas palenia:",
         answers = listOf(
             "siana",
@@ -155,6 +170,7 @@ val questionsPart6 = listOf(
     ),
 
     Question(
+        id = 209,
         text = "Stosunek służbowy strażaka powstaje z dniem:",
         answers = listOf(
             "powołania",
@@ -165,6 +181,7 @@ val questionsPart6 = listOf(
     ),
 
     Question(
+        id = 210,
         text = "Podoficerom pełniącym służbę w jednostkach ratowniczo-gaśniczych kolejne stopnie służbowe nadaje:",
         answers = listOf(
             "Komendant Miejski / Powiatowy PSP",
@@ -175,6 +192,7 @@ val questionsPart6 = listOf(
     ),
 
     Question(
+        id = 211,
         text = "Wytwornica pianowa WP 2/75 służy do wytwarzania piany:",
         answers = listOf(
             "średniej",
@@ -185,6 +203,7 @@ val questionsPart6 = listOf(
     ),
 
     Question(
+        id = 212,
         text = "W jakim mieście na terenie woj. kujawsko-pomorskiego znajduje się Szkoła Podoficerska?",
         answers = listOf(
             "Toruń",
@@ -193,5 +212,4 @@ val questionsPart6 = listOf(
         ),
         correctIndex = 2
     )
-
 )
