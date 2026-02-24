@@ -5,6 +5,7 @@ import com.example.quizpozarniczy.model.Question
 val questionsPart14 = listOf(
 
     Question(
+        id = 346,
         text = "Instalacja wentylacji oddymiającej powinna zapewniać:",
         answers = listOf(
             "Usuwanie dymu z intensywnością co najmniej 10 wymian na godzinę",
@@ -15,16 +16,14 @@ val questionsPart14 = listOf(
     ),
 
     Question(
+        id = 347,
         text = "Zasysacz liniowy pozwala na uzyskanie wodnego roztworu środka pianotwórczego o wartości:",
-        answers = listOf(
-            "3 i 6 %",
-            "6 i 12 %",
-            "13 i 16 %"
-        ),
+        answers = listOf("3 i 6 %", "6 i 12 %", "13 i 16 %"),
         correctIndex = 0
     ),
 
     Question(
+        id = 348,
         text = "Drogi pożarowe o odpowiednio utwardzonej i wytrzymałej nawierzchni powinny być doprowadzone do obiektów niskich:",
         answers = listOf(
             "ZL III i ZL V",
@@ -35,6 +34,7 @@ val questionsPart14 = listOf(
     ),
 
     Question(
+        id = 349,
         text = "Nudności i wymioty u poszkodowanego to:",
         answers = listOf(
             "Normalna reakcja na wypadek",
@@ -45,16 +45,14 @@ val questionsPart14 = listOf(
     ),
 
     Question(
+        id = 350,
         text = "Ile wynosi czas ochronnego działania aparatu powietrznego AP-3 przy zużyciu 30 l/min?",
-        answers = listOf(
-            "53 min",
-            "38 min",
-            "60 min"
-        ),
+        answers = listOf("53 min", "38 min", "60 min"),
         correctIndex = 0
     ),
 
     Question(
+        id = 351,
         text = "Wymień trzy typy dowodzenia działaniami ratowniczymi:",
         answers = listOf(
             "Operacyjny, taktyczny, współdziałający",
@@ -65,6 +63,7 @@ val questionsPart14 = listOf(
     ),
 
     Question(
+        id = 352,
         text = "Przy zwichnięciach w stawie barkowym wykonujemy następujące czynności ratownicze:",
         answers = listOf(
             "Nastawiamy na miejscu zdarzenia",
@@ -75,66 +74,14 @@ val questionsPart14 = listOf(
     ),
 
     Question(
-        text = "Zespół startujący w konkurencji – ćwiczenia bojowe podczas Mistrzostw Polski w Sporcie Pożarniczym liczy:",
-        answers = listOf(
-            "4 zawodników",
-            "7 zawodników",
-            "8 zawodników"
-        ),
-        correctIndex = 1
-    ),
-
-    Question(
-        text = "Energia cieplna (MJ) przypadająca na jednostkę powierzchni obiektu to:",
-        answers = listOf(
-            "Obciążenie ogniowe",
-            "Gęstość obciążenia ogniowego",
-            "Wielkość pożaru"
-        ),
-        correctIndex = 1
-    ),
-
-    Question(
-        text = "Do samochodów pożarniczych średnich zalicza się samochody o masie całkowitej:",
-        answers = listOf(
-            "Od 3,5 do 12 ton",
-            "Od 2 do 3,5 ton",
-            "Od 12 do 15 ton"
-        ),
-        correctIndex = 0
-    ),
-
-    Question(
-        text = "Względny czas trwania pożaru to:",
-        answers = listOf(
-            "Czas, w którym ulegną spaleniu materiały palne znajdujące się w pomieszczeniu lub strefie pożarowej",
-            "Czas, w którym ulegną spaleniu wszystkie materiały znajdujące się w pomieszczeniu lub strefie pożarowej",
-            "Czas, w którym ulegną spaleniu tylko stałe materiały palne znajdujące się w pomieszczeniu"
-        ),
-        correctIndex = 0
-    ),
-
-    Question(
-        text = "Wysoko umieszczone oświetlenie podstawowe i/lub ewakuacyjne powinno być usytuowane powyżej:",
-        answers = listOf(
-            "180 cm od podłogi",
-            "200 cm od podłogi",
-            "220 cm od podłogi"
-        ),
-        correctIndex = 1
-    ),
-
-    Question(
+        id = 353,
         text = "Aparat oddechowy na sprężone powietrze należy do sprzętu:",
-        answers = listOf(
-            "Oczyszczającego",
-            "Filtrującego",
-            "Izolującego"
-        ),
+        answers = listOf("Oczyszczającego", "Filtrującego", "Izolującego"),
         correctIndex = 2
     ),
 
     Question(
+        id = 354,
         text = "Liczba spienienia to:",
         answers = listOf(
             "Stosunek ilości piany do ilości środka pianotwórczego, z którego została wytworzona",
@@ -145,26 +92,21 @@ val questionsPart14 = listOf(
     ),
 
     Question(
+        id = 355,
         text = "Jaka najmniejsza ilość pomp musi być użyta w systemie przetłaczania wody?",
-        answers = listOf(
-            "2",
-            "1",
-            "3"
-        ),
+        answers = listOf("2", "1", "3"),
         correctIndex = 0
     ),
 
     Question(
+        id = 356,
         text = "CKG są to ubrania:",
-        answers = listOf(
-            "Ochrony przeciwchemicznej",
-            "Żaroodporne",
-            "Nurkowe"
-        ),
+        answers = listOf("Ochrony przeciwchemicznej", "Żaroodporne", "Nurkowe"),
         correctIndex = 0
     ),
 
     Question(
+        id = 357,
         text = "27.06.1996 r. ZG ZOSP RP ustanowił Medal Honorowy im.:",
         answers = listOf(
             "Zygmunta Hormańskiego",
@@ -175,6 +117,7 @@ val questionsPart14 = listOf(
     ),
 
     Question(
+        id = 358,
         text = "Organizatorami zdobywania Młodzieżowej Odznaki Sprawności Obronnej o specjalności pożarniczej były:",
         answers = listOf(
             "OSP i Ludowe Zespoły Sportowe",
@@ -185,6 +128,7 @@ val questionsPart14 = listOf(
     ),
 
     Question(
+        id = 359,
         text = "Drużyny strażackie brały udział w konkursie im. Władysława Orkana, który poświęcony był:",
         answers = listOf(
             "Organizowaniu bibliotek przez OSP",
@@ -195,26 +139,21 @@ val questionsPart14 = listOf(
     ),
 
     Question(
+        id = 360,
         text = "W którym roku w miejsce zlikwidowanego „Strażaka” utworzono periodyk „Przegląd Pożarniczy”?",
-        answers = listOf(
-            "1905 r.",
-            "1912 r.",
-            "1920 r."
-        ),
+        answers = listOf("1905 r.", "1912 r.", "1920 r."),
         correctIndex = 1
     ),
 
     Question(
+        id = 361,
         text = "Jeśli w 1970 r. straży typu „S” było 5467, to w 1980 r. było:",
-        answers = listOf(
-            "7900",
-            "8446",
-            "10320"
-        ),
+        answers = listOf("7900", "8446", "10320"),
         correctIndex = 1
     ),
 
     Question(
+        id = 362,
         text = "Najwcześniej w Europie samochody pojawiły się w strażach:",
         answers = listOf(
             "Paryża i Hanoweru",
@@ -225,16 +164,14 @@ val questionsPart14 = listOf(
     ),
 
     Question(
+        id = 363,
         text = "W 1961 r. utworzono stałych kin strażackich:",
-        answers = listOf(
-            "161",
-            "192",
-            "221"
-        ),
+        answers = listOf("161", "192", "221"),
         correctIndex = 0
     ),
 
     Question(
+        id = 364,
         text = "Pierwszą myśl i koncepcję utworzenia w Królestwie Polskim oddziałów „strażaczek” sformułowano:",
         answers = listOf(
             "Na Zjeździe Straży Ogniowych we Wrocławiu w 1912 r.",
@@ -243,5 +180,4 @@ val questionsPart14 = listOf(
         ),
         correctIndex = 1
     )
-
 )
