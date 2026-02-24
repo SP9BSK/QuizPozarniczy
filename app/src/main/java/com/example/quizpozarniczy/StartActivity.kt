@@ -33,18 +33,17 @@ class StartActivity : AppCompatActivity() {
         // PRZYCISKI
         // =========================
 
-        // A / Panel sędziego
+        // Pobierz quiz / Panel sędziego
         findViewById<Button>(R.id.btnJudge).setOnClickListener {
-            if (isOpiekun) {
-                startActivity(Intent(this, JudgeActivity::class.java))
-            } else {
-                Toast.makeText(
-                    this,
-                    "Funkcja A niedostępna w aplikacji młodzież",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
+    if (isOpiekun) {
+        // 🔥 OPIEKUN → Panel sędziego
+        startActivity(Intent(this, JudgeActivity::class.java))
+    } else {
+        // 🔥 MŁODZIEŻ → Pobierz Quiz (skanowanie QR)
+        startActivity(Intent(this, ReceiveQuizActivity::class.java))
+    }
+}
+
 
         // Tryb nauki
         findViewById<Button>(R.id.btnLearn).setOnClickListener {
