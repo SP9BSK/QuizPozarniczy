@@ -5,6 +5,7 @@ import com.example.quizpozarniczy.model.Question
 val questionsPart10 = listOf(
 
     Question(
+        id = 274,
         text = "W którym miejscu występuje najwyższa temperatura płomienia?",
         answers = listOf(
             "Na obrzeżach płomienia",
@@ -15,6 +16,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
+        id = 275,
         text = "Środki zwilżające są to środki, które:",
         answers = listOf(
             "Zwiększają napięcie powierzchniowe wody",
@@ -25,6 +27,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
+        id = 276,
         text = "Ekoperl to:",
         answers = listOf(
             "Nazwa pompy do ratownictwa chemiczno-ekologicznego",
@@ -35,6 +38,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
+        id = 277,
         text = "Przedłużająca się inhalacja organizmu człowieka czystym tlenem przy ciśnieniu atmosferycznym może prowadzić do:",
         answers = listOf(
             "Obrzęku płuc",
@@ -45,6 +49,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
+        id = 278,
         text = "Czujnik bezruchu to:",
         answers = listOf(
             "Sprzęt ratowniczy dla poszkodowanych oczekujących w bezruchu na noszach",
@@ -55,6 +60,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
+        id = 279,
         text = "Gdzie sprawdzamy tętno u niemowlęcia?",
         answers = listOf(
             "Na tętnicy przedramiennej",
@@ -65,6 +71,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
+        id = 280,
         text = "Klasa odporności pożarowej dotyczy:",
         answers = listOf(
             "Budynku",
@@ -75,6 +82,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
+        id = 281,
         text = "Odległość hydrantu zewnętrznego od ścian budynku powinna wynosić:",
         answers = listOf(
             "2-10 m",
@@ -85,6 +93,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
+        id = 282,
         text = "Minimalna odległość między butlą z gazem propan-butan a urządzeniem grzewczym powinna wynosić:",
         answers = listOf(
             "1,5 m",
@@ -95,6 +104,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
+        id = 283,
         text = "Co stanie się z płomieniem świecy, jeżeli w pomieszczeniu zwiększymy stężenie tlenu?",
         answers = listOf(
             "Płomień skróci się i rozszerzy",
@@ -105,6 +115,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
+        id = 284,
         text = "Masowa szybkość spalania odnosi się do:",
         answers = listOf(
             "Materiałów stałych",
@@ -115,6 +126,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
+        id = 285,
         text = "Ustawa \"Prawo ochrony środowiska\" została uchwalona:",
         answers = listOf(
             "27 kwietnia 2001 r.",
@@ -125,6 +137,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
+        id = 286,
         text = "Funkcjonariusz PSP wykonujący czynności kontrolno-rozpoznawcze może ukarać kontrolowanego poprzez:",
         answers = listOf(
             "Skierowanie wniosku do kolegium ds. wykroczeń",
@@ -135,6 +148,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
+        id = 287,
         text = "Jaki gaz o właściwościach wybuchowych wydziela się podczas ładowania akumulatorów zasadowych?",
         answers = listOf(
             "Metan",
@@ -145,6 +159,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
+        id = 288,
         text = "Rurka wskaźnikowa w ratownictwie chemicznym służy do:",
         answers = listOf(
             "Ustalenia ilości substancji niebezpiecznej",
@@ -155,6 +170,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
+        id = 289,
         text = "Wzrost koncentracji tlenu w obszarze spalania powoduje:",
         answers = listOf(
             "Zwiększenie minimalnej energii zapłonu",
@@ -165,6 +181,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
+        id = 290,
         text = "Chloropikryna jest substancją:",
         answers = listOf(
             "Cieczą żrącą o błękitnej barwie",
@@ -175,6 +192,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
+        id = 291,
         text = "Czy pod kładką dla pieszych o konstrukcji stalowej można garażować samochody osobowe?",
         answers = listOf(
             "Tak",
@@ -185,6 +203,7 @@ val questionsPart10 = listOf(
     ),
 
     Question(
+        id = 292,
         text = "Jaki rodzaj ochrony odgromowej należy zastosować w budynku szpitala psychiatrycznego?",
         answers = listOf(
             "Ochronę podstawową",
@@ -193,5 +212,4 @@ val questionsPart10 = listOf(
         ),
         correctIndex = 0
     )
-
 )
