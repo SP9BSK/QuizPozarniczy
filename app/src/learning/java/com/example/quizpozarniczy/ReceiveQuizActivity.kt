@@ -72,7 +72,8 @@ private fun startQrScan() {
         val all = LocalQuestionsRepository.getAllQuestions()
         val selected = all.filter { it.id in ids }
 
-        QuizSession.questions = selected
+        QuizSession.questions.clear()
+        QuizSession.questions.addAll(selected)
         QuizSession.currentPlayer = 1
         QuizSession.totalPlayers = 1
         QuizSession.playerNames.clear()
