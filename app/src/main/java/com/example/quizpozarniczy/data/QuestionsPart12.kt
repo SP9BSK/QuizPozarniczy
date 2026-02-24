@@ -5,6 +5,7 @@ import com.example.quizpozarniczy.model.Question
 val questionsPart12 = listOf(
 
     Question(
+        id = 314,
         text = "Państwowa Straż Pożarna została powołana z dniem:",
         answers = listOf(
             "1 sierpnia 1992 r.",
@@ -15,6 +16,7 @@ val questionsPart12 = listOf(
     ),
 
     Question(
+        id = 315,
         text = "Do krajowego Systemu Ratowniczo–Gaśniczego może zostać włączona jednostka, która posiada:",
         answers = listOf(
             "Co najmniej dwa średnie lub ciężkie samochody pożarnicze",
@@ -25,6 +27,7 @@ val questionsPart12 = listOf(
     ),
 
     Question(
+        id = 316,
         text = "Który z wielkich Polaków ogłosił „Porządek Ogniowy”, będący pierwszym regulaminem gaszenia pożarów?",
         answers = listOf(
             "Kanclerz wielki koronny Jan Łaski",
@@ -35,6 +38,7 @@ val questionsPart12 = listOf(
     ),
 
     Question(
+        id = 317,
         text = "Budynki IN to:",
         answers = listOf(
             "Budynki produkcyjne i magazynowe",
@@ -45,6 +49,7 @@ val questionsPart12 = listOf(
     ),
 
     Question(
+        id = 318,
         text = "Budynki szkolne najczęściej zalicza się do kategorii zagrożenia życia ludzi:",
         answers = listOf(
             "ZL II",
@@ -55,6 +60,7 @@ val questionsPart12 = listOf(
     ),
 
     Question(
+        id = 319,
         text = "Chlor jest gazem o barwie:",
         answers = listOf(
             "Niebiesko-żółtej",
@@ -65,6 +71,7 @@ val questionsPart12 = listOf(
     ),
 
     Question(
+        id = 320,
         text = "W obowiązujących przepisach techniczno–budowlanych ustanowiono liczbę klas odporności pożarowej budynków:",
         answers = listOf(
             "6",
@@ -75,6 +82,7 @@ val questionsPart12 = listOf(
     ),
 
     Question(
+        id = 321,
         text = "Co zyskujemy przy szeregowym łączeniu pomp?",
         answers = listOf(
             "Sumę ciśnień wszystkich pomp",
@@ -85,6 +93,7 @@ val questionsPart12 = listOf(
     ),
 
     Question(
+        id = 322,
         text = "Front działania prądu gaśniczego w obronie wynosi:",
         answers = listOf(
             "10 m",
@@ -95,6 +104,7 @@ val questionsPart12 = listOf(
     ),
 
     Question(
+        id = 323,
         text = "Jak nazywa się popularnie kamizelka ratowniczo–wypornościowa (KRW) stosowana podczas nurkowania?",
         answers = listOf(
             "Jacket",
@@ -105,6 +115,7 @@ val questionsPart12 = listOf(
     ),
 
     Question(
+        id = 324,
         text = "Pożar lasu o powierzchni 6 ha zostanie zakwalifikowany jako:",
         answers = listOf(
             "Pożar średni",
@@ -115,6 +126,7 @@ val questionsPart12 = listOf(
     ),
 
     Question(
+        id = 325,
         text = "Ile wynosi najmniejsza czynna powierzchnia klapy dymowej?",
         answers = listOf(
             "0,6 m²",
@@ -123,5 +135,4 @@ val questionsPart12 = listOf(
         ),
         correctIndex = 1
     )
-
 )
