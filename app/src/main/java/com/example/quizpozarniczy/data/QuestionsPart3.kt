@@ -5,6 +5,7 @@ import com.example.quizpozarniczy.model.Question
 val questionsPart3 = listOf(
 
     Question(
+        id = 140,
         text = "Szkoła kształcąca kadry oficerskie Państwowej Straży Pożarnej znajduje się w Warszawie i nosi nazwę:",
         answers = listOf(
             "Centralna Szkoła Pożarnicza",
@@ -15,12 +16,14 @@ val questionsPart3 = listOf(
     ),
 
     Question(
+        id = 141,
         text = "Jaka jest normatywna szerokość poziomych dróg ewakuacyjnych w nowo projektowanych budynkach, jeżeli są one przeznaczone do ewakuacji dla nie więcej niż 20 osób?",
         answers = listOf("1,2 m", "1,4 m", "0,9 m"),
         correctIndex = 0
     ),
 
     Question(
+        id = 142,
         text = "W Warszawie w „Domu Strażaka” przy ul. Oboźnej posiada swoją siedzibę:",
         answers = listOf(
             "Centrum Zarządzania Kryzysowego Państwa",
@@ -31,12 +34,14 @@ val questionsPart3 = listOf(
     ),
 
     Question(
+        id = 143,
         text = "W jakiej odległości od skraju drogi publicznej zabronione jest pozostawienie gałęzi, chrustu itp.?",
         answers = listOf("Do 50 m", "Do 25 m", "75 m"),
         correctIndex = 0
     ),
 
     Question(
+        id = 144,
         text = "Środki zwilżające są to środki, które:",
         answers = listOf(
             "Zmniejszają opory tłoczenia wody",
@@ -47,30 +52,35 @@ val questionsPart3 = listOf(
     ),
 
     Question(
+        id = 145,
         text = "Pożary butli z acetylenem to pożary grupy:",
         answers = listOf("C", "D", "B"),
         correctIndex = 0
     ),
 
     Question(
+        id = 146,
         text = "Środkiem uodparniającym drewno na działanie ognia jest:",
         answers = listOf("Farba olejna", "Pyran", "Fobos"),
         correctIndex = 2
     ),
 
     Question(
+        id = 147,
         text = "Sterty i stogi można ustawiać od budynków palnych w odległości co najmniej:",
         answers = listOf("20 m", "30 m", "50 m"),
         correctIndex = 1
     ),
 
     Question(
+        id = 148,
         text = "Obowiązujące miano określające gęstość obciążenia ogniowego to:",
         answers = listOf("kg/m²", "MJ/m³", "kcal/kg"),
         correctIndex = 1
     ),
 
     Question(
+        id = 149,
         text = "Przy poborze wody z otwartego zbiornika smok ssawny powinien być zanurzony:",
         answers = listOf(
             "15–20 cm od dna zbiornika",
@@ -81,24 +91,28 @@ val questionsPart3 = listOf(
     ),
 
     Question(
+        id = 150,
         text = "Jaka jest minimalna pojemność przeciwpożarowego zbiornika wodnego?",
         answers = listOf("50 m³", "75 m³", "100 m³"),
         correctIndex = 0
     ),
 
     Question(
+        id = 151,
         text = "Które z wymienionych substancji można gasić wodą?",
         answers = listOf("Sód", "Magnez", "Słoma"),
         correctIndex = 2
     ),
 
     Question(
+        id = 152,
         text = "Zaczadzenie następuje na skutek działania:",
         answers = listOf("CO", "CO₂", "N"),
         correctIndex = 0
     ),
 
     Question(
+        id = 153,
         text = "Komendanta Głównego PSP powołuje i odwołuje:",
         answers = listOf(
             "Prezydent RP na wniosek Ministra Spraw Wewnętrznych i Administracji",
@@ -109,12 +123,14 @@ val questionsPart3 = listOf(
     ),
 
     Question(
+        id = 154,
         text = "Ile jest stopni zagrożenia pożarowego lasu?",
         answers = listOf("2", "4", "3"),
         correctIndex = 1
     ),
 
     Question(
+        id = 155,
         text = "Gaz propan–butan jest szczególnie niebezpieczny ponieważ:",
         answers = listOf(
             "Jest lżejszy od powietrza",
@@ -125,6 +141,7 @@ val questionsPart3 = listOf(
     ),
 
     Question(
+        id = 156,
         text = "Prądownica pianowa PP 2–12 oznacza:",
         answers = listOf(
             "Ciśnienie 2 atm.; nominalna wydajność wodna 120 l/min",
@@ -135,6 +152,7 @@ val questionsPart3 = listOf(
     ),
 
     Question(
+        id = 157,
         text = "Klapa dymowa to:",
         answers = listOf(
             "Urządzenie służące do gaszenia cieczy palnych w zbiornikach",
@@ -145,6 +163,7 @@ val questionsPart3 = listOf(
     ),
 
     Question(
+        id = 158,
         text = "Linia zasilająca to:",
         answers = listOf(
             "Linia wężowa od nasady tłocznej pompy pożarniczej do rozdzielacza",
@@ -155,6 +174,7 @@ val questionsPart3 = listOf(
     ),
 
     Question(
+        id = 159,
         text = "Nomex to:",
         answers = listOf(
             "Środek gaśniczy",
