@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.model.Question
 import com.example.quizpozarniczy.model.WrongAnswer
 import kotlin.math.min
+import android.content.Context
+import com.example.quizpozarniczy.data.LocalQuestionsRepository
+
 
 class QuizActivity : AppCompatActivity() {
 
@@ -35,10 +38,23 @@ class QuizActivity : AppCompatActivity() {
     private val wrongAnswersCurrentPlayer = mutableListOf<WrongAnswer>()
 
     companion object {
-        private const val MAX_PLAYERS = 10
-        private const val MAX_QUESTIONS = 30
-        private const val MAX_TIME_SECONDS = 30 * 60
+    private const val MAX_PLAYERS = 10
+    private const val MAX_QUESTIONS = 30
+    private const val MAX_TIME_SECONDS = 30 * 60
+
+    fun prepareQuestions(context: Context, questions: Int, local: Int) {
+        // Pobierz wszystkie pytania
+        val all = LocalQuestionsRepository.getAllQuestions()
+
+        // Na razie prosto: losujemy pulę pytań
+        val selected = all.shuffled().take(questions)
+
+        // Wrzucamy do QuizSession
+        QuizSession.questions.clear()
+        QuizSession.questions.addAll(selected)
     }
+}
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
