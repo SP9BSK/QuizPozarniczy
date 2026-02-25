@@ -1,0 +1,17 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.quizpozarniczy">
+
+    <!-- Uprawnienia potrzebne do skanera QR -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application>
+
+        <!-- Activity do pobierania quizu -->
+        <activity android:name=".ReceiveQuizActivity" />
+
+        <!-- Skaner QR -->
+        <activity android:name=".QrScannerActivity" />
+
+    </application>
+
+</manifest>
