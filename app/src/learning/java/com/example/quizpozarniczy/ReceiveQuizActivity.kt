@@ -61,15 +61,19 @@ private fun startQrScan() {
         val arr = json.getJSONArray("ids")
         ids = List(arr.length()) { i -> arr.getInt(i) }
 
-        txtInfo.text = "Pobrano quiz:\n" +
-                "• Pytań: ${ids.size}\n" +
-                "• Czas: $timeSeconds sekund"
+        val minutes = timeSeconds / 60
+        val seconds = timeSeconds % 60
+
+         txtInfo.text = "Pobrano quiz:\n" +
+                      "• Pytań: ${ids.size}\n" +
+                      "• Czas: %02d:%02d".format(minutes, seconds)
+
 
         btnStart.isEnabled = true
     }
 
     private fun startQuiz() {
-        val all = LocalQuestionsRepository.getAllQuestions()
+       val all = QuizRepository.getQuestions()
         val selected = all.filter { it.id in ids }
 
         QuizSession.questions.clear()
