@@ -13,6 +13,8 @@ import com.example.quizpozarniczy.model.WrongAnswer
 import kotlin.math.min
 import android.content.Context
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
+import com.example.quizpozarniczy.data.QuizRepository
+
 
 
 class QuizActivity : AppCompatActivity() {
@@ -43,16 +45,18 @@ class QuizActivity : AppCompatActivity() {
     private const val MAX_TIME_SECONDS = 30 * 60
 
     fun prepareQuestions(context: Context, questions: Int, local: Int) {
-        // Pobierz wszystkie pytania
-        val all = LocalQuestionsRepository.getAllQuestions()
+    // Dokładnie tak samo jak w QuizActivity.onCreate – bierzemy pytania z QuizRepository
+    val allQuestions = QuizRepository.getQuestions(
+        totalLimit = questions,
+        localCount = local
+    )
 
-        // Na razie prosto: losujemy pulę pytań
-        val selected = all.shuffled().take(questions)
+    val selected = allQuestions.take(questions)
 
-        // Wrzucamy do QuizSession
-        QuizSession.questions.clear()
-        QuizSession.questions.addAll(selected)
-    }
+    QuizSession.questions.clear()
+    QuizSession.questions.addAll(selected)
+}
+
 }
 
 
