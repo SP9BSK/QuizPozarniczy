@@ -87,6 +87,36 @@ class JudgeActivity : AppCompatActivity() {
         return@setOnClickListener
     }
 
+    // 🔥 Przygotowanie sesji
+    QuizSession.resetAll()
+    QuizSession.totalPlayers = players
+
+    // 🔥 LOSOWANIE PYTAŃ (TAK SAMO JAK W QUIZIE)
+    val intentQuiz = Intent(this, QuizActivity::class.java)
+    intentQuiz.putExtra("PLAYERS", players)
+    intentQuiz.putExtra("QUESTIONS", questions)
+    intentQuiz.putExtra("LOCAL_QUESTIONS", local)
+    intentQuiz.putExtra("TIME_SECONDS", timeSeconds)
+
+    // 🔥 Wywołujemy tylko metodę przygotowującą pytania
+    QuizActivity.prepareQuestions(this, questions, local)
+
+    // 🔥 Pobieramy ID pytań
+    val ids = QuizSession.questions.map { it.id }
+
+    // 🔥 Budujemy JSON
+    val json = org.json.JSONObject().apply {
+        put("time", timeSeconds)
+        put("ids", org.json.JSONArray(ids))
+    }.toString()
+
+    // 🔥 Przechodzimy do QR
+    val intent = Intent(this, ShareQuizActivity::class.java)
+    intent.putExtra("QR_DATA", json)
+    startActivity(intent)
+}
+
+
     // 🔥 Losowanie pytań tak jak przy starcie quizu
     QuizSession.ensurePlayers(players)
     QuizSession.totalPlayers = players
