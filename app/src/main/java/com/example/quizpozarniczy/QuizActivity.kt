@@ -3,7 +3,6 @@ package com.example.quizpozarniczy
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
@@ -13,9 +12,6 @@ import com.example.quizpozarniczy.model.WrongAnswer
 import kotlin.math.min
 import android.content.Context
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
-import com.example.quizpozarniczy.QuizRepository
-
-
 
 class QuizActivity : AppCompatActivity() {
 
@@ -40,25 +36,22 @@ class QuizActivity : AppCompatActivity() {
     private val wrongAnswersCurrentPlayer = mutableListOf<WrongAnswer>()
 
     companion object {
-    private const val MAX_PLAYERS = 10
-    private const val MAX_QUESTIONS = 30
-    private const val MAX_TIME_SECONDS = 30 * 60
+        private const val MAX_PLAYERS = 10
+        private const val MAX_QUESTIONS = 30
+        private const val MAX_TIME_SECONDS = 30 * 60
 
-    fun prepareQuestions(context: Context, questions: Int, local: Int) {
-    // Dokładnie tak samo jak w QuizActivity.onCreate – bierzemy pytania z QuizRepository
-    val allQuestions = QuizRepository.getQuestions(
-        totalLimit = questions,
-        localCount = local
-    )
+        fun prepareQuestions(context: Context, questions: Int, local: Int) {
+            val allQuestions = QuizRepository.getQuestions(
+                totalLimit = questions,
+                localCount = local
+            )
 
-    val selected = allQuestions.take(questions)
+            val selected = allQuestions.take(questions)
 
-    QuizSession.questions.clear()
-    QuizSession.questions.addAll(selected)
-}
-
-}
-
+            QuizSession.questions.clear()
+            QuizSession.questions.addAll(selected)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,31 +69,27 @@ class QuizActivity : AppCompatActivity() {
 
         playersCount = min(intent.getIntExtra("PLAYERS", 1), MAX_PLAYERS)
         val questionsLimit = min(intent.getIntExtra("QUESTIONS", 5), MAX_QUESTIONS)
+        val localLimit = intent.getIntExtra("LOCAL_QUESTIONS", 0)
         timePerPlayerSeconds = min(intent.getIntExtra("TIME_SECONDS", 60), MAX_TIME_SECONDS)
 
         val playerName = QuizSession.playerNames
-    .getOrNull(QuizSession.currentPlayer - 1)
-    ?: "Zawodnik ${QuizSession.currentPlayer}"
+            .getOrNull(QuizSession.currentPlayer - 1)
+            ?: "Zawodnik ${QuizSession.currentPlayer}"
 
-txtPlayerName.text = playerName
+        txtPlayerName.text = playerName
 
-        // Reset tylko przy pierwszym zawodniku
         if (QuizSession.currentPlayer == 1 && QuizSession.results.isEmpty()) {
-    QuizSession.totalPlayers = playersCount
-    QuizSession.ensurePlayers(playersCount)
+            QuizSession.totalPlayers = playersCount
+            QuizSession.ensurePlayers(playersCount)
 
-   val localLimit = intent.getIntExtra("LOCAL_QUESTIONS", 0)
+            val allQuestions = QuizRepository.getQuestions(
+                totalLimit = questionsLimit,
+                localCount = localLimit
+            )
 
-val allQuestions = QuizRepository.getQuestions(
-    totalLimit = questionsLimit,
-    localCount = localLimit
-)
-
-    QuizSession.questions =
-        allQuestions
-            .take(min(questionsLimit, allQuestions.size))
-            .toMutableList()
-}
+            QuizSession.questions =
+                allQuestions.take(min(questionsLimit, allQuestions.size)).toMutableList()
+        }
 
         questions = QuizSession.questions
 
@@ -112,65 +101,53 @@ val allQuestions = QuizRepository.getQuestions(
         showQuestion()
     }
 
-    // ===== TIMER =====
-   private fun startTimer() {
-    timer?.cancel()
+    private fun startTimer() {
+        timer?.cancel()
 
-    val totalMillis = timePerPlayerSeconds * 1000L
+        val totalMillis = timePerPlayerSeconds * 1000L
 
-    timer = object : CountDownTimer(totalMillis, 1000) {
+        timer = object : CountDownTimer(totalMillis, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                timeLeftMillis = millisUntilFinished
 
-        override fun onTick(millisUntilFinished: Long) {
-            timeLeftMillis = millisUntilFinished
+                val totalSeconds = millisUntilFinished / 1000
+                val minutes = totalSeconds / 60
+                val seconds = totalSeconds % 60
 
-            val totalSeconds = millisUntilFinished / 1000
-            val minutes = totalSeconds / 60
-            val seconds = totalSeconds % 60
+                updateTopBar(minutes, seconds)
+            }
 
-            updateTopBar(minutes, seconds)
-        }
+            override fun onFinish() {
+                timeLeftMillis = 0
+                finishPlayer()
+            }
+        }.start()
+    }
 
-        override fun onFinish() {
-            timeLeftMillis = 0
-            finishPlayer()
-        }
+    private fun updateTopBar(minutes: Long, seconds: Long) {
+        txtTimer.text = String.format("%02d:%02d", minutes, seconds)
+        txtQuestionCounter.text = "${currentQuestionIndex + 1}/${questions.size}"
+    }
 
-    }.start()
-}
-
-private fun updateTopBar(minutes: Long, seconds: Long) {
-
-    txtTimer.text =
-        String.format("%02d:%02d", minutes, seconds)
-
-    txtQuestionCounter.text =
-        "${currentQuestionIndex + 1}/${questions.size}"
-}
-   
     private fun calculateElapsedTime(): Int {
         val totalMillis = timePerPlayerSeconds * 1000L
         val usedMillis = totalMillis - timeLeftMillis
         return (usedMillis / 1000).toInt()
     }
 
-    // ===== PYTANIA =====
     private fun showQuestion() {
-    if (currentQuestionIndex >= questions.size) {
-        finishPlayer()
-        return
+        if (currentQuestionIndex >= questions.size) {
+            finishPlayer()
+            return
+        }
+
+        val q = questions[currentQuestionIndex]
+
+        txtQuestion.text = q.text
+        btnA.text = q.answers[0]
+        btnB.text = q.answers[1]
+        btnC.text = q.answers[2]
     }
-
-    val q = questions[currentQuestionIndex]
-
-    // TYLKO TREŚĆ PYTANIA (bez licznika)
-    txtQuestion.text = q.text
-
-    btnA.text = q.answers[0]
-    btnB.text = q.answers[1]
-    btnC.text = q.answers[2]
-
-   
-}
 
     private fun answerSelected(index: Int) {
         val currentQ = questions[currentQuestionIndex]
@@ -192,7 +169,6 @@ private fun updateTopBar(minutes: Long, seconds: Long) {
         showQuestion()
     }
 
-    // ===== KONIEC ZAWODNIKA =====
     private fun finishPlayer() {
         timer?.cancel()
 
