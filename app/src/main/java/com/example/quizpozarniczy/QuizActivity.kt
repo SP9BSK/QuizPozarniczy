@@ -78,7 +78,11 @@ class QuizActivity : AppCompatActivity() {
 
         txtPlayerName.text = playerName
 
-        if (QuizSession.currentPlayer == 1 && QuizSession.results.isEmpty()) {
+        if (QuizSession.currentPlayer == 1 &&
+           QuizSession.results.isEmpty() &&
+           QuizSession.questions.isEmpty()
+      ) {
+
             QuizSession.totalPlayers = playersCount
             QuizSession.ensurePlayers(playersCount)
 
