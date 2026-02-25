@@ -73,7 +73,7 @@ private fun startQrScan() {
     }
 
     private fun startQuiz() {
-       val all = QuizRepository.getQuestions()
+      val all = QuizRepository.getAllQuestions()
         val selected = all.filter { it.id in ids }
 
         QuizSession.questions.clear()
