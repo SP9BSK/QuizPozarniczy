@@ -118,4 +118,43 @@ object QuizRepository {
 
         return (baseQuestions + localQuestions).shuffled()
     }
+        // ===============================
+    // 📦 PEŁNA LISTA PYTAŃ (dla QR)
+    // ===============================
+    fun getAllQuestions(): List<Question> {
+
+        val baseQuestions =
+            questionsPart1 +
+            questionsPart2 +
+            questionsPart3 +
+            questionsPart4 +
+            questionsPart5 +
+            questionsPart6 +
+            questionsPart7 +
+            questionsPart8 +
+            questionsPart9 +
+            questionsPart10 +
+            questionsPart11 +
+            questionsPart12 +
+            questionsPart13 +
+            questionsPart14 +
+            questionsPart15 +
+            questionsPart16 +
+            questionsPart17 +
+            questionsPart18 +
+            questionsPart19 +
+            questionsPart20 +
+            questionsPart21
+
+        val localQuestions = DefaultLocalQuestions.questions.map { local ->
+            Question(
+                text = local.fullQuestionNoQuotes(),
+                answers = local.answers,
+                correctIndex = local.correctIndex
+            )
+        }
+
+        return baseQuestions + localQuestions
+    }
+
 }
