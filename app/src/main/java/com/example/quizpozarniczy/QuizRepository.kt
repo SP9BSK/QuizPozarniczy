@@ -67,6 +67,7 @@ object QuizRepository {
             .take(safeLocalCount)
             .map { local ->
                 Question(
+                    id = local.id,                                  // ⬅⬅⬅ TU JEST KLUCZOWA ZMIANA
                     text = local.fullQuestionNoQuotes(),
                     answers = local.answers,
                     correctIndex = local.correctIndex
@@ -110,6 +111,7 @@ object QuizRepository {
 
         val localQuestions = DefaultLocalQuestions.questions.map { local ->
             Question(
+                id = local.id,                                  // ⬅⬅⬅ I DRUGA IDENTYCZNA ZMIANA
                 text = local.fullQuestionNoQuotes(),
                 answers = local.answers,
                 correctIndex = local.correctIndex
@@ -118,7 +120,8 @@ object QuizRepository {
 
         return (baseQuestions + localQuestions).shuffled()
     }
-        // ===============================
+
+    // ===============================
     // 📦 PEŁNA LISTA PYTAŃ (dla QR)
     // ===============================
     fun getAllQuestions(): List<Question> {
@@ -148,6 +151,7 @@ object QuizRepository {
 
         val localQuestions = DefaultLocalQuestions.questions.map { local ->
             Question(
+                id = local.id,                                  // ⬅⬅⬅ TU TEŻ MUSI BYĆ id = local.id
                 text = local.fullQuestionNoQuotes(),
                 answers = local.answers,
                 correctIndex = local.correctIndex
@@ -156,5 +160,4 @@ object QuizRepository {
 
         return baseQuestions + localQuestions
     }
-
 }
