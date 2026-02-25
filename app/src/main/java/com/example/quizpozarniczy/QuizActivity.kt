@@ -13,7 +13,7 @@ import com.example.quizpozarniczy.model.WrongAnswer
 import kotlin.math.min
 import android.content.Context
 import com.example.quizpozarniczy.data.LocalQuestionsRepository
-import com.example.quizpozarniczy.data.QuizRepository
+import com.example.quizpozarniczy.QuizRepository
 
 
 
