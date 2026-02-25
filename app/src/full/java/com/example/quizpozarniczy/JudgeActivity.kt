@@ -9,6 +9,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import org.json.JSONArray
+import org.json.JSONObject
 
 class JudgeActivity : AppCompatActivity() {
 
@@ -71,81 +73,44 @@ class JudgeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // 📤 UDOSTĘPNIJ QUIZ (QR)
         btnShareQuiz.setOnClickListener {
 
-    val players = etPlayers.text.toString().toIntOrNull() ?: 1
-    val questions = etQuestions.text.toString().toIntOrNull() ?: 1
-    val local = etLocalQuestions.text.toString().toIntOrNull() ?: 0
-    val timeSeconds = (etTime.text.toString().toIntOrNull() ?: 1) * 60
+            val players = etPlayers.text.toString().toIntOrNull() ?: 1
+            val questions = etQuestions.text.toString().toIntOrNull() ?: 1
+            val local = etLocalQuestions.text.toString().toIntOrNull() ?: 0
+            val timeSeconds = (etTime.text.toString().toIntOrNull() ?: 1) * 60
 
-    if (local > questions) {
-        Toast.makeText(
-            this,
-            "Pytania lokalne nie mogą być większe niż ogółem",
-            Toast.LENGTH_LONG
-        ).show()
-        return@setOnClickListener
-    }
+            if (local > questions) {
+                Toast.makeText(
+                    this,
+                    "Pytania lokalne nie mogą być większe niż ogółem",
+                    Toast.LENGTH_LONG
+                ).show()
+                return@setOnClickListener
+            }
 
-    // 🔥 Przygotowanie sesji
-    QuizSession.resetAll()
-    QuizSession.totalPlayers = players
+            // 🔥 Przygotowanie sesji
+            QuizSession.resetAll()
+            QuizSession.totalPlayers = players
 
-    // 🔥 LOSOWANIE PYTAŃ (TAK SAMO JAK W QUIZIE)
-    val intentQuiz = Intent(this, QuizActivity::class.java)
-    intentQuiz.putExtra("PLAYERS", players)
-    intentQuiz.putExtra("QUESTIONS", questions)
-    intentQuiz.putExtra("LOCAL_QUESTIONS", local)
-    intentQuiz.putExtra("TIME_SECONDS", timeSeconds)
+            // 🔥 Losowanie pytań (tak jak w quizie)
+            QuizActivity.prepareQuestions(this, questions, local)
 
-    // 🔥 Wywołujemy tylko metodę przygotowującą pytania
-    QuizActivity.prepareQuestions(this, questions, local)
+            // 🔥 Pobieramy ID pytań
+            val ids = QuizSession.questions.map { it.id }
 
-    // 🔥 Pobieramy ID pytań
-    val ids = QuizSession.questions.map { it.id }
+            // 🔥 Budujemy JSON
+            val json = JSONObject().apply {
+                put("time", timeSeconds)
+                put("ids", JSONArray(ids))
+            }.toString()
 
-    // 🔥 Budujemy JSON
-    val json = org.json.JSONObject().apply {
-        put("time", timeSeconds)
-        put("ids", org.json.JSONArray(ids))
-    }.toString()
-
-    // 🔥 Przechodzimy do QR
-    val intent = Intent(this, ShareQuizActivity::class.java)
-    intent.putExtra("QR_DATA", json)
-    startActivity(intent)
-}
-
-
-    // 🔥 Losowanie pytań tak jak przy starcie quizu
-    QuizSession.ensurePlayers(players)
-    QuizSession.totalPlayers = players
-    QuizSession.resetAll()
-
-    val intentQuiz = Intent(this, QuizActivity::class.java)
-    intentQuiz.putExtra("PLAYERS", players)
-    intentQuiz.putExtra("QUESTIONS", questions)
-    intentQuiz.putExtra("LOCAL_QUESTIONS", local)
-    intentQuiz.putExtra("TIME_SECONDS", timeSeconds)
-
-    // 🔥 Uruchamiamy QUIZ w tle, żeby QuizSession.questions było gotowe
-    startActivity(intentQuiz)
-
-    // 🔥 Pobieramy ID pytań
-    val ids = QuizSession.questions.map { it.id }
-
-    // 🔥 Budujemy JSON
-    val json = org.json.JSONObject().apply {
-        put("time", timeSeconds)
-        put("ids", org.json.JSONArray(ids))
-    }.toString()
-
-    // 🔥 Przechodzimy do ekranu z QR
-    val intent = Intent(this, ShareQuizActivity::class.java)
-    intent.putExtra("QR_DATA", json)
-    startActivity(intent)
-}
-
+            // 🔥 Przejście do ekranu z QR
+            val intent = Intent(this, ShareQuizActivity::class.java)
+            intent.putExtra("QR_DATA", json)
+            startActivity(intent)
+        }
     }
 
     private fun setupLiveValidation(et: EditText, min: Int, max: Int) {
