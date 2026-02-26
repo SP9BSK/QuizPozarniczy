@@ -6,6 +6,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONObject
+import java.io.File
+
 
 class ResultsActivity : AppCompatActivity() {
 
@@ -32,16 +34,17 @@ class ResultsActivity : AppCompatActivity() {
         val obj = JSONObject(line)
         PlayerResult(
             playerNumber = 0,
-            playerName = obj.getString("player"),   // ← tu jest poprawka!
+            playerName = obj.getString("player"),
             score = obj.getInt("score"),
             total = obj.getInt("total"),
-            wrongAnswers = obj.getInt("total") - obj.getInt("score"),
+            wrongAnswers = emptyList(),   // ← poprawka
             timeSeconds = obj.getInt("time")
         )
     } catch (e: Exception) {
         null
     }
 }
+
 
 
         // 3. Sortowanie jak w RankingActivity
