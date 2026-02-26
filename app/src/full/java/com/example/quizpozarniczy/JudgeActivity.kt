@@ -27,7 +27,18 @@ class JudgeActivity : AppCompatActivity() {
 
         val btnStart = findViewById<Button>(R.id.btnStart)
         val btnEditPlayers = findViewById<Button>(R.id.btnEditPlayers)
-        val btnShareQuiz = findViewById<Button>(R.id.btnShareQuiz)
+        val btnShareQuiz = findViewById<Button>(R.id.btnShareQuiz
+        val btnScanResults = findViewById<Button>(R.id.btnScanResults)
+        val btnShowResults = findViewById<Button>(R.id.btnShowResults)
+
+           btnScanResults.setOnClickListener {
+           startActivity(Intent(this, ScanResultsActivity::class.java))
+           }
+
+           btnShowResults.setOnClickListener {
+           startActivity(Intent(this, ResultsActivity::class.java))
+           }
+                                       
 
         setupLiveValidation(etPlayers, 1, 10)
         setupLiveValidation(etQuestions, 1, 30)
