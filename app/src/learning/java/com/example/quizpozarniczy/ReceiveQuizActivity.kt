@@ -15,6 +15,8 @@ class ReceiveQuizActivity : AppCompatActivity() {
     private lateinit var txtInfo: TextView
     private lateinit var btnScan: Button
     private lateinit var btnStart: Button
+    private lateinit var btnName: Button
+
 
     private var timeSeconds = 60
     private var ids: List<Int> = emptyList()
@@ -22,6 +24,9 @@ class ReceiveQuizActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_receive_quiz)
+
+        window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
 
         txtInfo = findViewById(R.id.txtInfo)
         btnScan = findViewById(R.id.btnScan)
@@ -36,6 +41,12 @@ class ReceiveQuizActivity : AppCompatActivity() {
         btnStart.setOnClickListener {
             startQuiz()
         }
+        btnName = findViewById(R.id.btnName)
+
+       btnName.setOnClickListener {
+         askForName()
+       }
+
     }
 
     private val qrLauncher =
@@ -90,4 +101,24 @@ private fun startQrScan() {
         startActivity(intent)
         finish()
     }
+    private fun askForName() {
+    val dialog = android.app.AlertDialog.Builder(this)
+    dialog.setTitle("Twoje imię")
+
+    val input = android.widget.EditText(this)
+    input.hint = "Wpisz swoje imię"
+    dialog.setView(input)
+
+    dialog.setPositiveButton("OK") { _, _ ->
+        val name = input.text.toString().ifBlank { "Zawodnik" }
+        QuizSession.playerNames.clear()
+        QuizSession.playerNames.add(name)
+
+        txtInfo.text = txtInfo.text.toString() + "\n• Imię: $name"
+    }
+
+    dialog.setNegativeButton("Anuluj", null)
+    dialog.show()
+}
+
 }
