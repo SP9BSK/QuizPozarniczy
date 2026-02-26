@@ -91,8 +91,6 @@ private fun startQrScan() {
         QuizSession.questions.addAll(selected)
         QuizSession.currentPlayer = 1
         QuizSession.totalPlayers = 1
-        QuizSession.playerNames.clear()
-        QuizSession.playerNames.add("Zawodnik")
         QuizSession.results.clear()
 
         val intent = Intent(this, QuizActivity::class.java)
