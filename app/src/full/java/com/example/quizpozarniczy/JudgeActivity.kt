@@ -27,18 +27,18 @@ class JudgeActivity : AppCompatActivity() {
 
         val btnStart = findViewById<Button>(R.id.btnStart)
         val btnEditPlayers = findViewById<Button>(R.id.btnEditPlayers)
-        val btnShareQuiz = findViewById<Button>(R.id.btnShareQuiz
+        val btnShareQuiz = findViewById<Button>(R.id.btnShareQuiz)
+
         val btnScanResults = findViewById<Button>(R.id.btnScanResults)
         val btnShowResults = findViewById<Button>(R.id.btnShowResults)
 
-           btnScanResults.setOnClickListener {
-           startActivity(Intent(this, ScanResultsActivity::class.java))
-           }
+        btnScanResults.setOnClickListener {
+            startActivity(Intent(this, QrScannerActivity::class.java))
+        }
 
-           btnShowResults.setOnClickListener {
-           startActivity(Intent(this, ResultsActivity::class.java))
-           }
-                                       
+        btnShowResults.setOnClickListener {
+            startActivity(Intent(this, ResultsActivity::class.java))
+        }
 
         setupLiveValidation(etPlayers, 1, 10)
         setupLiveValidation(etQuestions, 1, 30)
@@ -73,7 +73,7 @@ class JudgeActivity : AppCompatActivity() {
             // 🔹 RESET PRZED STARTEM QUIZU (zachowuje nazwy zawodników)
             QuizSession.ensurePlayers(players)
             QuizSession.totalPlayers = players
-            QuizSession.resetAll() // usuwa tylko wyniki i pytania, imiona pozostają
+            QuizSession.resetAll()
 
             val intent = Intent(this, QuizActivity::class.java)
             intent.putExtra("PLAYERS", players)
@@ -101,23 +101,18 @@ class JudgeActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // 🔥 Przygotowanie sesji
             QuizSession.resetAll()
             QuizSession.totalPlayers = players
 
-            // 🔥 Losowanie pytań (tak jak w quizie)
             QuizActivity.prepareQuestions(this, questions, local)
 
-            // 🔥 Pobieramy ID pytań
             val ids = QuizSession.questions.map { it.id }
 
-            // 🔥 Budujemy JSON
             val json = JSONObject().apply {
                 put("time", timeSeconds)
                 put("ids", JSONArray(ids))
             }.toString()
 
-            // 🔥 Przejście do ekranu z QR
             val intent = Intent(this, ShareQuizActivity::class.java)
             intent.putExtra("QR_DATA", json)
             startActivity(intent)
