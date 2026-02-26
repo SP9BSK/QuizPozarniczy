@@ -7,6 +7,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import org.json.JSONObject
 
 class ResultActivity : AppCompatActivity() {
 
@@ -21,9 +22,9 @@ class ResultActivity : AppCompatActivity() {
 
         txtRanking.typeface = Typeface.MONOSPACE
 
-        // 🔒 Zabezpieczenie przed pustą listą
+        // Zabezpieczenie
         if (QuizSession.results.isEmpty()) {
-            txtRanking.text = "Brak wyników do wyświetlenia."
+            txtRanking.text = "Brak wyniku do wyświetlenia."
             btnBack.setOnClickListener {
                 QuizSession.resetTournament()
                 val intent = Intent(this, StartActivity::class.java)
@@ -35,40 +36,28 @@ class ResultActivity : AppCompatActivity() {
             return
         }
 
-        // 🔥 Sortowanie wyników
-        val sorted = QuizSession.results.sortedWith(
-            compareByDescending<PlayerResult> { it.score }
-                .thenBy { it.timeSeconds }
-        )
+        // Pobieramy wynik ostatniego zawodnika
+        val result = QuizSession.results.last()
 
-        val sb = StringBuilder()
+        // Tekst wyniku
+        val wynikTekst = """
+            Zawodnik: ${result.playerName}
+            Punkty:   ${result.score}/${result.total}
+            Czas:     ${formatTime(result.timeSeconds)}
+        """.trimIndent()
 
-        // NAGŁÓWEK
-        sb.append(
-            String.format(
-                "%-3s %-15s %5s %6s\n",
-                "M.",
-                "ZAWODNIK",
-                "PKT",
-                "CZAS"
-            )
-        )
-        sb.append("----------------------------------------\n")
-
-        // DANE
-        sorted.forEachIndexed { index, r ->
-            sb.append(
-                String.format(
-                    "%-3d %-15s %7s %6s\n",
-                    index + 1,
-                    r.playerName.take(15),
-                    "${r.score}/${r.total}",
-                    formatTime(r.timeSeconds)
-                )
-            )
+        // JSON do QR
+        val json = JSONObject().apply {
+            put("player", result.playerName)
+            put("score", result.score)
+            put("total", result.total)
+            put("time", result.timeSeconds)
         }
 
-        txtRanking.text = sb.toString()
+        val qrData = json.toString()
+
+        // Wyświetlamy wynik + QR
+        txtRanking.text = wynikTekst + "\n\nKod QR:\n$qrData"
 
         btnBack.setOnClickListener {
             QuizSession.resetTournament()
