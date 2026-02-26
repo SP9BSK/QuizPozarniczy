@@ -17,6 +17,9 @@ class FirstLaunchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_first_launch)
 
+        window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
 
         // Jeśli dane już zapisane → przejdź dalej
