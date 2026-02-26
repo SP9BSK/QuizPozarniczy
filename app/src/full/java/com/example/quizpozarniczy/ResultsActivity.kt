@@ -59,15 +59,16 @@ class ResultsActivity : AppCompatActivity() {
         sb.append("----------------------------------------\n")
 
         sorted.forEachIndexed { index, r ->
-            sb.append(
-                String.format(
-                    "%-4d %-15s %6d %8s\n",
-                    index + 1,
-                    r.playerName.take(15),
-                    r.score,
-                    formatTime(r.timeSeconds)
-                )
-            )
+           sb.append(
+    String.format(
+        "%-4d %-15s %6s %8s\n",
+        index + 1,
+        r.playerName.take(15),
+        "${r.score}/${r.total}",
+        formatTime(r.timeSeconds)
+    )
+)
+
         }
 
         tv.text = sb.toString()
