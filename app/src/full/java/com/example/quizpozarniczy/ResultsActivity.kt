@@ -90,7 +90,7 @@ class ResultsActivity : AppCompatActivity() {
         csv.append("Miejsce;Zawodnik;Punkty;Czas\n")
 
         results.forEachIndexed { index, r ->
-            csv.append("${index + 1};${r.playerName};${r.score};${formatTime(r.timeSeconds)}\n")
+           csv.append("${index + 1};${r.playerName};${r.score}/${r.total};${formatTime(r.timeSeconds)}\n")
         }
 
         val filename = "wyniki_quizu.csv"
