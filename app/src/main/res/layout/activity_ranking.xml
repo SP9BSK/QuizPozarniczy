@@ -24,6 +24,15 @@
         android:padding="8dp"
         android:textIsSelectable="true" />
 
+    <ImageView
+    android:id="@+id/imgQR"
+    android:layout_width="250dp"
+    android:layout_height="250dp"
+    android:layout_marginTop="16dp"
+    android:layout_gravity="center"
+    android:contentDescription="QR Code" />
+
+
     <Button
         android:id="@+id/btnBackToJudge"
         android:layout_width="match_parent"
