@@ -15,6 +15,8 @@ import androidx.core.content.ContextCompat
 import androidx.camera.view.PreviewView
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
+import android.content.Intent
+
 
 class QrScannerActivity : AppCompatActivity() {
 
