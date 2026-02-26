@@ -7,6 +7,8 @@
         <activity android:name=".ShareQuizActivity" />
         <activity android:name=".JudgeActivity" />
         <activity android:name=".QrScannerActivity" />
+        <activity android:name=".ResultsActivity" />
+
 
         <!-- Jeśli masz inne activity tylko dla full, dodaj je tutaj -->
 
