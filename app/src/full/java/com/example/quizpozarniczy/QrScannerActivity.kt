@@ -1,6 +1,7 @@
 package com.example.quizpozarniczy
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Button
@@ -15,12 +16,11 @@ import androidx.core.content.ContextCompat
 import androidx.camera.view.PreviewView
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
-import android.content.Intent
-
 
 class QrScannerActivity : AppCompatActivity() {
 
     private lateinit var previewView: PreviewView
+    private var lastScanTime = 0L   // zapobiega wielokrotnemu skanowaniu tego samego kodu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +60,12 @@ class QrScannerActivity : AppCompatActivity() {
             val analyzer = ImageAnalysis.Builder().build().apply {
                 setAnalyzer(ContextCompat.getMainExecutor(this@QrScannerActivity)) { imageProxy ->
 
+                    val now = System.currentTimeMillis()
+                    if (now - lastScanTime < 1000) { // 1 sekunda przerwy
+                        imageProxy.close()
+                        return@setAnalyzer
+                    }
+
                     val mediaImage = imageProxy.image
                     if (mediaImage != null) {
                         val image = InputImage.fromMediaImage(
@@ -73,6 +79,7 @@ class QrScannerActivity : AppCompatActivity() {
                                 for (barcode in barcodes) {
                                     val raw = barcode.rawValue
                                     if (raw != null) {
+                                        lastScanTime = now
                                         onQrDetected(raw)
                                     }
                                 }
