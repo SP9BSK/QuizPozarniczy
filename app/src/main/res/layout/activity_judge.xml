@@ -134,6 +134,21 @@
     android:textSize="16sp"
     android:layout_marginTop="12dp" />
 
+    <Button
+    android:id="@+id/btnScanResults"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="SKANUJ WYNIKI"
+    android:layout_marginTop="16dp" />
+
+<Button
+    android:id="@+id/btnShowResults"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="POKAŻ WYNIKI"
+    android:layout_marginTop="8dp" />
+
+
     
 
 </LinearLayout>
