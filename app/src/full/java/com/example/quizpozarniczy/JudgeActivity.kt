@@ -30,14 +30,9 @@ class JudgeActivity : AppCompatActivity() {
         val btnShareQuiz = findViewById<Button>(R.id.btnShareQuiz)
 
         val btnScanResults = findViewById<Button>(R.id.btnScanResults)
-        val btnShowResults = findViewById<Button>(R.id.btnShowResults)
 
         btnScanResults.setOnClickListener {
             startActivity(Intent(this, QrScannerActivity::class.java))
-        }
-
-        btnShowResults.setOnClickListener {
-            startActivity(Intent(this, ResultsActivity::class.java))
         }
 
         setupLiveValidation(etPlayers, 1, 10)
@@ -70,7 +65,6 @@ class JudgeActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // 🔹 RESET PRZED STARTEM QUIZU (zachowuje nazwy zawodników)
             QuizSession.ensurePlayers(players)
             QuizSession.totalPlayers = players
             QuizSession.resetAll()
