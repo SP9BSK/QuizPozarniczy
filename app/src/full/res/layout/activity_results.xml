@@ -1,7 +1,29 @@
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tvResults"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:textSize="20sp"
-    android:padding="16dp"/>
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tvResults"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:typeface="monospace"
+            android:padding="8dp" />
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnSaveResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Zapisz wyniki"
+        android:layout_marginTop="12dp" />
+
+</LinearLayout>
