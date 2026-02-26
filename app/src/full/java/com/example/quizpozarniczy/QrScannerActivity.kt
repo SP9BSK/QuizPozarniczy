@@ -1,9 +1,10 @@
 package com.example.quizpozarniczy
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Button
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
@@ -18,13 +19,17 @@ import com.google.mlkit.vision.common.InputImage
 class QrScannerActivity : AppCompatActivity() {
 
     private lateinit var previewView: PreviewView
-    private var scanning = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_scanner)
 
         previewView = findViewById(R.id.previewView)
+
+        val btnShowResults = findViewById<Button>(R.id.btnShowResults)
+        btnShowResults.setOnClickListener {
+            startActivity(Intent(this, ResultsActivity::class.java))
+        }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
             == PackageManager.PERMISSION_GRANTED
@@ -52,14 +57,13 @@ class QrScannerActivity : AppCompatActivity() {
 
             val analyzer = ImageAnalysis.Builder().build().apply {
                 setAnalyzer(ContextCompat.getMainExecutor(this@QrScannerActivity)) { imageProxy ->
-                    if (!scanning) {
-                        imageProxy.close()
-                        return@setAnalyzer
-                    }
 
                     val mediaImage = imageProxy.image
                     if (mediaImage != null) {
-                        val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
+                        val image = InputImage.fromMediaImage(
+                            mediaImage,
+                            imageProxy.imageInfo.rotationDegrees
+                        )
                         val scanner = BarcodeScanning.getClient()
 
                         scanner.process(image)
@@ -67,19 +71,15 @@ class QrScannerActivity : AppCompatActivity() {
                                 for (barcode in barcodes) {
                                     val raw = barcode.rawValue
                                     if (raw != null) {
-                                        scanning = false
-                                        imageProxy.close()
                                         onQrDetected(raw)
-                                        return@addOnSuccessListener
                                     }
                                 }
-                            }
-                            .addOnFailureListener {
-                                imageProxy.close()
                             }
                             .addOnCompleteListener {
                                 imageProxy.close()
                             }
+                    } else {
+                        imageProxy.close()
                     }
                 }
             }
@@ -94,9 +94,7 @@ class QrScannerActivity : AppCompatActivity() {
     }
 
     private fun onQrDetected(text: String) {
-        val intent = Intent()
-        intent.putExtra("QR_DATA", text)
-        setResult(RESULT_OK, intent)
-        finish()
+        ScanResultsStore.add(text)
+        Toast.makeText(this, "Zeskanowano: $text", Toast.LENGTH_SHORT).show()
     }
 }
