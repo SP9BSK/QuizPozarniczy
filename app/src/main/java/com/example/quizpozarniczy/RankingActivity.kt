@@ -11,6 +11,9 @@ class RankingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ranking)
 
+        window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+
         val txtRanking = findViewById<TextView>(R.id.txtRanking)
         txtRanking.typeface = Typeface.MONOSPACE
 
