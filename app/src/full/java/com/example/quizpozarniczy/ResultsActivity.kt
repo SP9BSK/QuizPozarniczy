@@ -28,17 +28,21 @@ class ResultsActivity : AppCompatActivity() {
 
         // 2. Parsujemy JSON → PlayerResult
         val results = raw.mapNotNull { line ->
-            try {
-                val obj = JSONObject(line)
-                PlayerResult(
-                    playerName = obj.getString("name"),
-                    score = obj.getInt("score"),
-                    timeSeconds = obj.getInt("time")
-                )
-            } catch (e: Exception) {
-                null
-            }
-        }
+    try {
+        val obj = JSONObject(line)
+        PlayerResult(
+            playerNumber = 0,
+            playerName = obj.getString("player"),   // ← tu jest poprawka!
+            score = obj.getInt("score"),
+            total = obj.getInt("total"),
+            wrongAnswers = obj.getInt("total") - obj.getInt("score"),
+            timeSeconds = obj.getInt("time")
+        )
+    } catch (e: Exception) {
+        null
+    }
+}
+
 
         // 3. Sortowanie jak w RankingActivity
         val sorted = results.sortedWith(
