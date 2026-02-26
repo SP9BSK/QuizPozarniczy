@@ -13,6 +13,9 @@ class ShareQuizActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_share_quiz)
 
+        window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+
         val qrData = intent.getStringExtra("QR_DATA") ?: return
         val imageView = findViewById<ImageView>(R.id.imgQr)
 
