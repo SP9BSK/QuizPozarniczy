@@ -23,6 +23,7 @@ class ResultActivity : AppCompatActivity() {
 
         val txtRanking = findViewById<TextView>(R.id.txtRanking)
         val btnBack = findViewById<Button>(R.id.btnBackToJudge)
+        btnBack.text = "POWRÓT NA STRONĘ GŁÓWNĄ"
         val imgQR = findViewById<ImageView>(R.id.imgQR)
 
         txtRanking.typeface = Typeface.MONOSPACE
