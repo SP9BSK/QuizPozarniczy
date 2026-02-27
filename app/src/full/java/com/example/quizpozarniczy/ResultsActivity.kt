@@ -102,10 +102,10 @@ class ResultsActivity : AppCompatActivity() {
 
     private fun saveCsvToDocuments(results: List<PlayerResult>, filename: String) {
     val csv = StringBuilder()
-    csv.append("Miejsce;Zawodnik;Wynik;Czas\n")
+    csv.append("Miejsce,Zawodnik,Wynik,Czas\n")
 
     results.forEachIndexed { index, r ->
-        csv.append("${index + 1};${r.playerName};${r.score}/${r.total};${formatTime(r.timeSeconds)}\n")
+        csv.append("${index + 1},${r.playerName},${r.score}/${r.total},${formatTime(r.timeSeconds)}\n")
     }
 
     val documentsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
@@ -114,7 +114,6 @@ class ResultsActivity : AppCompatActivity() {
     val file = File(documentsDir, filename)
     file.writeText(csv.toString())
 
-    // Powiadom system, żeby plik pojawił się w „Dokumenty”
     MediaScannerConnection.scanFile(
         this,
         arrayOf(file.absolutePath),
