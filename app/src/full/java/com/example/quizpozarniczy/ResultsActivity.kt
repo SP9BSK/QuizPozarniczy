@@ -10,8 +10,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONObject
 import java.io.File
+import java.io.FileOutputStream
 import android.media.MediaScannerConnection
-
+import org.apache.poi.ss.usermodel.*
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 class ResultsActivity : AppCompatActivity() {
 
@@ -83,7 +85,7 @@ class ResultsActivity : AppCompatActivity() {
 
     private fun showFilenameDialog(results: List<PlayerResult>) {
         val input = EditText(this).apply {
-            setText("wyniki_quizu.csv")
+            setText("wyniki_quizu.xlsx")
         }
 
         AlertDialog.Builder(this)
@@ -91,41 +93,89 @@ class ResultsActivity : AppCompatActivity() {
             .setView(input)
             .setPositiveButton("Zapisz") { _, _ ->
                 var name = input.text.toString().trim()
-                if (!name.endsWith(".csv", ignoreCase = true)) {
-                    name += ".csv"
+                if (!name.endsWith(".xlsx", ignoreCase = true)) {
+                    name += ".xlsx"
                 }
-                saveCsvToDocuments(results, name)
+                saveXlsxToDownloads(results, name)
             }
             .setNegativeButton("Anuluj", null)
             .show()
     }
 
-    private fun saveCsvToDocuments(results: List<PlayerResult>, filename: String) {
-    val csv = StringBuilder()
-    csv.append("Miejsce,Zawodnik,Wynik,Czas\n")
+    private fun saveXlsxToDownloads(results: List<PlayerResult>, filename: String) {
+        val workbook = XSSFWorkbook()
+        val sheet = workbook.createSheet("Wyniki")
 
-    results.forEachIndexed { index, r ->
-        csv.append("${index + 1},${r.playerName},${r.score}/${r.total},${formatTime(r.timeSeconds)}\n")
+        // STYLE: nagłówek
+        val headerStyle = workbook.createCellStyle().apply {
+            alignment = HorizontalAlignment.CENTER
+            verticalAlignment = VerticalAlignment.CENTER
+            borderBottom = BorderStyle.THIN
+            borderTop = BorderStyle.THIN
+            borderLeft = BorderStyle.THIN
+            borderRight = BorderStyle.THIN
+            val font = workbook.createFont().apply { bold = true }
+            setFont(font)
+        }
+
+        // STYLE: komórki
+        val cellStyle = workbook.createCellStyle().apply {
+            alignment = HorizontalAlignment.CENTER
+            verticalAlignment = VerticalAlignment.CENTER
+            borderBottom = BorderStyle.THIN
+            borderTop = BorderStyle.THIN
+            borderLeft = BorderStyle.THIN
+            borderRight = BorderStyle.THIN
+        }
+
+        // Nagłówki
+        val headerRow = sheet.createRow(0)
+        val headers = listOf("Miejsce", "Zawodnik", "Wynik", "Czas")
+
+        headers.forEachIndexed { i, title ->
+            val cell = headerRow.createCell(i)
+            cell.setCellValue(title)
+            cell.cellStyle = headerStyle
+        }
+
+        // Dane
+        results.forEachIndexed { index, r ->
+            val row = sheet.createRow(index + 1)
+
+            val scoreText = "${r.score}/${r.total}"  // poprawne 10/12
+
+            val values = listOf(
+                (index + 1).toString(),
+                r.playerName,
+                scoreText,
+                formatTime(r.timeSeconds)
+            )
+
+            values.forEachIndexed { i, value ->
+                val cell = row.createCell(i)
+                cell.setCellValue(value)
+                cell.cellStyle = cellStyle
+            }
+        }
+
+        // Auto szerokość kolumn
+        for (i in headers.indices) sheet.autoSizeColumn(i)
+
+        // Zapis do Pobrane
+        val downloads = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        if (!downloads.exists()) downloads.mkdirs()
+
+        val file = File(downloads, filename)
+        FileOutputStream(file).use { workbook.write(it) }
+        workbook.close()
+
+        MediaScannerConnection.scanFile(
+            this,
+            arrayOf(file.absolutePath),
+            arrayOf("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"),
+            null
+        )
+
+        Toast.makeText(this, "Zapisano XLSX w Pobrane:\n${file.absolutePath}", Toast.LENGTH_LONG).show()
     }
-
-    val documentsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-    if (!documentsDir.exists()) documentsDir.mkdirs()
-
-    val file = File(documentsDir, filename)
-    file.writeText(csv.toString())
-
-    MediaScannerConnection.scanFile(
-        this,
-        arrayOf(file.absolutePath),
-        arrayOf("text/csv"),
-        null
-    )
-
-    Toast.makeText(
-        this,
-        "Zapisano w Dokumenty:\n${file.absolutePath}",
-        Toast.LENGTH_LONG
-    ).show()
-}
-
 }
