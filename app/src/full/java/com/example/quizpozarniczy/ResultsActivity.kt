@@ -92,13 +92,13 @@ class ResultsActivity : AppCompatActivity() {
                 if (!name.endsWith(".csv", ignoreCase = true)) {
                     name += ".csv"
                 }
-                saveCsvToDownload(results, name)
+                saveCsvToDocuments(results, name)
             }
             .setNegativeButton("Anuluj", null)
             .show()
     }
 
-    private fun saveCsvToDownload(results: List<PlayerResult>, filename: String) {
+    private fun saveCsvToDocuments(results: List<PlayerResult>, filename: String) {
         val csv = StringBuilder()
         csv.append("Miejsce;Zawodnik;Wynik;Czas\n")
 
@@ -106,15 +106,15 @@ class ResultsActivity : AppCompatActivity() {
             csv.append("${index + 1};${r.playerName};${r.score}/${r.total};${formatTime(r.timeSeconds)}\n")
         }
 
-        val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        if (!downloadsDir.exists()) downloadsDir.mkdirs()
+        val documentsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+        if (!documentsDir.exists()) documentsDir.mkdirs()
 
-        val file = File(downloadsDir, filename)
+        val file = File(documentsDir, filename)
         file.writeText(csv.toString())
 
         Toast.makeText(
             this,
-            "Zapisano w Pobrane:\n${file.absolutePath}",
+            "Zapisano w Dokumenty:\n${file.absolutePath}",
             Toast.LENGTH_LONG
         ).show()
     }
