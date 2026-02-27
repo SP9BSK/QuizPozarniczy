@@ -10,10 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONObject
 import java.io.File
-import java.io.FileOutputStream
 import android.media.MediaScannerConnection
-import org.apache.poi.ss.usermodel.*
-import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -87,7 +84,7 @@ class ResultsActivity : AppCompatActivity() {
 
     private fun showFilenameDialog(results: List<PlayerResult>) {
         val input = EditText(this).apply {
-            setText("wyniki_quizu.xlsx")
+            setText("wyniki_quizu.txt")
         }
 
         AlertDialog.Builder(this)
@@ -95,108 +92,50 @@ class ResultsActivity : AppCompatActivity() {
             .setView(input)
             .setPositiveButton("Zapisz") { _, _ ->
                 var name = input.text.toString().trim()
-                if (!name.endsWith(".xlsx", ignoreCase = true)) {
-                    name += ".xlsx"
+                if (!name.endsWith(".txt", ignoreCase = true)) {
+                    name += ".txt"
                 }
-                saveXlsx(results, name)
+                saveTextFile(results, name)
             }
             .setNegativeButton("Anuluj", null)
             .show()
     }
 
-    private fun saveXlsx(results: List<PlayerResult>, filename: String) {
-        val workbook = XSSFWorkbook()
-        val sheet = workbook.createSheet("Wyniki")
+    private fun saveTextFile(results: List<PlayerResult>, filename: String) {
+        val sb = StringBuilder()
 
-        // STYLE: nagłówek tabeli
-        val headerStyle = workbook.createCellStyle().apply {
-            alignment = HorizontalAlignment.CENTER
-            verticalAlignment = VerticalAlignment.CENTER
-            borderBottom = BorderStyle.THIN
-            borderTop = BorderStyle.THIN
-            borderLeft = BorderStyle.THIN
-            borderRight = BorderStyle.THIN
-            val font = workbook.createFont().apply { bold = true }
-            setFont(font)
-        }
-
-        // STYLE: komórki
-        val cellStyle = workbook.createCellStyle().apply {
-            alignment = HorizontalAlignment.CENTER
-            verticalAlignment = VerticalAlignment.CENTER
-            borderBottom = BorderStyle.THIN
-            borderTop = BorderStyle.THIN
-            borderLeft = BorderStyle.THIN
-            borderRight = BorderStyle.THIN
-        }
-
-        var rowIndex = 0
-
-        // Nagłówek dokumentu
         val date = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Date())
 
-        fun addHeader(text: String) {
-            val row = sheet.createRow(rowIndex++)
-            val cell = row.createCell(0)
-            cell.setCellValue(text)
-            val style = workbook.createCellStyle().apply {
-                alignment = HorizontalAlignment.LEFT
-                verticalAlignment = VerticalAlignment.CENTER
-                val font = workbook.createFont().apply { bold = true; fontHeightInPoints = 14 }
-                setFont(font)
-            }
-            cell.cellStyle = style
-        }
+        sb.append("Quiz Pożarniczy MDP\n")
+        sb.append("Wyniki z dnia: $date\n\n")
+        sb.append(String.format("%-3s %-12s %-7s %-6s\n", "M", "ZAWODNIK", "WYNIK", "CZAS"))
+        sb.append("------------------------------------\n")
 
-        addHeader("Quiz Pożarniczy MDP")
-        addHeader("Wyniki z dnia: $date")
-        rowIndex++ // odstęp
-
-        // Nagłówki tabeli
-        val headerRow = sheet.createRow(rowIndex++)
-        val headers = listOf("Miejsce", "Zawodnik", "Wynik", "Czas")
-
-        headers.forEachIndexed { i, title ->
-            val cell = headerRow.createCell(i)
-            cell.setCellValue(title)
-            cell.cellStyle = headerStyle
-        }
-
-        // Dane
         results.forEachIndexed { index, r ->
-            val row = sheet.createRow(rowIndex++)
-            val values = listOf(
-                (index + 1).toString(),
-                r.playerName,
-                "${r.score}/${r.total}",
-                formatTime(r.timeSeconds)
+            sb.append(
+                String.format(
+                    "%-3d %-12s %-7s %-6s\n",
+                    index + 1,
+                    r.playerName.take(12),
+                    "${r.score}/${r.total}",
+                    formatTime(r.timeSeconds)
+                )
             )
-
-            values.forEachIndexed { i, value ->
-                val cell = row.createCell(i)
-                cell.setCellValue(value)
-                cell.cellStyle = cellStyle
-            }
         }
 
-        // Auto szerokość kolumn
-        for (i in headers.indices) sheet.autoSizeColumn(i)
-
-        // Zapis do Pobrane
         val downloads = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         if (!downloads.exists()) downloads.mkdirs()
 
         val file = File(downloads, filename)
-        FileOutputStream(file).use { workbook.write(it) }
-        workbook.close()
+        file.writeText(sb.toString())
 
         MediaScannerConnection.scanFile(
             this,
             arrayOf(file.absolutePath),
-            arrayOf("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"),
+            arrayOf("text/plain"),
             null
         )
 
-        Toast.makeText(this, "Zapisano XLSX w Pobrane:\n${file.absolutePath}", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Zapisano plik tekstowy w Pobrane:\n${file.absolutePath}", Toast.LENGTH_LONG).show()
     }
 }
