@@ -30,7 +30,7 @@ class RankingActivity : AppCompatActivity() {
                 "M", "ZAWODNIK", "PKT", "CZAS"
             )
         )
-        sb.append("----------------------------------------\n")
+        sb.append("------------------------------------\n")
 
         results.forEachIndexed { index, result ->
             sb.append(
