@@ -1,7 +1,10 @@
 package com.example.quizpozarniczy
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.os.Environment
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -26,7 +29,6 @@ class ResultsActivity : AppCompatActivity() {
             return
         }
 
-        // Parsowanie JSON → PlayerResult
         val results = raw.mapNotNull { line ->
             try {
                 val obj = JSONObject(line)
@@ -43,13 +45,11 @@ class ResultsActivity : AppCompatActivity() {
             }
         }
 
-        // Sortowanie
         val sorted = results.sortedWith(
             compareByDescending<PlayerResult> { it.score }
                 .thenBy { it.timeSeconds }
         )
 
-        // Formatowanie tabeli
         val sb = StringBuilder()
         sb.append(String.format("%-3s %-12s %-7s %-6s\n", "M", "ZAWODNIK", "WYNIK", "CZAS"))
         sb.append("------------------------------------\n")
@@ -69,7 +69,7 @@ class ResultsActivity : AppCompatActivity() {
         tv.text = sb.toString()
 
         btnSave.setOnClickListener {
-            saveCsv(sorted)
+            showFilenameDialog(sorted)
         }
     }
 
@@ -79,7 +79,26 @@ class ResultsActivity : AppCompatActivity() {
         return String.format("%02d:%02d", min, sec)
     }
 
-    private fun saveCsv(results: List<PlayerResult>) {
+    private fun showFilenameDialog(results: List<PlayerResult>) {
+        val input = EditText(this).apply {
+            setText("wyniki_quizu.csv")
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("Nazwa pliku")
+            .setView(input)
+            .setPositiveButton("Zapisz") { _, _ ->
+                var name = input.text.toString().trim()
+                if (!name.endsWith(".csv", ignoreCase = true)) {
+                    name += ".csv"
+                }
+                saveCsvToDownload(results, name)
+            }
+            .setNegativeButton("Anuluj", null)
+            .show()
+    }
+
+    private fun saveCsvToDownload(results: List<PlayerResult>, filename: String) {
         val csv = StringBuilder()
         csv.append("Miejsce;Zawodnik;Wynik;Czas\n")
 
@@ -87,13 +106,15 @@ class ResultsActivity : AppCompatActivity() {
             csv.append("${index + 1};${r.playerName};${r.score}/${r.total};${formatTime(r.timeSeconds)}\n")
         }
 
-        val filename = "wyniki_quizu.csv"
-        val file = File(getExternalFilesDir(null), filename)
+        val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        if (!downloadsDir.exists()) downloadsDir.mkdirs()
+
+        val file = File(downloadsDir, filename)
         file.writeText(csv.toString())
 
         Toast.makeText(
             this,
-            "Zapisano plik:\n${file.absolutePath}",
+            "Zapisano w Pobrane:\n${file.absolutePath}",
             Toast.LENGTH_LONG
         ).show()
     }
