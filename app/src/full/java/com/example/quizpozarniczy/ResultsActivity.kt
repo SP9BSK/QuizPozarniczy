@@ -12,8 +12,13 @@ import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
 import android.media.MediaScannerConnection
-import org.apache.poi.ss.usermodel.*
-import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import org.docx4j.openpackaging.packages.SpreadsheetMLPackage
+import org.docx4j.openpackaging.parts.SpreadsheetML.WorksheetPart
+import org.docx4j.openpackaging.parts.SpreadsheetML.SharedStrings
+import org.xlsx4j.sml.*
+
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ResultsActivity : AppCompatActivity() {
 
@@ -96,78 +101,66 @@ class ResultsActivity : AppCompatActivity() {
                 if (!name.endsWith(".xlsx", ignoreCase = true)) {
                     name += ".xlsx"
                 }
-                saveXlsxToDownloads(results, name)
+                saveXlsx(results, name)
             }
             .setNegativeButton("Anuluj", null)
             .show()
     }
 
-    private fun saveXlsxToDownloads(results: List<PlayerResult>, filename: String) {
-        val workbook = XSSFWorkbook()
-        val sheet = workbook.createSheet("Wyniki")
+    private fun saveXlsx(results: List<PlayerResult>, filename: String) {
+        val pkg = SpreadsheetMLPackage.createPackage()
+        val sheet = pkg.workbookPart.worksheetParts[0]
+        val ws = sheet.jaxbElement
 
-        // STYLE: nagłówek
-        val headerStyle = workbook.createCellStyle().apply {
-            alignment = HorizontalAlignment.CENTER
-            verticalAlignment = VerticalAlignment.CENTER
-            borderBottom = BorderStyle.THIN
-            borderTop = BorderStyle.THIN
-            borderLeft = BorderStyle.THIN
-            borderRight = BorderStyle.THIN
-            val font = workbook.createFont().apply { bold = true }
-            setFont(font)
+        val sheetData = ws.sheetData ?: CT_SheetData().also { ws.sheetData = it }
+
+        val sharedStrings = pkg.workbookPart.sharedStrings ?: SharedStrings().also {
+            pkg.workbookPart.sharedStrings = it
         }
 
-        // STYLE: komórki
-        val cellStyle = workbook.createCellStyle().apply {
-            alignment = HorizontalAlignment.CENTER
-            verticalAlignment = VerticalAlignment.CENTER
-            borderBottom = BorderStyle.THIN
-            borderTop = BorderStyle.THIN
-            borderLeft = BorderStyle.THIN
-            borderRight = BorderStyle.THIN
+        fun addString(value: String): Int {
+            val si = CTSst.Si().apply { t = value }
+            sharedStrings.jaxbElement.si.add(si)
+            return sharedStrings.jaxbElement.si.size - 1
         }
 
-        // Nagłówki
-        val headerRow = sheet.createRow(0)
-        val headers = listOf("Miejsce", "Zawodnik", "Wynik", "Czas")
-
-        headers.forEachIndexed { i, title ->
-            val cell = headerRow.createCell(i)
-            cell.setCellValue(title)
-            cell.cellStyle = headerStyle
-        }
-
-        // Dane
-        results.forEachIndexed { index, r ->
-            val row = sheet.createRow(index + 1)
-
-            val scoreText = "${r.score}/${r.total}"  // poprawne 10/12
-
-            val values = listOf(
-                (index + 1).toString(),
-                r.playerName,
-                scoreText,
-                formatTime(r.timeSeconds)
-            )
-
-            values.forEachIndexed { i, value ->
-                val cell = row.createCell(i)
-                cell.setCellValue(value)
-                cell.cellStyle = cellStyle
+        fun addRow(rowIndex: Int, values: List<String>) {
+            val row = CT_Row().apply { r = rowIndex.toLong() }
+            values.forEachIndexed { colIndex, value ->
+                val cell = CT_Cell().apply {
+                    r = "${('A' + colIndex)}$rowIndex"
+                    t = ST_CellType.S
+                    v = addString(value).toString()
+                }
+                row.c.add(cell)
             }
+            sheetData.row.add(row)
         }
 
-        // Auto szerokość kolumn
-        for (i in headers.indices) sheet.autoSizeColumn(i)
+        val date = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Date())
 
-        // Zapis do Pobrane
+        addRow(1, listOf("Quiz Pożarniczy MDP"))
+        addRow(2, listOf("Wyniki z dnia: $date"))
+        addRow(3, listOf("")) // odstęp
+        addRow(4, listOf("Miejsce", "Zawodnik", "Wynik", "Czas"))
+
+        results.forEachIndexed { index, r ->
+            addRow(
+                5 + index,
+                listOf(
+                    (index + 1).toString(),
+                    r.playerName,
+                    "${r.score}/${r.total}",
+                    formatTime(r.timeSeconds)
+                )
+            )
+        }
+
         val downloads = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         if (!downloads.exists()) downloads.mkdirs()
 
         val file = File(downloads, filename)
-        FileOutputStream(file).use { workbook.write(it) }
-        workbook.close()
+        FileOutputStream(file).use { pkg.save(it) }
 
         MediaScannerConnection.scanFile(
             this,
