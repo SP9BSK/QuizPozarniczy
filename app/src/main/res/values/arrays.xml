@@ -1,5 +1,10 @@
 <resources>
 
+    <string-array name="powiaty_wybierz">
+    <item>wybierz z listy</item>
+</string-array>
+
+
     <!-- WOJEWÓDZTWA -->
     <string-array name="wojewodztwa">
         <item>wybierz z listy</item>
