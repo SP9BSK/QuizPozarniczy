@@ -56,7 +56,7 @@ class ResultsActivity : AppCompatActivity() {
         // 4. Formatowanie tabeli
         val sb = StringBuilder()
         sb.append(String.format("%-4s %-15s %6s %8s\n", "M", "ZAWODNIK", "PKT", "CZAS"))
-        sb.append("----------------------------------------\n")
+        sb.append("------------------------------------\n")
 
         sorted.forEachIndexed { index, r ->
            sb.append(
