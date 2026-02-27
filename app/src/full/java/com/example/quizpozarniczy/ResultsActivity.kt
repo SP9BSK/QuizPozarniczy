@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONObject
 import java.io.File
+import android.media.MediaScannerConnection
+
 
 class ResultsActivity : AppCompatActivity() {
 
@@ -99,23 +101,32 @@ class ResultsActivity : AppCompatActivity() {
     }
 
     private fun saveCsvToDocuments(results: List<PlayerResult>, filename: String) {
-        val csv = StringBuilder()
-        csv.append("Miejsce;Zawodnik;Wynik;Czas\n")
+    val csv = StringBuilder()
+    csv.append("Miejsce;Zawodnik;Wynik;Czas\n")
 
-        results.forEachIndexed { index, r ->
-            csv.append("${index + 1};${r.playerName};${r.score}/${r.total};${formatTime(r.timeSeconds)}\n")
-        }
-
-        val documentsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-        if (!documentsDir.exists()) documentsDir.mkdirs()
-
-        val file = File(documentsDir, filename)
-        file.writeText(csv.toString())
-
-        Toast.makeText(
-            this,
-            "Zapisano w Dokumenty:\n${file.absolutePath}",
-            Toast.LENGTH_LONG
-        ).show()
+    results.forEachIndexed { index, r ->
+        csv.append("${index + 1};${r.playerName};${r.score}/${r.total};${formatTime(r.timeSeconds)}\n")
     }
+
+    val documentsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+    if (!documentsDir.exists()) documentsDir.mkdirs()
+
+    val file = File(documentsDir, filename)
+    file.writeText(csv.toString())
+
+    // Powiadom system, żeby plik pojawił się w „Dokumenty”
+    MediaScannerConnection.scanFile(
+        this,
+        arrayOf(file.absolutePath),
+        arrayOf("text/csv"),
+        null
+    )
+
+    Toast.makeText(
+        this,
+        "Zapisano w Dokumenty:\n${file.absolutePath}",
+        Toast.LENGTH_LONG
+    ).show()
+}
+
 }
