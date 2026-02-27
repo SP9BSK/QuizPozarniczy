@@ -21,8 +21,13 @@ class FirstLaunchActivity : AppCompatActivity() {
 
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
 
+        // Jeśli dane już zapisane → sprawdź czy warning był wyświetlony
         if (prefs.getBoolean("dane_zapisane", false)) {
-            startActivity(Intent(this, StartActivity::class.java))
+            if (!prefs.getBoolean("warning_shown", false)) {
+                startActivity(Intent(this, WarningActivity::class.java))
+            } else {
+                startActivity(Intent(this, StartActivity::class.java))
+            }
             finish()
             return
         }
@@ -39,7 +44,6 @@ class FirstLaunchActivity : AppCompatActivity() {
 
         btnZapisz.isEnabled = false
 
-        // Ładowanie województw
         val wojewodztwa = resources.getStringArray(R.array.wojewodztwa)
         spinnerWoj.adapter = ArrayAdapter(
             this,
@@ -47,17 +51,11 @@ class FirstLaunchActivity : AppCompatActivity() {
             wojewodztwa
         )
 
-        // Po zmianie województwa → załaduj powiaty
         spinnerWoj.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
 
                 val powiatyId = when (position) {
-                    0 -> R.array.powiaty_wybierz   // własna lista z jednym elementem "Wybierz z listy"
+                    0 -> R.array.powiaty_wybierz
                     1 -> R.array.powiaty_dolnoslaskie
                     2 -> R.array.powiaty_kujawsko_pomorskie
                     3 -> R.array.powiaty_lubelskie
@@ -90,7 +88,6 @@ class FirstLaunchActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-        // Regulamin → aktywacja przycisku
         checkReg.setOnCheckedChangeListener { _, isChecked ->
             btnZapisz.isEnabled = isChecked
         }
@@ -99,7 +96,6 @@ class FirstLaunchActivity : AppCompatActivity() {
             startActivity(Intent(this, RegulaminActivity::class.java))
         }
 
-        // Zapis danych
         btnZapisz.setOnClickListener {
 
             val wojPos = spinnerWoj.selectedItemPosition
@@ -131,7 +127,7 @@ class FirstLaunchActivity : AppCompatActivity() {
                         .putBoolean("dane_zapisane", true)
                         .apply()
 
-                    startActivity(Intent(this, StartActivity::class.java))
+                    startActivity(Intent(this, WarningActivity::class.java))
                     finish()
                 }
                 .addOnFailureListener {
