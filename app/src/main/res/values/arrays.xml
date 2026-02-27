@@ -1,22 +1,22 @@
 <resources>
 
     <string-array name="wojewodztwa">
-    <item>Dolnośląskie</item>
-    <item>Kujawsko-Pomorskie</item>
-    <item>Lubelskie</item>
-    <item>Lubuskie</item>
-    <item>Łódzkie</item>
-    <item>Małopolskie</item>
-    <item>Mazowieckie</item>
-    <item>Opolskie</item>
-    <item>Podkarpackie</item>
-    <item>Podlaskie</item>
-    <item>Pomorskie</item>
-    <item>Śląskie</item>
-    <item>Świętokrzyskie</item>
-    <item>Warmińsko-Mazurskie</item>
-    <item>Wielkopolskie</item>
-    <item>Zachodniopomorskie</item>
+    <item>dolnośląskie</item>
+    <item>kujawsko-pomorskie</item>
+    <item>lubelskie</item>
+    <item>lubuskie</item>
+    <item>łódzkie</item>
+    <item>małopolskie</item>
+    <item>mazowieckie</item>
+    <item>opolskie</item>
+    <item>podkarpackie</item>
+    <item>podlaskie</item>
+    <item>pomorskie</item>
+    <item>śląskie</item>
+    <item>świętokrzyskie</item>
+    <item>warmińsko-azurskie</item>
+    <item>wielkopolskie</item>
+    <item>zachodniopomorskie</item>
 </string-array>
 
     <string-array name="powiaty_dolnoslaskie">
