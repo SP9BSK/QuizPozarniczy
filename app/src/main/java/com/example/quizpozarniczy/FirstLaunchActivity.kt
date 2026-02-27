@@ -21,13 +21,17 @@ class FirstLaunchActivity : AppCompatActivity() {
 
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
 
-        // Jeśli dane już zapisane → sprawdź czy warning był wyświetlony
+        // Jeśli dane już zapisane → sprawdź czy warning był wyświetlony (tylko w opiekun)
         if (prefs.getBoolean("dane_zapisane", false)) {
-            if (!prefs.getBoolean("warning_shown", false)) {
+
+            if (BuildConfig.FLAVOR == "full" &&
+                !prefs.getBoolean("warning_shown", false)
+            ) {
                 startActivity(Intent(this, WarningActivity::class.java))
             } else {
                 startActivity(Intent(this, StartActivity::class.java))
             }
+
             finish()
             return
         }
@@ -127,7 +131,13 @@ class FirstLaunchActivity : AppCompatActivity() {
                         .putBoolean("dane_zapisane", true)
                         .apply()
 
-                    startActivity(Intent(this, WarningActivity::class.java))
+                    // TYLKO OPIEKUN → WarningActivity
+                    if (BuildConfig.FLAVOR == "full") {
+                        startActivity(Intent(this, WarningActivity::class.java))
+                    } else {
+                        startActivity(Intent(this, StartActivity::class.java))
+                    }
+
                     finish()
                 }
                 .addOnFailureListener {
