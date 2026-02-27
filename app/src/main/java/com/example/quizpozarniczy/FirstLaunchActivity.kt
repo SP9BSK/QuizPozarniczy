@@ -19,10 +19,8 @@ class FirstLaunchActivity : AppCompatActivity() {
 
         window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
 
-        // Jeśli dane już zapisane → przejdź dalej
         if (prefs.getBoolean("dane_zapisane", false)) {
             startActivity(Intent(this, StartActivity::class.java))
             finish()
@@ -37,13 +35,11 @@ class FirstLaunchActivity : AppCompatActivity() {
         val btnReg = findViewById<Button>(R.id.btnRegulamin)
         val btnZapisz = findViewById<Button>(R.id.btnZapisz)
 
-        // Ustaw tryb aplikacji
         tvMode.text = if (BuildConfig.FLAVOR == "full") "Opiekun" else "Młodzież"
 
-        // Przyciski początkowo nieaktywne
         btnZapisz.isEnabled = false
 
-        // Województwa
+        // Ładowanie województw
         val wojewodztwa = resources.getStringArray(R.array.wojewodztwa)
         spinnerWoj.adapter = ArrayAdapter(
             this,
@@ -51,7 +47,7 @@ class FirstLaunchActivity : AppCompatActivity() {
             wojewodztwa
         )
 
-        // Zmiana województwa → zmiana powiatów
+        // Po zmianie województwa → załaduj powiaty
         spinnerWoj.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
@@ -61,21 +57,22 @@ class FirstLaunchActivity : AppCompatActivity() {
             ) {
 
                 val powiatyId = when (position) {
-                    0 -> R.array.powiaty_dolnoslaskie
-                    1 -> R.array.powiaty_kujawsko_pomorskie
-                    2 -> R.array.powiaty_lubelskie
-                    3 -> R.array.powiaty_lubuskie
-                    4 -> R.array.powiaty_lodzkie
-                    5 -> R.array.powiaty_malopolskie
-                    6 -> R.array.powiaty_mazowieckie
-                    7 -> R.array.powiaty_opolskie
-                    8 -> R.array.powiaty_podkarpackie
-                    9 -> R.array.powiaty_podlaskie
-                    10 -> R.array.powiaty_pomorskie
-                    11 -> R.array.powiaty_slaskie
-                    12 -> R.array.powiaty_swietokrzyskie
-                    13 -> R.array.powiaty_warminsko_mazurskie
-                    14 -> R.array.powiaty_wielkopolskie
+                    0 -> R.array.powiaty_wybierz   // własna lista z jednym elementem "Wybierz z listy"
+                    1 -> R.array.powiaty_dolnoslaskie
+                    2 -> R.array.powiaty_kujawsko_pomorskie
+                    3 -> R.array.powiaty_lubelskie
+                    4 -> R.array.powiaty_lubuskie
+                    5 -> R.array.powiaty_lodzkie
+                    6 -> R.array.powiaty_malopolskie
+                    7 -> R.array.powiaty_mazowieckie
+                    8 -> R.array.powiaty_opolskie
+                    9 -> R.array.powiaty_podkarpackie
+                    10 -> R.array.powiaty_podlaskie
+                    11 -> R.array.powiaty_pomorskie
+                    12 -> R.array.powiaty_slaskie
+                    13 -> R.array.powiaty_swietokrzyskie
+                    14 -> R.array.powiaty_warminsko_mazurskie
+                    15 -> R.array.powiaty_wielkopolskie
                     else -> R.array.powiaty_zachodniopomorskie
                 }
 
@@ -86,17 +83,18 @@ class FirstLaunchActivity : AppCompatActivity() {
                     android.R.layout.simple_spinner_dropdown_item,
                     powiaty
                 )
+
+                spinnerPow.setSelection(0)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-        // Aktywacja przycisku po zaznaczeniu regulaminu
+        // Regulamin → aktywacja przycisku
         checkReg.setOnCheckedChangeListener { _, isChecked ->
             btnZapisz.isEnabled = isChecked
         }
 
-        // Otwórz regulamin
         btnReg.setOnClickListener {
             startActivity(Intent(this, RegulaminActivity::class.java))
         }
@@ -104,17 +102,22 @@ class FirstLaunchActivity : AppCompatActivity() {
         // Zapis danych
         btnZapisz.setOnClickListener {
 
-            val woj = spinnerWoj.selectedItem?.toString() ?: ""
-            val pow = spinnerPow.selectedItem?.toString() ?: ""
+            val wojPos = spinnerWoj.selectedItemPosition
+            val powPos = spinnerPow.selectedItemPosition
 
-            if (woj.isEmpty() || pow.isEmpty()) {
-                Toast.makeText(this, "Wybierz województwo i powiat", Toast.LENGTH_SHORT).show()
+            if (wojPos == 0) {
+                Toast.makeText(this, "Wybierz województwo", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (powPos == 0) {
+                Toast.makeText(this, "Wybierz powiat", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             val data = hashMapOf(
-                "wojewodztwo" to woj,
-                "powiat" to pow,
+                "wojewodztwo" to spinnerWoj.selectedItem.toString(),
+                "powiat" to spinnerPow.selectedItem.toString(),
                 "jednostka" to editJed.text.toString(),
                 "typ" to BuildConfig.FLAVOR,
                 "timestamp" to FieldValue.serverTimestamp()
