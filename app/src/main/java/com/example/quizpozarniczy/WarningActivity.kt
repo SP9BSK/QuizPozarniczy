@@ -12,6 +12,8 @@ class WarningActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_warning)
 
+        window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
 
         val tvWarning = findViewById<TextView>(R.id.tvWarning)
