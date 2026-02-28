@@ -30,6 +30,8 @@ class SettingsActivity : AppCompatActivity() {
         val btnA = findViewById<Button>(R.id.btnA)
         val btnExportImport = findViewById<Button>(R.id.btnExportImport)
         val btnRegulamin = findViewById<Button>(R.id.btnRegulamin)
+        val btnSupport = findViewById<Button>(R.id.btnSupport)
+
 
         // 🔹 Przycisk EDYCJA / B
         if (isOpiekun) {
@@ -100,6 +102,14 @@ class SettingsActivity : AppCompatActivity() {
         }
         startActivityForResult(intent, 1001)
     }
+    if (isOpiekun) {
+    btnSupport.setOnClickListener {
+        startActivity(Intent(this, SupportActivity::class.java))
+    }
+} else {
+    btnSupport.visibility = View.GONE
+}
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
