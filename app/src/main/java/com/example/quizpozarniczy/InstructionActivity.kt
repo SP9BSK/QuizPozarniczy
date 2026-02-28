@@ -32,16 +32,39 @@ class InstructionActivity : AppCompatActivity() {
 ━━━━━━━━━━━━━━━━━━
 
 1️⃣ PANEL SĘDZIEGO
+Panel Sędziego słuzy do obsługi quizu.
+Quiz moze być przeprowadzony wśród młodzieży na 2 sposoby:
+▶ Na urzadzeniu opiekuna i w jego aplikacji (tu ograniczona jest liczba zawodników do 10)
+▶ Na urządzeniach młodzieży i w ich aplikacjach poprzez udostępnienie przez opiekuna kodu QR z quizem ( tu jest nie ograniczona liczba zawodników)
 
-Ustaw:
+Quiz na urządzeniu opiekuna - ustaw:
 • Liczbę zawodników (1–10)
 • Liczbę pytań (1–30)
 • Liczbę pytań lokalnych (1–3)
 • Czas quizu dla każdego zawodnika (1–30 min.)
+naciśnij:
+▶ START QUIZU – rozpoczyna quiz
+W tym momencie swój quiz rozpoczyna Zawodnik 1, 
+po wyczerpaniu pytań lub upływie czasu jest ekran z jego wynikami oraz dwoa przyciskami
+przycisk POKAŻ DOBRE ODPOWIEDZI jest aktywny jeżeli zawodnik popełnił jakieś błędy i po jego naciśnięciu wyświetlane są pytania które zawodnik miał źle oraz znakiwm X jest zaznaczona odpowiedź której udzielił a znakiem V odpowiedź poprawna
+Przycisk NASTĘPNY ZAWODNIK za pomocą którego grę rozpoczyna kolejny zawodnik, po ostatnim zawodniku zamiast tego przycisku jest przycisk POKAŻ WYNIKI KOŃCOWE po naciśnięciu którego otwiera się tabela z wynikami wszystkich zawodników biorących udział w quizie
 
-▶ START QUIZU – rozpoczyna quiz  
-✏ EDYTUJ ZAWODNIKÓW – tutaj można zmienić nazwy zawodników np. na imiona  
-🚫 UDOSTĘPNIJ QUIZ – funkcja w przygotowaniu!!
+Przed rozpoczęciem quizu można edytować nazwy zawodników.
+▶ EDYTUJ ZAWODNIKÓW – tutaj można zmienić nazwy zawodników np. na imiona  
+
+Quiz na urządzeniach młodzieży - ustaw:
+• Liczbę pytań (1–30)
+• Liczbę pytań lokalnych (1–3)
+• Czas quizu dla zawodnika (1–30 min.)
+• Nie ma potrzeby ustawiania liczby zawodników, jeśli przez przypadek wpiszemy jakąś liczbę to i tak quiz wygeneruje poprawny kod QR
+naciśnij:
+▶ UDOSTĘPNIJ QUIZ – na ekranie pojawi się kod QR który młodzież skanuje za pomocą funkcji POBIERZ QUIZ w swojej aplikacji
+Aby ustalić wyniki końcowe quizu opiekun pobiera na swoje urządzenie wyniki od zawodników za poocą funkcji:
+▶ SKANUJ WYNIKI Funkcja ta skanuje kody QR które pojawiają się u młodzieży po zakończeniu quizu.
+Na ekranie ze skanerem znajduje się przycisk 
+▶ POKAŻ WYNIKI po naciśnięciu którego pojawia się tabela z wynikami.
+Wyniki można zapisać na urządzeniu opiekuna naciskając
+▶ ZAPISZ WYNIKI
 
 ━━━━━━━━━━━━━━━━━━
 
