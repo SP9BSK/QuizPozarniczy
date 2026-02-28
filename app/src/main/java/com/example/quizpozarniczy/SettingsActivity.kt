@@ -14,7 +14,6 @@ import com.example.quizpozarniczy.util.QuizImporter
 import android.view.WindowManager
 import android.view.View
 
-
 class SettingsActivity : AppCompatActivity() {
 
     private val isOpiekun: Boolean
@@ -32,20 +31,15 @@ class SettingsActivity : AppCompatActivity() {
         val btnRegulamin = findViewById<Button>(R.id.btnRegulamin)
         val btnSupport = findViewById<Button>(R.id.btnSupport)
 
-
         // 🔹 Przycisk EDYCJA / B
         if (isOpiekun) {
             btnEditOrB.text = "EDYCJA PYTAŃ LOKALNYCH"
             btnEditOrB.setOnClickListener {
-            startActivity(Intent(this, EditLocalQuestionsActivity::class.java))
-               }
-       } else {
-            btnEditOrB.text = "B"
-            btnEditOrB.setOnClickListener {
-            Toast.makeText(this, "Funkcja B (do implementacji)", Toast.LENGTH_SHORT).show()
-              }
-      }
-
+                startActivity(Intent(this, EditLocalQuestionsActivity::class.java))
+            }
+        } else {
+            btnEditOrB.visibility = View.GONE
+        }
 
         // 🔹 Przycisk A → INSTRUKCJA
         btnA.text = "INSTRUKCJA"
@@ -66,14 +60,20 @@ class SettingsActivity : AppCompatActivity() {
         btnRegulamin.setOnClickListener {
             startActivity(Intent(this, RegulaminActivity::class.java))
         }
+
+        // 🔹 WESPRZYJ MDP – tylko w wersji opiekun
+        if (isOpiekun) {
+            btnSupport.setOnClickListener {
+                startActivity(Intent(this, SupportActivity::class.java))
+            }
+        } else {
+            btnSupport.visibility = View.GONE
+        }
     }
 
     private fun exportLocalQuestions() {
-        val generalQuestions: List<Question> =
-            QuizRepository.getQuestions()
-
-        val localQuestions: List<LocalQuestion> =
-            LocalQuestionsRepository.questions
+        val generalQuestions: List<Question> = QuizRepository.getQuestions()
+        val localQuestions: List<LocalQuestion> = LocalQuestionsRepository.questions
 
         if (localQuestions.isEmpty()) {
             Toast.makeText(this, "Brak pytań lokalnych do eksportu", Toast.LENGTH_LONG).show()
@@ -102,14 +102,6 @@ class SettingsActivity : AppCompatActivity() {
         }
         startActivityForResult(intent, 1001)
     }
-    if (isOpiekun) {
-    btnSupport.setOnClickListener {
-        startActivity(Intent(this, SupportActivity::class.java))
-    }
-} else {
-    btnSupport.visibility = View.GONE
-}
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
