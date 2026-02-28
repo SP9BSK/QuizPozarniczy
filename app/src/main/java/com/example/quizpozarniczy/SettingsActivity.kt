@@ -12,6 +12,8 @@ import com.example.quizpozarniczy.model.Question
 import com.example.quizpozarniczy.util.QuizExporter
 import com.example.quizpozarniczy.util.QuizImporter
 import android.view.WindowManager
+import android.view.View
+
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -33,14 +35,15 @@ class SettingsActivity : AppCompatActivity() {
         if (isOpiekun) {
             btnEditOrB.text = "EDYCJA PYTAŃ LOKALNYCH"
             btnEditOrB.setOnClickListener {
-                startActivity(Intent(this, EditLocalQuestionsActivity::class.java))
-            }
-        } else {
+            startActivity(Intent(this, EditLocalQuestionsActivity::class.java))
+               }
+       } else {
             btnEditOrB.text = "B"
             btnEditOrB.setOnClickListener {
-                Toast.makeText(this, "Funkcja B (do implementacji)", Toast.LENGTH_SHORT).show()
-            }
-        }
+            Toast.makeText(this, "Funkcja B (do implementacji)", Toast.LENGTH_SHORT).show()
+              }
+      }
+
 
         // 🔹 Przycisk A → INSTRUKCJA
         btnA.text = "INSTRUKCJA"
