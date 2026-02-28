@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tvSupport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="Wsparcie MDP Maków Podhalański"
+            android:paddingBottom="20dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:lineSpacingExtra="6dp"
+            android:text="Jeśli podoba Ci się aplikacja Quiz Pożarniczy MDP,\n\nMożliwe jest dobrowolne wsparcie MDP Maków Podhalański:\n\nBS Jordanów\n82 8799 0001 0010 0100 1124 0001\n\nTytuł: Wsparcie MDP Maków Podhalański – Quiz Pożarniczy"/>
+    </LinearLayout>
+
+</ScrollView>
