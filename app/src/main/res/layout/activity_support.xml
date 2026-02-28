@@ -26,7 +26,7 @@
             android:textAlignment="center"
             android:textSize="18sp"
             android:lineSpacingExtra="6dp"
-            android:text="Jeśli podoba Ci się aplikacja Quiz Pożarniczy MDP,\n\nMożliwe jest dobrowolne wsparcie MDP Maków Podhalański:\n\nBS Jordanów\n82 8799 0001 0010 0100 1124 0001\n\nTytuł: Wsparcie MDP Maków Podhalański – Quiz Pożarniczy"/>
+            android:text="Jeśli podoba Ci się aplikacja\n\nQuiz Pożarniczy MDP,\n\nMożliwe jest dobrowolne wsparcie\n\nMDP Maków Podhalański:\n\nBS Jordanów\n82 8799 0001 0010 0100 1124 0001\n\nTytuł: Wsparcie MDP Maków Podhalański – Quiz Pożarniczy"/>
     </LinearLayout>
 
 </ScrollView>
