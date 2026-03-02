@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizpozarniczy.model.Question
@@ -18,10 +19,11 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var txtQuestion: TextView
     private lateinit var txtTimer: TextView
     private lateinit var txtQuestionCounter: TextView
+    private lateinit var txtPlayerName: TextView
+    private lateinit var questionImage: ImageView
     private lateinit var btnA: Button
     private lateinit var btnB: Button
     private lateinit var btnC: Button
-    private lateinit var txtPlayerName: TextView
 
     private lateinit var questions: List<Question>
 
@@ -63,6 +65,7 @@ class QuizActivity : AppCompatActivity() {
         txtTimer = findViewById(R.id.txtTimer)
         txtQuestionCounter = findViewById(R.id.txtQuestionCounter)
         txtPlayerName = findViewById(R.id.txtPlayerName)
+        questionImage = findViewById(R.id.questionImage)
         btnA = findViewById(R.id.btnA)
         btnB = findViewById(R.id.btnB)
         btnC = findViewById(R.id.btnC)
@@ -72,17 +75,7 @@ class QuizActivity : AppCompatActivity() {
         val localLimit = intent.getIntExtra("LOCAL_QUESTIONS", 0)
         timePerPlayerSeconds = min(intent.getIntExtra("TIME_SECONDS", 60), MAX_TIME_SECONDS)
 
-        val playerName = QuizSession.playerNames
-            .getOrNull(QuizSession.currentPlayer - 1)
-            ?: "Zawodnik ${QuizSession.currentPlayer}"
-
-        txtPlayerName.text = playerName
-
-        if (QuizSession.currentPlayer == 1 &&
-           QuizSession.results.isEmpty() &&
-           QuizSession.questions.isEmpty()
-      ) {
-
+        if (QuizSession.results.isEmpty() && QuizSession.questions.isEmpty()) {
             QuizSession.totalPlayers = playersCount
             QuizSession.ensurePlayers(playersCount)
 
@@ -151,6 +144,13 @@ class QuizActivity : AppCompatActivity() {
         btnA.text = q.answers[0]
         btnB.text = q.answers[1]
         btnC.text = q.answers[2]
+
+        if (q.imageResId != null) {
+            questionImage.setImageResource(q.imageResId)
+            questionImage.visibility = ImageView.VISIBLE
+        } else {
+            questionImage.visibility = ImageView.GONE
+        }
     }
 
     private fun answerSelected(index: Int) {
