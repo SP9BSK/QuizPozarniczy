@@ -47,6 +47,17 @@
             android:layout_gravity="center_vertical" />
     </LinearLayout>
 
+        <ImageView
+    android:id="@+id/questionImage"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    android:layout_gravity="center"
+    android:adjustViewBounds="true"
+    android:scaleType="fitCenter"
+    android:visibility="gone"
+    android:layout_marginBottom="16dp"/>
+
+
     <!-- ❓ PYTANIE -->
     <TextView
         android:id="@+id/txtQuestion"
