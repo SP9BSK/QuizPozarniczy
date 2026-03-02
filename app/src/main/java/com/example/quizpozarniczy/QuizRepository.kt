@@ -109,7 +109,8 @@ object QuizRepository {
             questionsPart18 +
             questionsPart19 +
             questionsPart20 +
-            questionsPart21
+            questionsPart21 +
+            questionsPart22
 
         val localQuestions = DefaultLocalQuestions.questions.map { local ->
             Question(
@@ -149,7 +150,8 @@ object QuizRepository {
             questionsPart18 +
             questionsPart19 +
             questionsPart20 +
-            questionsPart21
+            questionsPart21 +
+            questionsPart22
 
         val localQuestions = DefaultLocalQuestions.questions.map { local ->
             Question(
