@@ -3,6 +3,7 @@ package com.example.quizpozarniczy
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -14,6 +15,7 @@ class LearningActivity : AppCompatActivity() {
 
     private lateinit var txtProgress: TextView
     private lateinit var txtQuestion: TextView
+    private lateinit var questionImage: ImageView
     private lateinit var btnA: Button
     private lateinit var btnB: Button
     private lateinit var btnC: Button
@@ -41,6 +43,7 @@ class LearningActivity : AppCompatActivity() {
 
         txtProgress = findViewById(R.id.txtProgress)
         txtQuestion = findViewById(R.id.txtQuestion)
+        questionImage = findViewById(R.id.questionImage)
         btnA = findViewById(R.id.btnA)
         btnB = findViewById(R.id.btnB)
         btnC = findViewById(R.id.btnC)
@@ -98,6 +101,7 @@ class LearningActivity : AppCompatActivity() {
                 allQuestions.addAll(questionsPart19)
                 allQuestions.addAll(questionsPart20)
                 allQuestions.addAll(questionsPart21)
+                allQuestions.addAll(questionsPart22)   // ← DODANE
             }
 
             "LOCAL" -> {
@@ -138,6 +142,13 @@ class LearningActivity : AppCompatActivity() {
             btnA.text = q.answers[0]
             btnB.text = q.answers[1]
             btnC.text = q.answers[2]
+
+            if (q.imageResId != null) {
+                questionImage.setImageResource(q.imageResId)
+                questionImage.visibility = ImageView.VISIBLE
+            } else {
+                questionImage.visibility = ImageView.GONE
+            }
         }
     }
 
