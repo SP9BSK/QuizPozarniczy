@@ -101,7 +101,8 @@ class LearningActivity : AppCompatActivity() {
                 allQuestions.addAll(questionsPart19)
                 allQuestions.addAll(questionsPart20)
                 allQuestions.addAll(questionsPart21)
-                allQuestions.addAll(questionsPart22)   // ← DODANE
+                allQuestions.addAll(questionsPart22)
+                allQuestions.addAll(questionsPart23)
             }
 
             "LOCAL" -> {
