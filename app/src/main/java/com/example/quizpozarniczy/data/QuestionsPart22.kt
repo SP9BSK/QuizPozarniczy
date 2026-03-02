@@ -153,7 +153,7 @@ val questionsPart22 = listOf(
         answers = listOf("generał brygadier", "nadbrygadier", "starszy brygadier"),
         correctIndex = 0,
         imageResId = R.drawable.general_brygadier
-    )
+    ),
     Question(
     id = 523,
     text = "Na obrazku przedstawiono stopień:",
