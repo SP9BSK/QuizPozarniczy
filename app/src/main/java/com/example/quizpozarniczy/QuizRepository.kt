@@ -23,6 +23,7 @@ import com.example.quizpozarniczy.data.questionsPart19
 import com.example.quizpozarniczy.data.questionsPart20
 import com.example.quizpozarniczy.data.questionsPart21
 import com.example.quizpozarniczy.data.questionsPart22
+import com.example.quizpozarniczy.data.questionsPart23
 import com.example.quizpozarniczy.model.Question
 
 object QuizRepository {
@@ -54,7 +55,8 @@ object QuizRepository {
             questionsPart19 +
             questionsPart20 +
             questionsPart21 +
-            questionsPart22
+            questionsPart22 +
+            questionsPart23
 
         // 🔒 Zabezpieczenie przed głupimi wartościami
         val safeLocalCount = localCount
@@ -110,7 +112,8 @@ object QuizRepository {
             questionsPart19 +
             questionsPart20 +
             questionsPart21 +
-            questionsPart22
+            questionsPart22 +
+            questionsPart23
 
         val localQuestions = DefaultLocalQuestions.questions.map { local ->
             Question(
@@ -151,7 +154,8 @@ object QuizRepository {
             questionsPart19 +
             questionsPart20 +
             questionsPart21 +
-            questionsPart22
+            questionsPart22 +
+            questionsPart23
 
         val localQuestions = DefaultLocalQuestions.questions.map { local ->
             Question(
