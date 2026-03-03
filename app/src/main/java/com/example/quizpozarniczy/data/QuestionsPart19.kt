@@ -67,7 +67,7 @@ val questionsPart19 = listOf(
 
     Question(
         id = 453,
-        text = "Siły i środki wyznaczone do składu centralnego obwodu operacyjnego nie mogą przekraczać:",
+        text = "Siły i środki wyznaczone do składu centralnego odwodu operacyjnego nie mogą przekraczać:",
         answers = listOf(
             "jednej drugiej sił Państwowej Straży Pożarnej województwa",
             "jednej drugiej sił ratowniczych województwa",
