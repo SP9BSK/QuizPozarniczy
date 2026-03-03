@@ -135,7 +135,7 @@ class LearningActivity : AppCompatActivity() {
         currentQuestion = remaining.random()
 
         currentQuestion?.let { q ->
-            txtQuestion.text = q.text.ifBlank
+            txtQuestion.text = q.text.ifBlank { "Brak treści pytania" }
             btnA.text = q.answers[0]
             btnB.text = q.answers[1]
             btnC.text = q.answers[2]
