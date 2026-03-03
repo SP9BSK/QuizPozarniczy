@@ -111,7 +111,7 @@ val questionsPart7 = listOf(
             "1–2 minuty",
             "3–5 minut"
         ),
-        correctIndex = 2
+        correctIndex = 0
     ),
 
     Question(
