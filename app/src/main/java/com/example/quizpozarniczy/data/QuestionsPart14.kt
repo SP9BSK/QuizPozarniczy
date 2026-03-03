@@ -100,7 +100,7 @@ val questionsPart14 = listOf(
 
     Question(
         id = 356,
-        text = "CKG są to ubrania:",
+        text = "CUG są to ubrania:",
         answers = listOf("Ochrony przeciwchemicznej", "Żaroodporne", "Nurkowe"),
         correctIndex = 0
     ),
