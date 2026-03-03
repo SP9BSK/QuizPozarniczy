@@ -153,12 +153,12 @@ class LearningActivity : AppCompatActivity() {
         val q = currentQuestion ?: return
 
         if (selectedIndex == q.correctIndex) {
-            Toast.makeText(this, "✅ Dobra odpowiedź!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Dobra odpowiedź!", Toast.LENGTH_SHORT).show()
             solvedIds.add(q.id.toString())
             nextQuestion()
         } else {
             AlertDialog.Builder(this)
-                .setTitle("❌ Zła odpowiedź")
+                .setTitle("Zła odpowiedź")
                 .setMessage("Poprawna odpowiedź:\n\n${q.answers[q.correctIndex]}")
                 .setPositiveButton("Dalej") { _, _ -> nextQuestion() }
                 .setCancelable(false)
@@ -172,5 +172,20 @@ class LearningActivity : AppCompatActivity() {
 
     private fun showFinishedDialog() {
         AlertDialog.Builder(this)
-            .setTitle("🎉 Brawo!")
-            .setMessage("Na wszystkie pytania udzielono poprawnych odpowiedzi.\
+            .setTitle("Brawo!")
+            .setMessage("Na wszystkie pytania udzielono poprawnych odpowiedzi.\n\nZaczynamy od nowa?")
+            .setPositiveButton("TAK") { _, _ ->
+                solvedIds.clear()
+                saveProgress()
+                nextQuestion()
+            }
+            .setNegativeButton("NIE") { _, _ -> finish() }
+            .setCancelable(false)
+            .show()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        saveProgress()
+    }
+}
