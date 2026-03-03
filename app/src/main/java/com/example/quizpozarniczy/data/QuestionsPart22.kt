@@ -45,8 +45,6 @@ val questionsPart22 = listOf(
         imageResId = R.drawable.mlodszy_ogniomistrz
     ),
 
-    // 🔥 PODOFICEROWIE
-
     Question(
         id = 510,
         text = "Na obrazku przedstawiono stopień:",
@@ -62,8 +60,6 @@ val questionsPart22 = listOf(
         correctIndex = 0,
         imageResId = R.drawable.starszy_ogniomistrz
     ),
-
-    // 🔥 ASPIRANCI
 
     Question(
         id = 512,
@@ -88,8 +84,6 @@ val questionsPart22 = listOf(
         correctIndex = 0,
         imageResId = R.drawable.starszy_aspirant
     ),
-
-    // 🔥 OFICEROWIE
 
     Question(
         id = 515,
@@ -154,16 +148,16 @@ val questionsPart22 = listOf(
         correctIndex = 0,
         imageResId = R.drawable.general_brygadier
     ),
-    Question(
-    id = 523,
-    text = "Na obrazku przedstawiono stopień:",
-    answers = listOf(
-        "aspirant sztabowy",
-        "starszy aspirant",
-        "młodszy kapitan"
-    ),
-    correctIndex = 0,
-    imageResId = R.drawable.aspirant_sztabowy
-)
 
+    Question(
+        id = 523,
+        text = "Na obrazku przedstawiono stopień:",
+        answers = listOf(
+            "aspirant sztabowy",
+            "starszy aspirant",
+            "młodszy kapitan"
+        ),
+        correctIndex = 0,
+        imageResId = R.drawable.aspirant_sztabowy
+    )
 )
