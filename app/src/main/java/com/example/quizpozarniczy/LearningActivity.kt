@@ -53,11 +53,7 @@ class LearningActivity : AppCompatActivity() {
         loadAllQuestions()
 
         if (allQuestions.isEmpty()) {
-            Toast.makeText(
-                this,
-                "Brak pytań w tym trybie",
-                Toast.LENGTH_LONG
-            ).show()
+            Toast.makeText(this, "Brak pytań w tym trybie", Toast.LENGTH_LONG).show()
             finish()
             return
         }
@@ -172,16 +168,13 @@ class LearningActivity : AppCompatActivity() {
     }
 
     private fun updateProgress() {
-        txtProgress.text =
-            "Opanowane: ${solvedIds.size} / ${allQuestions.size}"
+        txtProgress.text = "Opanowane: ${solvedIds.size} / ${allQuestions.size}"
     }
 
     private fun showFinishedDialog() {
         AlertDialog.Builder(this)
             .setTitle("🎉 Brawo!")
-            .setMessage(
-                "Na wszystkie pytania udzielono poprawnych odpowiedzi.\n\nZaczynamy od nowa?"
-            )
+            .setMessage("Na wszystkie pytania udzielono poprawnych odpowiedzi.\n\nZaczynamy od nowa?")
             .setPositiveButton("TAK") { _, _ ->
                 solvedIds.clear()
                 saveProgress()
