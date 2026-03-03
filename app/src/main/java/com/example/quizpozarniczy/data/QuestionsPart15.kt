@@ -14,7 +14,7 @@ val questionsPart15 = listOf(
     Question(
         id = 367,
         text = "Głębokość nurkowania średnia zawiera się w granicach:",
-        answers = listOf("Od 12 m do 30 m", "Od 12 m do 20 m", "Od 12 m do 20 m"),
+        answers = listOf("Od 12 m do 30 m", "Od 12 m do 25 m", "Od 12 m do 20 m"),
         correctIndex = 2
     ),
 
