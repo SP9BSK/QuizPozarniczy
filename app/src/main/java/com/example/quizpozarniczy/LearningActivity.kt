@@ -74,7 +74,6 @@ class LearningActivity : AppCompatActivity() {
         allQuestions.clear()
 
         when (learningMode) {
-
             "GENERAL" -> {
                 allQuestions.addAll(questionsPart1)
                 allQuestions.addAll(questionsPart2)
@@ -126,7 +125,7 @@ class LearningActivity : AppCompatActivity() {
     private fun nextQuestion() {
         updateProgress()
 
-        val remaining = allQuestions.filter { it.text !in solvedIds }
+        val remaining = allQuestions.filter { q -> q.id.toString() !in solvedIds }
 
         if (remaining.isEmpty()) {
             showFinishedDialog()
@@ -155,7 +154,7 @@ class LearningActivity : AppCompatActivity() {
 
         if (selectedIndex == q.correctIndex) {
             Toast.makeText(this, "✅ Dobra odpowiedź!", Toast.LENGTH_SHORT).show()
-            solvedIds.add(q.text)
+            solvedIds.add(q.id.toString())
             nextQuestion()
         } else {
             AlertDialog.Builder(this)
@@ -174,19 +173,4 @@ class LearningActivity : AppCompatActivity() {
     private fun showFinishedDialog() {
         AlertDialog.Builder(this)
             .setTitle("🎉 Brawo!")
-            .setMessage("Na wszystkie pytania udzielono poprawnych odpowiedzi.\n\nZaczynamy od nowa?")
-            .setPositiveButton("TAK") { _, _ ->
-                solvedIds.clear()
-                saveProgress()
-                nextQuestion()
-            }
-            .setNegativeButton("NIE") { _, _ -> finish() }
-            .setCancelable(false)
-            .show()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        saveProgress()
-    }
-}
+            .setMessage("Na wszystkie pytania udzielono poprawnych odpowiedzi.\
