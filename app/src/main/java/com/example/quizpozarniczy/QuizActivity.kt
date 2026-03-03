@@ -133,25 +133,39 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun showQuestion() {
-        if (currentQuestionIndex >= questions.size) {
-            finishPlayer()
-            return
-        }
-
-        val q = questions[currentQuestionIndex]
-
-        txtQuestion.text = q.text
-        btnA.text = q.answers[0]
-        btnB.text = q.answers[1]
-        btnC.text = q.answers[2]
-
-        if (q.imageResId != null) {
-            questionImage.setImageResource(q.imageResId)
-            questionImage.visibility = ImageView.VISIBLE
-        } else {
-            questionImage.visibility = ImageView.GONE
-        }
+    if (currentQuestionIndex >= questions.size) {
+        finishPlayer()
+        return
     }
+
+    val q = questions[currentQuestionIndex]
+
+    // --- MIESZANIE ODPOWIEDZI ---
+    val paired = q.answers.mapIndexed { index, answer ->
+        answer to (index == q.correctIndex)
+    }.shuffled()
+
+    val shuffledAnswers = paired.map { it.first }
+    val newCorrectIndex = paired.indexOfFirst { it.second }
+
+    // Nadpisujemy odpowiedzi i poprawny indeks
+    q.answers = shuffledAnswers
+    q.correctIndex = newCorrectIndex
+    // -----------------------------
+
+    txtQuestion.text = q.text
+    btnA.text = q.answers[0]
+    btnB.text = q.answers[1]
+    btnC.text = q.answers[2]
+
+    if (q.imageResId != null) {
+        questionImage.setImageResource(q.imageResId)
+        questionImage.visibility = ImageView.VISIBLE
+    } else {
+        questionImage.visibility = ImageView.GONE
+    }
+}
+
 
     private fun answerSelected(index: Int) {
         val currentQ = questions[currentQuestionIndex]
