@@ -78,7 +78,7 @@ val questionsPart20 = listOf(
 
     Question(
         id = 474,
-        text = "Sekcja GCBA 6/32 „Jelcz” przy podaniu jednego prądu wody może rozwinąć się na maksymalną odległość:",
+        text = "Zastęp GCBA 6/32 „Jelcz” przy podaniu jednego prądu wody może rozwinąć się na maksymalną odległość:",
         answers = listOf("560 m", "360 m", "400 m"),
         correctIndex = 1
     ),
