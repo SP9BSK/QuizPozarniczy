@@ -140,18 +140,6 @@ class QuizActivity : AppCompatActivity() {
 
     val q = questions[currentQuestionIndex]
 
-    // --- MIESZANIE ODPOWIEDZI ---
-    val paired = q.answers.mapIndexed { index, answer ->
-        answer to (index == q.correctIndex)
-    }.shuffled()
-
-    val shuffledAnswers = paired.map { it.first }
-    val newCorrectIndex = paired.indexOfFirst { it.second }
-
-    // Nadpisujemy odpowiedzi i poprawny indeks
-    q.answers = shuffledAnswers
-    q.correctIndex = newCorrectIndex
-    // -----------------------------
 
     txtQuestion.text = q.text
     btnA.text = q.answers[0]
