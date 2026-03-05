@@ -96,7 +96,7 @@ val questionsPart24 = listOf(
     Question(
         id = 911,
         text = "Na obrazku przedstawiono stopień:",
-        answers = listOf("przewodniczący komisji rewizyjnej", "prezes", "dowódca roty"),
+        answers = listOf("przewodniczący komisji rewizyjnej", "prezes", "przewodniczący ginnej komisji rewizyjnej"),
         correctIndex = 0,
         imageResId = R.drawable.o12
     ),
