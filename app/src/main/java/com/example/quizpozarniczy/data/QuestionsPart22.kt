@@ -88,7 +88,7 @@ val questionsPart22 = listOf(
     Question(
         id = 515,
         text = "Na obrazku przedstawiono stopień:",
-        answers = listOf("młodszy kapitan", "kapitan", "starszy kapitan"),
+        answers = listOf("młodszy kapitan", "kapitan", "starszy aspirant"),
         correctIndex = 0,
         imageResId = R.drawable.mlodszy_kapitan
     ),
@@ -155,7 +155,7 @@ val questionsPart22 = listOf(
         answers = listOf(
             "aspirant sztabowy",
             "starszy aspirant",
-            "młodszy kapitan"
+            "kapitan"
         ),
         correctIndex = 0,
         imageResId = R.drawable.aspirant_sztabowy
