@@ -35,7 +35,7 @@ class InstructionActivity : AppCompatActivity() {
 Panel Sędziego słuzy do obsługi quizu.
 Quiz moze być przeprowadzony wśród młodzieży na 2 sposoby:
 ▶ Na urzadzeniu opiekuna i w jego aplikacji (tu ograniczona jest liczba zawodników do 10)
-▶ Na urządzeniach młodzieży i w ich aplikacjach poprzez udostępnienie przez opiekuna kodu QR z quizem ( tu jest nie ograniczona liczba zawodników)
+▶ Na urządzeniach młodzieży i w ich aplikacjach poprzez udostępnienie przez opiekuna kodu QR z quizem (tu jest nie ograniczona liczba zawodników)
 
 Quiz na urządzeniu opiekuna - ustaw:
 • Liczbę zawodników (1–10)
