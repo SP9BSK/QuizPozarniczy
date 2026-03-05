@@ -51,39 +51,47 @@ class JudgeActivity : AppCompatActivity() {
         // ▶ START QUIZU
         btnStart.setOnClickListener {
 
-            val players = etPlayers.text.toString().toIntOrNull() ?: 1
-            val questions = etQuestions.text.toString().toIntOrNull() ?: 1
-            val local = etLocalQuestions.text.toString().toIntOrNull() ?: 0
-            val timeSeconds = (etTime.text.toString().toIntOrNull() ?: 1) * 60
+    val players = etPlayers.text.toString().toIntOrNull() ?: 1
+    val questions = etQuestions.text.toString().toIntOrNull() ?: 1
 
-            if (local > questions) {
-                Toast.makeText(
-                    this,
-                    "Pytania lokalne nie mogą być większe niż ogółem",
-                    Toast.LENGTH_LONG
-                ).show()
-                return@setOnClickListener
-            }
+    var local = etLocalQuestions.text.toString().toIntOrNull() ?: 1
+    if (local < 1) local = 1
+    if (local > 3) local = 3
 
-            QuizSession.ensurePlayers(players)
-            QuizSession.totalPlayers = players
-            QuizSession.resetAll()
+    val timeSeconds = (etTime.text.toString().toIntOrNull() ?: 1) * 60
 
-            val intent = Intent(this, QuizActivity::class.java)
-            intent.putExtra("PLAYERS", players)
-            intent.putExtra("QUESTIONS", questions)
-            intent.putExtra("LOCAL_QUESTIONS", local)
-            intent.putExtra("TIME_SECONDS", timeSeconds)
+    if (local > questions) {
+        Toast.makeText(
+            this,
+            "Pytania lokalne nie mogą być większe niż ogółem",
+            Toast.LENGTH_LONG
+        ).show()
+        return@setOnClickListener
+    }
 
-            startActivity(intent)
-        }
+    QuizSession.ensurePlayers(players)
+    QuizSession.totalPlayers = players
+    QuizSession.resetAll()
+
+    val intent = Intent(this, QuizActivity::class.java)
+    intent.putExtra("PLAYERS", players)
+    intent.putExtra("QUESTIONS", questions)
+    intent.putExtra("LOCAL_QUESTIONS", local)
+    intent.putExtra("TIME_SECONDS", timeSeconds)
+
+    startActivity(intent)
+}
+
 
         // 📤 UDOSTĘPNIJ QUIZ (QR)
         btnShareQuiz.setOnClickListener {
 
             val players = etPlayers.text.toString().toIntOrNull() ?: 1
             val questions = etQuestions.text.toString().toIntOrNull() ?: 1
-            val local = etLocalQuestions.text.toString().toIntOrNull() ?: 0
+            var local = etLocalQuestions.text.toString().toIntOrNull() ?: 1
+               if (local < 1) local = 1
+               if (local > 3) local = 3
+
             val timeSeconds = (etTime.text.toString().toIntOrNull() ?: 1) * 60
 
             if (local > questions) {
