@@ -65,6 +65,13 @@ class QuizActivity : AppCompatActivity() {
         txtTimer = findViewById(R.id.txtTimer)
         txtQuestionCounter = findViewById(R.id.txtQuestionCounter)
         txtPlayerName = findViewById(R.id.txtPlayerName)
+
+        val currentPlayerName = QuizSession.playerNames
+       .getOrNull(QuizSession.currentPlayer - 1)
+       ?: "Zawodnik ${QuizSession.currentPlayer}"
+
+       txtPlayerName.text = currentPlayerName
+
         questionImage = findViewById(R.id.questionImage)
         btnA = findViewById(R.id.btnA)
         btnB = findViewById(R.id.btnB)
