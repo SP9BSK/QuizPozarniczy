@@ -79,11 +79,7 @@ class QuizActivity : AppCompatActivity() {
 
         playersCount = min(intent.getIntExtra("PLAYERS", 1), MAX_PLAYERS)
         val questionsLimit = min(intent.getIntExtra("QUESTIONS", 5), MAX_QUESTIONS)
-        var localLimit = intent.getIntExtra("LOCAL_QUESTIONS", 1)
-
-          if (localLimit < 1) localLimit = 1
-          if (localLimit > 3) localLimit = 3
-
+        val localLimit = intent.getIntExtra("LOCAL_QUESTIONS", 0)
         timePerPlayerSeconds = min(intent.getIntExtra("TIME_SECONDS", 60), MAX_TIME_SECONDS)
 
         if (QuizSession.results.isEmpty() && QuizSession.questions.isEmpty()) {
