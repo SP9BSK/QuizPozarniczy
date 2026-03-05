@@ -13,6 +13,8 @@ import java.io.File
 import android.media.MediaScannerConnection
 import java.text.SimpleDateFormat
 import java.util.*
+import android.content.Intent
+
 
 class ResultsActivity : AppCompatActivity() {
 
