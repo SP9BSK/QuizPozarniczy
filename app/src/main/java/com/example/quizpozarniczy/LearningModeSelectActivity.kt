@@ -15,17 +15,11 @@ class LearningModeSelectActivity : AppCompatActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         findViewById<Button>(R.id.btnGeneral).setOnClickListener {
-            startLearning("GENERAL")
+            startActivity(Intent(this, LearningActivity::class.java))
         }
 
         findViewById<Button>(R.id.btnLocal).setOnClickListener {
-            startLearning("LOCAL")
+            startActivity(Intent(this, LearningLocalActivity::class.java))
         }
-    }
-
-    private fun startLearning(mode: String) {
-        val intent = Intent(this, LearningActivity::class.java)
-        intent.putExtra("LEARNING_MODE", mode)
-        startActivity(intent)
     }
 }
