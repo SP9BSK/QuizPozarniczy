@@ -28,8 +28,8 @@ val questionsPart23 = listOf(
     Question(
         id = 602,
         text = "Na obrazku przedstawiono stopień:",
-        answers = listOf("sekcyjny", "starszy sekcyjny", "strażak"),
-        correctIndex = 0,
+        answers = listOf("starszy strażak", "sekcyjny", "strażak"),
+        correctIndex = 1,
         imageResId = R.drawable.sekcyjny_p
     ),
 
@@ -86,7 +86,7 @@ val questionsPart23 = listOf(
     Question(
         id = 609,
         text = "Na obrazku przedstawiono stopień:",
-        answers = listOf("starszy aspirant", "aspirant", "młodszy kapitan"),
+        answers = listOf("starszy aspirant", "aspirant", ""młodszy kapitan"),
         correctIndex = 0,
         imageResId = R.drawable.starszy_aspirant_p
     ),
@@ -94,7 +94,7 @@ val questionsPart23 = listOf(
     Question(
         id = 610,
         text = "Na obrazku przedstawiono stopień:",
-        answers = listOf("aspirant sztabowy", "starszy aspirant", "młodszy kapitan"),
+        answers = listOf("aspirant sztabowy", "starszy aspirant", "kapitan"),
         correctIndex = 0,
         imageResId = R.drawable.aspirant_sztabowy_p
     ),
