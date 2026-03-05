@@ -45,7 +45,7 @@ Quiz na urządzeniu opiekuna - ustaw:
 naciśnij:
 ▶ START QUIZU – rozpoczyna quiz
 W tym momencie swój quiz rozpoczyna Zawodnik 1, 
-po wyczerpaniu pytań lub upływie czasu jest ekran z jego wynikami oraz dwoa przyciskami
+po wyczerpaniu pytań lub upływie czasu jest ekran z jego wynikami oraz dwoma przyciskami
 przycisk POKAŻ DOBRE ODPOWIEDZI jest aktywny jeżeli zawodnik popełnił jakieś błędy i po jego naciśnięciu wyświetlane są pytania które zawodnik miał źle oraz znakiwm X jest zaznaczona odpowiedź której udzielił a znakiem V odpowiedź poprawna
 Przycisk NASTĘPNY ZAWODNIK za pomocą którego grę rozpoczyna kolejny zawodnik, po ostatnim zawodniku zamiast tego przycisku jest przycisk POKAŻ WYNIKI KOŃCOWE po naciśnięciu którego otwiera się tabela z wynikami wszystkich zawodników biorących udział w quizie
 
