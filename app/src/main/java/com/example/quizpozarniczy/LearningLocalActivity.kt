@@ -76,7 +76,8 @@ class LearningLocalActivity : AppCompatActivity() {
     private fun nextQuestion() {
         txtProgress.text = "Opanowane: ${solvedIds.size} / ${allQuestions.size}"
 
-        val remaining = allQuestions.filter { q -> q.id.toString() !in solvedIds }
+        // DLA LOKALNYCH: filtrujemy po TEKŚCIE, nie po ID
+        val remaining = allQuestions.filter { q -> q.text !in solvedIds }
 
         if (remaining.isEmpty()) {
             showFinishedDialog()
@@ -98,7 +99,8 @@ class LearningLocalActivity : AppCompatActivity() {
 
         if (selectedIndex == q.correctIndex) {
             Toast.makeText(this, "Dobra odpowiedź!", Toast.LENGTH_SHORT).show()
-            solvedIds.add(q.id.toString())
+            // DLA LOKALNYCH: zapisujemy po TEKŚCIE, nie po ID
+            solvedIds.add(q.text)
             nextQuestion()
         } else {
             AlertDialog.Builder(this)
