@@ -24,6 +24,12 @@ class ResultsActivity : AppCompatActivity() {
 
         val tv = findViewById<TextView>(R.id.tvResults)
         val btnSave = findViewById<Button>(R.id.btnSaveResults)
+        val btnBack = findViewById<Button>(R.id.btnBackToMain)
+
+       btnBack.setOnClickListener {
+         finish()  // zamyka ResultsActivity i wraca do MainActivity
+       }
+
 
         val raw = ScanResultsStore.getAll()
 
