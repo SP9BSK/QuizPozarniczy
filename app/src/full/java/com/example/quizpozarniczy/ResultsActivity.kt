@@ -26,9 +26,13 @@ class ResultsActivity : AppCompatActivity() {
         val btnSave = findViewById<Button>(R.id.btnSaveResults)
         val btnBack = findViewById<Button>(R.id.btnBackToMain)
 
-       btnBack.setOnClickListener {
-         finish()  // zamyka ResultsActivity i wraca do MainActivity
-       }
+btnBack.setOnClickListener {
+    val intent = Intent(this, StartActivity::class.java)
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+    startActivity(intent)
+    finish()
+}
+
 
 
         val raw = ScanResultsStore.getAll()
