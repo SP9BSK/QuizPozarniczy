@@ -192,6 +192,34 @@ object DefaultLocalQuestions {
                 "dh Andrzej Sala"
             ),
             correctIndex = 1
+        ),
+                // 14
+        LocalQuestion(
+            id = 14,
+            prefix = "Jaki obowiązuje kanał powiatowy w powiecie",
+            quotedValue1 = "suskim",
+            suffix = "?",
+            answers = mutableListOf(
+                "B20R",
+                "B22L",
+                "B12R"
+            ),
+            correctIndex = 0
+        ),
+
+        // 15
+        LocalQuestion(
+            id = 15,
+            prefix = "Jaki obowiązuje kanał ratowniczo gaśniczy w powiecie",
+            quotedValue1 = "suskim",
+            suffix = "?",
+            answers = mutableListOf(
+                "B47 KRG-6",
+                "B41 KRG-4",
+                "B39 KRG-3"
+            ),
+            correctIndex = 0
         )
+
     )
 }
