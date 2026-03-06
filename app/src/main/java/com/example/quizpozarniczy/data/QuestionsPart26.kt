@@ -311,7 +311,7 @@ val questionsPart26 = listOf(
 
     Question(
         id = 1132,
-        text = "Butle z gazem propan–butanem można stosować w budynkach o wysokości do:",
+        text = "Butle z gazem propan–butan można stosować w budynkach o wysokości do:",
         answers = listOf("15 m", "25 m", "55 m"),
         correctIndex = 0
     ),
