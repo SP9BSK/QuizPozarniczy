@@ -162,5 +162,15 @@ val questionsPart27 = listOf(
             "podajemy pełne imiona, nazwiska oraz numer PESEL"
         ),
         correctIndex = 1
+    ),
+    Question(
+        id = 1215,
+        text = "Do korespondencji z Lotniczym Pogotowiem Ratunkowym używamy kanału",
+        answers = listOf(
+            "B112 Współdziałania",
+            "U02 KSWL",
+            "B28 KSW"
+        ),
+        correctIndex = 1
     )
 )
