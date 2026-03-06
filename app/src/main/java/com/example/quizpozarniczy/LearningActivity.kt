@@ -99,6 +99,8 @@ class LearningActivity : AppCompatActivity() {
                 allQuestions.addAll(questionsPart22)
                 allQuestions.addAll(questionsPart23)
                 allQuestions.addAll(questionsPart24)
+                allQuestions.addAll(questionsPart25)
+                allQuestions.addAll(questionsPart26)
             }
 
             "LOCAL" -> {
