@@ -114,14 +114,14 @@ val questionsPart18 = listOf(
 
     Question(
         id = 438,
-        text = "Zużyto 0,2 m³ roztworu środka pianotwórczego przy użyciu wytwornicy pianowej. Jaką objętość piany uzyskano?",
+        text = "Do ugaszenia pożaru zużyto 0,2 m³ roztworu środka pianotwórczego przy użyciu wytwornicy pianowej. Jaką objętość piany uzyskano?",
         answers = listOf("200 dm³", "2,4 m³", "15 m³"),
         correctIndex = 2
     ),
 
     Question(
         id = 439,
-        text = "Obliczeniowy czas podawania piany średniej wynosi:",
+        text = "Przystępując do natarcia przy użyciu piany gaśniczej przyjmuje się określony, obliczeniowy czas podawania środka gaśniczego, po którym pożar powinien być całkowicie ugaszony (pokryty) pianą. W przypadkupiany średniej czas ten wynosi:",
         answers = listOf("5 min", "8 min", "10 min"),
         correctIndex = 2
     ),
@@ -130,7 +130,7 @@ val questionsPart18 = listOf(
         id = 440,
         text = "Czy ciecze palne są materiałami niebezpiecznymi pożarowo?",
         answers = listOf(
-            "tak",
+            "tak", 
             "nie",
             "tak, jeżeli temperatura zapłonu jest niższa niż 328,15 K"
         ),
