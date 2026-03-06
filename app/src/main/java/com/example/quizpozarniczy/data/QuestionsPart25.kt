@@ -143,12 +143,5 @@ val questionsPart25 = listOf(
             "zmniejszenie wydatku"
         ),
         correctIndex = 1
-    ),
-
-    Question(
-        id = 1016,
-        text = "Na terenie jakiego województwa zorganizowano w 1945 r. pierwszy w Polsce Ludowej „Tydzień Obrony Przeciwpożarowej”?",
-        answers = listOf("warszawskiego", "krakowskiego", "lubuskiego"),
-        correctIndex = 2
     )
 )
