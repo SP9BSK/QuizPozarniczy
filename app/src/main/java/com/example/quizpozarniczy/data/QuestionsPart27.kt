@@ -28,7 +28,7 @@ val questionsPart27 = listOf(
 
     Question(
         id = 1203,
-        text = "MF301-10 to kryptonim:",
+        text = "MF301-10 to kryptonim radiowy:",
         answers = listOf(
             "punktu alarmowego JRG",
             "Komendanta Miejskiego",
@@ -41,7 +41,7 @@ val questionsPart27 = listOf(
 
     Question(
         id = 1204,
-        text = "Kryptonim KARAT oznacza:",
+        text = "Kryptonim radiowy KARAT oznacza:",
         answers = listOf(
             "dowódcę odcinka bojowego",
             "Kierującego Działaniem Ratowniczym",
@@ -52,7 +52,7 @@ val questionsPart27 = listOf(
 
     Question(
         id = 1205,
-        text = "Kryptonim REDUTA oznacza:",
+        text = "Kryptonim radiowy REDUTA oznacza:",
         answers = listOf(
             "stanowisko wodne",
             "rejon koncentracji / punkt przyjęcia sił i środków",
@@ -63,7 +63,7 @@ val questionsPart27 = listOf(
 
     Question(
         id = 1206,
-        text = "Kryptonim NIAGARA oznacza:",
+        text = "Kryptonim radiowy NIAGARA oznacza:",
         answers = listOf(
             "stanowisko wodne",
             "stanowisko ratownicze",
@@ -74,7 +74,7 @@ val questionsPart27 = listOf(
 
     Question(
         id = 1207,
-        text = "Kryptonim DARIA oznacza:",
+        text = "Kryptonim radiowy DARIA oznacza:",
         answers = listOf(
             "dowódcę zastępu, sekcji lub odcinka bojowego",
             "stanowisko ratownicze zastępu lub sekcji",
@@ -85,7 +85,7 @@ val questionsPart27 = listOf(
 
     Question(
         id = 1208,
-        text = "Kryptonim STOPER oznacza:",
+        text = "Kryptonim radiowy STOPER oznacza:",
         answers = listOf(
             "stanowisko ratownicze zastępu lub sekcji",
             "dowódcę odcinka bojowego",
@@ -122,7 +122,7 @@ val questionsPart27 = listOf(
 
     Question(
         id = 1211,
-        text = "Kryptonim OMEGA oznacza:",
+        text = "Kryptonim radiowy OMEGA oznacza:",
         answers = listOf(
             "sygnał okólnikowy używany do wywołania SK w sieci KSW",
             "sygnał okólnikowy używany do przekazania tej samej informacji wszystkim użytkownikom sieci",
@@ -133,7 +133,7 @@ val questionsPart27 = listOf(
 
     Question(
         id = 1212,
-        text = "Kryptonim GRANIT oznacza:",
+        text = "Kryptonim radiowy GRANIT oznacza:",
         answers = listOf(
             "sygnał okólnikowy używany do wywołania SK w sieci KSW",
             "sygnał do opuszczenia strefy zagrożonej",
@@ -518,6 +518,56 @@ val questionsPart27 = listOf(
             "Stanowisko Kierowania Komendanta Wojewódzkiego"
         ),
         correctIndex = 2
+    ),
+    Question(
+        id = 1249,
+        text = "KF250-01 to kryptonim radiowy:",
+        answers = listOf(
+            "Stanowiska Kierowania Komendy Wojewódzkiej",
+            "Koendanta Szkoły Aspirantów w Poznaniu",
+            "Koendanta Szkoły Aspirantów w Krakowie"
+        ),
+        correctIndex = 2
+    ),
+    Question(
+        id = 1250,
+        text = "EF470-13 to kryptonim radiowy:",
+        answers = listOf(
+            "Dowódcy zmiany służbowej JRG PSP",
+            "Zastędcy dowódcy JRG PSP",
+            "Dowódcy grupy specjalistycznej JRG PSP"
+        ),
+        correctIndex = 0
+    ),
+    Question(
+        id = 1251,
+        text = "MF551-21 to kryptonim radiowy:",
+        answers = listOf(
+            "Zawsze samochodu GBA JRG PSP",
+            "Pierwszowyjazdowego samochodu JRG PSP",
+            "Samochód operacyjny dowódcy JRG PSP"
+        ),
+        correctIndex = 1
+    ),
+    Question(
+        id = 1252,
+        text = "Które z wyienionych to kryptonim radiowy:",
+        answers = listOf(
+            "KSU NM98",
+            "539 K 71",
+            "KF531-71"
+        ),
+        correctIndex = 2
+    )
+    Question(
+        id = 1252,
+        text = "Które z wyienionych to numer operacyjny:",
+        answers = listOf(
+            "KSU NM98",
+            "539 K 71",
+            "KF531-71"
+        ),
+        correctIndex = 1
     )
 
 )
