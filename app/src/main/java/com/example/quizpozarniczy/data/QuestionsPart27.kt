@@ -558,7 +558,7 @@ val questionsPart27 = listOf(
             "KF531-71"
         ),
         correctIndex = 2
-    )
+    ),
     Question(
         id = 1252,
         text = "Które z wyienionych to numer operacyjny:",
