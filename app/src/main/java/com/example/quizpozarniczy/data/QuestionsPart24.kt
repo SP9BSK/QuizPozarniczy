@@ -104,8 +104,8 @@ val questionsPart24 = listOf(
     Question(
         id = 912,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("prezes", "wiceprezes naczelnik", "członek zarządu"),
-        correctIndex = 0,
+        answers = listOf("wiceprezes naczelnik", "prezes", "członek zarządu"),
+        correctIndex = 1,
         imageResId = R.drawable.o13
     ),
 
