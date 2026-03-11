@@ -32,8 +32,8 @@ val questionsPart24 = listOf(
     Question(
         id = 903,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("pomocnik dowódcy sekcji", "dowódca sekcji", "strażak OSP"),
-        correctIndex = 0,
+        answers = listOf("strażak OSP", "dowódca sekcji", "pomocnik dowódcy sekcji"),
+        correctIndex = 2,
         imageResId = R.drawable.o4
     ),
 
@@ -48,8 +48,8 @@ val questionsPart24 = listOf(
     Question(
         id = 905,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("pomocnik dowódcy plutonu", "dowódca plutonu", "prezes"),
-        correctIndex = 0,
+        answers = listOf("dowódca sekcji", "pomocnik dowódcy plutonu", "prezes"),
+        correctIndex = 1,
         imageResId = R.drawable.o6
     ),
 
@@ -64,15 +64,15 @@ val questionsPart24 = listOf(
     Question(
         id = 907,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("członek zarządu", "członek komisji rewizyjnej", "dowódca sekcji"),
-        correctIndex = 0,
+        answers = listOf("członek zarządu gminnego", "członek komisji rewizyjnej", "członek zarządu"),
+        correctIndex = 2,
         imageResId = R.drawable.o8
     ),
 
     Question(
         id = 908,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("członek komisji rewizyjnej", "zastępca naczelnika", "prezes"),
+        answers = listOf("członek komisji rewizyjnej", "zastępca naczelnika", "członek gminnej komisji rewizyjnej"),
         correctIndex = 0,
         imageResId = R.drawable.o9
     ),
@@ -80,7 +80,7 @@ val questionsPart24 = listOf(
     Question(
         id = 909,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("zastępca naczelnika", "wiceprezes naczelnik", "przewodniczący komisji rewizyjnej"),
+        answers = listOf("zastępca naczelnika", "wiceprezes naczelnik", "członek zarządu gminnego"),
         correctIndex = 0,
         imageResId = R.drawable.o10
     ),
@@ -114,23 +114,23 @@ val questionsPart24 = listOf(
     Question(
         id = 913,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("członek zarządu gminnego", "członek komisji rewizyjnej", "kapelan gminny"),
-        correctIndex = 0,
+        answers = listOf("członek zarządu OSP", "członek zarządu powiatowego", "członek zarządu gminnego"),
+        correctIndex = 2,
         imageResId = R.drawable.o14
     ),
 
     Question(
         id = 914,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("członek gminnej komisji rewizyjnej", "członek prezydium", "prezes gminny"),
-        correctIndex = 0,
+        answers = listOf("członek wojewódzkiej komisji rewizyjnej", "członek gminnej komisji rewizyjnej", "członek powiatowej komisji rewizyjnej"),
+        correctIndex = 1,
         imageResId = R.drawable.o15
     ),
 
     Question(
         id = 915,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("członek prezydium zarządu gminnego", "wiceprezes zarządu gminnego", "kapelan gminny"),
+        answers = listOf("członek prezydium zarządu gminnego", "wiceprezes zarządu gminnego", "członek prezydium zarządu powiatowego"),
         correctIndex = 0,
         imageResId = R.drawable.o16
     ),
@@ -138,15 +138,15 @@ val questionsPart24 = listOf(
     Question(
         id = 916,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("wiceprezes zarządu gminnego", "przewodniczący komisji rewizyjnej", "prezes gminny"),
-        correctIndex = 0,
+        answers = listOf("wiceprezes zarządu powiatowego", "wiceprezes zarządu gminnego", "prezes zarządu gminnego"),
+        correctIndex = 1,
         imageResId = R.drawable.o17
     ),
 
     Question(
         id = 917,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("przewodniczący gminnej komisji rewizyjnej", "prezes zarządu gminnego", "członek zarządu"),
+        answers = listOf("przewodniczący gminnej komisji rewizyjnej", "prezes zarządu gminnego", "przewodniczący komisji rewizyjnej"),
         correctIndex = 0,
         imageResId = R.drawable.o18
     ),
@@ -154,7 +154,7 @@ val questionsPart24 = listOf(
     Question(
         id = 918,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("prezes zarządu gminnego", "kapelan gminny", "członek prezydium"),
+        answers = listOf("prezes zarządu gminnego", "prezes zarządu OSP", "członek prezydium"),
         correctIndex = 0,
         imageResId = R.drawable.o19
     ),
@@ -162,8 +162,8 @@ val questionsPart24 = listOf(
     Question(
         id = 919,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("kapelan gminny", "członek zarządu", "dowódca sekcji"),
-        correctIndex = 0,
+        answers = listOf("kapelan powiatowy", "kapelan wojewódzki", "kapelan gminny"),
+        correctIndex = 2,
         imageResId = R.drawable.o20
     ),
 
@@ -172,7 +172,7 @@ val questionsPart24 = listOf(
     Question(
         id = 920,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("członek zarządu powiatowego", "członek komisji rewizyjnej", "kapelan powiatowy"),
+        answers = listOf("członek zarządu powiatowego", "członek zarządu głównego", "członek zarządu wojewódzkiego"),
         correctIndex = 0,
         imageResId = R.drawable.o21
     ),
@@ -180,15 +180,15 @@ val questionsPart24 = listOf(
     Question(
         id = 921,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("członek powiatowej komisji rewizyjnej", "członek prezydium", "prezes powiatowy"),
-        correctIndex = 0,
+        answers = listOf("członek gminnej komisji rewizyjnej", "członek powiatowej komisji rewizyjnej", "członek wojewódzkiej komisji rewizyjnej"),
+        correctIndex = 1,
         imageResId = R.drawable.o22
     ),
 
     Question(
         id = 922,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("członek prezydium zarządu powiatowego", "wiceprzewodniczący komisji rewizyjnej", "kapelan powiatowy"),
+        answers = listOf("członek prezydium zarządu powiatowego", "wiceprzewodniczący komisji rewizyjnej", " prezes zarządu powiatowego"),
         correctIndex = 0,
         imageResId = R.drawable.o23
     ),
@@ -204,23 +204,23 @@ val questionsPart24 = listOf(
     Question(
         id = 924,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("przewodniczący powiatowej komisji rewizyjnej", "wiceprezes powiatowy", "kapelan powiatowy"),
-        correctIndex = 0,
+        answers = listOf("przewodniczący gminnej komisji rewizyjnej", "przewodniczący głównej komisji rewizyjnej", "przewodniczący powiatowej komisji rewizyjnej"),
+        correctIndex = 2,
         imageResId = R.drawable.o25
     ),
 
     Question(
         id = 925,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("wiceprezes zarządu powiatowego", "prezes powiatowy", "członek zarządu"),
-        correctIndex = 0,
+        answers = listOf("prezes zarządu powiatowego", "wiceprezes zarządu powiatowego", "członek zarządu"),
+        correctIndex = 1,
         imageResId = R.drawable.o26
     ),
 
     Question(
         id = 926,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("prezes zarządu powiatowego", "kapelan powiatowy", "członek prezydium"),
+        answers = listOf("prezes zarządu powiatowego", "wiceprezes zarządu powiatowego", "członek prezydium"),
         correctIndex = 0,
         imageResId = R.drawable.o27
     ),
@@ -228,8 +228,8 @@ val questionsPart24 = listOf(
     Question(
         id = 927,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("kapelan powiatowy", "członek zarządu", "dowódca sekcji"),
-        correctIndex = 0,
+        answers = listOf("kapelan gminny", "kapelan powiatowy", "kapelan wojewódzki"),
+        correctIndex = 1,
         imageResId = R.drawable.o28
     ),
 
@@ -238,7 +238,7 @@ val questionsPart24 = listOf(
     Question(
         id = 928,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("członek zarządu wojewódzkiego", "członek komisji rewizyjnej", "kapelan wojewódzki"),
+        answers = listOf("członek zarządu wojewódzkiego", "członek zarządu głównego", "wiceprezes zarządu wojewódzkiego"),
         correctIndex = 0,
         imageResId = R.drawable.o29
     ),
@@ -246,7 +246,7 @@ val questionsPart24 = listOf(
     Question(
         id = 929,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("członek wojewódzkiej komisji rewizyjnej", "członek sądu honorowego", "prezes wojewódzki"),
+        answers = listOf("członek wojewódzkiej komisji rewizyjnej", "członek głównej komisji rewizyjnej", "członek powiatowej komisji rewizyjnej"),
         correctIndex = 0,
         imageResId = R.drawable.o30
     ),
@@ -254,16 +254,16 @@ val questionsPart24 = listOf(
     Question(
         id = 930,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("członek wojewódzkiego sądu honorowego", "członek prezydium", "kapelan wojewódzki"),
-        correctIndex = 0,
+        answers = listOf("członek głównego sądu honorowego", "członek wojewódzkiego sądu honorowego", "członek wojewódzkiej komisji rewizyjnej"),
+        correctIndex = 1,
         imageResId = R.drawable.o31
     ),
 
     Question(
         id = 931,
         text = "Na obrazku przedstawiono dystynkcje:",
-        answers = listOf("członek prezydium zarządu wojewódzkiego", "wiceprzewodniczący komisji rewizyjnej", "prezes wojewódzki"),
-        correctIndex = 0,
+        answers = listOf("członek prezydium zarządu powiatowego", "członek prezydium zarządu wojewódzkiego", "członek prezydium zarządu głównego"),
+        correctIndex = 1,
         imageResId = R.drawable.o32
     ),
 
