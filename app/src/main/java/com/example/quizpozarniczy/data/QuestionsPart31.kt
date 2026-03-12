@@ -194,5 +194,65 @@ val questionsPart31 = listOf(
             "ma ciężar równy ciężarowi powietrza"
         ),
         correctIndex = 0
+    ),
+        // 1544 – Pytanie 381
+    Question(
+        id = 1544,
+        text = "Najgroźniejsza z właściwości, jakimi charakteryzuje się amoniak to:",
+        answers = listOf(
+            "toksyczność",
+            "palność",
+            "wybuchowość"
+        ),
+        correctIndex = 0
+    ),
+
+    // 1545 – Pytanie 392
+    Question(
+        id = 1545,
+        text = "Co jaki czas węże pożarnicze będące na wyposażeniu hydrantów wewnętrznych powinny być poddawane próbie ciśnieniowej na maksymalne ciśnienie robocze?",
+        answers = listOf(
+            "raz do roku",
+            "raz na dwa lata",
+            "raz na 5 lat"
+        ),
+        correctIndex = 2
+    ),
+
+    // 1546 – Pytanie 401
+    Question(
+        id = 1546,
+        text = "Jakimi symbolami są określone stany graniczne opisujące odporność ogniową elementu budowlanego?",
+        answers = listOf(
+            "WEI",
+            "REI",
+            "MOI"
+        ),
+        correctIndex = 1
+    ),
+
+    // 1547 – Pytanie 417
+    Question(
+        id = 1547,
+        text = "Ręczny ostrzegacz pożaru (ROP) to:",
+        answers = listOf(
+            "element sygnalizacji alarmu pożarowego",
+            "element wyposażenia ratownika",
+            "element ręcznego sterowania klapami oddymiającymi"
+        ),
+        correctIndex = 0
+    ),
+
+    // 1548 – Pytanie 445
+    Question(
+        id = 1548,
+        text = "Opatrunek hydrożelowy stosujemy:",
+        answers = listOf(
+            "przy oparzeniach w tym elektrycznych",
+            "przy krwotokach",
+            "przy hiperwentylacji"
+        ),
+        correctIndex = 0
     )
+
 )
