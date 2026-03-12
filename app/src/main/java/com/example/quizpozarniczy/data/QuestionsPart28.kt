@@ -249,7 +249,7 @@ val questionsPart28 = listOf(
         id = 1326,
         text = "Do wytwarzania piany ciężkiej służy:",
         answers = listOf("Wytwornica pianowa", "Generator piany", "Prądownica pianowa"),
-        correctIndex = 0
+        correctIndex = 2
     ),
 
     // 1327 – Pytanie 67
