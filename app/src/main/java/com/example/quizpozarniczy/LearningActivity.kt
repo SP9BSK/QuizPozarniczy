@@ -102,6 +102,10 @@ class LearningActivity : AppCompatActivity() {
                 allQuestions.addAll(questionsPart25)
                 allQuestions.addAll(questionsPart26)
                 allQuestions.addAll(questionsPart27)
+                allQuestions.addAll(questionsPart28)
+                allQuestions.addAll(questionsPart29)
+                allQuestions.addAll(questionsPart30)
+                allQuestions.addAll(questionsPart31)
             }
 
             "LOCAL" -> {
