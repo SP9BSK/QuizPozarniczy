@@ -219,7 +219,77 @@ object DefaultLocalQuestions {
                 "B39 KRG-3"
             ),
             correctIndex = 0
-        )
+        ),
+                // 16
+        LocalQuestion(
+            id = 16,
+            prefix = "Czy jednostka OSP",
+            quotedValue1 = "Maków Podhalański",
+            middle = " należy do KSRG?",
+            answers = mutableListOf(
+                "Nie",
+                "tak od 1995 roku",
+                "tak od 2001 roku"
+            ),
+            correctIndex = 1
+        ),
+
+        // 17
+        LocalQuestion(
+            id = 17,
+            prefix = "Ile jest jednostek OSP w",
+            quotedValue1 = "gminie Maków Podhalański",
+            suffix = "?",
+            answers = mutableListOf(
+                "7",
+                "8",
+                "9"
+            ),
+            correctIndex = 2
+        ),
+
+        // 18
+        LocalQuestion(
+            id = 18,
+            prefix = "Ile jest Jednostek Ratowniczo-Gaśniczych PSP w",
+            quotedValue1 = "powiecie suskim",
+            suffix = "?",
+            answers = mutableListOf(
+                "1",
+                "2",
+                "3"
+            ),
+            correctIndex = 0
+        ),
+
+        // 19
+        LocalQuestion(
+            id = 19,
+            prefix = "Ile jednostek OSP w",
+            quotedValue1 = "gminie Maków Podhalański",
+            middle = " należy do KSRG?",
+            answers = mutableListOf(
+                "2",
+                "3",
+                "4"
+            ),
+            correctIndex = 0
+        ),
+
+        // 20
+        LocalQuestion(
+            id = 20,
+            prefix = "Ile osób liczy zarząd OSP",
+            quotedValue1 = "Maków Podhalański",
+            suffix = "?",
+            answers = mutableListOf(
+                "7",
+                "9",
+                "11"
+            ),
+            correctIndex = 0
+        ),
+
 
     )
 }
