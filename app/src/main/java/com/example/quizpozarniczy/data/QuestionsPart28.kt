@@ -29,7 +29,7 @@ val questionsPart28 = listOf(
         id = 1303,
         text = "Ile stopni liczy korpus szeregowych w PSP?",
         answers = listOf("2", "3", "4"),
-        correctIndex = 1
+        correctIndex = 0
     ),
 
     // 1304 – Pytanie 10
