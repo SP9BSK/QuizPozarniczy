@@ -295,8 +295,8 @@ val questionsPart28 = listOf(
     // 1331 – Pytanie 77
     Question(
         id = 1331,
-        text = "Dwie gwiazdki bez otoku na naramienniku oznaczają stopień służbowy PSP:",
-        answers = listOf("starszego kapitana", "młodszego kapitana", "aspiranta"),
+        text = "Trzy gwiazdki bez otoku na naramienniku oznaczają stopień służbowy PSP:",
+        answers = listOf("starszego kapitana", "kapitana", "aspiranta"),
         correctIndex = 1
     ),
 
