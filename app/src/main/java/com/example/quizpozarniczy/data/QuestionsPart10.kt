@@ -94,13 +94,13 @@ val questionsPart10 = listOf(
 
     Question(
         id = 282,
-        text = "Minimalna odległość między butlą z gazem propan-butan a urządzeniem grzewczym powinna wynosić:",
+        text = "Kurtyna wodna ma na celu:",
         answers = listOf(
-            "1,5 m",
-            "2 m",
-            "1,8 m"
+            "podawanie środka gaśniczego w natarciu",
+            "podawanie zwartego prądu wody",
+            "wytwarzania zasłony wodnej ograniczającej rozprzestrzenianie się ognia i promieniowania cieplnego"
         ),
-        correctIndex = 0
+        correctIndex = 2
     ),
 
     Question(
