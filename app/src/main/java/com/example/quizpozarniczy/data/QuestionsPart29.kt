@@ -77,7 +77,7 @@ val questionsPart29 = listOf(
             "Komendant Główny na wniosek Komendanta Wojewódzkiego PSP",
             "Minister Spraw Wewnętrznych na wniosek Komendanta Głównego"
         ),
-        correctIndex = 1
+        correctIndex = 2
     ),
 
     // 1408 – Pytanie 115
@@ -175,7 +175,7 @@ val questionsPart29 = listOf(
         answers = listOf(
             "Gaśnica ciężka bojowa",
             "Samochód gaśniczy z beczką, autopompą, do ratowania tonących",
-            "Samochód gaśniczy z beczką, autopompą, ratownictwa technicznego"
+            "Samochód gaśniczy średni ze Zbiornikiem wody, autopompą, ratownictwa technicznego"
         ),
         correctIndex = 2
     ),
@@ -184,8 +184,8 @@ val questionsPart29 = listOf(
     Question(
         id = 1418,
         text = "Minimum ile osób potrzebne jest do założenia Ochotniczej Straży Pożarnej?",
-        answers = listOf("16", "10", "15"),
-        correctIndex = 0
+        answers = listOf("5", "10", "15"),
+        correctIndex = 2
     ),
 
     // 1419 – Pytanie 152
@@ -285,7 +285,7 @@ val questionsPart29 = listOf(
         id = 1429,
         text = "Co ile lat w OSP odbywają się zebrania sprawozdawczo‑wyborcze?",
         answers = listOf("2 lata", "4 lata", "5 lat"),
-        correctIndex = 1
+        correctIndex = 2
     ),
 
     // 1430 – Pytanie 174
