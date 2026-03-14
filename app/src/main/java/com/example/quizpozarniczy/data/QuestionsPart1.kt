@@ -127,11 +127,11 @@ val questionsPart1 = listOf(
 
     Question(
         id = 116,
-        text = "Gaz propan-butan jest:",
+        text = "Symbol D 10 W dotyczy?",
         answers = listOf(
-            "Cięższy od powietrza",
-            "Lżejszy od powietrza",
-            "Ma taki sam ciężar jak powietrze"
+            "drabiny pożarnicze",
+            "wytwornicy pianowej",
+            "działka wodnego"
         ),
         correctIndex = 0
     ),
