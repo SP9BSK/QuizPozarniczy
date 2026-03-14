@@ -135,13 +135,13 @@ val questionsPart31 = listOf(
     // 1538 – Pytanie 342
     Question(
         id = 1538,
-        text = "Gaz propan‑butan jest:",
+        text = "Pianę gaśniczą w zależności od liczby spienia dzielimy na:",
         answers = listOf(
-            "cięższy od powietrza",
-            "lżejszy od powietrza",
-            "ma ciężar równy ciężarowi powietrza"
+            "ciężką i lekką",
+            "nie ma takiego podziału",
+            "lekką, średnią i ciężką"
         ),
-        correctIndex = 0
+        correctIndex = 2
     ),
 
     // 1539 – Pytanie 344
@@ -167,33 +167,33 @@ val questionsPart31 = listOf(
     // 1541 – Pytanie 362
     Question(
         id = 1541,
-        text = "W gaśnicy GP 6Z litera Z oznacza:",
+        text = "Symbol GS- 5x oznacza:",
         answers = listOf(
-            "gaśnicę z oddzielnym zbiornikiem czynnika roboczego",
-            "gaśnicę pod stałym ciśnieniem",
-            "gaśnicę wyrzucającą środek w wyniku reakcji chemicznej"
+            "ubranie specjalne",
+            "gaśnicę śniegową",
+            "symbol nożyc i rozpieraczy hydraulicznych"
         ),
-        correctIndex = 0
+        correctIndex = 1
     ),
 
     // 1542 – Pytanie 367
     Question(
         id = 1542,
-        text = "W jakiej minimalnej odległości od lasu można rozpalić ognisko?",
-        answers = listOf("70 m", "50 m", "100 m"),
-        correctIndex = 2
+        text = "Kto mianuje strażaka na stanowisko w jednostce ratowniczo-gaśniczej PSP:",
+        answers = listOf("komendant powiatowy PSP lub komendant miejski PSP", "dowódca jednostki ratowniczo-gaśniczej", "komendant wojewódzki PSP"),
+        correctIndex = 0
     ),
 
     // 1543 – Pytanie 369
     Question(
         id = 1543,
-        text = "Gaz propan‑butan jest:",
+        text = "W której z poniższych drabin po jej złożeniu bocznice stykają się ze sobą?",
         answers = listOf(
-            "cięższy od powietrza",
-            "lżejszy od powietrza",
-            "ma ciężar równy ciężarowi powietrza"
+            "drabina wysuwana trzyprzęsłowa",
+            "drabina nasadkowa",
+            "drabina słupkowa"
         ),
-        correctIndex = 0
+        correctIndex = 2
     ),
         // 1544 – Pytanie 381
     Question(
