@@ -105,11 +105,11 @@ val questionsPart8 = listOf(
 
     Question(
         id = 243,
-        text = "Gaz propan–butan jest:",
+        text = "Zabezpieczeniem smoka ssawnego przed zatonięciem jest:",
         answers = listOf(
-            "cięższy od powietrza",
-            "lżejszy od powietrza",
-            "o tej samej gęstości co powietrze"
+            "pływak",
+            "kapok",
+            "styropian umieszczony w środku smoka"
         ),
         correctIndex = 0
     ),
