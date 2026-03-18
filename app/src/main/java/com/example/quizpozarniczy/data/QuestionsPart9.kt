@@ -6,9 +6,13 @@ val questionsPart9 = listOf(
 
     Question(
         id = 254,
-        text = "Pojazd ratowniczo–gaśniczy 014R posiada układ jezdno-napędowy:",
-        answers = listOf("4x2", "4x4", "6x6"),
-        correctIndex = 1
+        text = "Pożarem nazywamy:",
+        answers = listOf(
+        "niekontrolowany proces spalania, w miejscu do tego nieprzeznaczonym", 
+        "proces spalania w miejscu do tego przeznaczonym bez nadzoru człowieka",
+        "niekontrolowany proces spalania, w miejscu do tego nieprzeznaczonym bez nadzoru człowieka"
+        ),
+        correctIndex = 0
     ),
 
     Question(
