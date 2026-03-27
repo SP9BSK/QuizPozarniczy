@@ -17,7 +17,7 @@ val questionsPart12 = listOf(
 
     Question(
         id = 315,
-        text = "Do krajowego Systemu Ratowniczo–Gaśniczego może zostać włączona jednostka, która posiada:",
+        text = "Do krajowego Systemu Ratowniczo–Gaśniczego w dniu jego powołania mogła zostać włączona jednostka, która posiadała:",
         answers = listOf(
             "Co najmniej dwa średnie lub ciężkie samochody pożarnicze",
             "Jeden samochód pożarniczy średni lub ciężki",
