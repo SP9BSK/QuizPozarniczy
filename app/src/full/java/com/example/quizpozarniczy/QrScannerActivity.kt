@@ -103,7 +103,15 @@ class QrScannerActivity : AppCompatActivity() {
     }
 
     private fun onQrDetected(text: String) {
-        ScanResultsStore.add(text)
-        Toast.makeText(this, "Zeskanowano: $text", Toast.LENGTH_SHORT).show()
+    val clean = text.trim()
+
+    // jeśli już istnieje — ignorujemy
+    if (ScanResultsStore.getAll().contains(clean)) {
+        return
     }
+
+    ScanResultsStore.add(clean)
+    Toast.makeText(this, "Zeskanowano: $clean", Toast.LENGTH_SHORT).show()
+}
+
 }
