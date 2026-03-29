@@ -6,12 +6,17 @@
 
     <application>
 
-        <!-- Activity do pobierania quizu -->
-        <activity android:name=".ReceiveQuizActivity" />
+    <!-- Activity do pobierania quizu -->
+    <activity
+        android:name=".ReceiveQuizActivity"
+        android:screenOrientation="portrait" />
 
-        <!-- Skaner QR -->
-        <activity android:name=".QrScannerActivity" />
+    <!-- Skaner QR -->
+    <activity
+        android:name=".QrScannerActivity"
+        android:screenOrientation="portrait" />
 
-    </application>
+</application>
+
 
 </manifest>
