@@ -4,14 +4,23 @@
 
     <application>
 
-        <activity android:name=".ShareQuizActivity" />
-        <activity android:name=".JudgeActivity" />
-        <activity android:name=".QrScannerActivity" />
-        <activity android:name=".ResultsActivity" />
+    <activity
+        android:name=".ShareQuizActivity"
+        android:screenOrientation="portrait" />
 
+    <activity
+        android:name=".JudgeActivity"
+        android:screenOrientation="portrait" />
 
-        <!-- Jeśli masz inne activity tylko dla full, dodaj je tutaj -->
+    <activity
+        android:name=".QrScannerActivity"
+        android:screenOrientation="portrait" />
 
-    </application>
+    <activity
+        android:name=".ResultsActivity"
+        android:screenOrientation="portrait" />
+
+</application>
+
 
 </manifest>
