@@ -25,7 +25,7 @@ object QuizExporter {
                 "localQuestions" to localQuestions
             )
 
-            val file = File(context.cacheDir, "LocalQuestionsExport.json")
+            val file = File(context.cacheDir, "Pytania lokalne MDP.json")
 
             FileWriter(file).use { writer ->
                 gson.toJson(data, writer)
