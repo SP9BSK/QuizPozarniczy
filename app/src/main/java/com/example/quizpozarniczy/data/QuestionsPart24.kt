@@ -411,5 +411,175 @@ val questionsPart24 = listOf(
         answers = listOf("kapelan krajowy", "kapelan wojewódzki", "kapelan powiatowy"),
         correctIndex = 0,
         imageResId = R.drawable.o50
-    )
+    ),
+
+    Question(
+    id = 951,
+    text = "Na obrazku przedstawiono dystynkcje:",
+    answers = listOf(
+        "zastępca dyrektora zarządu wykonawczego",
+        "honorowy wiceprezes zarządu oddziału powiatowego ZOSP RP",
+        "pracownik biura zarządu oddziału wojewódzkiego ZOSP RP"
+    ),
+    correctIndex = 2,
+    imageResId = R.drawable.o51
+),
+
+Question(
+    id = 952,
+    text = "Na obrazku przedstawiono dystynkcje:",
+    answers = listOf(
+        "zastępca dyrektora zarządu wykonawczego",
+        "dyrektor zarządu wykonawczego",
+        "pracownik biura zarządu oddziału wojewódzkiego ZOSP RP"
+    ),
+    correctIndex = 1,
+    imageResId = R.drawable.o52
+),
+
+Question(
+    id = 953,
+    text = "Na obrazku przedstawiono dystynkcje:",
+    answers = listOf(
+        "dowódca sekcji",
+        "dyrektor zarządu wykonawczego",
+        "pracownik biura zarządu oddziału wojewódzkiego ZOSP RP"
+    ),
+    correctIndex = 1,
+    imageResId = R.drawable.o53
+),
+
+Question(
+    id = 954,
+    text = "Na obrazku przedstawiono dystynkcje:",
+    answers = listOf(
+        "strażak ratownik",
+        "młodszy specjalista sprzętu",
+        "dowódca roty"
+    ),
+    correctIndex = 0,
+    imageResId = R.drawable.o54
+),
+
+Question(
+    id = 955,
+    text = "Na obrazku przedstawiono dystynkcje:",
+    answers = listOf(
+        "specjalista sprzętu",
+        "starszy strażak ratownik",
+        "dowódca roty"
+    ),
+    correctIndex = 1,
+    imageResId = R.drawable.o55
+),
+
+Question(
+    id = 956,
+    text = "Na obrazku przedstawiono dystynkcje:",
+    answers = listOf(
+        "dowódca roty",
+        "dowódca zastępu",
+        "strażak ratownik"
+    ),
+    correctIndex = 1,
+    imageResId = R.drawable.o56
+),
+
+Question(
+    id = 957,
+    text = "Na obrazku przedstawiono dystynkcje:",
+    answers = listOf(
+        "starszy specjalista sprzętu",
+        "młodszy specjalista sprzętu",
+        "specjalista sprzętu"
+    ),
+    correctIndex = 2,
+    imageResId = R.drawable.o57
+),
+
+Question(
+    id = 958,
+    text = "Na obrazku przedstawiono dystynkcje:",
+    answers = listOf(
+        "młodszy specjalista sprzętu",
+        "dowódca sekcji",
+        "specjalista sprzętu"
+    ),
+    correctIndex = 2,
+    imageResId = R.drawable.o58
+),
+
+Question(
+    id = 959,
+    text = "Na obrazku przedstawiono dystynkcje:",
+    answers = listOf(
+        "specjalista sprzętu",
+        "starszy specjalista sprzętu",
+        "młodszy specjalista sprzętu"
+    ),
+    correctIndex = 1,
+    imageResId = R.drawable.o59
+),
+
+Question(
+    id = 960,
+    text = "Na obrazku przedstawiono dystynkcje:",
+    answers = listOf(
+        "dowódca sekcji",
+        "dowódca plutonu",
+        "dowódca zastępu"
+    ),
+    correctIndex = 2,
+    imageResId = R.drawable.o60
+),
+
+Question(
+    id = 961,
+    text = "Na obrazku przedstawiono dystynkcje:",
+    answers = listOf(
+        "dowódca sekcji",
+        "dowódca zastępu",
+        "dowódca plutonu"
+    ),
+    correctIndex = 2,
+    imageResId = R.drawable.o61
+),
+
+Question(
+    id = 962,
+    text = "Na obrazku przedstawiono dystynkcje:",
+    answers = listOf(
+        "honorowy przewodniczący komisji rewizyjnej oddziału powiatowego ZOSP RP",
+        "dowódca sekcji",
+        "dowódca plutonu"
+    ),
+    correctIndex = 0,
+    imageResId = R.drawable.o62
+),
+
+Question(
+    id = 963,
+    text = "Na obrazku przedstawiono dystynkcje:",
+    answers = listOf(
+        "pracownik biura zarządu oddziału wojewódzkiego ZOSP RP",
+        "honorowy przewodniczący komisji rewizyjnej oddziału powiatowego ZOSP RP",
+        "honorowy wiceprezes zarządu oddziału powiatowego ZOSP RP"
+    ),
+    correctIndex = 2,
+    imageResId = R.drawable.o63
+),
+
+Question(
+    id = 964,
+    text = "Na obrazku przedstawiono dystynkcje:",
+    answers = listOf(
+        "honorowy przewodniczący komisji rewizyjnej oddziału powiatowego ZOSP RP",
+        "dyrektor zarządu wykonawczego",
+        "honorowy wiceprezes zarządu oddziału powiatowego ZOSP RP"
+    ),
+    correctIndex = 0,
+    imageResId = R.drawable.o64
+)
+
+
 )
