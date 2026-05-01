@@ -273,7 +273,7 @@ object DefaultLocalQuestions {
                 "3",
                 "4"
             ),
-            correctIndex = 1
+            correctIndex = 2
         ),
 
         // 20
